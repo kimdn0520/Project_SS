@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "7A7IQikVR9w=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\kimdn\\Project_SS\\Server\\Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kimdn\\.nuget\\packages\\litenetlib\\1.2.0\\litenetlib.1.2.0.nupkg.sha512"
+  ],
+  "logs": []
+}

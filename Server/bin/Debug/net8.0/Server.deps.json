@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Server/1.0.0": {
+        "dependencies": {
+          "LiteNetLib": "1.2.0"
+        },
+        "runtime": {
+          "Server.dll": {}
+        }
+      },
+      "LiteNetLib/1.2.0": {
+        "runtime": {
+          "lib/net8.0/LiteNetLib.dll": {
+            "assemblyVersion": "1.2.0.0",
+            "fileVersion": "1.2.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Server/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LiteNetLib/1.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-N4pJ6Drzdt7M7Ok//J1YB1t2jBNQikKud3OEgllUwK2qcu6elLyvb+vgOy4WJy9xbyobYg7oav1g5vuoaDHLuw==",
+      "path": "litenetlib/1.2.0",
+      "hashPath": "litenetlib.1.2.0.nupkg.sha512"
+    }
+  }
+}
