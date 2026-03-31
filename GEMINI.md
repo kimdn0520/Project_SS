@@ -6,30 +6,30 @@
 
 ## 2. 현재 아키텍처 (Current Tech Stack)
 - **Server-Authoritative**: 모든 물리 및 상태 판정은 C# 독립 서버(`Server/Program.cs`)가 담당.
-- **Networking**: `LiteNetLib` (TCP/UDP) + 커스텀 패킷 시스템.
-- **Predictive Movement**: 클라이언트 측 즉시 이동(Prediction) + 서버 공인 위치 보간(Interpolation).
-- **State Machine (Updated)**: `IState` 기반 `PlayerIdleState`, `PlayerMoveState`, `PlayerSprintState`를 통한 로컬/리모트 캐릭터 상태 통합 관리.
-- **Stamina System (New)**: 서버 측 스테미나 소모/회복 로직 구현 및 클라이언트 동기화 완료.
-- **Async & Tweening**: `UniTask` + `DOTween` (리모트 플레이어 위치 보간).
-- **Hierarchy Structure**: 실무형 레이어 구조 (`[--- MANAGERS ---]`, `[--- WORLD ---]`, `[--- UI ---]`).
+- **Networking**: `LiteNetLib` (TCP/UDP) + 커스텀 패킷 시스템 (`IsSprinting`, `Stamina` 등 동기화).
+- **Movement System**: 
+    - **Prediction**: 클라이언트 측 즉시 이동.
+    - **Reconciliation**: 서버 공인 위치 보간 및 **Stop Protection**(정지 시 튕김 방지) 적용.
+    - **Direct Velocity Control**: `linearVelocity`와 `MoveTowards`를 이용한 빠릿하고 부드러운 조작감.
+- **State Machine**: `IState` 기반 `Idle`, `Move`, `Sprint` 상태 통합 관리.
+- **Hierarchy Management**: `-- ENTITIES --` > `Player_Group` / `Monster_Group` 규칙 준수.
 
 ## 3. 진행 상황 (2026-03-31)
 ### ✅ 완료된 작업
-- **상태 머신 고도화**: `PlayerController`를 베이스로 `LocalPlayerController`와 `RemotePlayer`를 통합.
-- **스테미나 시스템**: 대쉬(Sprint) 시 스테미나 소모 및 자동 회복 로직(서버 공인) 구현.
-- **패킷 고도화**: `IsSprinting`, `CurrentStamina`, `MoveInput` 등을 포함한 정교한 상태 패킷 설계.
-- **월드 기초 공사**: `WorldManager`를 통한 Tilemap 기반 맵 구조 설계 및 자동 생성 기초 작업.
+- **스테미나 시스템**: 대쉬 시 소모, 자동 회복, 스테미나 0일 때 이동 속도 50% 감소 로직 완성.
+- **클래스 데이터 시스템**: `PlayerStatsSO` 설계 및 Warrior/Mage/Rogue 데이터 구축 완료.
+- **UI 시스템**: `UIManager` 싱글톤 구축 및 HUD(Stamina/HP Bar) 연동 완료.
+- **씬 구조화 도구**: `SceneBuilder`를 통한 URP 2D 광원/그림자/충돌체 자동 구축 환경 마련.
+- **엔티티 관리 규칙**: 네트워크 스포닝 및 오브젝트 풀링 시 부모 그룹 자동 설정 로직 반영.
 
 ### 🛠️ 다음 세션에서 해야 할 일 (Next Steps)
-1. **[Visual] 시야 시스템 (FOV/Fog of War)**: 캐릭터 부채꼴 시야 및 장애물에 가려지는 그림자 시스템 (`Shadow Caster 2D`).
-2. **[UI] 스테미나 바 및 상태 표시**: 클라이언트 하단에 스테미나 게이지 및 현재 상태 UI 구현.
-3. **[World] 레벨 디자인**: 실제 타일 에셋을 적용하고 복잡한 던전 구조(Colliders) 배치.
-4. **[Combat] 기본 공격 시스템**: 근접 공격 및 스테미나 추가 소모 로직 설계.
+1. **[Combat] 방향성 방어 및 패링**: 마우스 방향을 바라보는 로직 및 가드(Guard) 시스템 구현.
+2. **[Visual] 시야 시스템 (FOV)**: `Shadow Caster 2D`와 `Light 2D`를 활용한 캐릭터 가시거리 제한 작업.
+3. **[AI] 몬스터 기초**: `PoolManager`를 활용한 몬스터 스포닝 및 기본 FSM(Idle/Chase) 구축.
+4. **[UI] 아이템 퀵슬롯**: 하단 중앙 퀵슬롯 UI 배치 및 인벤토리 연동 기초.
 
 ---
-## 💡 다음 작업 추천 가이드
-이제 **"시야 시스템(Fog of War)"** 구현을 강력하게 추천합니다. 
-이유: "보이지 않는 공포"라는 게임의 정체성을 가장 잘 보여주는 핵심 시스템이기 때문입니다. 
-동시에 **"UI(Stamina Bar)"**를 구현하여 플레이어가 자신의 상태를 직관적으로 알 수 있게 하면 게임 플레이의 완성도가 크게 올라갈 것입니다.
+## 💡 작업 요약
+조작감 이슈(지터 및 무거운 느낌)를 **실무형 Velocity 제어 방식**으로 전환하여 해결했습니다. 현재 전사(Warrior) 클래스 데이터가 기본 적용되어 있으며, 스테미나 소모에 따른 속도 저하가 시각적으로 HUD에 반영됩니다.
 
 *이 파일은 Gemini CLI의 세션 간 컨텍스트 유지를 위해 작성되었습니다.*

@@ -44,8 +44,31 @@ public class PoolManager : SingletonMonoBehaviour<PoolManager>
         isInitialized = true;
     }
 
+    private void Start()
+    {
+        Initialize();
+    }
+
+    private Transform GetMonsterGroup()
+    {
+        GameObject entities = GameObject.Find("-- ENTITIES --");
+        if (entities == null) entities = new GameObject("-- ENTITIES --");
+
+        Transform group = entities.transform.Find("Monster_Group");
+        if (group == null)
+        {
+            GameObject groupGO = new GameObject("Monster_Group");
+            groupGO.transform.SetParent(entities.transform);
+            group = groupGO.transform;
+        }
+        return group;
+    }
+
     public T Get<T>(string poolName, Transform parent = null, Vector3? position = null, Quaternion? rotation = null) where T : Component
     {
+        // 규칙 적용: 부모가 지정되지 않은 경우 Monster_Group 설정
+        if (parent == null) parent = GetMonsterGroup();
+
         GameObject obj = Get(poolName, parent, position, rotation);
         if (obj == null) return null;
 
@@ -55,7 +78,7 @@ public class PoolManager : SingletonMonoBehaviour<PoolManager>
         }
         else
         {
-            Debug.LogError($"'{poolName}' Ǯ�� �����տ� '{typeof(T)}' ������Ʈ�� �����ϴ�.");
+            Debug.LogError($"'{poolName}' Ǯ տ '{typeof(T)}' Ʈ ϴ.");
             Return(obj);
             return null;
         }
@@ -65,15 +88,18 @@ public class PoolManager : SingletonMonoBehaviour<PoolManager>
     {
         if (!isInitialized)
         {
-            Debug.LogError("PoolManager�� �ʱ�ȭ���� �ʾҽ��ϴ�.");
+            Debug.LogError("PoolManager ʱȭ ʾҽϴ.");
             return null;
         }
 
         if (!pools.ContainsKey(poolName))
         {
-            Debug.LogError($"'{poolName}' �̸��� ���� Ǯ�� ã�� �� �����ϴ�.");
+            Debug.LogError($"'{poolName}' ̸  Ǯ ã  ϴ.");
             return null;
         }
+
+        // 규칙 적용: 부모가 지정되지 않은 경우 Monster_Group 설정
+        if (parent == null) parent = GetMonsterGroup();
 
         Vector3 finalPos = position ?? Vector3.zero;
         Quaternion finalRot = rotation ?? Quaternion.identity;

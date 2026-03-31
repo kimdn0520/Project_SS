@@ -18,40 +18,6 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     protected override void Awake()
     {
         base.Awake();
-        #if UNITY_EDITOR
-        CheckAndGeneratePlayerStats();
-        #endif
-    }
-
-    private void CheckAndGeneratePlayerStats()
-    {
-#if UNITY_EDITOR
-        string path = "Assets/Resources/Data/PlayerStats";
-        // 전사 데이터가 없으면 자동 생성
-        if (!System.IO.File.Exists(Application.dataPath + "/Resources/Data/PlayerStats/Warrior.asset"))
-        {
-            CreateStats("Warrior", 4.5f, 150f, 12f);
-            CreateStats("Mage", 5f, 100f, 18f);
-            CreateStats("Rogue", 6.5f, 80f, 25f);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            Debug.Log("Generated Default Player Stats in Resources/Data/PlayerStats");
-        }
-#endif
-    }
-
-    private void CreateStats(string className, float speed, float stamina, float regen)
-    {
-#if UNITY_EDITOR
-        PlayerStatsSO stats = ScriptableObject.CreateInstance<PlayerStatsSO>();
-        stats.ClassName = className;
-        stats.MoveSpeed = speed;
-        stats.MaxStamina = stamina;
-        stats.CurrentStamina = stamina;
-        stats.StaminaRegenRate = regen;
-
-        AssetDatabase.CreateAsset(stats, $"Assets/Resources/Data/PlayerStats/{className}.asset");
-#endif
     }
 
     public void UpdateStamina(float current, float max)

@@ -76,12 +76,28 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
         };
     }
 
+    private Transform GetPlayerGroup()
+    {
+        GameObject entities = GameObject.Find("-- ENTITIES --");
+        if (entities == null) entities = new GameObject("-- ENTITIES --");
+
+        Transform group = entities.transform.Find("Player_Group");
+        if (group == null)
+        {
+            GameObject groupGO = new GameObject("Player_Group");
+            groupGO.transform.SetParent(entities.transform);
+            group = groupGO.transform;
+        }
+        return group;
+    }
+
     private void SpawnLocalPlayer()
     {
         GameObject prefab = Resources.Load<GameObject>("Prefabs/LocalPlayer");
         if (prefab != null)
         {
             GameObject go = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            go.transform.SetParent(GetPlayerGroup()); // 규칙 적용: Player_Group 설정
             _localPlayer = go.GetComponent<LocalPlayerController>();
         }
     }
@@ -111,6 +127,7 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
             if (prefab != null)
             {
                 GameObject go = Instantiate(prefab);
+                go.transform.SetParent(GetPlayerGroup()); // 규칙 적용: Player_Group 설정
                 remotePlayer = go.GetComponent<RemotePlayer>();
                 remotePlayer.Init(state.PlayerId);
                 _remotePlayers.Add(state.PlayerId, remotePlayer);
