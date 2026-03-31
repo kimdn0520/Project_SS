@@ -4,6 +4,10 @@ public abstract class BasePlayerState : IState
 {
     protected PlayerController player;
     protected StateMachine stateMachine;
+    
+    // 실무형 가감속 상수 (값이크면 더 빠릿함)
+    protected const float ACCELERATION = 120f; 
+    protected const float DECELERATION = 100f;
 
     public BasePlayerState(PlayerController player, StateMachine stateMachine)
     {
@@ -13,14 +17,27 @@ public abstract class BasePlayerState : IState
 
     public virtual void Enter() { }
     public virtual void Exit() { }
+    
     public virtual void FixedUpdate() 
     {
-        // 물리 속도를 0으로 유지하여 transform 이동을 방해하지 않게 합니다.
-        if (player.Rb != null && player.Rb.bodyType == RigidbodyType2D.Dynamic)
-        {
-            player.Rb.linearVelocity = Vector2.zero;
-        }
+        // [실무형 Direct Velocity 제어]
+        // 1. 목표 속도 계산
+        float targetSpeed = player.MoveSpeed;
+        if (player.IsSprinting && player.CurrentStamina > 0) targetSpeed *= player.SprintMultiplier;
+        if (player.CurrentStamina <= 0) targetSpeed *= 0.5f;
+
+        Vector2 targetVelocity = player.MoveInput * targetSpeed;
+
+        // 2. 가속/감속 처리 (MoveTowards를 사용하여 선형적으로 속도 변경)
+        float accelRate = (player.MoveInput.sqrMagnitude > 0.01f) ? ACCELERATION : DECELERATION;
+        
+        player.Rb.linearVelocity = Vector2.MoveTowards(
+            player.Rb.linearVelocity, 
+            targetVelocity, 
+            accelRate * Time.fixedDeltaTime
+        );
     }
+
     public abstract void Update();
 }
 
@@ -49,12 +66,6 @@ public class PlayerMoveState : BasePlayerState
             return;
         }
 
-        // 이동 처리 (스테미나 0 패널티 자동 적용)
-        float speed = player.MoveSpeed;
-        if (player.CurrentStamina <= 0) speed *= 0.5f;
-
-        player.transform.Translate(player.MoveInput * speed * Time.deltaTime);
-
         if (player.IsSprinting && player.CurrentStamina > 0)
         {
             stateMachine.ChangeState(new PlayerSprintState(player, stateMachine));
@@ -73,13 +84,6 @@ public class PlayerSprintState : BasePlayerState
             stateMachine.ChangeState(new PlayerIdleState(player, stateMachine));
             return;
         }
-
-        // 이동 처리 (스프린트 속도 적용)
-        float speed = player.MoveSpeed * player.SprintMultiplier;
-        // 스프린트 도중 스테미나 0이 되면 패널티 적용
-        if (player.CurrentStamina <= 0) speed *= 0.5f;
-
-        player.transform.Translate(player.MoveInput * speed * Time.deltaTime);
 
         if (!player.IsSprinting || player.CurrentStamina <= 0)
         {

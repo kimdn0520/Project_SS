@@ -23,13 +23,13 @@ namespace Server
         public float X { get; set; }
         public float Y { get; set; }
         
-        // Stats
-        public float MoveSpeed { get; set; } = 5.0f;
+        // Stats (Warrior와 동일하게 설정)
+        public float MoveSpeed { get; set; } = 4.5f;
         public float SprintMultiplier { get; set; } = 1.6f;
-        public float MaxStamina { get; set; } = 100f;
-        public float CurrentStamina { get; set; } = 100f;
-        public float StaminaRegenRate { get; set; } = 10f;
-        public float SprintStaminaCost { get; set; } = 25f;
+        public float MaxStamina { get; set; } = 150f;
+        public float CurrentStamina { get; set; } = 150f;
+        public float StaminaRegenRate { get; set; } = 12f;
+        public float SprintStaminaCost { get; set; } = 20f;
 
         // Input State
         public float LastInputX { get; set; }

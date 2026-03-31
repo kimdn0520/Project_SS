@@ -55,11 +55,25 @@ public class LocalPlayerController : PlayerController
             UIManager.Instance.UpdateStamina(CurrentStamina, MaxStamina);
         }
 
-        // [지터 해결] 이전처럼 오차가 클 때만 강제로 위치를 고정합니다.
         float dist = Vector2.Distance(transform.position, serverPos);
-        if (dist > 0.5f)
+
+        // [Stop Protection] 
+        // 입력이 없고(정지 상태), 오차가 크지 않으면(0.5m 이내) 서버의 보정을 무시합니다.
+        // 이렇게 하면 멈췄을 때 뒤로 튕기는 현상이 사라집니다.
+        bool isMoving = MoveInput.sqrMagnitude > 0.01f;
+        if (!isMoving && dist < 0.5f)
+        {
+            return;
+        }
+
+        // 차이가 너무 클 때만 강제 순간이동
+        if (dist > 1.2f) 
         {
             transform.position = serverPos;
+        }
+        else if (dist > 0.02f) // 이동 중이거나 오차가 클 때만 부드럽게 보정
+        {
+            transform.position = Vector2.Lerp(transform.position, serverPos, Time.deltaTime * 15f);
         }
     }
 
