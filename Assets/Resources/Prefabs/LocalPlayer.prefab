@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6975058827185340681}
   - component: {fileID: 1897962120765424641}
   - component: {fileID: 7884334570115551875}
+  - component: {fileID: 6684490164188978260}
   m_Layer: 0
   m_Name: LocalPlayer
   m_TagString: Untagged
@@ -45,7 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daed5294c20b233469dde324c49bc42a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalPlayerController
-  moveSpeed: 5
+  visualsTransform: {fileID: 6975058827185340681}
+  spriteRenderer: {fileID: 7884334570115551875}
+  MoveSpeed: 5
+  SprintMultiplier: 1.6
+  MaxStamina: 100
+  CurrentStamina: 100
+  StaminaRegenRate: 10
+  SprintStaminaCost: 25
 --- !u!212 &7884334570115551875
 SpriteRenderer:
   serializedVersion: 2
@@ -105,3 +113,30 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!50 &6684490164188978260
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180027545806631487}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4

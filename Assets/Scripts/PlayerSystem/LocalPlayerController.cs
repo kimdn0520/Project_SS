@@ -1,43 +1,48 @@
 using UnityEngine;
 
-public class LocalPlayerController : MonoBehaviour
+public class LocalPlayerController : PlayerController
 {
-    [SerializeField] private float moveSpeed = 5.0f;
-    private Vector2 _lastMoveInput;
+    private const float RECONCILIATION_THRESHOLD = 0.8f; // 이 거리보다 멀어질 때만 강제 보정
+    private const float POSITION_SMOOTHING = 5.0f;       // 보정 시 부드러움 정도
 
-    private void Update()
+    protected override void Awake()
     {
-        HandleMovement();
+        base.Awake();
+        SetColor(Color.green);
     }
 
-    private void HandleMovement()
+    private void Start()
+    {
+        StateMachine.ChangeState(new PlayerIdleState(this, StateMachine));
+    }
+
+    protected override void Update()
+    {
+        HandleInput();
+        base.Update();
+    }
+
+    private void HandleInput()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+        MoveInput = new Vector2(h, v).normalized;
 
-        Vector2 moveDir = new Vector2(h, v).normalized;
+        IsSprinting = Input.GetKey(KeyCode.LeftShift);
 
-        // 1. Predictive Movement (클라이언트 측에서 즉시 이동)
-        if (moveDir.sqrMagnitude > 0)
-        {
-            transform.Translate(moveDir * moveSpeed * Time.deltaTime);
-        }
-
-        // 2. 서버로 입력 전송 (매 프레임 혹은 입력 변화 시)
-        if (moveDir != _lastMoveInput || moveDir.sqrMagnitude > 0)
-        {
-            _lastMoveInput = moveDir;
-            NetworkManager.Instance.SendInput(moveDir);
-        }
+        // 입력값이 있을 때만 서버로 전송 (트래픽 최적화 기초)
+        NetworkManager.Instance.SendInput(MoveInput);
     }
 
-    // 서버의 공인된 위치로 보정 (필요 시 호출)
-    public void Reconcile(Vector2 serverPosition)
+    public void SyncState(Vector2 serverPos, float stamina)
     {
-        float dist = Vector2.Distance(transform.position, serverPosition);
-        if (dist > 0.5f) // 오차가 클 때만 강제 보정
+        CurrentStamina = stamina;
+        
+        // [지터 해결] 이전처럼 오차가 클 때만 강제로 위치를 고정합니다.
+        float dist = Vector2.Distance(transform.position, serverPos);
+        if (dist > 0.5f)
         {
-            transform.position = serverPosition;
+            transform.position = serverPos;
         }
     }
 }

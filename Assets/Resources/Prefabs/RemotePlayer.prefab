@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8400132115440529400}
   - component: {fileID: 5292979179849226808}
   - component: {fileID: 6793750108422333575}
+  - component: {fileID: 1565328402159373528}
   m_Layer: 0
   m_Name: RemotePlayer
   m_TagString: Untagged
@@ -45,6 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f4d4329cdb3a9340bea09212d26100a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RemotePlayer
+  visualsTransform: {fileID: 8400132115440529400}
+  spriteRenderer: {fileID: 6793750108422333575}
+  MoveSpeed: 5
+  SprintMultiplier: 1.6
+  MaxStamina: 100
+  CurrentStamina: 100
+  StaminaRegenRate: 10
+  SprintStaminaCost: 25
 --- !u!212 &6793750108422333575
 SpriteRenderer:
   serializedVersion: 2
@@ -104,3 +113,30 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!50 &1565328402159373528
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893667152749352932}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 0
+  m_Constraints: 0
