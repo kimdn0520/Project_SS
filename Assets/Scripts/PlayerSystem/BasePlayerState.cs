@@ -49,8 +49,10 @@ public class PlayerMoveState : BasePlayerState
             return;
         }
 
-        // 이동 처리
+        // 이동 처리 (스테미나 0 패널티 자동 적용)
         float speed = player.MoveSpeed;
+        if (player.CurrentStamina <= 0) speed *= 0.5f;
+
         player.transform.Translate(player.MoveInput * speed * Time.deltaTime);
 
         if (player.IsSprinting && player.CurrentStamina > 0)
@@ -74,6 +76,9 @@ public class PlayerSprintState : BasePlayerState
 
         // 이동 처리 (스프린트 속도 적용)
         float speed = player.MoveSpeed * player.SprintMultiplier;
+        // 스프린트 도중 스테미나 0이 되면 패널티 적용
+        if (player.CurrentStamina <= 0) speed *= 0.5f;
+
         player.transform.Translate(player.MoveInput * speed * Time.deltaTime);
 
         if (!player.IsSprinting || player.CurrentStamina <= 0)

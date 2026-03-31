@@ -72,6 +72,20 @@ public abstract class PlayerController : MonoBehaviour
         visualsTransform.localScale = scale;
     }
 
+    public void ApplyStats(PlayerStatsSO stats)
+    {
+        if (stats == null) return;
+
+        MoveSpeed = stats.MoveSpeed;
+        SprintMultiplier = stats.SprintMultiplier;
+        MaxStamina = stats.MaxStamina;
+        CurrentStamina = stats.MaxStamina;
+        StaminaRegenRate = stats.StaminaRegenRate;
+        SprintStaminaCost = stats.SprintStaminaCost;
+        
+        Debug.Log($"[PlayerController] {stats.ClassName} Stats Applied!");
+    }
+
     public void SetColor(Color color)
     {
         if (spriteRenderer != null) spriteRenderer.color = color;

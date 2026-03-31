@@ -22,19 +22,56 @@ namespace Server
         public NetPeer Peer { get; set; }
         public float X { get; set; }
         public float Y { get; set; }
+        
+        // Stats
         public float MoveSpeed { get; set; } = 5.0f;
+        public float SprintMultiplier { get; set; } = 1.6f;
+        public float MaxStamina { get; set; } = 100f;
+        public float CurrentStamina { get; set; } = 100f;
+        public float StaminaRegenRate { get; set; } = 10f;
+        public float SprintStaminaCost { get; set; } = 25f;
+
+        // Input State
         public float LastInputX { get; set; }
         public float LastInputY { get; set; }
+        public bool IsSprinting { get; set; }
 
         public void Update(float deltaTime)
         {
-            // deltaTime이 너무 크거나(예: 일시정지) 음수면 무시
-            if (deltaTime > 0.1f || deltaTime < 0) return;
+            if (deltaTime > 0.1f || deltaTime <= 0) return;
 
-            X += LastInputX * MoveSpeed * deltaTime;
-            Y += LastInputY * MoveSpeed * deltaTime;
+            bool isMoving = (Math.Abs(LastInputX) > 0.01f || Math.Abs(LastInputY) > 0.01f);
+            float currentSpeed = MoveSpeed;
 
-            // 좌표가 튀는 것 방지 (안전 장치)
+            // [기획 구현] 스테미나 0일 때 이동 속도 50% 감소 (탈진 상태)
+            bool isExhausted = CurrentStamina <= 0;
+            if (isExhausted)
+            {
+                currentSpeed *= 0.5f;
+            }
+
+            // Handle Sprinting and Stamina
+            if (isMoving && IsSprinting && !isExhausted)
+            {
+                currentSpeed *= SprintMultiplier;
+                CurrentStamina -= SprintStaminaCost * deltaTime;
+                if (CurrentStamina < 0) CurrentStamina = 0;
+            }
+            else
+            {
+                // Regerate Stamina
+                if (CurrentStamina < MaxStamina)
+                {
+                    CurrentStamina += StaminaRegenRate * deltaTime;
+                    if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
+                }
+            }
+
+            // Move
+            X += LastInputX * currentSpeed * deltaTime;
+            Y += LastInputY * currentSpeed * deltaTime;
+
+            // Safety
             if (float.IsNaN(X) || float.IsInfinity(X)) X = 0;
             if (float.IsNaN(Y) || float.IsInfinity(Y)) Y = 0;
         }
@@ -86,6 +123,7 @@ namespace Server
                     {
                         player.LastInputX = reader.GetFloat();
                         player.LastInputY = reader.GetFloat();
+                        player.IsSprinting = reader.GetBool();
                     }
                 }
                 reader.Recycle();
@@ -105,7 +143,6 @@ namespace Server
                     player.Update(deltaTime);
                 }
 
-                // 모든 플레이어에게 상태 전송 (이동 데이터 전용)
                 foreach (var target in players.Values)
                 {
                     writer.Reset();
@@ -113,7 +150,10 @@ namespace Server
                     writer.Put(target.Id);
                     writer.Put(target.X);
                     writer.Put(target.Y);
-                    writer.Put(100f);
+                    writer.Put(target.CurrentStamina);
+                    writer.Put(target.IsSprinting);
+                    writer.Put(target.LastInputX);
+                    writer.Put(target.LastInputY);
 
                     server.SendToAll(writer, DeliveryMethod.Unreliable);
                 }

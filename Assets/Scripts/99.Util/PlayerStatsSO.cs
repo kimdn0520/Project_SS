@@ -12,6 +12,7 @@ public class PlayerStatsSO : ScriptableObject
     [Header("Health & Stamina")]
     public float MaxHP = 100f;
     public float MaxStamina = 100f;
+    public float CurrentStamina = 100f; // 초기 스테미나 값
     public float StaminaRegenRate = 15f;
     public float SprintStaminaCost = 20f;
     
