@@ -19,7 +19,6 @@ public class RemotePlayer : PlayerController
     {
         _id = id;
         name = $"RemotePlayer_{id}";
-        SetColor(Color.red);
         
         // [자동 설정] 리모트 플레이어는 물리 엔진의 영향을 받지 않고 서버 위치를 따라야 함
         if (Rb != null)
@@ -77,12 +76,6 @@ public class RemotePlayer : PlayerController
 
         // Visual interpolation
         transform.DOMove(new Vector3(position.x, position.y, 0), 0.1f).SetEase(Ease.Linear);
-
-        // [비주얼] 방어 중일 때 색상 변경
-        if (IsGuarding)
-            SetColor(new Color(1f, 0.5f, 0.5f));
-        else
-            SetColor(Color.red);
     }
 
     protected override void Update()

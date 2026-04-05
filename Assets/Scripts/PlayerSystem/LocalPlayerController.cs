@@ -17,7 +17,6 @@ public class LocalPlayerController : PlayerController
     {
         if (visualsTransform == null) visualsTransform = transform.Find("Visuals");
         base.Awake();
-        SetColor(Color.green);
     }
 
     private void Start()
@@ -95,16 +94,6 @@ public class LocalPlayerController : PlayerController
         UpdateFacing();         // 마우스 위치에 따른 캐릭터 반전
         UpdateWeaponRotation(); // 세피리아 스타일 무기 궤도 회전
         base.Update();
-
-        // [비주얼] 방어 중일 때 색상 변경
-        if (IsGuarding)
-        {
-            SetColor(new Color(0.5f, 1f, 0.5f)); // 연한 초록 (방어 중)
-        }
-        else
-        {
-            SetColor(Color.green);
-        }
     }
 
     private void UpdateWeaponRotation()
