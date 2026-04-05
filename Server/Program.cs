@@ -37,6 +37,8 @@ namespace Server
         public float LastInputY { get; set; }
         public bool IsSprinting { get; set; }
         public bool IsGuarding { get; set; }
+        public float AimAngle { get; set; }
+        public bool IsAttacking { get; set; }
 
         public void Update(float deltaTime)
         {
@@ -135,6 +137,8 @@ namespace Server
                         player.LastInputY = reader.GetFloat();
                         player.IsSprinting = reader.GetBool();
                         player.IsGuarding = reader.GetBool();
+                        player.AimAngle = reader.GetFloat();
+                        player.IsAttacking = reader.GetBool();
                     }
                 }
                 reader.Recycle();
@@ -166,6 +170,8 @@ namespace Server
                     writer.Put(target.IsGuarding);
                     writer.Put(target.LastInputX);
                     writer.Put(target.LastInputY);
+                    writer.Put(target.AimAngle);
+                    writer.Put(target.IsAttacking);
 
                     server.SendToAll(writer, DeliveryMethod.Unreliable);
                 }

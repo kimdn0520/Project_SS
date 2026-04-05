@@ -44,9 +44,9 @@ public class PlayerCombat : MonoBehaviour
     {
         player.IsAttacking = true;
         
-        // 1. 공격 방향 결정 (마우스 방향)
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 attackDir = ((Vector2)(mousePos - transform.position)).normalized;
+        // 1. 공격 방향 결정 (무기 소켓의 현재 방향 사용)
+        // LocalPlayer와 RemotePlayer 모두 weaponSocket이 에임을 추적하므로 공통 로직으로 사용 가능
+        Vector2 attackDir = weaponSocket.right;
 
         // 2. 공격 시 전진 (Lunge)
         if (player.Rb != null)

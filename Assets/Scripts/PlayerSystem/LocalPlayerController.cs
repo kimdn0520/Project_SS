@@ -151,6 +151,13 @@ public class LocalPlayerController : PlayerController
         else if (mousePos.x > transform.position.x && !IsFacingRight) Flip();
     }
 
+    private float GetCurrentAimAngle()
+    {
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 dir = (mouseWorldPos - transform.position);
+        return Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+    }
+
     private void HandleInput()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -160,8 +167,11 @@ public class LocalPlayerController : PlayerController
         IsSprinting = Input.GetKey(KeyCode.LeftShift);
         IsGuarding = Input.GetMouseButton(1); // 마우스 오른쪽 버튼
 
-        // 입력값이 있을 때만 서버로 전송 (트래픽 최적화 기초)
-        NetworkManager.Instance.SendInput(MoveInput);
+        float aimAngle = GetCurrentAimAngle();
+        bool isAttacking = Input.GetMouseButtonDown(0); // [임시] 공격 입력 체크
+
+        // 입력값과 에임 각도를 서버로 전송
+        NetworkManager.Instance.SendInput(MoveInput, aimAngle, isAttacking);
     }
 
     public void SyncState(Vector2 serverPos, float stamina)

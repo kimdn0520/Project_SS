@@ -138,7 +138,7 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
         if (remotePlayer != null)
         {
             remotePlayer.IsGuarding = state.IsGuarding;
-            remotePlayer.SetState(state.Position, state.IsSprinting, state.MoveInput);
+            remotePlayer.SetState(state.Position, state.IsSprinting, state.MoveInput, state.AimAngle, state.IsAttacking);
         }
     }
 
@@ -151,7 +151,7 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
         }
     }
 
-    public void SendInput(Vector2 moveInput)
+    public void SendInput(Vector2 moveInput, float aimAngle, bool isAttacking)
     {
         if (_server == null || _myId == -1) return;
 
@@ -163,10 +163,13 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
         { 
             MoveInput = moveInput, 
             IsSprinting = _localPlayer.IsSprinting,
-            IsGuarding = _localPlayer.IsGuarding
+            IsGuarding = _localPlayer.IsGuarding,
+            AimAngle = aimAngle,
+            IsAttacking = isAttacking
         };
         
         _writer.Reset();
+        _writer.Put((byte)packet.Type);
         packet.Serialize(_writer);
         _server.Send(_writer, DeliveryMethod.Unreliable);
     }

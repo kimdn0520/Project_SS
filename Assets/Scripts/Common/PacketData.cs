@@ -24,7 +24,7 @@ public struct SPacket_Welcome : IPacket
 
     public void Serialize(NetDataWriter writer)
     {
-        writer.Put((byte)Type);
+        // Type은 NetworkManager나 Server에서 개별적으로 Put하므로 여기선 데이터만 넣습니다.
         writer.Put(MyId);
     }
 
@@ -40,14 +40,17 @@ public struct CPacket_Input : IPacket
     public Vector2 MoveInput;
     public bool IsSprinting;
     public bool IsGuarding;
+    public float AimAngle;
+    public bool IsAttacking;
 
     public void Serialize(NetDataWriter writer)
     {
-        writer.Put((byte)Type);
         writer.Put(MoveInput.x);
         writer.Put(MoveInput.y);
         writer.Put(IsSprinting);
         writer.Put(IsGuarding);
+        writer.Put(AimAngle);
+        writer.Put(IsAttacking);
     }
 
     public void Deserialize(NetDataReader reader)
@@ -56,6 +59,8 @@ public struct CPacket_Input : IPacket
         MoveInput.y = reader.GetFloat();
         IsSprinting = reader.GetBool();
         IsGuarding = reader.GetBool();
+        AimAngle = reader.GetFloat();
+        IsAttacking = reader.GetBool();
     }
 }
 
@@ -68,10 +73,11 @@ public struct SPacket_PlayerState : IPacket
     public bool IsSprinting;
     public bool IsGuarding;
     public Vector2 MoveInput; // For animation sync on remote clients
+    public float AimAngle;
+    public bool IsAttacking;
 
     public void Serialize(NetDataWriter writer)
     {
-        writer.Put((byte)Type);
         writer.Put(PlayerId);
         writer.Put(Position.x);
         writer.Put(Position.y);
@@ -80,6 +86,8 @@ public struct SPacket_PlayerState : IPacket
         writer.Put(IsGuarding);
         writer.Put(MoveInput.x);
         writer.Put(MoveInput.y);
+        writer.Put(AimAngle);
+        writer.Put(IsAttacking);
     }
 
     public void Deserialize(NetDataReader reader)
@@ -92,5 +100,7 @@ public struct SPacket_PlayerState : IPacket
         IsGuarding = reader.GetBool();
         MoveInput.x = reader.GetFloat();
         MoveInput.y = reader.GetFloat();
+        AimAngle = reader.GetFloat();
+        IsAttacking = reader.GetBool();
     }
 }
