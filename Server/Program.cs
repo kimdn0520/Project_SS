@@ -30,11 +30,13 @@ namespace Server
         public float CurrentStamina { get; set; } = 150f;
         public float StaminaRegenRate { get; set; } = 12f;
         public float SprintStaminaCost { get; set; } = 20f;
+        public float GuardStaminaCost { get; set; } = 10f; // 방어 시 초당 소모 스테미나
 
         // Input State
         public float LastInputX { get; set; }
         public float LastInputY { get; set; }
         public bool IsSprinting { get; set; }
+        public bool IsGuarding { get; set; }
 
         public void Update(float deltaTime)
         {
@@ -50,8 +52,16 @@ namespace Server
                 currentSpeed *= 0.5f;
             }
 
-            // Handle Sprinting and Stamina
-            if (isMoving && IsSprinting && !isExhausted)
+            // Handle Guarding
+            if (IsGuarding && !isExhausted)
+            {
+                // 방어 중에는 이동 속도 대폭 감소 (기획 의도에 따라 조절 가능)
+                currentSpeed *= 0.3f;
+                CurrentStamina -= GuardStaminaCost * deltaTime;
+                if (CurrentStamina < 0) CurrentStamina = 0;
+            }
+            // Handle Sprinting and Stamina (Guard가 아닐 때만 Sprint 가능하도록 처리)
+            else if (isMoving && IsSprinting && !isExhausted)
             {
                 currentSpeed *= SprintMultiplier;
                 CurrentStamina -= SprintStaminaCost * deltaTime;
@@ -59,15 +69,15 @@ namespace Server
             }
             else
             {
-                // Regerate Stamina
-                if (CurrentStamina < MaxStamina)
+                // Regerate Stamina (방어 중이 아닐 때만 회복)
+                if (!IsGuarding && CurrentStamina < MaxStamina)
                 {
                     CurrentStamina += StaminaRegenRate * deltaTime;
                     if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
                 }
             }
 
-            // Move
+            // Move (방어 중에도 이동은 가능하지만 느림)
             X += LastInputX * currentSpeed * deltaTime;
             Y += LastInputY * currentSpeed * deltaTime;
 
@@ -124,6 +134,7 @@ namespace Server
                         player.LastInputX = reader.GetFloat();
                         player.LastInputY = reader.GetFloat();
                         player.IsSprinting = reader.GetBool();
+                        player.IsGuarding = reader.GetBool();
                     }
                 }
                 reader.Recycle();
@@ -152,6 +163,7 @@ namespace Server
                     writer.Put(target.Y);
                     writer.Put(target.CurrentStamina);
                     writer.Put(target.IsSprinting);
+                    writer.Put(target.IsGuarding);
                     writer.Put(target.LastInputX);
                     writer.Put(target.LastInputY);
 

@@ -19,4 +19,7 @@ public class PlayerStatsSO : ScriptableObject
     [Header("Combat Defaults")]
     public float BaseDamage = 10f;
     public float AttackStaminaCost = 15f;
+    public float GuardStaminaCost = 10f;       // 방어 시 초당 소모 스테미나
+    public float GuardDamageReduction = 0.5f;  // 피해 감소율 (0.5 = 50% 감소)
+    public float PerfectParryWindow = 0.2f;   // 패링 판정 시간 (초)
 }

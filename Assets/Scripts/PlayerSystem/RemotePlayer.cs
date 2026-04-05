@@ -30,6 +30,16 @@ public class RemotePlayer : PlayerController
 
         // Visual interpolation
         transform.DOMove(new Vector3(position.x, position.y, 0), 0.1f).SetEase(Ease.Linear);
+
+        // [비주얼] 방어 중일 때 색상 변경 (실무에서는 애니메이션 트리거 사용)
+        if (IsGuarding)
+        {
+            SetColor(new Color(1f, 0.5f, 0.5f)); // 연한 빨강 (방어 중)
+        }
+        else
+        {
+            SetColor(Color.red);
+        }
     }
 
     protected override void FixedUpdate()

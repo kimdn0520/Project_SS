@@ -47,6 +47,12 @@ public class PlayerIdleState : BasePlayerState
 
     public override void Update()
     {
+        if (player.IsGuarding && player.CurrentStamina > 0)
+        {
+            stateMachine.ChangeState(new PlayerGuardState(player, stateMachine));
+            return;
+        }
+
         if (player.MoveInput.sqrMagnitude > 0.01f)
         {
             stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
@@ -60,6 +66,12 @@ public class PlayerMoveState : BasePlayerState
 
     public override void Update()
     {
+        if (player.IsGuarding && player.CurrentStamina > 0)
+        {
+            stateMachine.ChangeState(new PlayerGuardState(player, stateMachine));
+            return;
+        }
+
         if (player.MoveInput.sqrMagnitude < 0.01f)
         {
             stateMachine.ChangeState(new PlayerIdleState(player, stateMachine));
@@ -79,6 +91,12 @@ public class PlayerSprintState : BasePlayerState
 
     public override void Update()
     {
+        if (player.IsGuarding && player.CurrentStamina > 0)
+        {
+            stateMachine.ChangeState(new PlayerGuardState(player, stateMachine));
+            return;
+        }
+
         if (player.MoveInput.sqrMagnitude < 0.01f)
         {
             stateMachine.ChangeState(new PlayerIdleState(player, stateMachine));
@@ -89,5 +107,48 @@ public class PlayerSprintState : BasePlayerState
         {
             stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
         }
+    }
+}
+
+public class PlayerGuardState : BasePlayerState
+{
+    public PlayerGuardState(PlayerController player, StateMachine stateMachine) : base(player, stateMachine) { }
+
+    public override void Enter()
+    {
+        player.IsGuarding = true;
+        player.GuardStartTime = Time.time;
+        // 방어 애니메이션 트리거 등 추가 가능
+        Debug.Log("[State] Enter Guard State");
+    }
+
+    public override void Exit()
+    {
+        player.IsGuarding = false;
+        Debug.Log("[State] Exit Guard State");
+    }
+
+    public override void Update()
+    {
+        if (!player.IsGuarding || player.CurrentStamina <= 0)
+        {
+            if (player.MoveInput.sqrMagnitude > 0.01f)
+                stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
+            else
+                stateMachine.ChangeState(new PlayerIdleState(player, stateMachine));
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        // 방어 중 이동 속도 감소 적용 (Server 로직과 맞춤)
+        float targetSpeed = player.MoveSpeed * 0.3f;
+        Vector2 targetVelocity = player.MoveInput * targetSpeed;
+
+        player.Rb.linearVelocity = Vector2.MoveTowards(
+            player.Rb.linearVelocity, 
+            targetVelocity, 
+            DECELERATION * Time.fixedDeltaTime
+        );
     }
 }

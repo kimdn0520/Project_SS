@@ -30,8 +30,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1984357128108300087}
+  m_Children: []
   m_Father: {fileID: 6975058827185340681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2740583848657969903
@@ -140,11 +139,11 @@ Transform:
   m_GameObject: {fileID: 7712199552848446004}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0.11, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1957680294671956996}
+  m_Father: {fileID: 6975058827185340681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8180027545806631487
 GameObject:
@@ -157,7 +156,6 @@ GameObject:
   - component: {fileID: 6975058827185340681}
   - component: {fileID: 1897962120765424641}
   - component: {fileID: 6684490164188978260}
-  - component: {fileID: 5335030129355712946}
   - component: {fileID: 1358979978490006587}
   - component: {fileID: -3191312788726391098}
   m_Layer: 0
@@ -181,6 +179,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1957680294671956996}
+  - {fileID: 1984357128108300087}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1897962120765424641
@@ -196,13 +195,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalPlayerController
   visualsTransform: {fileID: 1957680294671956996}
+  weaponSocket: {fileID: 1984357128108300087}
   spriteRenderer: {fileID: 2740583848657969903}
+  MaxHP: 100
+  CurrentHP: 100
   MoveSpeed: 5
   SprintMultiplier: 1.6
   MaxStamina: 100
   CurrentStamina: 100
   StaminaRegenRate: 10
   SprintStaminaCost: 25
+  GuardStaminaCost: 10
+  GuardDamageReduction: 0.5
+  orbitDistance: 0.5
+  weaponRotationOffset: -90
+  guardPoseOffset: -15
+  lerpSpeed: 25
 --- !u!50 &6684490164188978260
 Rigidbody2D:
   serializedVersion: 5
@@ -230,23 +238,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &5335030129355712946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8180027545806631487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c686fa5b0d5c0e49a598c2b2721a7f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  weaponSocket: {fileID: 1984357128108300087}
-  currentWeaponPrefab: {fileID: 0}
-  attackCooldown: 0.5
-  lungeForce: 7
-  lungeDuration: 0.12
 --- !u!70 &1358979978490006587
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

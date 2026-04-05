@@ -110,6 +110,7 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
         {
             if (_localPlayer != null)
             {
+                _localPlayer.IsGuarding = state.IsGuarding;
                 _localPlayer.SyncState(state.Position, state.Stamina);
             }
         }
@@ -134,7 +135,11 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
             }
         }
 
-        remotePlayer?.SetState(state.Position, state.IsSprinting, state.MoveInput);
+        if (remotePlayer != null)
+        {
+            remotePlayer.IsGuarding = state.IsGuarding;
+            remotePlayer.SetState(state.Position, state.IsSprinting, state.MoveInput);
+        }
     }
 
     private void HandlePlayerLeave(int id)
@@ -157,7 +162,8 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
         var packet = new CPacket_Input 
         { 
             MoveInput = moveInput, 
-            IsSprinting = _localPlayer.IsSprinting 
+            IsSprinting = _localPlayer.IsSprinting,
+            IsGuarding = _localPlayer.IsGuarding
         };
         
         _writer.Reset();

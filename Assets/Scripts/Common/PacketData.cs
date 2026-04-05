@@ -39,6 +39,7 @@ public struct CPacket_Input : IPacket
     public PacketType Type => PacketType.CPacket_Input;
     public Vector2 MoveInput;
     public bool IsSprinting;
+    public bool IsGuarding;
 
     public void Serialize(NetDataWriter writer)
     {
@@ -46,6 +47,7 @@ public struct CPacket_Input : IPacket
         writer.Put(MoveInput.x);
         writer.Put(MoveInput.y);
         writer.Put(IsSprinting);
+        writer.Put(IsGuarding);
     }
 
     public void Deserialize(NetDataReader reader)
@@ -53,6 +55,7 @@ public struct CPacket_Input : IPacket
         MoveInput.x = reader.GetFloat();
         MoveInput.y = reader.GetFloat();
         IsSprinting = reader.GetBool();
+        IsGuarding = reader.GetBool();
     }
 }
 
@@ -63,6 +66,7 @@ public struct SPacket_PlayerState : IPacket
     public Vector2 Position;
     public float Stamina;
     public bool IsSprinting;
+    public bool IsGuarding;
     public Vector2 MoveInput; // For animation sync on remote clients
 
     public void Serialize(NetDataWriter writer)
@@ -73,6 +77,7 @@ public struct SPacket_PlayerState : IPacket
         writer.Put(Position.y);
         writer.Put(Stamina);
         writer.Put(IsSprinting);
+        writer.Put(IsGuarding);
         writer.Put(MoveInput.x);
         writer.Put(MoveInput.y);
     }
@@ -84,6 +89,7 @@ public struct SPacket_PlayerState : IPacket
         Position.y = reader.GetFloat();
         Stamina = reader.GetFloat();
         IsSprinting = reader.GetBool();
+        IsGuarding = reader.GetBool();
         MoveInput.x = reader.GetFloat();
         MoveInput.y = reader.GetFloat();
     }

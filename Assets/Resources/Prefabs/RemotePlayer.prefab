@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8400132115440529400}
   - component: {fileID: 5292979179849226808}
   - component: {fileID: 1565328402159373528}
-  - component: {fileID: 3351399399701890691}
   - component: {fileID: 7515755168761531042}
   m_Layer: 0
   m_Name: RemotePlayer
@@ -34,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1845213729605963479}
+  - {fileID: 6845973792352107809}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5292979179849226808
@@ -49,13 +49,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RemotePlayer
   visualsTransform: {fileID: 1845213729605963479}
+  weaponSocket: {fileID: 6845973792352107809}
   spriteRenderer: {fileID: 2266128452800001142}
+  MaxHP: 100
+  CurrentHP: 100
   MoveSpeed: 5
   SprintMultiplier: 1.6
   MaxStamina: 100
   CurrentStamina: 100
   StaminaRegenRate: 10
   SprintStaminaCost: 25
+  GuardStaminaCost: 10
+  GuardDamageReduction: 0.5
 --- !u!50 &1565328402159373528
 Rigidbody2D:
   serializedVersion: 5
@@ -83,23 +88,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3351399399701890691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3893667152749352932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c686fa5b0d5c0e49a598c2b2721a7f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  weaponSocket: {fileID: 6845973792352107809}
-  currentWeaponPrefab: {fileID: 0}
-  attackCooldown: 0.5
-  lungeForce: 7
-  lungeDuration: 0.12
 --- !u!70 &7515755168761531042
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -167,8 +155,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6845973792352107809}
+  m_Children: []
   m_Father: {fileID: 8400132115440529400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2266128452800001142
@@ -281,5 +268,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1845213729605963479}
+  m_Father: {fileID: 8400132115440529400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

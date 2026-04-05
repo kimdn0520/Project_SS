@@ -442,7 +442,7 @@ MonoBehaviour:
     rid: 6227176074956505159
   m_ShadowCastingSource: 2
   m_ShadowMesh:
-    m_Mesh: {fileID: 842278691}
+    m_Mesh: {fileID: 866528408}
     m_LocalBounds:
       m_Center: {x: 0, y: 0, z: 0}
       m_Extent: {x: 0, y: 0, z: 0}
@@ -919,7 +919,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldManager
   floorTile: {fileID: 0}
   wallTile: {fileID: 0}
---- !u!43 &842278691
+--- !u!43 &866528408
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1945,8 +1945,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 406166761}
-  - {fileID: 473081988}
   - {fileID: 1259998048}
+  - {fileID: 473081988}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2096128033
