@@ -20,6 +20,9 @@ public abstract class BasePlayerState : IState
     
     public virtual void FixedUpdate() 
     {
+        // [수정] 공격 전진 중에는 일반 이동 로직을 건너뜁니다.
+        if (player.IsAttacking) return;
+
         // [실무형 Direct Velocity 제어]
         // 1. 목표 속도 계산
         float targetSpeed = player.MoveSpeed;

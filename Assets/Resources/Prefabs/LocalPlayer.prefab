@@ -155,6 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6975058827185340681}
   - component: {fileID: 1897962120765424641}
+  - component: {fileID: 1054444436746557388}
   - component: {fileID: 6684490164188978260}
   - component: {fileID: 1358979978490006587}
   - component: {fileID: -3191312788726391098}
@@ -211,6 +212,21 @@ MonoBehaviour:
   weaponRotationOffset: -90
   guardPoseOffset: -15
   lerpSpeed: 25
+--- !u!114 &1054444436746557388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180027545806631487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f61098f1dc8f324d93a2456942abde2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
+  weaponSocket: {fileID: 1984357128108300087}
+  weaponData: {fileID: 0}
+  attackCooldown: 0.1
 --- !u!50 &6684490164188978260
 Rigidbody2D:
   serializedVersion: 5

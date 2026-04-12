@@ -40,9 +40,28 @@ namespace Server
         public float AimAngle { get; set; }
         public bool IsAttacking { get; set; }
 
+        // Lunge State
+        private float lungeTimer = 0f;
+        private float lungeDirX = 0f;
+        private float lungeDirY = 0f;
+        private const float LUNGE_DISTANCE = 0.4f; // WeaponDataSO와 동일하게 맞춤
+        private const float LUNGE_DURATION = 0.1f;
+        private bool wasAttacking = false;
+
         public void Update(float deltaTime)
         {
             if (deltaTime > 0.1f || deltaTime <= 0) return;
+
+            // Attack Lunge Trigger
+            if (IsAttacking && !wasAttacking && lungeTimer <= 0)
+            {
+                lungeTimer = LUNGE_DURATION;
+                // 에임 각도를 기반으로 전진 방향 계산
+                float rad = AimAngle * (float)(Math.PI / 180.0);
+                lungeDirX = (float)Math.Cos(rad);
+                lungeDirY = (float)Math.Sin(rad);
+            }
+            wasAttacking = IsAttacking;
 
             bool isMoving = (Math.Abs(LastInputX) > 0.01f || Math.Abs(LastInputY) > 0.01f);
             float currentSpeed = MoveSpeed;
@@ -54,34 +73,47 @@ namespace Server
                 currentSpeed *= 0.5f;
             }
 
-            // Handle Guarding
-            if (IsGuarding && !isExhausted)
+            // Lunge Logic
+            if (lungeTimer > 0)
             {
-                // 방어 중에는 이동 속도 대폭 감소 (기획 의도에 따라 조절 가능)
-                currentSpeed *= 0.3f;
-                CurrentStamina -= GuardStaminaCost * deltaTime;
-                if (CurrentStamina < 0) CurrentStamina = 0;
-            }
-            // Handle Sprinting and Stamina (Guard가 아닐 때만 Sprint 가능하도록 처리)
-            else if (isMoving && IsSprinting && !isExhausted)
-            {
-                currentSpeed *= SprintMultiplier;
-                CurrentStamina -= SprintStaminaCost * deltaTime;
-                if (CurrentStamina < 0) CurrentStamina = 0;
+                float lungeSpeed = LUNGE_DISTANCE / LUNGE_DURATION;
+                X += lungeDirX * lungeSpeed * deltaTime;
+                Y += lungeDirY * lungeSpeed * deltaTime;
+                lungeTimer -= deltaTime;
+                
+                // Lunge 중에는 일반 이동 무시
             }
             else
             {
-                // Regerate Stamina (방어 중이 아닐 때만 회복)
-                if (!IsGuarding && CurrentStamina < MaxStamina)
+                // Handle Guarding
+                if (IsGuarding && !isExhausted)
                 {
-                    CurrentStamina += StaminaRegenRate * deltaTime;
-                    if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
+                    // 방어 중에는 이동 속도 대폭 감소 (기획 의도에 따라 조절 가능)
+                    currentSpeed *= 0.3f;
+                    CurrentStamina -= GuardStaminaCost * deltaTime;
+                    if (CurrentStamina < 0) CurrentStamina = 0;
                 }
-            }
+                // Handle Sprinting and Stamina (Guard가 아닐 때만 Sprint 가능하도록 처리)
+                else if (isMoving && IsSprinting && !isExhausted)
+                {
+                    currentSpeed *= SprintMultiplier;
+                    CurrentStamina -= SprintStaminaCost * deltaTime;
+                    if (CurrentStamina < 0) CurrentStamina = 0;
+                }
+                else
+                {
+                    // Regerate Stamina (방어 중이 아닐 때만 회복)
+                    if (!IsGuarding && CurrentStamina < MaxStamina)
+                    {
+                        CurrentStamina += StaminaRegenRate * deltaTime;
+                        if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
+                    }
+                }
 
-            // Move (방어 중에도 이동은 가능하지만 느림)
-            X += LastInputX * currentSpeed * deltaTime;
-            Y += LastInputY * currentSpeed * deltaTime;
+                // Move (방어 중에도 이동은 가능하지만 느림)
+                X += LastInputX * currentSpeed * deltaTime;
+                Y += LastInputY * currentSpeed * deltaTime;
+            }
 
             // Safety
             if (float.IsNaN(X) || float.IsInfinity(X)) X = 0;

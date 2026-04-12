@@ -98,7 +98,7 @@ public class LocalPlayerController : PlayerController
 
     private void UpdateWeaponRotation()
     {
-        if (weaponSocket == null || IsAttacking || IsInRecovery) return;
+        if (weaponSocket == null || IsAttacking || IsInRecovery || IsWeaponLocked) return;
 
         // 1. 마우스의 '로컬' 위치 계산 (루트의 Flip 상태가 이미 반영됨)
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -128,7 +128,8 @@ public class LocalPlayerController : PlayerController
         // 가드 오프셋 대칭 적용
         finalAngle += (localMousePos.x < 0 ? -guardPoseOffset : guardPoseOffset);
         
-        weaponSocket.localRotation = Quaternion.Euler(0, 0, finalAngle);
+        // [수정] 회전에도 Lerp 적용하여 공격 종료 후 부드럽게 복귀
+        weaponSocket.localRotation = Quaternion.Lerp(weaponSocket.localRotation, Quaternion.Euler(0, 0, finalAngle), Time.deltaTime * lerpSpeed);
     }
 
     protected override void UpdateFacing()
@@ -177,15 +178,17 @@ public class LocalPlayerController : PlayerController
 
         // [Stop Protection] 
         // 입력이 없고(정지 상태), 오차가 크지 않으면(0.5m 이내) 서버의 보정을 무시합니다.
-        // 이렇게 하면 멈췄을 때 뒤로 튕기는 현상이 사라집니다.
         bool isMoving = MoveInput.sqrMagnitude > 0.01f;
-        if (!isMoving && dist < 0.5f)
+        if (!isMoving && !IsAttacking && dist < 0.5f)
         {
             return;
         }
 
+        // [핵심] 공격 전진(Lunge) 중에는 보정 임계값을 완화하여 부자연스러운 튕김 방지
+        float threshold = IsAttacking ? 2.5f : 1.2f;
+
         // 차이가 너무 클 때만 강제 순간이동
-        if (dist > 1.2f) 
+        if (dist > threshold) 
         {
             transform.position = serverPos;
         }

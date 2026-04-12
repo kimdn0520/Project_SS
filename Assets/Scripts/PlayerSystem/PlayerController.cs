@@ -23,12 +23,14 @@ public abstract class PlayerController : MonoBehaviour, IDamageable
     public bool IsAttacking { get; set; }
     public bool IsInRecovery { get; set; }
     public bool IsGuarding { get; set; }
+    public bool IsWeaponLocked { get; set; } // 추가: 공격/콤보 중 무기 회전 고정 여부
     public float GuardStartTime { get; set; }
     public float PerfectParryWindow { get; set; } = 0.2f;
 
     public Rigidbody2D Rb { get; protected set; }
     public Animator Animator { get; protected set; }
     public StateMachine StateMachine { get; protected set; }
+    public Transform WeaponSocket => weaponSocket;
     
     public Vector2 MoveInput { get; set; }
     public bool IsSprinting { get; set; }
