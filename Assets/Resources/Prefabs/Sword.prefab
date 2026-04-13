@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7b11e361e42b84a917c52dfceee977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sword
-  angleOffset: 25
+  angleOffset: 20
   pivot: {fileID: 8921314639531508179}
   damage: 20
   knockbackForce: 5

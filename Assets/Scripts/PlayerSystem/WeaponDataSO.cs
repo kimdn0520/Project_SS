@@ -17,4 +17,7 @@ public class WeaponDataSO : ScriptableObject
     
     [Header("Visual Settings")]
     public AnimationCurve SwingCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    [Header("Stamina Settings")]
+    public float AttackStaminaCost = 15f;
 }

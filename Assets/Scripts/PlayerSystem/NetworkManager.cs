@@ -138,7 +138,7 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
         if (remotePlayer != null)
         {
             remotePlayer.IsGuarding = state.IsGuarding;
-            remotePlayer.SetState(state.Position, state.IsSprinting, state.MoveInput, state.AimAngle, state.IsAttacking);
+            remotePlayer.SetState(state.Position, state.Stamina, state.IsSprinting, state.MoveInput, state.AimAngle, state.IsAttacking);
         }
     }
 

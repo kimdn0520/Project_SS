@@ -152,23 +152,23 @@ public class LocalPlayerController : PlayerController
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+
+        // [수정] 공격 중 이동 차단 해제 (자유 이동 허용)
         MoveInput = new Vector2(h, v).normalized;
 
         IsSprinting = Input.GetKey(KeyCode.LeftShift);
-        IsGuarding = Input.GetMouseButton(1); // 마우스 오른쪽 버튼
+        IsGuarding = Input.GetMouseButton(1); 
 
         float aimAngle = GetCurrentAimAngle();
-        bool isAttacking = Input.GetMouseButtonDown(0); // [임시] 공격 입력 체크
 
         // 입력값과 에임 각도를 서버로 전송
-        NetworkManager.Instance.SendInput(MoveInput, aimAngle, isAttacking);
+        NetworkManager.Instance.SendInput(MoveInput, aimAngle, IsAttacking);
     }
 
     public void SyncState(Vector2 serverPos, float stamina)
     {
         CurrentStamina = stamina;
         
-        // UI 업데이트
         if (UIManager.Instance != null)
         {
             UIManager.Instance.UpdateStamina(CurrentStamina, MaxStamina);
@@ -176,26 +176,14 @@ public class LocalPlayerController : PlayerController
 
         float dist = Vector2.Distance(transform.position, serverPos);
 
-        // [Stop Protection] 
-        // 입력이 없고(정지 상태), 오차가 크지 않으면(0.5m 이내) 서버의 보정을 무시합니다.
-        bool isMoving = MoveInput.sqrMagnitude > 0.01f;
-        if (!isMoving && !IsAttacking && dist < 0.5f)
-        {
-            return;
-        }
-
-        // [핵심] 공격 전진(Lunge) 중에는 보정 임계값을 완화하여 부자연스러운 튕김 방지
-        float threshold = IsAttacking ? 2.5f : 1.2f;
-
-        // 차이가 너무 클 때만 강제 순간이동
-        if (dist > threshold) 
+        // [수정] 미끄러지는 느낌 방지
+        // 0.8m 이상의 큰 차이가 날 때만 서버 위치로 강제 보정합니다.
+        // 그 미만의 작은 오차는 클라이언트의 부드러운 물리 이동을 우선시합니다.
+        if (dist > 0.8f) 
         {
             transform.position = serverPos;
         }
-        else if (dist > 0.02f) // 이동 중이거나 오차가 클 때만 부드럽게 보정
-        {
-            transform.position = Vector2.Lerp(transform.position, serverPos, Time.deltaTime * 15f);
-        }
+        // Lerp 보정을 삭제하여 물리 엔진과의 충돌(미끄러짐)을 원천 차단합니다.
     }
 
     // PlayerController의 MoveSpeed 속성을 동적으로 조절하기 위해 재정의하거나 로직 추가

@@ -56,9 +56,10 @@ public class RemotePlayer : PlayerController
         StateMachine.ChangeState(new PlayerIdleState(this, StateMachine));
     }
 
-    public void SetState(Vector2 position, bool isSprinting, Vector2 moveInput, float aimAngle, bool isAttacking)
+    public void SetState(Vector2 position, float stamina, bool isSprinting, Vector2 moveInput, float aimAngle, bool isAttacking)
     {
         _targetPosition = position;
+        CurrentStamina = stamina;
         IsSprinting = isSprinting;
         MoveInput = moveInput;
         _targetAimAngle = aimAngle;
