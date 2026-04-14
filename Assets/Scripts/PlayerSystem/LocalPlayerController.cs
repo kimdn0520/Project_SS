@@ -100,7 +100,7 @@ public class LocalPlayerController : PlayerController
     {
         if (weaponSocket == null || IsAttacking || IsInRecovery || IsWeaponLocked) return;
 
-        // 1. 마우스의 '로컬' 위치 계산 (루트의 Flip 상태가 이미 반영됨)
+        // 1. 마우스의 '로컬' 위치 계산 (루트가 Flip 되지 않으므로 월드 방향과 일치)
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 localMousePos = transform.InverseTransformPoint(mouseWorldPos);
         
@@ -116,13 +116,10 @@ public class LocalPlayerController : PlayerController
         weaponSocket.localPosition = Vector3.Lerp(weaponSocket.localPosition, targetSocketPos, Time.deltaTime * lerpSpeed);
 
         // 4. 웨폰 반전 및 회전 적용
-        bool isLeft = mouseWorldPos.x < transform.position.x; 
-
-        // [핵심] 루트가 Flip(Scale.x = -1)되면 로컬 X축도 반대이므로, 
-        // localMousePos.x의 부호를 보고 무기 날의 상하 반전을 결정합니다.
+        // [핵심] localMousePos.x의 부호를 보고 무기 날의 상하 반전을 결정합니다.
         weaponSocket.localScale = new Vector3(1, (localMousePos.x < 0) ? -1f : 1f, 1);
         
-        // 5. 최종 회전 (루트의 Flip 덕분에 angle을 그대로 써도 월드 기준 대칭이 됨)
+        // 5. 최종 회전 (angle을 그대로 써서 마우스 방향을 향하게 함)
         float finalAngle = angle;
         
         // 가드 오프셋 대칭 적용
@@ -165,9 +162,10 @@ public class LocalPlayerController : PlayerController
         NetworkManager.Instance.SendInput(MoveInput, aimAngle, IsAttacking);
     }
 
-    public void SyncState(Vector2 serverPos, float stamina)
+    public void SyncState(Vector2 serverPos, float stamina, float maxStamina)
     {
         CurrentStamina = stamina;
+        MaxStamina = maxStamina;
         
         if (UIManager.Instance != null)
         {

@@ -56,10 +56,11 @@ public class RemotePlayer : PlayerController
         StateMachine.ChangeState(new PlayerIdleState(this, StateMachine));
     }
 
-    public void SetState(Vector2 position, float stamina, bool isSprinting, Vector2 moveInput, float aimAngle, bool isAttacking)
+    public void SetState(Vector2 position, float stamina, float maxStamina, bool isSprinting, Vector2 moveInput, float aimAngle, bool isAttacking)
     {
         _targetPosition = position;
         CurrentStamina = stamina;
+        MaxStamina = maxStamina;
         IsSprinting = isSprinting;
         MoveInput = moveInput;
         _targetAimAngle = aimAngle;
@@ -90,8 +91,8 @@ public class RemotePlayer : PlayerController
         if (weaponSocket == null) return;
 
         // 1. 서버에서 받은 각도를 기반으로 궤도 위치 계산
-        // RemotePlayer는 이미 UpdateFacing()에서 에임 방향에 따라 Flip 되어 있음.
-        // 하지만 weaponSocket은 로컬 좌표계를 사용하므로, 부모의 Flip 상태를 고려해야 함.
+        // RemotePlayer는 이미 UpdateFacing()에서 에임 방향에 따라 visualsTransform이 Flip 되어 있음.
+        // 루트는 Flip 되지 않으므로 월드 방향과 일치함.
 
         // 로컬 마우스 위치 시뮬레이션 (루트 기준)
         float rad = _targetAimAngle * Mathf.Deg2Rad;
@@ -108,6 +109,7 @@ public class RemotePlayer : PlayerController
         weaponSocket.localPosition = Vector3.Lerp(weaponSocket.localPosition, targetSocketPos, Time.deltaTime * lerpSpeed);
 
         // 2. 웨폰 반전 및 회전 적용
+        // [핵심] localAimPos.x의 부호를 보고 무기 날의 상하 반전을 결정합니다.
         weaponSocket.localScale = new Vector3(1, (localAimPos.x < 0) ? -1f : 1f, 1);
         
         float finalAngle = localAngle;

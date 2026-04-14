@@ -111,7 +111,7 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
             if (_localPlayer != null)
             {
                 _localPlayer.IsGuarding = state.IsGuarding;
-                _localPlayer.SyncState(state.Position, state.Stamina);
+                _localPlayer.SyncState(state.Position, state.Stamina, state.MaxStamina);
             }
         }
         else
@@ -138,7 +138,7 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
         if (remotePlayer != null)
         {
             remotePlayer.IsGuarding = state.IsGuarding;
-            remotePlayer.SetState(state.Position, state.Stamina, state.IsSprinting, state.MoveInput, state.AimAngle, state.IsAttacking);
+            remotePlayer.SetState(state.Position, state.Stamina, state.MaxStamina, state.IsSprinting, state.MoveInput, state.AimAngle, state.IsAttacking);
         }
     }
 

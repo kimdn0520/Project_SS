@@ -27,8 +27,8 @@ namespace Server
         
         public float MoveSpeed { get; set; } = 5f;
         public float SprintMultiplier { get; set; } = 1.6f;
-        public float MaxStamina { get; set; } = 100f;
-        public float CurrentStamina { get; set; } = 100f;
+        public float MaxStamina { get; set; } = 150f;
+        public float CurrentStamina { get; set; } = 150f;
         public float StaminaRegenRate { get; set; } = 15f;
         public float SprintStaminaCost { get; set; } = 20f;
         public float GuardStaminaCost { get; set; } = 10f;
@@ -182,7 +182,7 @@ namespace Server
                 foreach (var t in players.Values) {
                     writer.Reset(); writer.Put((byte)PacketType.SPacket_PlayerState);
                     writer.Put(t.Id); writer.Put(t.X); writer.Put(t.Y);
-                    writer.Put(t.CurrentStamina); writer.Put(t.IsSprinting); writer.Put(t.IsGuarding);
+                    writer.Put(t.CurrentStamina); writer.Put(t.MaxStamina); writer.Put(t.IsSprinting); writer.Put(t.IsGuarding);
                     writer.Put(t.LastInputX); writer.Put(t.LastInputY);
                     writer.Put(t.AimAngle); writer.Put(t.IsAttacking);
                     server.SendToAll(writer, DeliveryMethod.Unreliable);

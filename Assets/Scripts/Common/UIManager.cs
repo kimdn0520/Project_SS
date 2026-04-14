@@ -11,10 +11,6 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     [SerializeField] private Slider hpBar;
     [SerializeField] private Image staminaFillImage;
     
-    [Header("Colors")]
-    [SerializeField] private Color normalStaminaColor = Color.yellow;
-    [SerializeField] private Color exhaustedStaminaColor = Color.red;
-
     protected override void Awake()
     {
         base.Awake();
@@ -26,11 +22,6 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
         {
             staminaBar.maxValue = max;
             staminaBar.value = current;
-            
-            if (staminaFillImage != null)
-            {
-                staminaFillImage.color = (current <= 0) ? exhaustedStaminaColor : normalStaminaColor;
-            }
         }
     }
 

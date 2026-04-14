@@ -70,6 +70,7 @@ public struct SPacket_PlayerState : IPacket
     public int PlayerId;
     public Vector2 Position;
     public float Stamina;
+    public float MaxStamina;
     public bool IsSprinting;
     public bool IsGuarding;
     public Vector2 MoveInput; // For animation sync on remote clients
@@ -82,6 +83,7 @@ public struct SPacket_PlayerState : IPacket
         writer.Put(Position.x);
         writer.Put(Position.y);
         writer.Put(Stamina);
+        writer.Put(MaxStamina);
         writer.Put(IsSprinting);
         writer.Put(IsGuarding);
         writer.Put(MoveInput.x);
@@ -96,6 +98,7 @@ public struct SPacket_PlayerState : IPacket
         Position.x = reader.GetFloat();
         Position.y = reader.GetFloat();
         Stamina = reader.GetFloat();
+        MaxStamina = reader.GetFloat();
         IsSprinting = reader.GetBool();
         IsGuarding = reader.GetBool();
         MoveInput.x = reader.GetFloat();

@@ -11,10 +11,6 @@ public class WorldCharacterUI : MonoBehaviour
     public Slider StaminaBar;
     public Image StaminaFill;
 
-    [Header("Colors")]
-    public Color NormalStaminaColor = new Color(0.9f, 0.8f, 0.2f); // Yellowish
-    public Color ExhaustedStaminaColor = new Color(1.0f, 0.2f, 0.2f); // Reddish
-
     private PlayerController player;
     private Canvas canvas;
 
@@ -34,21 +30,12 @@ public class WorldCharacterUI : MonoBehaviour
     {
         if (player == null) return;
 
-        transform.position = player.transform.position + Offset;
+        // transform.position = player.transform.position + Offset; // 위치는 유저가 에디터에서 직접 설정하도록 비활성화
         
-        Vector3 localScale = transform.localScale;
-        localScale.x = Mathf.Abs(localScale.x); 
-        transform.localScale = localScale;
-
         if (StaminaBar != null)
         {
             StaminaBar.maxValue = player.MaxStamina;
             StaminaBar.value = player.CurrentStamina;
-
-            if (StaminaFill != null)
-            {
-                StaminaFill.color = (player.CurrentStamina <= 0) ? ExhaustedStaminaColor : NormalStaminaColor;
-            }
             
             // 스태미너가 가득 찼을 때는 UI를 숨겨서 화면을 깔끔하게 유지 (선택 사항)
             // gameObject.SetActive(player.CurrentStamina < player.MaxStamina);

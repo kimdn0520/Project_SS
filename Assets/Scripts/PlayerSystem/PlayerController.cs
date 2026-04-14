@@ -78,9 +78,12 @@ public abstract class PlayerController : MonoBehaviour, IDamageable
     protected void Flip()
     {
         IsFacingRight = !IsFacingRight;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        if (visualsTransform != null)
+        {
+            Vector3 scale = visualsTransform.localScale;
+            scale.x *= -1;
+            visualsTransform.localScale = scale;
+        }
     }
 
     public virtual void TakeDamage(float damage, Vector2 knockback)
