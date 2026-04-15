@@ -13,7 +13,18 @@ namespace Server
         CPacket_Input = 1,
         SPacket_PlayerState = 2,
         SPacket_PlayerJoin = 3,
-        SPacket_PlayerLeave = 4
+        SPacket_PlayerLeave = 4,
+        CPacket_Hit = 5,
+        SPacket_Damage = 6,
+        SPacket_MonsterState = 7,
+        SPacket_MonsterAttack = 8
+    }
+
+    public enum MonsterState : byte
+    {
+        Idle = 0,
+        Chase = 1,
+        Attack = 2
     }
 
     class Player
@@ -26,21 +37,8 @@ namespace Server
         public float VelY { get; set; }
         
         public float MoveSpeed { get; set; } = 5f;
-        public float SprintMultiplier { get; set; } = 1.6f;
-        public float MaxStamina { get; set; } = 150f;
-        public float CurrentStamina { get; set; } = 150f;
-        public float StaminaRegenRate { get; set; } = 15f;
-        public float SprintStaminaCost { get; set; } = 20f;
-        public float GuardStaminaCost { get; set; } = 10f;
-        public float AttackStaminaCost { get; set; } = 15f;
-
-        private float staminaRegenTimer = 0f;
-        private const float REGEN_DELAY = 1.0f; // 행동 후 회복 지연 시간
-        private bool isExhausted = false; // 스태미너 0 이하일 때의 탈진 상태
-
-        // 클라이언트와 동일한 가감속 상수
-        private const float ACCELERATION = 120f;
-        private const float DECELERATION = 100f;
+        public float MaxHealth { get; set; } = 100f;
+        public float CurrentHealth { get; set; } = 100f;
 
         public float LastInputX { get; set; }
         public float LastInputY { get; set; }
@@ -48,95 +46,113 @@ namespace Server
         public bool IsGuarding { get; set; }
         public float AimAngle { get; set; }
         public bool IsAttacking { get; set; }
-        private bool prevIsAttacking = false;
+
+        public void TakeDamage(float damage)
+        {
+            CurrentHealth -= damage;
+            if (CurrentHealth < 0) CurrentHealth = 0;
+            Console.WriteLine($"[Combat] Player {Id} took {damage} damage. HP: {CurrentHealth}");
+        }
 
         public void Update(float deltaTime)
         {
-            if (deltaTime > 0.1f || deltaTime <= 0) return;
-
-            float targetSpeed = MoveSpeed;
+            float targetSpeed = IsSprinting ? MoveSpeed * 1.6f : (IsGuarding ? MoveSpeed * 0.4f : MoveSpeed);
             
-            // 1. 공격 스태미너 소모 (Rising Edge 감지)
-            if (IsAttacking && !prevIsAttacking)
-            {
-                if (CurrentStamina >= AttackStaminaCost)
-                {
-                    CurrentStamina -= AttackStaminaCost;
-                    staminaRegenTimer = REGEN_DELAY;
-                }
-                else
-                {
-                    // 스태미너 부족 시 공격 불가 상태는 클라이언트에서 이미 체크하지만, 
-                    // 서버에서도 정합성을 위해 필요하다면 추가 로직 구현 가능.
-                }
-            }
-            prevIsAttacking = IsAttacking;
-
-            // 2. 달리기/가드 스태미너 소모 및 속도 조절
-            bool canSprint = IsSprinting && CurrentStamina > 0 && !isExhausted && (Math.Abs(LastInputX) > 0.01f || Math.Abs(LastInputY) > 0.01f);
-            bool canGuard = IsGuarding && CurrentStamina > 0 && !isExhausted;
-
-            if (canGuard)
-            {
-                targetSpeed *= 0.4f;
-                CurrentStamina -= GuardStaminaCost * deltaTime;
-                staminaRegenTimer = REGEN_DELAY;
-            }
-            else if (canSprint)
-            {
-                targetSpeed *= SprintMultiplier;
-                CurrentStamina -= SprintStaminaCost * deltaTime;
-                staminaRegenTimer = REGEN_DELAY;
-            }
-
-            // 3. 탈진 및 회복 로직
-            if (CurrentStamina <= 0)
-            {
-                CurrentStamina = 0;
-                isExhausted = true;
-            }
-            
-            if (isExhausted)
-            {
-                targetSpeed *= 0.5f;
-                // 탈진 상태에서는 스태미너가 일정 이상(예: 30%) 차야 해제
-                if (CurrentStamina >= MaxStamina * 0.3f) 
-                {
-                    isExhausted = false;
-                }
-            }
-
-            // 회복 지연 및 자동 회복
-            if (!canSprint && !canGuard && !IsAttacking)
-            {
-                if (staminaRegenTimer > 0)
-                {
-                    staminaRegenTimer -= deltaTime;
-                }
-                else if (CurrentStamina < MaxStamina)
-                {
-                    float regenMultiplier = isExhausted ? 0.6f : 1.0f; // 탈진 시 회복 속도 페널티
-                    CurrentStamina += StaminaRegenRate * regenMultiplier * deltaTime;
-                    if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
-                }
-            }
-
-            // [서버 가감속 구현] 클라이언트의 MoveTowards와 동일한 로직
-            float targetVelX = LastInputX * targetSpeed;
-            float targetVelY = LastInputY * targetSpeed;
-            float accelRate = (Math.Abs(LastInputX) > 0.01f || Math.Abs(LastInputY) > 0.01f) ? ACCELERATION : DECELERATION;
-
-            VelX = MoveTowards(VelX, targetVelX, accelRate * deltaTime);
-            VelY = MoveTowards(VelY, targetVelY, accelRate * deltaTime);
+            // 단순 선형 이동 (서버 가감속 생략하여 반응성 우선)
+            VelX = LastInputX * targetSpeed;
+            VelY = LastInputY * targetSpeed;
 
             X += VelX * deltaTime;
             Y += VelY * deltaTime;
         }
+    }
 
-        private float MoveTowards(float current, float target, float maxDelta)
+    class Monster
+    {
+        public int Id { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float MoveSpeed { get; set; } = 3.5f;
+        public float MaxHealth { get; set; } = 100f;
+        public float CurrentHealth { get; set; } = 100f;
+        
+        public MonsterState State { get; private set; } = MonsterState.Idle;
+        public float MoveInputX { get; private set; }
+        public float MoveInputY { get; private set; }
+
+        private float detectionRange = 6f; // 10f에서 6f로 하향
+        private float attackRange = 1.8f;
+        private float attackCooldown = 2.5f;
+        private float attackTimer = 0f;
+        
+        private float idleTimer = 0f;
+        private Random random = new Random();
+
+        public Action<Monster, Player> OnAttack;
+
+        public void TakeDamage(float damage)
         {
-            if (Math.Abs(target - current) <= maxDelta) return target;
-            return current + Math.Sign(target - current) * maxDelta;
+            CurrentHealth -= damage;
+            Console.WriteLine($"[Monster] Monster {Id} HP: {CurrentHealth}");
+        }
+
+        public void Update(float deltaTime, Dictionary<int, Player> players)
+        {
+            if (attackTimer > 0) attackTimer -= deltaTime;
+
+            Player target = null;
+            float minDist = float.MaxValue;
+
+            foreach (var p in players.Values)
+            {
+                if (p.Peer == null) continue;
+                float dist = (float)Math.Sqrt(Math.Pow(X - p.X, 2) + Math.Pow(Y - p.Y, 2));
+                if (dist < detectionRange && dist < minDist)
+                {
+                    minDist = dist;
+                    target = p;
+                }
+            }
+
+            if (target != null)
+            {
+                if (minDist <= attackRange)
+                {
+                    State = MonsterState.Attack;
+                    MoveInputX = 0; MoveInputY = 0;
+                    if (attackTimer <= 0)
+                    {
+                        attackTimer = attackCooldown;
+                        OnAttack?.Invoke(this, target);
+                    }
+                }
+                else
+                {
+                    State = MonsterState.Chase;
+                    float dirX = target.X - X;
+                    float dirY = target.Y - Y;
+                    float len = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
+                    MoveInputX = dirX / len;
+                    MoveInputY = dirY / len;
+                }
+            }
+            else
+            {
+                idleTimer -= deltaTime;
+                if (idleTimer <= 0)
+                {
+                    idleTimer = (float)random.NextDouble() * 2f + 1f;
+                    MoveInputX = (float)random.NextDouble() * 2 - 1;
+                    MoveInputY = (float)random.NextDouble() * 2 - 1;
+                }
+                State = MonsterState.Idle;
+            }
+
+            float speed = State == MonsterState.Chase ? MoveSpeed : MoveSpeed * 0.4f;
+            if (State == MonsterState.Attack) speed = 0;
+
+            X += MoveInputX * speed * deltaTime;
+            Y += MoveInputY * speed * deltaTime;
         }
     }
 
@@ -147,9 +163,24 @@ namespace Server
             EventBasedNetListener listener = new EventBasedNetListener();
             NetManager server = new NetManager(listener);
             server.Start(9050);
-            Console.WriteLine("[Server] Snappy Movement Server Started...");
+            Console.WriteLine("[Server] AI System Online.");
 
             Dictionary<int, Player> players = new Dictionary<int, Player>();
+            Dictionary<int, Monster> monsters = new Dictionary<int, Monster>();
+
+            // 더미 몬스터 생성
+            Monster dummy = new Monster { Id = 999, X = 10f, Y = 0f };
+            dummy.OnAttack = (m, target) => {
+                NetDataWriter w = new NetDataWriter();
+                w.Put((byte)PacketType.SPacket_MonsterAttack);
+                w.Put(m.Id); w.Put(target.X); w.Put(target.Y);
+                server.SendToAll(w, DeliveryMethod.ReliableOrdered);
+                
+                target.TakeDamage(10f);
+                BroadcastDamage(server, target.Id, 10f, 0, 0);
+            };
+            monsters[dummy.Id] = dummy;
+            
             NetDataWriter writer = new NetDataWriter();
 
             listener.ConnectionRequestEvent += request => request.AcceptIfKey("SS_GAME_KEY");
@@ -168,6 +199,13 @@ namespace Server
                         p.IsSprinting = reader.GetBool(); p.IsGuarding = reader.GetBool();
                         p.AimAngle = reader.GetFloat(); p.IsAttacking = reader.GetBool();
                     }
+                    else if (type == (byte)PacketType.CPacket_Hit) {
+                        int targetId = reader.GetInt();
+                        if (monsters.TryGetValue(targetId, out var m)) {
+                            m.TakeDamage(25f);
+                            BroadcastDamage(server, m.Id, 25f, m.X - p.X, m.Y - p.Y);
+                        }
+                    }
                 }
                 reader.Recycle();
             };
@@ -175,20 +213,43 @@ namespace Server
             DateTime lastTime = DateTime.UtcNow;
             while (true) {
                 server.PollEvents();
-                DateTime now = DateTime.UtcNow;
-                float deltaTime = (float)(now - lastTime).TotalSeconds;
-                lastTime = now;
+                float deltaTime = (float)(DateTime.UtcNow - lastTime).TotalSeconds;
+                lastTime = DateTime.UtcNow;
+
                 foreach (var p in players.Values) p.Update(deltaTime);
+                foreach (var m in monsters.Values) m.Update(deltaTime, players);
+
                 foreach (var t in players.Values) {
+                    if (t.Peer == null) continue;
                     writer.Reset(); writer.Put((byte)PacketType.SPacket_PlayerState);
                     writer.Put(t.Id); writer.Put(t.X); writer.Put(t.Y);
-                    writer.Put(t.CurrentStamina); writer.Put(t.MaxStamina); writer.Put(t.IsSprinting); writer.Put(t.IsGuarding);
+                    writer.Put(100f); writer.Put(100f); // Stamina dummy
+                    writer.Put(t.IsSprinting); writer.Put(t.IsGuarding);
                     writer.Put(t.LastInputX); writer.Put(t.LastInputY);
                     writer.Put(t.AimAngle); writer.Put(t.IsAttacking);
                     server.SendToAll(writer, DeliveryMethod.Unreliable);
                 }
-                Thread.Sleep(33);
+
+                foreach (var m in monsters.Values) {
+                    writer.Reset(); writer.Put((byte)PacketType.SPacket_MonsterState);
+                    writer.Put(m.Id); writer.Put(m.X); writer.Put(m.Y);
+                    writer.Put(m.MoveInputX); writer.Put(m.MoveInputY);
+                    writer.Put((byte)m.State);
+                    server.SendToAll(writer, DeliveryMethod.Unreliable);
+                }
+
+                Thread.Sleep(20); // 50FPS 동기화
             }
+        }
+
+        static void BroadcastDamage(NetManager server, int targetId, float damage, float dx, float dy) {
+            NetDataWriter w = new NetDataWriter();
+            w.Put((byte)PacketType.SPacket_Damage);
+            w.Put(targetId); w.Put(damage);
+            float len = (float)Math.Sqrt(dx * dx + dy * dy);
+            if (len > 0) { dx /= len; dy /= len; }
+            w.Put(dx * 5f); w.Put(dy * 5f);
+            server.SendToAll(w, DeliveryMethod.ReliableOrdered);
         }
     }
 }

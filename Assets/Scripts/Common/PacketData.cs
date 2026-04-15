@@ -7,7 +7,68 @@ public enum PacketType : byte
     CPacket_Input = 1,
     SPacket_PlayerState = 2,
     SPacket_PlayerJoin = 3,
-    SPacket_PlayerLeave = 4
+    SPacket_PlayerLeave = 4,
+    CPacket_Hit = 5,
+    SPacket_Damage = 6,
+    SPacket_MonsterState = 7,
+    SPacket_MonsterAttack = 8
+}
+
+public enum MonsterState : byte
+{
+    Idle = 0,
+    Chase = 1,
+    Attack = 2
+}
+
+public struct SPacket_MonsterState : IPacket
+{
+    public PacketType Type => PacketType.SPacket_MonsterState;
+    public int MonsterId;
+    public Vector2 Position;
+    public Vector2 MoveInput;
+    public MonsterState State;
+
+    public void Serialize(NetDataWriter writer)
+    {
+        writer.Put(MonsterId);
+        writer.Put(Position.x);
+        writer.Put(Position.y);
+        writer.Put(MoveInput.x);
+        writer.Put(MoveInput.y);
+        writer.Put((byte)State);
+    }
+
+    public void Deserialize(NetDataReader reader)
+    {
+        MonsterId = reader.GetInt();
+        Position.x = reader.GetFloat();
+        Position.y = reader.GetFloat();
+        MoveInput.x = reader.GetFloat();
+        MoveInput.y = reader.GetFloat();
+        State = (MonsterState)reader.GetByte();
+    }
+}
+
+public struct SPacket_MonsterAttack : IPacket
+{
+    public PacketType Type => PacketType.SPacket_MonsterAttack;
+    public int MonsterId;
+    public Vector2 TargetPosition;
+
+    public void Serialize(NetDataWriter writer)
+    {
+        writer.Put(MonsterId);
+        writer.Put(TargetPosition.x);
+        writer.Put(TargetPosition.y);
+    }
+
+    public void Deserialize(NetDataReader reader)
+    {
+        MonsterId = reader.GetInt();
+        TargetPosition.x = reader.GetFloat();
+        TargetPosition.y = reader.GetFloat();
+    }
 }
 
 public interface IPacket
@@ -15,6 +76,46 @@ public interface IPacket
     PacketType Type { get; }
     void Serialize(NetDataWriter writer);
     void Deserialize(NetDataReader reader);
+}
+
+public struct CPacket_Hit : IPacket
+{
+    public PacketType Type => PacketType.CPacket_Hit;
+    public int TargetId;
+
+    public void Serialize(NetDataWriter writer)
+    {
+        writer.Put(TargetId);
+    }
+
+    public void Deserialize(NetDataReader reader)
+    {
+        TargetId = reader.GetInt();
+    }
+}
+
+public struct SPacket_Damage : IPacket
+{
+    public PacketType Type => PacketType.SPacket_Damage;
+    public int TargetId;
+    public float Damage;
+    public Vector2 Knockback;
+
+    public void Serialize(NetDataWriter writer)
+    {
+        writer.Put(TargetId);
+        writer.Put(Damage);
+        writer.Put(Knockback.x);
+        writer.Put(Knockback.y);
+    }
+
+    public void Deserialize(NetDataReader reader)
+    {
+        TargetId = reader.GetInt();
+        Damage = reader.GetFloat();
+        Knockback.x = reader.GetFloat();
+        Knockback.y = reader.GetFloat();
+    }
 }
 
 public struct SPacket_Welcome : IPacket

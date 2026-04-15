@@ -4,6 +4,7 @@ using DG.Tweening;
 public class RemotePlayer : PlayerController
 {
     private int _id;
+    public int PlayerId => _id;
     private Vector2 _targetPosition;
 
     [Header("Weapon Settings (Remote Sync)")]

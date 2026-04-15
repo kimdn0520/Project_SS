@@ -16,6 +16,7 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
     
     private LocalPlayerController _localPlayer;
     private Dictionary<int, RemotePlayer> _remotePlayers = new Dictionary<int, RemotePlayer>();
+    private Dictionary<int, DummyMonster> _monsters = new Dictionary<int, DummyMonster>();
 
     protected override void Awake()
     {
@@ -70,10 +71,130 @@ public class NetworkManager : SingletonMonoBehaviour<NetworkManager>
                     int leaveId = dataReader.GetInt();
                     HandlePlayerLeave(leaveId);
                     break;
+
+                case PacketType.SPacket_Damage:
+                    var damagePacket = new SPacket_Damage();
+                    damagePacket.Deserialize(dataReader);
+                    HandleDamage(damagePacket);
+                    break;
+
+                case PacketType.SPacket_MonsterState:
+                    var monsterState = new SPacket_MonsterState();
+                    monsterState.Deserialize(dataReader);
+                    HandleMonsterState(monsterState);
+                    break;
+
+                case PacketType.SPacket_MonsterAttack:
+                    var monsterAttack = new SPacket_MonsterAttack();
+                    monsterAttack.Deserialize(dataReader);
+                    HandleMonsterAttack(monsterAttack);
+                    break;
             }
 
             dataReader.Recycle();
         };
+    }
+
+    private void HandleDamage(SPacket_Damage packet)
+    {
+        if (packet.TargetId == _myId)
+        {
+            if (_localPlayer != null)
+            {
+                _localPlayer.TakeDamage(packet.Damage, packet.Knockback);
+                if (CameraShake.Instance != null) CameraShake.Instance.DamageShake();
+            }
+        }
+        else if (_remotePlayers.TryGetValue(packet.TargetId, out var remotePlayer))
+        {
+            if (remotePlayer != null)
+            {
+                remotePlayer.TakeDamage(packet.Damage, packet.Knockback);
+            }
+        }
+        else if (_monsters.TryGetValue(packet.TargetId, out var monster))
+        {
+            if (monster != null)
+            {
+                monster.TakeDamage(packet.Damage, packet.Knockback);
+            }
+        }
+    }
+
+    private void HandleMonsterState(SPacket_MonsterState packet)
+    {
+        if (!_monsters.TryGetValue(packet.MonsterId, out var monster))
+        {
+            // 1. 씬에 이미 배치된 몬스터가 있는지 먼저 찾습니다.
+            DummyMonster[] existingMonsters = FindObjectsByType<DummyMonster>(FindObjectsSortMode.None);
+            foreach (var m in existingMonsters)
+            {
+                if (m.MonsterId == packet.MonsterId)
+                {
+                    monster = m;
+                    _monsters.Add(packet.MonsterId, monster);
+                    Debug.Log($"<color=green>[Network]</color> Linked to existing Monster in scene: {packet.MonsterId}");
+                    break;
+                }
+            }
+
+            // 2. 없다면 새로 생성합니다.
+            if (monster == null)
+            {
+                GameObject prefab = Resources.Load<GameObject>("Prefabs/Monster");
+                if (prefab == null) prefab = Resources.Load<GameObject>("Prefabs/DummyMonster");
+                
+                if (prefab != null)
+                {
+                    GameObject go = Instantiate(prefab);
+                    go.transform.SetParent(GetMonsterGroup());
+                    monster = go.GetComponent<DummyMonster>();
+                    monster.Init(packet.MonsterId);
+                    _monsters.Add(packet.MonsterId, monster);
+                    Debug.Log($"<color=green>[Network]</color> Spawned new Monster: {packet.MonsterId}");
+                }
+            }
+        }
+
+        if (monster != null)
+        {
+            monster.SetState(packet.Position, packet.MoveInput, packet.State);
+        }
+    }
+
+    private void HandleMonsterAttack(SPacket_MonsterAttack packet)
+    {
+        if (_monsters.TryGetValue(packet.MonsterId, out var monster))
+        {
+            monster.PlayAttackEffect(packet.TargetPosition);
+        }
+    }
+
+    private Transform GetMonsterGroup()
+    {
+        GameObject entities = GameObject.Find("-- ENTITIES --");
+        if (entities == null) entities = new GameObject("-- ENTITIES --");
+
+        Transform group = entities.transform.Find("Monster_Group");
+        if (group == null)
+        {
+            GameObject groupGO = new GameObject("Monster_Group");
+            groupGO.transform.SetParent(entities.transform);
+            group = groupGO.transform;
+        }
+        return group;
+    }
+
+    public void SendHit(int targetId)
+    {
+        if (_server == null) return;
+
+        var packet = new CPacket_Hit { TargetId = targetId };
+        
+        _writer.Reset();
+        _writer.Put((byte)packet.Type);
+        packet.Serialize(_writer);
+        _server.Send(_writer, DeliveryMethod.ReliableOrdered);
     }
 
     private Transform GetPlayerGroup()
