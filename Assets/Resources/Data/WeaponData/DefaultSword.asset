@@ -15,7 +15,7 @@ MonoBehaviour:
   WeaponName: GreatSword
   SwingAngle: 130
   SwingSpeed: 0.12
-  RecoveryTime: 0.15
+  RecoveryTime: 0.5
   ComboWindow: 0.5
   LungeDistance: 0.5
   LungeDuration: 0.1
@@ -43,3 +43,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  AttackStaminaCost: 15

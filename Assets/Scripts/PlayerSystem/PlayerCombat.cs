@@ -95,11 +95,21 @@ public class PlayerCombat : MonoBehaviour
         
         player.IsAttacking = false;
         
-        // [수정] 콤보 연결을 위해 휘두르기가 끝나면 즉시 입력을 허용합니다. (isInternalAttacking = false)
-        isInternalAttacking = false;
-        
-        // 후딜레이 동안은 애니메이션은 멈춰있지만, 다음 Attack() 호출은 가능해집니다.
-        yield return new WaitForSeconds(weaponData.RecoveryTime);
+        if (currentAttack == 1)
+        {
+            // 1타 종료: 콤보 연계를 위해 즉시 다음 입력을 허용합니다.
+            isInternalAttacking = false;
+        }
+        else
+        {
+            // 2타 종료 (콤보 끝): RecoveryTime만큼 대기한 후 다음 사이클(1타) 입력을 허용합니다.
+            yield return new WaitForSeconds(weaponData.RecoveryTime);
+            isInternalAttacking = false;
+            comboIndex = 0; // 콤보 초기화
+            
+            // 콤보가 완전히 끝났으므로 무기 고정을 풀어 마우스를 다시 따라가게 합니다.
+            player.IsWeaponLocked = false;
+        }
         
         lastComboTime = Time.time;
     }

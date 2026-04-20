@@ -39,6 +39,13 @@ namespace Server
         public float MoveSpeed { get; set; } = 5f;
         public float MaxHealth { get; set; } = 100f;
         public float CurrentHealth { get; set; } = 100f;
+        
+        public float MaxStamina { get; set; } = 100f;
+        public float CurrentStamina { get; set; } = 100f;
+        public float StaminaRegenRate { get; set; } = 15f;
+        public float SprintStaminaCost { get; set; } = 20f;
+        public float GuardStaminaCost { get; set; } = 10f;
+        public float AttackStaminaCost { get; set; } = 15f;
 
         public float LastInputX { get; set; }
         public float LastInputY { get; set; }
@@ -46,6 +53,8 @@ namespace Server
         public bool IsGuarding { get; set; }
         public float AimAngle { get; set; }
         public bool IsAttacking { get; set; }
+        
+        private bool wasAttacking = false;
 
         public void TakeDamage(float damage)
         {
@@ -56,7 +65,37 @@ namespace Server
 
         public void Update(float deltaTime)
         {
-            float targetSpeed = IsSprinting ? MoveSpeed * 1.6f : (IsGuarding ? MoveSpeed * 0.4f : MoveSpeed);
+            // 스태미너 로직
+            bool isActionConsumingStamina = false;
+
+            if (IsSprinting && (LastInputX != 0 || LastInputY != 0) && CurrentStamina > 0)
+            {
+                CurrentStamina -= SprintStaminaCost * deltaTime;
+                isActionConsumingStamina = true;
+            }
+            
+            if (IsGuarding && CurrentStamina > 0)
+            {
+                CurrentStamina -= GuardStaminaCost * deltaTime;
+                isActionConsumingStamina = true;
+            }
+
+            if (IsAttacking && !wasAttacking && CurrentStamina >= AttackStaminaCost)
+            {
+                CurrentStamina -= AttackStaminaCost;
+                isActionConsumingStamina = true;
+            }
+            wasAttacking = IsAttacking;
+
+            if (!isActionConsumingStamina)
+            {
+                CurrentStamina += StaminaRegenRate * deltaTime;
+            }
+
+            if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
+            if (CurrentStamina < 0) CurrentStamina = 0;
+
+            float targetSpeed = (IsSprinting && CurrentStamina > 0) ? MoveSpeed * 1.6f : (IsGuarding ? MoveSpeed * 0.4f : MoveSpeed);
             
             // 단순 선형 이동 (서버 가감속 생략하여 반응성 우선)
             VelX = LastInputX * targetSpeed;
@@ -223,7 +262,7 @@ namespace Server
                     if (t.Peer == null) continue;
                     writer.Reset(); writer.Put((byte)PacketType.SPacket_PlayerState);
                     writer.Put(t.Id); writer.Put(t.X); writer.Put(t.Y);
-                    writer.Put(100f); writer.Put(100f); // Stamina dummy
+                    writer.Put(t.CurrentStamina); writer.Put(t.MaxStamina);
                     writer.Put(t.IsSprinting); writer.Put(t.IsGuarding);
                     writer.Put(t.LastInputX); writer.Put(t.LastInputY);
                     writer.Put(t.AimAngle); writer.Put(t.IsAttacking);
