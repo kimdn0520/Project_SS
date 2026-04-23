@@ -18,7 +18,7 @@ public class Test : MonoBehaviour
 
     private async UniTaskVoid WaitMove()
     {
-        await transform.DOMove(new Vector3(0, 3, 0), 3.0f);
-        Debug.Log("XYZ(0, 3, 0) À§Ä¡·Î ÀÌµ¿ ¿Ï·á");
+        await transform.DOMove(new Vector3(0, 3, 0), 3.0f).AsyncWaitForCompletion();
+        Debug.Log("XYZ(0, 3, 0) ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ï·ï¿½");
     }
 }

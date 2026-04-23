@@ -154,7 +154,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1785734643
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1534610742, guid: b16e039a1ae793d448d2718482a1c7ca, type: 3}
@@ -266,8 +266,6 @@ MonoBehaviour:
   SmoothSpeed: 10
   StaminaBar: {fileID: 5640775118694497842}
   StaminaFill: {fileID: 6201278023268138998}
-  NormalStaminaColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
-  ExhaustedStaminaColor: {r: 1, g: 0.2, b: 0.2, a: 1}
 --- !u!1 &4891365318772835380
 GameObject:
   m_ObjectHideFlags: 0
