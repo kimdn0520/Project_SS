@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -10,6 +9,8 @@ public class SpriteManager : SingletonMonoBehaviour<SpriteManager>
 
     private Dictionary<string, Sprite> _spriteDic = new Dictionary<string, Sprite>();
 
+    public bool HasData => spriteAtlasData != null;
+
     protected override void Awake()
     {
         base.Awake();
@@ -19,23 +20,21 @@ public class SpriteManager : SingletonMonoBehaviour<SpriteManager>
     {
         if (spriteAtlasData == null)
         {
-            Debug.LogError("SpriteManager¿¡ SpriteAtlasSO°¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+            Debug.LogWarning("[SpriteManager] SpriteAtlasSOê°€ ì•„ì§ í• ë‹¹ë˜ì§€ ì•Šì•„ ì´ˆê¸°í™”ë¥¼ ê±´ë„ˆëœë‹ˆë‹¤.");
             return;
         }
 
-        // µî·ÏµÈ ¸ğµç ¾ÆÆ²¶ó½º¸¦ ¼øÈ¸
         foreach (SpriteAtlas atlas in spriteAtlasData.Atlases)
         {
-            // °¢ ¾ÆÆ²¶ó½º¿¡ Æ÷ÇÔµÈ ¸ğµç ½ºÇÁ¶óÀÌÆ®¸¦ °¡Á®¿È.
+            if (atlas == null) continue;
             Sprite[] sprites = new Sprite[atlas.spriteCount];
             atlas.GetSprites(sprites);
 
             foreach (Sprite sprite in sprites)
             {
-                // ½ºÇÁ¶óÀÌÆ® ÀÌ¸§¿¡¼­ "(Clone)" Á¢¹Ì»ç¸¦ Á¦°Å.
+                if (sprite == null) continue;
                 string cleanedName = sprite.name.Replace("(Clone)", "");
 
-                // Dictionary¿¡ ÀÌ¹Ì °°Àº ÀÌ¸§ÀÇ Å°°¡ ÀÖ´ÂÁö È®ÀÎ.
                 if (_spriteDic.ContainsKey(cleanedName))
                 {
                     continue;
@@ -54,7 +53,7 @@ public class SpriteManager : SingletonMonoBehaviour<SpriteManager>
         }
         else
         {
-            Debug.LogError($"'${spriteName}' ÀÌ¸§ÀÇ ½ºÇÁ¶óÀÌÆ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù. ¾ÆÆ²¶ó½º¿¡ µî·ÏµÇ¾î ÀÖ´ÂÁö È®ÀÎÇØÁÖ¼¼¿ä.");
+            Debug.LogWarning($"[SpriteManager] '{spriteName}' ì´ë¦„ì˜ ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return null;
         }
     }

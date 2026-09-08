@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening.Core.Easing;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -49,8 +48,12 @@ public class PoolManager : SingletonMonoBehaviour<PoolManager>
         Initialize();
     }
 
+    private Transform cachedMonsterGroup;
+
     private Transform GetMonsterGroup()
     {
+        if (cachedMonsterGroup != null) return cachedMonsterGroup;
+
         GameObject entities = GameObject.Find("-- ENTITIES --");
         if (entities == null) entities = new GameObject("-- ENTITIES --");
 
@@ -61,7 +64,9 @@ public class PoolManager : SingletonMonoBehaviour<PoolManager>
             groupGO.transform.SetParent(entities.transform);
             group = groupGO.transform;
         }
-        return group;
+
+        cachedMonsterGroup = group;
+        return cachedMonsterGroup;
     }
 
     public T Get<T>(string poolName, Transform parent = null, Vector3? position = null, Quaternion? rotation = null) where T : Component

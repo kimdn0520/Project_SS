@@ -96,5 +96,10 @@ InitTestScene*.unity*
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
 
 # Auto-generated scenes by play mode tests
-/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 /[Pp]ackages/com.gamelovers.mcp-unity/Server~/node_modules/
+
+# Server build outputs & temporary files
+Server/bin/
+Server/obj/
+.vscode/
+*.slnx
