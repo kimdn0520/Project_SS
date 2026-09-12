@@ -29,6 +29,8 @@ public class IdleRpgGameContent : MonoBehaviour, IGameContent
     public event Action<long> OnGoldChanged;
     public event Action<int> OnStageChanged;
     public event Action<string> OnLogMessage;
+    public event Action<int> OnDepthChanged;
+    public event Action<int> OnGemsChanged;
 
     public void Initialize(object param)
     {

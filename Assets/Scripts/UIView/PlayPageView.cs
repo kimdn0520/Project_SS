@@ -12,22 +12,31 @@ public class PlayPageView : SceneBase
     [Header("[Parallel Roots (Siblings)]")]
     [SerializeField] private Canvas uiCanvas;
     [SerializeField] private GameRootController gameRoot;
+    [SerializeField] private WorldAreaLayoutBinder layoutBinder;
 
     [Header("[UI Components]")]
     [SerializeField] private TopHUDView topHUDView;
     [SerializeField] private BottomPanelView bottomPanelView;
+    [SerializeField] private SidebarController sidebarController;
     [SerializeField] private Button lobbyButton;
 
     public Canvas UICanvas => uiCanvas;
     public GameRootController GameRoot => gameRoot;
+    public WorldAreaLayoutBinder LayoutBinder => layoutBinder;
     public TopHUDView TopHUD => topHUDView;
     public BottomPanelView BottomPanel => bottomPanelView;
+    public SidebarController Sidebar => sidebarController;
 
     private void Awake()
     {
         if (lobbyButton != null)
         {
             lobbyButton.onClick.AddListener(OnClickLobby);
+        }
+
+        if (layoutBinder == null)
+        {
+            layoutBinder = GetComponentInChildren<WorldAreaLayoutBinder>(true);
         }
 
         BindGameEvents();
@@ -40,6 +49,11 @@ public class PlayPageView : SceneBase
         {
             uiCanvas.worldCamera = cam;
         }
+
+        if (layoutBinder != null)
+        {
+            layoutBinder.ForceUpdateLayout();
+        }
     }
 
     public override void OnWillEnter(object param)
@@ -48,6 +62,8 @@ public class PlayPageView : SceneBase
         {
             SetupRenderCamera(Camera.main);
         }
+
+        layoutBinder?.ForceUpdateLayout();
 
         // 1. UI 암전 및 입력 차단
         if (CanvasGroup != null)
@@ -110,38 +126,59 @@ public class PlayPageView : SceneBase
 
     private void BindGameEvents()
     {
-        if (gameRoot == null) return;
-
-        if (topHUDView != null)
+        if (gameRoot != null)
         {
-            gameRoot.OnHpChanged += topHUDView.SetHp;
-            gameRoot.OnGoldChanged += topHUDView.SetGold;
-            gameRoot.OnStageChanged += topHUDView.SetStage;
+            if (topHUDView != null)
+            {
+                gameRoot.OnHpChanged += topHUDView.SetHp;
+                gameRoot.OnGoldChanged += topHUDView.SetGold;
+                gameRoot.OnStageChanged += topHUDView.SetStage;
+                gameRoot.OnDepthChanged += topHUDView.SetDepth;
+                gameRoot.OnGemsChanged += topHUDView.SetGems;
+            }
+
+            if (bottomPanelView != null)
+            {
+                gameRoot.OnLogMessage += bottomPanelView.AppendLog;
+                bottomPanelView.OnButtonClicked += gameRoot.DispatchCommand;
+            }
         }
 
-        if (bottomPanelView != null)
+        if (sidebarController != null && bottomPanelView != null)
         {
-            gameRoot.OnLogMessage += bottomPanelView.AppendLog;
-            bottomPanelView.OnButtonClicked += gameRoot.DispatchCommand;
+            sidebarController.OnSidebarAction += HandleSidebarAction;
         }
     }
 
     private void UnbindGameEvents()
     {
-        if (gameRoot == null) return;
-
-        if (topHUDView != null)
+        if (gameRoot != null)
         {
-            gameRoot.OnHpChanged -= topHUDView.SetHp;
-            gameRoot.OnGoldChanged -= topHUDView.SetGold;
-            gameRoot.OnStageChanged -= topHUDView.SetStage;
+            if (topHUDView != null)
+            {
+                gameRoot.OnHpChanged -= topHUDView.SetHp;
+                gameRoot.OnGoldChanged -= topHUDView.SetGold;
+                gameRoot.OnStageChanged -= topHUDView.SetStage;
+                gameRoot.OnDepthChanged -= topHUDView.SetDepth;
+                gameRoot.OnGemsChanged -= topHUDView.SetGems;
+            }
+
+            if (bottomPanelView != null)
+            {
+                gameRoot.OnLogMessage -= bottomPanelView.AppendLog;
+                bottomPanelView.OnButtonClicked -= gameRoot.DispatchCommand;
+            }
         }
 
-        if (bottomPanelView != null)
+        if (sidebarController != null)
         {
-            gameRoot.OnLogMessage -= bottomPanelView.AppendLog;
-            bottomPanelView.OnButtonClicked -= gameRoot.DispatchCommand;
+            sidebarController.OnSidebarAction -= HandleSidebarAction;
         }
+    }
+
+    private void HandleSidebarAction(string action)
+    {
+        bottomPanelView?.AppendLog($"[{action}] 메뉴가 선택되었습니다.");
     }
 
     private void OnClickLobby()

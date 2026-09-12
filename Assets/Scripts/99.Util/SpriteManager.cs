@@ -7,46 +7,78 @@ public class SpriteManager : SingletonMonoBehaviour<SpriteManager>
     [SerializeField]
     private SpriteAtlasSO spriteAtlasData;
 
-    private Dictionary<string, Sprite> _spriteDic = new Dictionary<string, Sprite>();
+    [Header("[Direct Registered Sprites]")]
+    [SerializeField]
+    private List<Sprite> registeredSprites = new List<Sprite>();
 
-    public bool HasData => spriteAtlasData != null;
+    private readonly Dictionary<string, Sprite> _spriteDic = new Dictionary<string, Sprite>();
+
+    public bool HasData => spriteAtlasData != null || (registeredSprites != null && registeredSprites.Count > 0);
 
     protected override void Awake()
     {
         base.Awake();
+        Initialize();
     }
 
     public void Initialize()
     {
-        if (spriteAtlasData == null)
+        // 1. 인스펙터에 직접 등록된 개별 스프라이트 등록
+        if (registeredSprites != null)
         {
-            Debug.LogWarning("[SpriteManager] SpriteAtlasSO가 아직 할당되지 않아 초기화를 건너뜁니다.");
-            return;
+            foreach (var sp in registeredSprites)
+            {
+                if (sp == null) continue;
+                Register(sp.name, sp);
+            }
         }
 
-        foreach (SpriteAtlas atlas in spriteAtlasData.Atlases)
+        // 2. SpriteAtlasSO의 아틀라스 스프라이트 등록
+        if (spriteAtlasData != null && spriteAtlasData.Atlases != null)
         {
-            if (atlas == null) continue;
-            Sprite[] sprites = new Sprite[atlas.spriteCount];
-            atlas.GetSprites(sprites);
-
-            foreach (Sprite sprite in sprites)
+            foreach (SpriteAtlas atlas in spriteAtlasData.Atlases)
             {
-                if (sprite == null) continue;
-                string cleanedName = sprite.name.Replace("(Clone)", "");
+                if (atlas == null) continue;
+                Sprite[] sprites = new Sprite[atlas.spriteCount];
+                atlas.GetSprites(sprites);
 
-                if (_spriteDic.ContainsKey(cleanedName))
+                foreach (Sprite sprite in sprites)
                 {
-                    continue;
+                    if (sprite == null) continue;
+                    string cleanedName = sprite.name.Replace("(Clone)", "");
+                    Register(cleanedName, sprite);
                 }
-
-                _spriteDic.Add(cleanedName, sprite);
             }
+        }
+    }
+
+    public void Register(Sprite sprite)
+    {
+        if (sprite != null)
+        {
+            Register(sprite.name, sprite);
+        }
+    }
+
+    public void Register(string spriteName, Sprite sprite)
+    {
+        if (string.IsNullOrEmpty(spriteName) || sprite == null) return;
+
+        string cleaned = spriteName.Replace("(Clone)", "");
+        if (!_spriteDic.ContainsKey(cleaned))
+        {
+            _spriteDic.Add(cleaned, sprite);
+        }
+        else
+        {
+            _spriteDic[cleaned] = sprite;
         }
     }
 
     public Sprite Get(string spriteName)
     {
+        if (string.IsNullOrEmpty(spriteName)) return null;
+
         if (_spriteDic.TryGetValue(spriteName, out Sprite sprite))
         {
             return sprite;
@@ -56,5 +88,15 @@ public class SpriteManager : SingletonMonoBehaviour<SpriteManager>
             Debug.LogWarning($"[SpriteManager] '{spriteName}' 이름의 스프라이트를 찾을 수 없습니다.");
             return null;
         }
+    }
+
+    public bool TryGet(string spriteName, out Sprite sprite)
+    {
+        if (string.IsNullOrEmpty(spriteName))
+        {
+            sprite = null;
+            return false;
+        }
+        return _spriteDic.TryGetValue(spriteName, out sprite);
     }
 }

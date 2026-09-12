@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -26,6 +26,8 @@ public class GameRootController : MonoBehaviour
     public event Action<long> OnGoldChanged;
     public event Action<int> OnStageChanged;
     public event Action<string> OnLogMessage;
+    public event Action<int> OnDepthChanged;
+    public event Action<int> OnGemsChanged;
 
     private void Awake()
     {
@@ -108,6 +110,8 @@ public class GameRootController : MonoBehaviour
         activeContent.OnGoldChanged += HandleGoldChanged;
         activeContent.OnStageChanged += HandleStageChanged;
         activeContent.OnLogMessage += HandleLogMessage;
+        activeContent.OnDepthChanged += HandleDepthChanged;
+        activeContent.OnGemsChanged += HandleGemsChanged;
     }
 
     private void UnbindContentEvents()
@@ -118,12 +122,16 @@ public class GameRootController : MonoBehaviour
         activeContent.OnGoldChanged -= HandleGoldChanged;
         activeContent.OnStageChanged -= HandleStageChanged;
         activeContent.OnLogMessage -= HandleLogMessage;
+        activeContent.OnDepthChanged -= HandleDepthChanged;
+        activeContent.OnGemsChanged -= HandleGemsChanged;
     }
 
     private void HandleHpChanged(int cur, int max) => OnHpChanged?.Invoke(cur, max);
     private void HandleGoldChanged(long gold) => OnGoldChanged?.Invoke(gold);
     private void HandleStageChanged(int stage) => OnStageChanged?.Invoke(stage);
     private void HandleLogMessage(string msg) => OnLogMessage?.Invoke(msg);
+    private void HandleDepthChanged(int depth) => OnDepthChanged?.Invoke(depth);
+    private void HandleGemsChanged(int gems) => OnGemsChanged?.Invoke(gems);
 
     private void OnDestroy()
     {

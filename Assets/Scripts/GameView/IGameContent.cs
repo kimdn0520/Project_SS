@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 /// <summary>
 /// GameRoot 내부에 동적으로 탑재될 수 있는 게임 콘텐츠 인터페이스.
-/// 방치형 RPG, 주사위 보드게임, 핀볼, 탄막 슈팅 등 기획 변경 시 이 인터페이스 구현체만 교체하면 됨.
+/// 방치형 RPG, 은퇴용사 땅만파, 주사위 보드게임 등 기획 변경 시 이 인터페이스 구현체만 교체하면 됨.
 /// </summary>
 public interface IGameContent
 {
     /// <summary>
-    /// 콘텐츠 식별자 (예: "IdleRpg", "DiceBattle", "Pinball")
+    /// 콘텐츠 식별자 (예: "DiggerGame", "IdleRpg")
     /// </summary>
     string ContentId { get; }
 
@@ -38,13 +38,15 @@ public interface IGameContent
     void StopContent();
 
     /// <summary>
-    /// UI 또는 외부에서 들어온 사용자 명령 처리 (스킬 사용, 주사위 굴리기, 업그레이드 등)
+    /// UI 또는 외부에서 들어온 사용자 명령 처리 (채굴, 스킬, 업그레이드 등)
     /// </summary>
     void ExecuteCommand(string commandName, object payload);
 
     // --- 데이터 통신 이벤트 (Decoupled Events) ---
-    event Action<int, int> OnHpChanged;         // 현재 체력, 최대 체력
+    event Action<int, int> OnHpChanged;         // 현재 체력/보스 HP
     event Action<long> OnGoldChanged;           // 보유 골드
-    event Action<int> OnStageChanged;           // 현재 스테이지/웨이브
+    event Action<int> OnStageChanged;           // 현재 스테이지
     event Action<string> OnLogMessage;          // 화면 로그/알림
+    event Action<int> OnDepthChanged;           // 광산 심도 (m)
+    event Action<int> OnGemsChanged;            // 보유 보석
 }

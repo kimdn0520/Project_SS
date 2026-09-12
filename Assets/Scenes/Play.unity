@@ -119,6 +119,102 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!115 &74161101
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: PlayerInventoryModel
+  m_Namespace: 
+  m_AssemblyName: Assembly-CSharp
+--- !u!115 &78042727
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: HeroStatsModel
+  m_Namespace: 
+  m_AssemblyName: Assembly-CSharp
+--- !u!115 &193302010
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: PlayerInventoryModel
+  m_Namespace: 
+  m_AssemblyName: Assembly-CSharp
+--- !u!1 &269911086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 269911088}
+  - component: {fileID: 269911087}
+  m_Layer: 0
+  m_Name: HeroStatsModel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &269911087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269911086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1037525864}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsModel
+  activeHeroHp: 100
+  activeHeroMaxHp: 100
+  activeHeroAtk: 25
+  activeHeroAtkInterval: 1
+  equippedWeapon: Iron Sword
+  pickaxePower: 15
+  shovelPower: 20
+--- !u!4 &269911088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269911086}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &379996950
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +292,20 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 648051784}
+  - component: {fileID: 648051788}
+  - component: {fileID: 648051787}
+  - component: {fileID: 648051786}
+  - component: {fileID: 648051785}
+  - component: {fileID: 648051790}
+  - component: {fileID: 648051789}
+  - component: {fileID: 648051792}
+  - component: {fileID: 648051791}
+  - component: {fileID: 648051794}
+  - component: {fileID: 648051793}
+  - component: {fileID: 648051795}
+  - component: {fileID: 648051796}
+  - component: {fileID: 648051797}
+  - component: {fileID: 648051798}
   m_Layer: 0
   m_Name: '[--- MANAGERS ---]'
   m_TagString: Untagged
@@ -221,6 +331,269 @@ Transform:
   - {fileID: 2099026390}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &648051785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1345da60ba0f05e428e84f3fe26884a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteManager
+  spriteAtlasData: {fileID: 0}
+  registeredSprites:
+  - {fileID: 2868101353237766674, guid: b33f31aa0240d234e90e9416549d019b, type: 3}
+  - {fileID: 21300000, guid: a32c23472fdc103419665ce79bf1339f, type: 3}
+  - {fileID: 21300000, guid: 76e4dc91350e04e4590182f32425def3, type: 3}
+  - {fileID: 21300000, guid: efb1067ef0ef8c94d8611c76aed147ac, type: 3}
+  - {fileID: 21300000, guid: d8b96997d7a7824418ed8290e41a1dcc, type: 3}
+  - {fileID: 21300000, guid: 18e331cc0b350a54d9b9a53641e3e88f, type: 3}
+  - {fileID: 21300000, guid: 1b1e0518f17ad4d4b9f7b8251c4a05f6, type: 3}
+  - {fileID: 21300000, guid: d01cef3a991be7049bce8de12a3c0d1e, type: 3}
+  - {fileID: 21300000, guid: 741479edeee38514ab84c2c8f333f9a7, type: 3}
+  - {fileID: 21300000, guid: 4aec4706754d9a847ada31a3be63b9aa, type: 3}
+  - {fileID: 21300000, guid: bbc88541b225a53469111ba83fddd762, type: 3}
+  - {fileID: 21300000, guid: 2f26409be83c72c468191a7e1efabadd, type: 3}
+  - {fileID: 21300000, guid: acecdfa66e23e464abe2829335f5df94, type: 3}
+  - {fileID: 21300000, guid: 3b2e274dc5c2e27479047d83bc2509f6, type: 3}
+  - {fileID: 21300000, guid: 93427aad12b4bfc4d8dea4327da4e1f8, type: 3}
+  - {fileID: 21300000, guid: 4d722b2f5c081f34a90e2ed8925bf981, type: 3}
+  - {fileID: 21300000, guid: 4c4dc425ad726f542a8957921e442031, type: 3}
+  - {fileID: 21300000, guid: bddc0b65b7e2aea4fb0c08a13dc4082c, type: 3}
+  - {fileID: 21300000, guid: fe249339a8d934f43b8522a11bcd22cf, type: 3}
+  - {fileID: 21300000, guid: 14ceee151e09c0b44b652310ce180b66, type: 3}
+  - {fileID: 21300000, guid: 0ddfba402853e884bb8d786cda83c333, type: 3}
+--- !u!114 &648051786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2026154287}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsModel
+  activeHeroHp: 100
+  activeHeroMaxHp: 100
+  activeHeroAtk: 25
+  activeHeroAtkInterval: 1
+  equippedWeapon: Iron Sword
+  pickaxePower: 15
+  shovelPower: 20
+--- !u!114 &648051787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 74161101}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventoryModel
+  gold: 0
+  gems: 10
+  equipments: []
+  chests: []
+--- !u!114 &648051788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716b45d004bb0c541b61a1258c27e0e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SessionPausePolicy
+--- !u!114 &648051789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2026154287}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsModel
+  activeHeroHp: 100
+  activeHeroMaxHp: 100
+  activeHeroAtk: 25
+  activeHeroAtkInterval: 1
+  equippedWeapon: Iron Sword
+  pickaxePower: 15
+  shovelPower: 20
+--- !u!114 &648051790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 74161101}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventoryModel
+  gold: 0
+  gems: 10
+  equipments: []
+  chests: []
+--- !u!114 &648051791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2026154287}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsModel
+  activeHeroHp: 100
+  activeHeroMaxHp: 100
+  activeHeroAtk: 25
+  activeHeroAtkInterval: 1
+  equippedWeapon: Iron Sword
+  pickaxePower: 15
+  shovelPower: 20
+--- !u!114 &648051792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 74161101}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventoryModel
+  gold: 0
+  gems: 10
+  equipments: []
+  chests: []
+--- !u!114 &648051793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2026154287}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsModel
+  activeHeroHp: 100
+  activeHeroMaxHp: 100
+  activeHeroAtk: 25
+  activeHeroAtkInterval: 1
+  equippedWeapon: Iron Sword
+  pickaxePower: 15
+  shovelPower: 20
+--- !u!114 &648051794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 193302010}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventoryModel
+  gold: 0
+  gems: 10
+  equipments: []
+  chests: []
+--- !u!114 &648051795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2026154287}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsModel
+  activeHeroHp: 100
+  activeHeroMaxHp: 100
+  activeHeroAtk: 25
+  activeHeroAtkInterval: 1
+  equippedWeapon: Iron Sword
+  pickaxePower: 15
+  shovelPower: 20
+--- !u!114 &648051796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1195260396}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsModel
+  activeHeroHp: 100
+  activeHeroMaxHp: 100
+  activeHeroAtk: 25
+  activeHeroAtkInterval: 1
+  equippedWeapon: Iron Sword
+  pickaxePower: 15
+  shovelPower: 20
+--- !u!114 &648051797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2036997870}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsModel
+  activeHeroHp: 100
+  activeHeroMaxHp: 100
+  activeHeroAtk: 25
+  activeHeroAtkInterval: 1
+  equippedWeapon: Iron Sword
+  pickaxePower: 15
+  shovelPower: 20
+--- !u!114 &648051798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648051783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 78042727}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroStatsModel
+  activeHeroHp: 100
+  activeHeroMaxHp: 100
+  activeHeroAtk: 25
+  activeHeroAtkInterval: 1
+  equippedWeapon: Iron Sword
+  pickaxePower: 15
+  shovelPower: 20
 --- !u!1 &805731368
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +622,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1091370638}
   m_Father: {fileID: 1152447408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &952720979
@@ -289,8 +663,8 @@ Camera:
   m_GameObject: {fileID: 952720979}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.12, g: 0.14, b: 0.18, a: 1}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.1, g: 0.12, b: 0.18, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -311,11 +685,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.1
+  far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 6.4
+  orthographic size: 10.666667
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -402,6 +776,115 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb6a879307c894499389298a40950d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShake
+--- !u!115 &1037525864
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: HeroStatsModel
+  m_Namespace: 
+  m_AssemblyName: Assembly-CSharp
+--- !u!1001 &1091370637
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 805731369}
+    m_Modifications:
+    - target: {fileID: 465886662632206256, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 465886662632206256, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543005608236566289, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 952720981}
+    - target: {fileID: 7430785551726542075, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayPage
+      objectReference: {fileID: 0}
+    - target: {fileID: 9150810790683659396, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 952720981}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8949ff785d0ad9f47b39cb753b77d6bf, type: 3}
+--- !u!4 &1091370638 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4564337931718539097, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1091370637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1152447406
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,10 +918,10 @@ MonoBehaviour:
     type: 3}
   playPagePrefab: {fileID: 7084095515723878336, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
     type: 3}
-  mainCamera: {fileID: 0}
+  mainCamera: {fileID: 952720981}
   pagesRoot: {fileID: 805731369}
   popupRoot: {fileID: 2051780284}
-  initialPage: 1
+  initialPage: 2
   pageFadeDuration: 0.2
 --- !u!4 &1152447408
 Transform:
@@ -457,6 +940,21 @@ Transform:
   - {fileID: 2051780284}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!115 &1195260396
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: HeroStatsModel
+  m_Namespace: 
+  m_AssemblyName: Assembly-CSharp
 --- !u!1 &1395090384
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,6 +1159,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc33b1825ee76fa448659c28ccd217c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoolManager
+--- !u!115 &2026154287
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: HeroStatsModel
+  m_Namespace: 
+  m_AssemblyName: Assembly-CSharp
+--- !u!115 &2036997870
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: HeroStatsModel
+  m_Namespace: 
+  m_AssemblyName: Assembly-CSharp
 --- !u!1 &2051780283
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,3 +1275,4 @@ SceneRoots:
   - {fileID: 1422348143}
   - {fileID: 379996953}
   - {fileID: 1152447408}
+  - {fileID: 269911088}

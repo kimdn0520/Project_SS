@@ -23,7 +23,7 @@ public class PageManager : SingletonMonoBehaviour<PageManager>
     [SerializeField] private Transform popupRoot;
 
     [Header("[Transition Settings]")]
-    [SerializeField] private UIPageType initialPage = UIPageType.MainPage;
+    [SerializeField] private UIPageType initialPage = UIPageType.PlayPage;
     [SerializeField] private float pageFadeDuration = 0.2f;
 
     // 페이지 레지스트리 (페이지 이름 기반 관리)
@@ -102,19 +102,31 @@ public class PageManager : SingletonMonoBehaviour<PageManager>
 
         pages.Clear();
 
-        if (mainPagePrefab != null)
+        // 1. MainPage
+        Transform mainChild = pagesRoot != null ? pagesRoot.Find("MainPage") : null;
+        SceneBase mainInstance = mainChild != null ? mainChild.GetComponent<SceneBase>() : null;
+        if (mainInstance == null && mainPagePrefab != null)
         {
-            SceneBase mainInstance = Instantiate(mainPagePrefab, pagesRoot);
+            mainInstance = Instantiate(mainPagePrefab, pagesRoot);
             mainInstance.gameObject.name = "MainPage";
+        }
+        if (mainInstance != null)
+        {
             mainInstance.SetupRenderCamera(mainCamera);
             mainInstance.Hide();
             RegisterPage(UIPageType.MainPage, mainInstance);
         }
 
-        if (playPagePrefab != null)
+        // 2. PlayPage (씬 내 인스턴스가 존재할 경우 우선 재사용하여 위지윅 에디터 편집 완벽 지원)
+        Transform playChild = pagesRoot != null ? pagesRoot.Find("PlayPage") : null;
+        SceneBase playInstance = playChild != null ? playChild.GetComponent<SceneBase>() : null;
+        if (playInstance == null && playPagePrefab != null)
         {
-            SceneBase playInstance = Instantiate(playPagePrefab, pagesRoot);
+            playInstance = Instantiate(playPagePrefab, pagesRoot);
             playInstance.gameObject.name = "PlayPage";
+        }
+        if (playInstance != null)
+        {
             playInstance.SetupRenderCamera(mainCamera);
             playInstance.Hide();
             RegisterPage(UIPageType.PlayPage, playInstance);
