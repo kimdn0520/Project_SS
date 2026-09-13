@@ -6,13 +6,13 @@ Sprite:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Vein_3
+  m_Name: DomedDigCap
   m_Rect:
     serializedVersion: 2
-    x: 650
-    y: 469
-    width: 524
-    height: 313
+    x: 287
+    y: 153
+    width: 1201
+    height: 578
   m_Offset: {x: 0, y: 0}
   m_Border: {x: 0, y: 0, z: 0, w: 0}
   m_PixelsToUnits: 100
@@ -21,12 +21,12 @@ Sprite:
   m_IsPolygon: 0
   m_PackingTag: 
   m_RenderDataKey:
-    43e91caae735d1e40aeb91f0c7da83b9: 21300000
+    19465c0d1cefe8041b8526330fb4c4bb: 21300000
   m_AtlasTags: []
   m_SpriteAtlas: {fileID: 0}
   m_RD:
     serializedVersion: 3
-    texture: {fileID: 2800000, guid: c27067b514e9f2c4babcee1efa269ece, type: 3}
+    texture: {fileID: 2800000, guid: 75f195a8a5ef30147bc2186332aedec0, type: 3}
     alphaTexture: {fileID: 0}
     secondaryTextures: []
     m_SubMeshes:
@@ -102,22 +102,22 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: 14ae27c0ec51c83f0000000014ae2740ec51c83f0000000014ae27c0ec51c8bf0000000014ae2740ec51c8bf000000000000000000000000000000000000000000000000000000000000000000000000
+      _typelessdata: f628c0c0c3f5384000000000f628c040c3f5384000000000f628c0c0c3f538c000000000f628c040c3f538c0000000000000000000000000000000000000000000000000000000000000000000000000
     m_Bindpose: []
     textureRect:
       serializedVersion: 2
-      x: 650
-      y: 469
-      width: 524
-      height: 313
+      x: 287
+      y: 153
+      width: 1201
+      height: 578
     textureRectOffset: {x: 0, y: 0}
     atlasRectOffset: {x: -1, y: -1}
     settingsRaw: 0
-    uvTransform: {x: 100, y: 912, z: 100, w: 625.5}
+    uvTransform: {x: 100, y: 887.5, z: 100, w: 442}
     downscaleMultiplier: 1
   m_AtlasRD:
     serializedVersion: 3
-    texture: {fileID: 2800000, guid: c27067b514e9f2c4babcee1efa269ece, type: 3}
+    texture: {fileID: 2800000, guid: 75f195a8a5ef30147bc2186332aedec0, type: 3}
     alphaTexture: {fileID: 0}
     secondaryTextures: []
     m_SubMeshes:
@@ -193,18 +193,18 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: 14ae27c0ec51c83f0000000014ae2740ec51c83f0000000014ae27c0ec51c8bf0000000014ae2740ec51c8bf000000000000000000000000000000000000000000000000000000000000000000000000
+      _typelessdata: f628c0c0c3f5384000000000f628c040c3f5384000000000f628c0c0c3f538c000000000f628c040c3f538c0000000000000000000000000000000000000000000000000000000000000000000000000
     m_Bindpose: []
     textureRect:
       serializedVersion: 2
-      x: 650
-      y: 469
-      width: 524
-      height: 313
+      x: 287
+      y: 153
+      width: 1201
+      height: 578
     textureRectOffset: {x: 0, y: 0}
     atlasRectOffset: {x: -1, y: -1}
     settingsRaw: 0
-    uvTransform: {x: 100, y: 912, z: 100, w: 625.5}
+    uvTransform: {x: 100, y: 887.5, z: 100, w: 442}
     downscaleMultiplier: 1
   m_PhysicsShape: []
   m_Bones: []

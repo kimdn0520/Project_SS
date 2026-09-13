@@ -27,6 +27,12 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [SerializeField] private Transform pressableFace;       // 눌리는 전면 비주얼 (Base는 고정)
     [SerializeField] private Image progressRing;            // 원형 진행 링
     [SerializeField] private Vector3 pressedScale = new Vector3(0.92f, 0.92f, 1f);
+    [SerializeField] private Image capShadow;
+    [SerializeField] private Graphic impactRing;
+    [SerializeField] private Transform pickaxeIcon;
+    [SerializeField] private float impactDepth = 10f, reboundLift = 11f, breakLift = 18f;
+    private Quaternion iconRest;
+    private Color shadowRest;
 
     public event Action OnDig;
     public event Action OnDigCanceled;
@@ -44,6 +50,8 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         originalScale = pressableFace != null ? pressableFace.localScale : Vector3.one;
         originalPosition = pressableFace != null ? pressableFace.localPosition : Vector3.zero;
+        if(pickaxeIcon!=null)iconRest=pickaxeIcon.localRotation;
+        if(capShadow!=null)shadowRest=capShadow.color;
 
         if (progressRing != null)
         {
@@ -195,6 +203,9 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             pressableFace.localPosition = originalPosition;
             pressableFace.localScale = originalScale;
         }
+        if(pickaxeIcon!=null){pickaxeIcon.DOKill();pickaxeIcon.localRotation=iconRest;}
+        if(capShadow!=null){capShadow.DOKill();capShadow.rectTransform.DOKill();capShadow.color=shadowRest;capShadow.transform.localScale=Vector3.one;}
+        if(impactRing!=null){impactRing.DOKill();impactRing.transform.DOKill();var c=impactRing.color;c.a=0;impactRing.color=c;impactRing.transform.localScale=Vector3.one;}
     }
 
     private async UniTaskVoid HoldLoopAsync(CancellationToken ct)
@@ -235,24 +246,37 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         if (pressableFace != null)
         {
             pressableFace.DOKill();
-            pressableFace.DOScale(target, 0.1f).SetUpdate(true);
-            pressableFace.DOLocalMove(originalPosition + (isPressed ? pressOffset : Vector3.zero), .08f).SetUpdate(true);
+            float duration=isPressed?.055f:.18f;
+            pressableFace.DOScale(target, duration).SetEase(Ease.OutQuad).SetUpdate(true);
+            pressableFace.DOLocalMove(originalPosition + (isPressed ? pressOffset : Vector3.zero), duration).SetEase(isPressed?Ease.OutCubic:Ease.OutBack).SetUpdate(true);
         }
+        if(capShadow!=null){capShadow.DOKill();capShadow.rectTransform.DOKill();capShadow.DOFade(isPressed?.48f:shadowRest.a,.08f).SetUpdate(true);capShadow.transform.DOScale(new Vector3(1,isPressed?.72f:1,1),.08f).SetUpdate(true);}
     }
 
     // Called by the mining result, so visual pulses follow actual strikes, not input polling.
-    public void Pulse(float interval)
+    public void Pulse(float interval,bool broken=false)
     {
         if (!isPressed || pressableFace == null) return;
         pressableFace.DOKill();
-        float duration = Mathf.Clamp(interval * .85f, .055f, .16f);
+        float duration = broken ? .30f : Mathf.Clamp(interval * .90f, .065f, .21f);
         Vector3 heldPosition = originalPosition + pressOffset;
-        Vector3 contactScale = Vector3.Scale(pressedScale, new Vector3(1.015f, .94f, 1f));
+        Vector3 contactScale = Vector3.Scale(pressedScale, new Vector3(1f, .975f, 1f));
         DOTween.Sequence().SetTarget(pressableFace).SetUpdate(true)
-            .Append(pressableFace.DOLocalMove(heldPosition + Vector3.down * 9f, duration * .28f).SetEase(Ease.InQuad))
-            .Join(pressableFace.DOScale(contactScale, duration * .28f))
-            .Append(pressableFace.DOLocalMove(heldPosition, duration * .72f).SetEase(Ease.OutBack, 1.4f))
-            .Join(pressableFace.DOScale(pressedScale, duration * .72f).SetEase(Ease.OutQuad));
+            .Append(pressableFace.DOLocalMove(heldPosition + Vector3.down * (impactDepth+(broken?3:0)), duration * .16f).SetEase(Ease.OutCubic))
+            .Join(pressableFace.DOScale(contactScale, duration * .16f))
+            .AppendInterval(duration*.08f)
+            .Append(pressableFace.DOLocalMove(heldPosition+Vector3.up*(broken?breakLift:reboundLift),duration*.32f).SetEase(Ease.OutQuad))
+            .Join(pressableFace.DOScale(pressedScale,duration*.32f))
+            .Append(pressableFace.DOLocalMove(heldPosition,duration*.44f).SetEase(Ease.InQuad));
+        if(capShadow!=null){capShadow.DOKill();capShadow.rectTransform.DOKill();capShadow.color=new Color(0,0,0,.6f);capShadow.transform.localScale=new Vector3(1,.65f,1);capShadow.DOFade(.4f,duration).SetUpdate(true);capShadow.transform.DOScaleY(.82f,duration).SetUpdate(true);}
+        if(impactRing!=null)
+        {
+            impactRing.DOKill();impactRing.transform.DOKill();impactRing.transform.localScale=Vector3.one;
+            float rippleDuration=broken?.32f:Mathf.Clamp(interval*.85f,.06f,.18f);
+            var color=impactRing.color;color.a=broken?.9f:.55f;impactRing.color=color;
+            impactRing.DOFade(0,rippleDuration).SetEase(Ease.OutQuad).SetUpdate(true);
+            impactRing.transform.DOScale(broken?new Vector3(1.14f,1.2f,1):new Vector3(1.07f,1.1f,1),rippleDuration).SetEase(Ease.OutQuad).SetUpdate(true);
+        }
     }
 
     #endregion

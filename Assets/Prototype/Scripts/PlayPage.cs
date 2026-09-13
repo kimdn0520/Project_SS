@@ -41,6 +41,7 @@ namespace ProjectSS.Expedition
         public GameObject heroGrid;
         public GameObject[] heroEquipmentPanels;
         public Image[] menuButtons;
+        public int[] menuDestinations;
         public Transform[] menuIcons;
         public Vector3[] menuIconRest;
         public TMP_Text resources, stageLabel, enemyStatus, depthLabel;
@@ -178,8 +179,9 @@ namespace ProjectSS.Expedition
             for(int i=0;i<menuPanels.Length;i++)menuPanels[i].SetActive(menu==i+1);
             for(int i=0;i<menuIcons.Length;i++)
             {
-                menuIcons[i].DOKill();menuIcons[i].DOLocalMove(menuIconRest[i]+Vector3.up*(menu==i+1?10:0),.16f).SetEase(Ease.OutQuad).SetUpdate(true);
-                menuButtons[i].color=menu==i+1?new Color(.38f,.35f,.56f):new Color(.17f,.21f,.30f);
+                bool selected=menu==menuDestinations[i];
+                menuIcons[i].DOKill();menuIcons[i].DOLocalMove(menuIconRest[i]+Vector3.up*(selected?10:0),.16f).SetEase(Ease.OutQuad).SetUpdate(true);
+                menuButtons[i].color=selected?new Color(.38f,.35f,.56f):new Color(.17f,.21f,.30f);
             }
             if(menu==1)ShowHeroGrid();
             if(Model!=null)Refresh();
@@ -239,7 +241,7 @@ namespace ProjectSS.Expedition
         {
             dirty=true;if(ActiveTab!=0)return;
             if(broken)Rhythm.BreakRock();
-            if(!ChestOpening){holdDig.Pulse(Rhythm.Interval);miner.MineStrike(Rhythm.Interval);miningView.Strike(broken,Rhythm.BurstRemaining>0,Rhythm.Heat,1f-(float)Model.BlockHp/Model.BlockMaxHp);}
+            if(!ChestOpening){holdDig.Pulse(Rhythm.Interval,broken);miner.MineStrike(Rhythm.Interval);miningView.Strike(broken,Rhythm.BurstRemaining>0,Rhythm.Heat,1f-(float)Model.BlockHp/Model.BlockMaxHp);}
             if(broken)
             {
                 if(Model.LastGear>=0)

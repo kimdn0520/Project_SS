@@ -32,16 +32,28 @@ namespace ProjectSS.Expedition.Editor
             if(old!=null){EditorUtility.CopySerialized(sprite,old);UnityEngine.Object.DestroyImmediate(sprite);EditorUtility.SetDirty(old);return old;}
             AssetDatabase.CreateAsset(sprite,path);return sprite;
         }
+        public static void ConfigureDomedCap(PlayPage page)
+        {
+            var texture=Texture("DigCapDomed");
+            var sprite=Sprite(texture,Crop(texture,new Rect(0,0,texture.width,texture.height)),"DomedDigCap");
+            var face=page.digButton.transform.Find("PressableFace").GetComponent<Image>();
+            face.sprite=sprite;face.preserveAspect=false;
+            face.rectTransform.sizeDelta=new Vector2(268,144);
+            // Raise the crown while keeping the lower rim seated in the existing socket.
+            face.rectTransform.anchoredPosition=new Vector2(0,15);
+            var importer=(TextureImporter)AssetImporter.GetAtPath(TexturePath("DigCapDomed"));
+            importer.isReadable=false;importer.SaveAndReimport();
+        }
         static void Size(SpriteRenderer sr,float width){sr.transform.localScale=Vector3.one*(width/sr.sprite.bounds.size.x);}
         static Vector3 Point(float x,float y)=>new Vector3((x-360)/100,(640-y)/100,0);
-        public static void Configure(PlayPage page)
+        public static void ConfigureVeins(PlayPage page)
         {
-            var rockTexture=Texture("VeinDamage");var rockSprites=new Sprite[6];float cw=rockTexture.width/2f,ch=rockTexture.height/3f;
+            var rockTexture=Texture("VeinDamageBlocky");var rockSprites=new Sprite[6];float cw=rockTexture.width/2f,ch=rockTexture.height/3f;
             for(int i=0;i<6;i++){int row=i/2,col=i%2;var cell=new Rect(Mathf.Floor(col*cw),Mathf.Floor((2-row)*ch),Mathf.Floor(cw),Mathf.Floor(ch));rockSprites[i]=Sprite(rockTexture,Crop(rockTexture,cell),"Vein_"+i);}
             var so=new SerializedObject(page.miningView);var damage=so.FindProperty("damageSprites");damage.arraySize=5;
             for(int i=0;i<5;i++)damage.GetArrayElementAtIndex(i).objectReferenceValue=rockSprites[i];so.FindProperty("fragmentSprite").objectReferenceValue=rockSprites[5];
             const float veinWidth=3.0f;
-            float height=veinWidth*rockSprites[0].bounds.size.y/rockSprites[0].bounds.size.x;float pitch=height+.04f;
+            float height=veinWidth*rockSprites[0].bounds.size.y/rockSprites[0].bounds.size.x;float pitch=height+.01f;
             const int count=7;
             if(page.blocks.Length<count)
             {
@@ -53,6 +65,13 @@ namespace ProjectSS.Expedition.Editor
             for(int i=0;i<page.blocks.Length;i++){var rock=page.blocks[i];rock.sprite=rockSprites[0];Size(rock,veinWidth);rock.transform.position=Point(360,825+height*50+i*pitch*100);rocks.GetArrayElementAtIndex(i).objectReferenceValue=rock;positions.GetArrayElementAtIndex(i).vector3Value=rock.transform.localPosition;scales.GetArrayElementAtIndex(i).vector3Value=rock.transform.localScale;}
             so.FindProperty("hitOffset").vector3Value=new Vector3(.55f,height*.5f-.10f,0);
             foreach(string field in new[]{"cracks","crackHighlights"}){var arr=so.FindProperty(field);for(int i=0;i<arr.arraySize;i++)((LineRenderer)arr.GetArrayElementAtIndex(i).objectReferenceValue).enabled=false;}
+            so.ApplyModifiedPropertiesWithoutUndo();
+            var importer=(TextureImporter)AssetImporter.GetAtPath(TexturePath("VeinDamageBlocky"));importer.isReadable=false;importer.SaveAndReimport();
+        }
+        public static void Configure(PlayPage page)
+        {
+            ConfigureVeins(page);
+            var so=new SerializedObject(page.miningView);
             var shaft=Texture("Shaft");var shaftSprite=Sprite(shaft,new Rect(0,0,shaft.width,shaft.height),"ShaftTile");
             var bands=so.FindProperty("shaftBands");var rest=so.FindProperty("bandRest");bands.arraySize=rest.arraySize=2;
             var root=page.miningWorld.Find("ShaftBands");foreach(Transform child in root.Cast<Transform>().ToArray())UnityEngine.Object.DestroyImmediate(child.gameObject);

@@ -1,0 +1,1 @@
+PASS: actual hold mined 6 veins; 64 cap reversals; deepest depression 31.0px; gold ring peak 0.90; input and base stay fixed; release/exit/pause restore cap, icon and effect.

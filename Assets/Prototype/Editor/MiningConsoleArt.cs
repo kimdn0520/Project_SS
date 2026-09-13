@@ -22,9 +22,6 @@ namespace ProjectSS.Expedition.Editor
             ((RectTransform)page.digButton.transform).anchoredPosition=new Vector2(360,-1143);
             parent.Find("DigBase").GetComponent<RectTransform>().anchoredPosition=new Vector2(360,-1182);
             page.digLabel.gameObject.SetActive(false);
-            var face=page.digButton.transform.Find("PressableFace");
-            var icon=Box(face,"PickaxeIcon",0,0,83,83,"FFFFFF");icon.type=Image.Type.Simple;icon.sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Layer Lab/2D Minimal-IconPack/Icons/256/Gear_Weapons_Pickaxe_01.png");icon.preserveAspect=true;
-            icon.rectTransform.anchorMin=icon.rectTransform.anchorMax=icon.rectTransform.pivot=new Vector2(.5f,.5f);icon.rectTransform.anchoredPosition=new Vector2(0,8);
             var oldFill=page.heatBar;if(oldFill!=null)Object.DestroyImmediate(oldFill.gameObject);
             var frame=Box(parent,"BurstGaugeFrame",539,968,42,160,"101C28");
             Box(frame.transform,"GoldTrim",2,2,38,156,"D9A44A");Box(frame.transform,"Steel",5,5,32,150,"496979");Box(frame.transform,"Well",8,9,26,142,"101F2A");
@@ -35,6 +32,7 @@ namespace ProjectSS.Expedition.Editor
             for(int i=1;i<6;i++)Box(frame.transform,"Tick"+i,27,13+i*134/6f,5,2,"F8D68B");
             Box(frame.transform,"CapTop",12,3,18,3,"FFF0AE");Box(frame.transform,"CapBottom",12,154,18,3,"866237");
             GaugeArt.Configure(page);
+            DigFeedbackArt.Configure(page);
         }
     }
 }

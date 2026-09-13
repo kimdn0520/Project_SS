@@ -1,0 +1,598 @@
+fileFormatVersion: 2
+guid: c27067b514e9f2c4babcee1efa269ece
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4800995320375846295
+    second: VeinDamageBlocky_0
+  - first:
+      213: 2814607949668025769
+    second: VeinDamageBlocky_1
+  - first:
+      213: -8722083968284833084
+    second: VeinDamageBlocky_2
+  - first:
+      213: 8942077990652179165
+    second: VeinDamageBlocky_3
+  - first:
+      213: 111045558341122700
+    second: VeinDamageBlocky_4
+  - first:
+      213: -421243801393672050
+    second: VeinDamageBlocky_5
+  - first:
+      213: -4001622939784918070
+    second: VeinDamageBlocky_6
+  - first:
+      213: 2674159862259002426
+    second: VeinDamageBlocky_7
+  - first:
+      213: -829634303694227140
+    second: VeinDamageBlocky_8
+  - first:
+      213: 6891694083933662664
+    second: VeinDamageBlocky_9
+  - first:
+      213: -139501493009858741
+    second: VeinDamageBlocky_10
+  - first:
+      213: -7323782472630481638
+    second: VeinDamageBlocky_11
+  - first:
+      213: 4786112305269431709
+    second: VeinDamageBlocky_12
+  - first:
+      213: -3483885826180728579
+    second: VeinDamageBlocky_13
+  - first:
+      213: 3485128758203090894
+    second: VeinDamageBlocky_14
+  - first:
+      213: 8268503722418759339
+    second: VeinDamageBlocky_15
+  - first:
+      213: -6048381861846144584
+    second: VeinDamageBlocky_16
+  - first:
+      213: -5135783051150327038
+    second: VeinDamageBlocky_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: VeinDamageBlocky_0
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 804
+        width: 551
+        height: 363
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 795a05f9ecf80a240800000000000000
+      internalID: 4800995320375846295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_1
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 811
+        width: 582
+        height: 435
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a504fd840f7f0720800000000000000
+      internalID: 2814607949668025769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_2
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 463
+        width: 584
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cac049a7dee4f680800000000000000
+      internalID: -8722083968284833084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_3
+      rect:
+        serializedVersion: 2
+        x: 646
+        y: 42
+        width: 577
+        height: 747
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd279aa2e84a81c70800000000000000
+      internalID: 8942077990652179165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 612
+        height: 404
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8abec2d8538a8100800000000000000
+      internalID: 111045558341122700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_5
+      rect:
+        serializedVersion: 2
+        x: 1031
+        y: 403
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8058169ef0772af0800000000000000
+      internalID: -421243801393672050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_6
+      rect:
+        serializedVersion: 2
+        x: 1085
+        y: 352
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acbc01543216778c0800000000000000
+      internalID: -4001622939784918070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_7
+      rect:
+        serializedVersion: 2
+        x: 731
+        y: 230
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3c2e86f9368c1520800000000000000
+      internalID: 2674159862259002426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_8
+      rect:
+        serializedVersion: 2
+        x: 845
+        y: 141
+        width: 155
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c39b3d21ffb8c74f0800000000000000
+      internalID: -829634303694227140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_9
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 178
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cde68d614734af50800000000000000
+      internalID: 6891694083933662664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_10
+      rect:
+        serializedVersion: 2
+        x: 723
+        y: 148
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4fb2879124601ef0800000000000000
+      internalID: -139501493009858741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_11
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 128
+        width: 59
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1dc0aae4a2bc5a90800000000000000
+      internalID: -7323782472630481638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_12
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 111
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9dd5b2a8cfab6240800000000000000
+      internalID: 4786112305269431709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_13
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 103
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df8ba7cac40c6afc0800000000000000
+      internalID: -3483885826180728579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_14
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 101
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec7813df32aad5030800000000000000
+      internalID: 3485128758203090894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_15
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 79
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba6e3ceb350afb270800000000000000
+      internalID: 8268503722418759339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_16
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 87
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b9aeba0eb4df0ca0800000000000000
+      internalID: -6048381861846144584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VeinDamageBlocky_17
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 15
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20386b886880ab8b0800000000000000
+      internalID: -5135783051150327038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      VeinDamageBlocky_0: 4800995320375846295
+      VeinDamageBlocky_1: 2814607949668025769
+      VeinDamageBlocky_10: -139501493009858741
+      VeinDamageBlocky_11: -7323782472630481638
+      VeinDamageBlocky_12: 4786112305269431709
+      VeinDamageBlocky_13: -3483885826180728579
+      VeinDamageBlocky_14: 3485128758203090894
+      VeinDamageBlocky_15: 8268503722418759339
+      VeinDamageBlocky_16: -6048381861846144584
+      VeinDamageBlocky_17: -5135783051150327038
+      VeinDamageBlocky_2: -8722083968284833084
+      VeinDamageBlocky_3: 8942077990652179165
+      VeinDamageBlocky_4: 111045558341122700
+      VeinDamageBlocky_5: -421243801393672050
+      VeinDamageBlocky_6: -4001622939784918070
+      VeinDamageBlocky_7: 2674159862259002426
+      VeinDamageBlocky_8: -829634303694227140
+      VeinDamageBlocky_9: 6891694083933662664
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

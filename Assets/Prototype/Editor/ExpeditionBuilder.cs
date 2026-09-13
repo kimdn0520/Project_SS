@@ -105,6 +105,7 @@ namespace ProjectSS.Expedition.Editor
             SidebarShortcutArt.Configure(page);
             HealthBarArt.Configure(page);
             BattleDividerArt.Configure(page);
+            MiningMenuArt.Configure(page);
             const string prefabPath="Assets/Resources/Prefabs/PlayPage.prefab";
             AssetDatabase.DeleteAsset("Assets/Prototype/ExpeditionPrototype.unity");
             PrefabUtility.SaveAsPrefabAssetAndConnect(root,prefabPath,InteractionMode.AutomatedAction);

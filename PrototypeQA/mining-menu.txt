@@ -1,0 +1,1 @@
+PASS: four menu labels/icons/routes; exclusive panel visibility; back navigation; right sidebar challenge persistent listener; two noninteractive upgrade previews; domed cap assigned.
