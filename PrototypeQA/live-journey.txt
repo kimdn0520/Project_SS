@@ -1,0 +1,4 @@
+PASS: chest lid opens, one item emerges, no cracks or duplicate reward
+PASS: live walking/encounters/basic attacks advance 1-1 through 1-10 boss into 2-1
+PASS: auto OFF waits after current encounter
+PASS: five scrolling offsets including wrap seam cover the viewport without sky gaps

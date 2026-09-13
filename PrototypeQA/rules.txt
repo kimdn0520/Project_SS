@@ -1,0 +1,36 @@
+PASS: Insufficient materials never spend inventory
+PASS: Relic route locked until first regional boss
+PASS: Early chest guaranteed after three excavations
+PASS: Chest awards a persistent equipment copy
+PASS: Armor can be crafted and equipped on warrior
+PASS: One armor copy cannot be worn by two heroes
+PASS: Second armor copy independently equips rogue
+PASS: Class-incompatible weapon rejected
+PASS: Mage has independent helmet slot
+PASS: Accessory changes actual attack damage
+PASS: Stage 1-1 has correct boss flag
+PASS: Prepared party clears 1-1
+PASS: Stage 1-2 has correct boss flag
+PASS: Prepared party clears 1-2
+PASS: Stage 1-3 has correct boss flag
+PASS: Prepared party clears 1-3
+PASS: Stage 1-4 has correct boss flag
+PASS: Prepared party clears 1-4
+PASS: Stage 1-5 has correct boss flag
+PASS: Prepared party clears 1-5
+PASS: Stage 1-6 has correct boss flag
+PASS: Prepared party clears 1-6
+PASS: Stage 1-7 has correct boss flag
+PASS: Prepared party clears 1-7
+PASS: Stage 1-8 has correct boss flag
+PASS: Prepared party clears 1-8
+PASS: Stage 1-9 has correct boss flag
+PASS: Prepared party clears 1-9
+PASS: Stage 1-10 has correct boss flag
+PASS: Prepared party clears 1-10
+PASS: Boss unlocks 2-1, relic route and stronger mining
+PASS: Defeat stays on same stage
+PASS: Retry restores the party
+PASS: Save preserves progression and per-hero equipment
+PASS: Six breaks trigger burst
+PASS: Release immediately cancels burst

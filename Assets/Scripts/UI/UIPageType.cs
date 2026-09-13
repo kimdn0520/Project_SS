@@ -6,5 +6,6 @@ public enum UIPageType
     None = 0,
     MainPage,   // 로비 / 홈 / 상점 / 리더보드 페이지
     PlayPage,   // 인게임 조작 및 상태 표시 페이지
+    ExpeditionPrototype,
     // 추후 확장: ResultPage, GuildPage 등
 }

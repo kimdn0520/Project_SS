@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
+    [SerializeField] protected bool persistAcrossScenes = true;
     private static T instance;
     private static readonly object lockObj = new object();
 
@@ -34,7 +35,7 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
         if (instance == null)
         {
             instance = this as T;
-            DontDestroyOnLoad(gameObject);
+            if (persistAcrossScenes) DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -54,7 +54,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     protected override void Awake()
     {
-        if (transform.parent != null)
+        if (persistAcrossScenes && transform.parent != null)
         {
             transform.SetParent(null);
         }

@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee137c67a0e81a42b7a60bf6ce69905, type: 3}
+  m_Name: ExpeditionCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectSS.Expedition.ExpeditionCatalog
+  gear:
+  - title: "\uB0A1\uC740 \uAC80"
+    description: "\uC804\uC0AC\uC758 \uAE30\uBCF8 \uBB34\uAE30"
+    spriteKey: FA_WP_Main_Sword_019_WoodSilver
+    slot: Sword
+    hero: 0
+    iron: 0
+    crystal: 0
+    relic: 0
+    unlock: 0
+    equipSlot: 0
+    damage: 11
+    interval: 1.25
+    health: 0
+    effect: 0
+    icon: {fileID: 21300000, guid: cc245947d46df4a1fb3eab3a1f4f17d4, type: 3}
+    prefab: {fileID: 5508760744990219585, guid: ae433a9fe661c4541b4b9e34a2262a37,
+      type: 3}
+  - title: "\uC815\uCC30 \uB2E8\uAC80"
+    description: "\uBE60\uB978 \uC5F0\uC18D \uACF5\uACA9"
+    spriteKey: FA_WP_Main_Sword_005_GrayWhite
+    slot: Sword
+    hero: 1
+    iron: 0
+    crystal: 0
+    relic: 0
+    unlock: 0
+    equipSlot: 0
+    damage: 7
+    interval: 0.72
+    health: 0
+    effect: 0
+    icon: {fileID: 21300000, guid: 475cf63e9b6644acd8608ea6b2abaddd, type: 3}
+    prefab: {fileID: 1954017503696182490, guid: 279ac00782a163642923251507402dfd,
+      type: 3}
+  - title: "\uACAC\uC2B5 \uC644\uB4DC"
+    description: "\uB9C8\uBC95 \uD53C\uD574"
+    spriteKey: FA_WP_Main_Wand_003_BlueWood
+    slot: Wand
+    hero: 2
+    iron: 0
+    crystal: 0
+    relic: 0
+    unlock: 0
+    equipSlot: 0
+    damage: 10
+    interval: 1.6
+    health: 0
+    effect: 0
+    icon: {fileID: 21300000, guid: b71741f1093b64f68a124cbdd0552041, type: 3}
+    prefab: {fileID: 8598826335849478581, guid: 20ef682577b9826409772953a7baf4d8,
+      type: 3}
+  - title: "\uCCA0\uAE30\uC0AC\uC758 \uAC80"
+    description: "\uAE30\uBCF8 \uACF5\uACA9 26 \xB7 1.2\uCD08 \uAC04\uACA9"
+    spriteKey: FA_WP_Main_Sword_009_GraySilver
+    slot: Sword
+    hero: 0
+    iron: 9
+    crystal: 0
+    relic: 0
+    unlock: 0
+    equipSlot: 0
+    damage: 26
+    interval: 1.2
+    health: 0
+    effect: 0
+    icon: {fileID: 21300000, guid: 435059805481a4ab8bfaed3c6e2d35d9, type: 3}
+    prefab: {fileID: 4067270351722380306, guid: 10201d089b7b17c4c8e5375084b04979,
+      type: 3}
+  - title: "\uD30C\uC1C4 \uB9DD\uCE58"
+    description: "\uAE30\uBCF8 \uACF5\uACA9 34 \xB7 1.5\uCD08 \uAC04\uACA9"
+    spriteKey: FA_WP_Main_Blunt_004_Gray
+    slot: Blunt
+    hero: 0
+    iron: 15
+    crystal: 4
+    relic: 0
+    unlock: 0
+    equipSlot: 0
+    damage: 34
+    interval: 1.5
+    health: 0
+    effect: 0
+    icon: {fileID: 21300000, guid: d1498e98effb44b20803cf3df0cc0bc2, type: 3}
+    prefab: {fileID: 1512013957428823956, guid: 28f4f377c6888be4997161449f62dfb2,
+      type: 3}
+  - title: "\uC11C\uB9AC \uC9C0\uD321\uC774"
+    description: "\uAE30\uBCF8 \uACF5\uACA9 23 \xB7 1.6\uCD08 \uAC04\uACA9"
+    spriteKey: FA_WP_Main_Staff_003_WoodSkyblue
+    slot: Staff
+    hero: 2
+    iron: 6
+    crystal: 12
+    relic: 0
+    unlock: 0
+    equipSlot: 0
+    damage: 23
+    interval: 1.6
+    health: 0
+    effect: 0
+    icon: {fileID: 21300000, guid: e755888d9b5f1441ead164d78166d916, type: 3}
+    prefab: {fileID: 6958877556174707226, guid: 2c484551c1738f84680bfb8ec7ba4541,
+      type: 3}
+  - title: "\uD761\uD608 \uB2E8\uAC80"
+    description: "\uAE30\uBCF8 \uACF5\uACA9 15 \xB7 0.72\uCD08 \uAC04\uACA9"
+    spriteKey: FA_WP_Main_Sword_008_Purple
+    slot: Sword
+    hero: 1
+    iron: 12
+    crystal: 4
+    relic: 3
+    unlock: 0
+    equipSlot: 0
+    damage: 15
+    interval: 0.72
+    health: 0
+    effect: 0
+    icon: {fileID: 21300000, guid: a71b0c89a4ebf48fdbc46f69dcd78355, type: 3}
+    prefab: {fileID: 2324196106817296878, guid: 89bc9cc45308d88459c55279d8ee5072,
+      type: 3}
+  - title: "\uD654\uC5FC \uC9C0\uD321\uC774"
+    description: "\uAE30\uBCF8 \uACF5\uACA9 31 \xB7 1.6\uCD08 \uAC04\uACA9"
+    spriteKey: FA_WP_Main_Staff_004_WoodPink
+    slot: Staff
+    hero: 2
+    iron: 8
+    crystal: 10
+    relic: 4
+    unlock: 0
+    equipSlot: 0
+    damage: 31
+    interval: 1.6
+    health: 0
+    effect: 0
+    icon: {fileID: 21300000, guid: 18c67ce785e3c4e35bdd2b7e1d726ac6, type: 3}
+    prefab: {fileID: 4680984490747551385, guid: c2f5e93cffbb3aa42bfff0ecdadf8140,
+      type: 3}
+  - title: "\uC218\uD638 \uAC11\uC637"
+    description: "\uACF5\uC6A9 \xB7 \uCD5C\uB300 \uCCB4\uB825 +100"
+    spriteKey: FA_Chest_001_Silver
+    slot: Chest
+    hero: -1
+    iron: 18
+    crystal: 6
+    relic: 0
+    unlock: 0
+    equipSlot: 2
+    damage: 0
+    interval: 0
+    health: 100
+    effect: 5
+    icon: {fileID: 21300000, guid: 7d05193fc24254e8ba1d675db81f98a3, type: 3}
+    prefab: {fileID: 4632179152544806088, guid: bca56579abdf7bd49a82156f4c31c55f,
+      type: 3}
+  - title: "\uD0D0\uD5D8 \uD22C\uAD6C"
+    description: "\uACF5\uC6A9 \xB7 \uCD5C\uB300 \uCCB4\uB825 +35"
+    spriteKey: FA_Helmet_001_Ivory
+    slot: Helmet
+    hero: -1
+    iron: 9
+    crystal: 3
+    relic: 0
+    unlock: 0
+    equipSlot: 1
+    damage: 0
+    interval: 0
+    health: 35
+    effect: 0
+    icon: {fileID: 21300000, guid: 54b9ebd31817b4aab8e65198228597ae, type: 3}
+    prefab: {fileID: 6844594859371752030, guid: 5d6fa6d2c8ab4e047a6e7d348eefc05e,
+      type: 3}
+  - title: "\uC11C\uB9AC \uBD80\uC801"
+    description: "\uACF5\uC6A9 \xB7 \uACF5\uACA9 +5 / \uCCB4\uB825 +15"
+    spriteKey: Economy_Gem_03_Blue
+    slot: Accessory
+    hero: -1
+    iron: 8
+    crystal: 8
+    relic: 0
+    unlock: 0
+    equipSlot: 3
+    damage: 5
+    interval: 0
+    health: 15
+    effect: 0
+    icon: {fileID: 21300000, guid: 5ec9e94b5510f4a9c8b65396fe1985c0, type: 3}
+    prefab: {fileID: 7778303395052057981, guid: bc568413b195bad4d97f12b07a2613ce,
+      type: 3}

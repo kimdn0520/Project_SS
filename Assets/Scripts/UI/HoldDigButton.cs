@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 /// <summary>
 /// 은퇴용사 땅만파의 원형 DIG 버튼 컨트롤러.
@@ -17,6 +18,9 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [Header("[Dig Settings]")]
     [SerializeField] private float initialHoldDelay = 0.25f; // 첫 홀드 판정 대기 (초)
     [SerializeField] private float repeatInterval = 0.12f;    // 연속 채굴 간격 (초)
+    [SerializeField] private SessionPausePolicy pausePolicy;
+    [SerializeField] private Selectable selectable;
+    [SerializeField] private bool circularHitArea = true;
 
     [Header("[Visual References]")]
     [SerializeField] private RectTransform rectTransform;
@@ -26,21 +30,20 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public event Action OnDig;
     public event Action OnDigCanceled;
+    public event Action<bool> OnPressedChanged;
+    public bool IsPressed => isPressed;
 
     private Vector3 originalScale = Vector3.one;
+    [SerializeField] private Vector3 pressOffset;
+    private Vector3 originalPosition;
     private bool isPressed = false;
     private int activePointerId = -1;
     private CancellationTokenSource holdCts;
 
     private void Awake()
     {
-        if (rectTransform == null)
-            rectTransform = GetComponent<RectTransform>();
-
-        if (pressableFace == null)
-            pressableFace = transform.Find("PressableFace") ?? transform;
-
-        originalScale = pressableFace.localScale;
+        originalScale = pressableFace != null ? pressableFace.localScale : Vector3.one;
+        originalPosition = pressableFace != null ? pressableFace.localPosition : Vector3.zero;
 
         if (progressRing != null)
         {
@@ -51,17 +54,18 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     private void OnEnable()
     {
-        if (SessionPausePolicy.Instance != null)
+        if (pausePolicy == null) pausePolicy = SessionPausePolicy.Instance;
+        if (pausePolicy != null)
         {
-            SessionPausePolicy.Instance.OnPauseStateChanged += HandleGlobalPause;
+            pausePolicy.OnPauseStateChanged += HandleGlobalPause;
         }
     }
 
     private void OnDisable()
     {
-        if (SessionPausePolicy.Instance != null)
+        if (pausePolicy != null)
         {
-            SessionPausePolicy.Instance.OnPauseStateChanged -= HandleGlobalPause;
+            pausePolicy.OnPauseStateChanged -= HandleGlobalPause;
         }
         HardCancel();
     }
@@ -78,7 +82,7 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
     {
-        if (rectTransform == null) return true;
+        if (rectTransform == null || !circularHitArea) return true;
 
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, sp, eventCamera, out Vector2 localPoint))
         {
@@ -92,8 +96,8 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         if (radiusX <= 0 || radiusY <= 0) return false;
 
         // 타원/원형 정규화 판정: (x/rx)^2 + (y/ry)^2 <= 1.0
-        float normX = localPoint.x / radiusX;
-        float normY = localPoint.y / radiusY;
+        float normX = (localPoint.x - rect.center.x) / radiusX;
+        float normY = (localPoint.y - rect.center.y) / radiusY;
 
         return (normX * normX + normY * normY) <= 1.0f;
     }
@@ -105,19 +109,20 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public void OnPointerDown(PointerEventData eventData)
     {
         // 전역 정지 상태이면 입력 무시
-        if (SessionPausePolicy.Instance != null && SessionPausePolicy.Instance.IsPaused)
+        if ((pausePolicy != null && pausePolicy.IsPaused) || (selectable != null && !selectable.IsInteractable()) || eventData.button != PointerEventData.InputButton.Left)
         {
             return;
         }
 
         // 첫 번째 손가락만 소유, 멀티터치 방지
-        if (activePointerId != -1)
+        if (isPressed)
         {
             return;
         }
 
         activePointerId = eventData.pointerId;
         isPressed = true;
+        OnPressedChanged?.Invoke(true);
 
         AnimateScale(pressedScale);
 
@@ -127,7 +132,7 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         // 2. 꾹 누르기(홀드) 타이머 및 반복 루프 가동
         holdCts?.Cancel();
         holdCts?.Dispose();
-        holdCts = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
+        holdCts = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);
 
         HoldLoopAsync(holdCts.Token).Forget();
     }
@@ -153,6 +158,8 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         if (!isPressed) return;
         isPressed = false;
         activePointerId = -1;
+        OnPressedChanged?.Invoke(false);
+        OnDigCanceled?.Invoke();
 
         AnimateScale(originalScale);
 
@@ -174,7 +181,6 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         if (isPressed)
         {
             ReleaseButton();
-            OnDigCanceled?.Invoke();
         }
         else
         {
@@ -182,6 +188,12 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             holdCts?.Cancel();
             holdCts?.Dispose();
             holdCts = null;
+        }
+        if (pressableFace != null)
+        {
+            pressableFace.DOKill();
+            pressableFace.localPosition = originalPosition;
+            pressableFace.localScale = originalScale;
         }
     }
 
@@ -208,7 +220,6 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             while (isPressed && !ct.IsCancellationRequested)
             {
                 OnDig?.Invoke();
-                PunchButtonScaleAsync(ct).Forget();
                 await UniTask.Delay(TimeSpan.FromSeconds(repeatInterval), ignoreTimeScale: true, cancellationToken: ct);
             }
         }
@@ -222,20 +233,26 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     private void AnimateScale(Vector3 target)
     {
         if (pressableFace != null)
-            pressableFace.localScale = target;
+        {
+            pressableFace.DOKill();
+            pressableFace.DOScale(target, 0.1f).SetUpdate(true);
+            pressableFace.DOLocalMove(originalPosition + (isPressed ? pressOffset : Vector3.zero), .08f).SetUpdate(true);
+        }
     }
 
-    private async UniTaskVoid PunchButtonScaleAsync(CancellationToken ct)
+    // Called by the mining result, so visual pulses follow actual strikes, not input polling.
+    public void Pulse(float interval)
     {
-        if (pressableFace == null) return;
-        pressableFace.localScale = pressedScale * 0.95f;
-        try
-        {
-            await UniTask.Delay(35, ignoreTimeScale: true, cancellationToken: ct);
-            if (pressableFace != null && isPressed)
-                pressableFace.localScale = pressedScale;
-        }
-        catch { }
+        if (!isPressed || pressableFace == null) return;
+        pressableFace.DOKill();
+        float duration = Mathf.Clamp(interval * .85f, .055f, .16f);
+        Vector3 heldPosition = originalPosition + pressOffset;
+        Vector3 contactScale = Vector3.Scale(pressedScale, new Vector3(1.015f, .94f, 1f));
+        DOTween.Sequence().SetTarget(pressableFace).SetUpdate(true)
+            .Append(pressableFace.DOLocalMove(heldPosition + Vector3.down * 9f, duration * .28f).SetEase(Ease.InQuad))
+            .Join(pressableFace.DOScale(contactScale, duration * .28f))
+            .Append(pressableFace.DOLocalMove(heldPosition, duration * .72f).SetEase(Ease.OutBack, 1.4f))
+            .Join(pressableFace.DOScale(pressedScale, duration * .72f).SetEase(Ease.OutQuad));
     }
 
     #endregion
@@ -243,5 +260,18 @@ public class HoldDigButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     private void OnDestroy()
     {
         HardCancel();
+        if (pressableFace != null) pressableFace.DOKill();
     }
+
+    private void OnApplicationPause(bool paused) { if (paused) HardCancel(); }
+    private void OnApplicationFocus(bool focused) { if (!focused) HardCancel(); }
+
+#if UNITY_EDITOR
+    private void Reset()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        pressableFace = transform;
+        selectable = GetComponent<Selectable>();
+    }
+#endif
 }

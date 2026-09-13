@@ -1,0 +1,4 @@
+﻿from pathlib import Path
+p=Path('Assets/Scripts/99.Util/SingletonMonoBehaviour.cs');b=p.read_bytes();b=b.replace(b'    private static T instance;',b'    [SerializeField] protected bool persistAcrossScenes = true;\r\n    private static T instance;');b=b.replace(b'            DontDestroyOnLoad(gameObject);',b'            if (persistAcrossScenes) DontDestroyOnLoad(gameObject);');p.write_bytes(b)
+p=Path('Assets/Scripts/UI/Popup/PopupManager.cs');s=p.read_text(encoding='utf-8-sig').replace('if (transform.parent != null)','if (persistAcrossScenes && transform.parent != null)');p.write_text(s,encoding='utf-8-sig')
+p=Path('Assets/Prototype/Scripts/ExpeditionNotice.cs');s=p.read_text(encoding='utf-8-sig').replace('canvas.worldCamera = camera','Canvas.worldCamera = camera');p.write_text(s,encoding='utf-8-sig')

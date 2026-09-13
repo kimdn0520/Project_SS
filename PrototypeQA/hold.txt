@@ -1,0 +1,3 @@
+PASS: actual pointer hold mined 16 rocks in 8s
+PASS: pointer up stops immediately
+PASS: map object count unchanged (68)

@@ -6,6 +6,36 @@ using UnityEngine.UIElements;
 
 public class PoolManager : SingletonMonoBehaviour<PoolManager>
 {
+    [System.Serializable]
+    public class BakedPool
+    {
+        public string name;
+        public PoolObject[] instances;
+    }
+
+    [Header("[Inspector-prewarmed pools]")]
+    [SerializeField] private bool useBakedPools;
+    [SerializeField] private BakedPool[] bakedPools = System.Array.Empty<BakedPool>();
+    private readonly Dictionary<string, Queue<PoolObject>> bakedQueues = new Dictionary<string, Queue<PoolObject>>();
+    private readonly HashSet<PoolObject> rentedObjects = new HashSet<PoolObject>();
+
+    public PoolObject RentCached(string name)
+    {
+        if (!isInitialized) Initialize();
+        if (!bakedQueues.TryGetValue(name, out var queue) || queue.Count == 0) return null;
+        PoolObject item = queue.Dequeue();
+        rentedObjects.Add(item);
+        item.gameObject.SetActive(true);
+        return item;
+    }
+
+    public void ReturnCached(PoolObject item)
+    {
+        if (item == null || !rentedObjects.Remove(item)) return;
+        item.gameObject.SetActive(false);
+        bakedQueues[item.poolName].Enqueue(item);
+    }
+
     private readonly Dictionary<string, PoolContainer> pools = new Dictionary<string, PoolContainer>();
 
     private bool isInitialized = false;
@@ -13,6 +43,24 @@ public class PoolManager : SingletonMonoBehaviour<PoolManager>
     public void Initialize()
     {
         if (isInitialized) return;
+
+        if (useBakedPools)
+        {
+            foreach (var pool in bakedPools)
+            {
+                var queue = new Queue<PoolObject>();
+                bakedQueues.Add(pool.name, queue);
+                foreach (var item in pool.instances)
+                {
+                    if (item == null) continue;
+                    item.poolName = pool.name;
+                    item.gameObject.SetActive(false);
+                    queue.Enqueue(item);
+                }
+            }
+            isInitialized = true;
+            return;
+        }
 
 
         GameObject containerMaster = new GameObject("PoolContainer_Master");

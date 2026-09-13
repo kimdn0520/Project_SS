@@ -1,0 +1,4 @@
+﻿from pathlib import Path
+import re
+p=Path('Assets/Prototype/Scripts/PlayPage.cs');s=p.read_text(encoding='utf-8-sig');s=s.replace('        public Image heatBar;','');s=re.sub(r'^\s*heatBar\.fillAmount=.*?;\n','\n',s,flags=re.M);p.write_text(s,encoding='utf-8-sig')
+p=Path('Assets/Prototype/Editor/ExpeditionBuilder.cs');s=p.read_text(encoding='utf-8-sig');s=re.sub(r'^\s*page\.heatBar=Bar\(.*?;\n','\n',s,flags=re.M);s=s.replace('335 - i * 112, 490, i','335 - i * 112, 508, i').replace('WorldPoint(570, 490)','WorldPoint(570, 508)').replace('"BattleHUD",100,274','"BattleHUD",100,300').replace('"BattleDivider",0,374,720,5','"BattleDivider",0,400,720,3').replace('"Depth","갱도 0m",160,403','"Depth","갱도 0m",160,418').replace('new Vector4(-3.6f, 2.66f, 3.6f, 5.4f)','new Vector4(-3.6f, 2.4f, 3.6f, 5.4f)');p.write_text(s,encoding='utf-8-sig')

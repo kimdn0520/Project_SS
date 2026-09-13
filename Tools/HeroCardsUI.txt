@@ -1,0 +1,42 @@
+﻿            var h=page.menuPanels[0].transform;
+            page.heroGrid=New("HeroCollection",h,true);Stretch((RectTransform)page.heroGrid.transform);
+            Text(page.heroGrid.transform,"CollectionHint","보유 용사 3명  ·  카드를 눌러 장비 관리",26,181,668,30,18,Teal);
+            string[] heroNames={"로웬","린","미라"};string[] jobs={"전사","도적","마법사"};
+            var portraits=new Sprite[3];for(int i=0;i<3;i++)portraits[i]=BakePortrait(page.heroes[i],i);
+            for(int i=0;i<8;i++)
+            {
+                float x=20+(i%4)*174,y=242+(i/4)*248;
+                var card=Button(page.heroGrid.transform,"HeroCard"+i,"",x,y,158,218,i<3?Hex("6C508B"):Hex("27333F"),null);
+                if(i<3)
+                {
+                    UnityEventTools.AddIntPersistentListener(card.onClick,page.OpenHero,i);
+                    Box(card.transform,"PortraitWell",6,6,146,158,Hex("A783BC"));
+                    Icon(card.transform,"Portrait",portraits[i],8,14,142,145);
+                    Text(card.transform,"Role",jobs[i],10,8,132,26,16,White,true);
+                    Text(card.transform,"HeroName",heroNames[i],6,167,146,32,22,White,true,TextAlignmentOptions.Center);
+                    Box(page.heroGrid.transform,"ActiveStrip"+i,x,y+224,158,17,Hex("38676B"));
+                    Text(page.heroGrid.transform,"ActiveLabel"+i,"출전 중",x,y+220,158,26,13,White,false,TextAlignmentOptions.Center);
+                }
+                else
+                {
+                    card.interactable=false;
+                    Text(card.transform,"Unknown","?",0,38,158,100,54,Muted,true,TextAlignmentOptions.Center);
+                    Text(card.transform,"Locked","미발견",0,164,158,35,18,Muted,false,TextAlignmentOptions.Center);
+                }
+            }
+            page.heroEquipmentPanels=new GameObject[3];page.heroDetails=new TMP_Text[3];page.slotLabels=new TMP_Text[12];page.slotIcons=new Image[12];
+            for(int hero=0;hero<3;hero++)
+            {
+                var panel=New("HeroEquipment"+hero,h,true);Stretch((RectTransform)panel.transform);page.heroEquipmentPanels[hero]=panel;
+                Button(panel.transform,"BackToHeroes"+hero,"용사 목록",26,180,162,40,Panel,page.ShowHeroGrid).GetComponentInChildren<TMP_Text>().fontSize=18;
+                Icon(panel.transform,"Portrait",portraits[hero],259,243,202,234);
+                page.heroDetails[hero]=Text(panel.transform,"HeroDetails"+hero,"",170,482,380,83,26,White,true,TextAlignmentOptions.Center);
+                for(int slot=0;slot<4;slot++)
+                {
+                    int index=hero*4+slot;float x=70+(slot%2)*300,y=605+(slot/2)*240;
+                    var button=Button(panel.transform,"Slot"+index,"",x,y,280,217,Panel,null);UnityEventTools.AddIntPersistentListener(button.onClick,page.SelectSlot,index);
+                    page.slotIcons[index]=Icon(button.transform,"Item",null,96,12,88,107);
+                    page.slotLabels[index]=button.GetComponentInChildren<TMP_Text>();Rect((RectTransform)page.slotLabels[index].transform,8,132,264,77);page.slotLabels[index].fontSize=21;
+                }
+                panel.SetActive(false);
+            }

@@ -1,0 +1,4 @@
+PASS: actual hold mined 14 blocks, fall 36px, lands, input fixed, 74 authored map objects unchanged.
+PASS: chest opens, rewards once, descends.
+PASS: all/weapon/material filters; bag has 3 filter buttons and mining return.
+PASS: hero slot opens filtered popup; equip, unequip, back and pause release.

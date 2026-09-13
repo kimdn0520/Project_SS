@@ -1,0 +1,3 @@
+PASS: power 1, 16 strikes for a 16 HP vein
+PASS: power 2, 8 strikes for a 16 HP vein
+PASS: power 3, 6 strikes for a 16 HP vein

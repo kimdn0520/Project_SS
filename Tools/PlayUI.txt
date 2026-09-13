@@ -1,0 +1,104 @@
+﻿        private static void BuildUI(PlayPage page, Transform ui)
+        {
+            Box(ui,"TopHUD",0,0,720,100,Ink);
+            page.stageLabel=Text(ui,"Stage","1-1 · 초원 전선",24,12,450,34,25,White,true);
+            page.resources=Text(ui,"Resources","철 0   결정 0   파편 0",24,58,660,30,18,Gold);
+            var toggle=New("AutoBattle",ui,true).AddComponent<Toggle>();Rect((RectTransform)toggle.transform,500,16,200,32);
+            var checkBack=Box(toggle.transform,"CheckBack",0,0,30,30,Panel);checkBack.raycastTarget=true;
+            var check=Box(toggle.transform,"Check",6,6,18,18,Teal);toggle.targetGraphic=checkBack;toggle.graphic=check;
+            Text(toggle.transform,"Label","자동 원정",40,0,154,32,19,White);
+            UnityEventTools.AddPersistentListener(toggle.onValueChanged,page.SetAutoBattle);page.autoBattleToggle=toggle;
+            Region(ui,"BattleHUD",100,274,out var bh);
+            page.enemyStatus=Text(bh,"BattleStatus","이동 중",24,104,430,25,15,White);
+            page.heroHpBars=new Image[3];page.heroHpRoots=new RectTransform[3];
+            for(int i=0;i<3;i++)page.heroHpBars[i]=OverheadBar(bh,"HeroHP_"+i,page.heroes[i].HpPosition,66,Teal,out page.heroHpRoots[i]);
+            page.enemyBar=OverheadBar(bh,"EnemyHP",page.enemies[0].HpPosition,110,Hex("EA8F77"),out page.enemyHpRoot);
+            Box(ui,"BattleDivider",0,374,720,5,Teal);
+            page.minePanel=New("MinePanel",ui,true);Stretch((RectTransform)page.minePanel.transform);var m=page.minePanel.transform;
+            page.depthLabel=Text(m,"Depth","갱도 0m",160,403,400,42,29,White,true,TextAlignmentOptions.Center);
+            page.routeButtons=new Button[3];page.routeLabels=new TMP_Text[3];page.routePanels=new Image[3];
+            string[] routes={"철 광맥","서리 광맥","유적 광맥"};
+            for(int i=0;i<3;i++)
+            {
+                var b=Button(m,"Route"+i,routes[i],18,426+i*88,100,72,Panel,null);
+                b.GetComponentInChildren<TMP_Text>().fontSize=17;
+                UnityEventTools.AddIntPersistentListener(b.onClick,page.SelectRoute,i);
+                page.routeButtons[i]=b;page.routeLabels[i]=b.GetComponentInChildren<TMP_Text>();page.routePanels[i]=(Image)b.targetGraphic;
+                Box(m,"SidebarFuture"+i,602,426+i*88,100,72,new Color(.12f,.19f,.22f,.65f));
+                Text(m,"SidebarHint"+i,i==0?"준비 중":"·",610,443+i*88,84,36,16,Muted,false,TextAlignmentOptions.Center);
+            }
+            var auto=Button(m,"AutoMine","자동 채굴 OFF",252,462,216,38,Panel,page.ToggleAuto);page.autoAction=auto.GetComponentInChildren<TMP_Text>();page.autoAction.fontSize=16;
+            Button(m,"StartBattle","원정 / 후퇴",252,513,216,38,Panel,page.StartOrRetreat).GetComponentInChildren<TMP_Text>().fontSize=16;
+            page.lootLabel=Text(m,"Loot","",130,884,460,30,18,Gold,false,TextAlignmentOptions.Center);
+            page.feedback=Text(m,"Feedback","상자를 발견하고 장비를 모아보세요",90,925,540,42,17,Muted,false,TextAlignmentOptions.Center);
+            page.rhythmLabel=Text(m,"Rhythm","꾹 누르면 가속",180,974,360,30,21,Teal,true,TextAlignmentOptions.Center);
+            page.heatBar=Bar(m,"BurstCharge",220,1012,280,8,Gold);
+            // A fixed pedestal and a separate oval face leave the four navigation buttons exposed.
+            var circle=ExpeditionUIArt.Circle();
+            var shadow=Icon(m,"DigShadow",circle,215,1087,290,180);shadow.color=Hex("080F14");shadow.preserveAspect=false;
+            var baseImage=Icon(m,"DigBase",circle,217,1058,286,180);baseImage.color=Hex("754A27");baseImage.preserveAspect=false;
+            var face=Icon(m,"Dig",circle,230,1040,260,166);face.color=Hex("F6BE52");face.preserveAspect=false;face.raycastTarget=true;
+            var dig=face.gameObject.AddComponent<Button>();dig.targetGraphic=face;dig.transition=Selectable.Transition.None;page.digButton=dig;
+            var faceRect=face.rectTransform;faceRect.pivot=new Vector2(.5f,.5f);faceRect.anchoredPosition+=new Vector2(130,-83);
+            page.digLabel=Text(face.transform,"DigLabel","DIG",0,24,260,70,48,Hex("34271C"),true,TextAlignmentOptions.Center);
+            Text(face.transform,"DigHint","꾹 누르기",0,98,260,35,19,Hex("77532B"),true,TextAlignmentOptions.Center);
+            page.holdDig=dig.gameObject.AddComponent<HoldDigButton>();Set(page.holdDig,"rectTransform",faceRect);Set(page.holdDig,"pressableFace",faceRect);Set(page.holdDig,"pausePolicy",page.pausePolicy);Set(page.holdDig,"selectable",dig);
+            var hold=new SerializedObject(page.holdDig);hold.FindProperty("circularHitArea").boolValue=true;hold.FindProperty("repeatInterval").floatValue=.035f;hold.FindProperty("initialHoldDelay").floatValue=.13f;hold.FindProperty("pressOffset").vector3Value=new Vector3(0,-15,0);hold.ApplyModifiedPropertiesWithoutUndo();
+            string[] menus={"용사 관리","가방","도전","설정"};float[] menuX={16,119,506,609};
+            for(int i=0;i<4;i++)
+            {
+                var b=Button(ui,"Menu"+(i+1),menus[i],menuX[i],1183,95,78,Panel,null);b.GetComponentInChildren<TMP_Text>().fontSize=17;
+                UnityEventTools.AddIntPersistentListener(b.onClick,page.OpenMenu,i+1);
+            }
+            page.menuPanels=new GameObject[4];
+            for(int i=0;i<4;i++)
+            {
+                var panel=New("MenuPanel"+(i+1),ui,true);Stretch((RectTransform)panel.transform);page.menuPanels[i]=panel;
+                Box(panel.transform,"Backdrop",0,100,720,1073,Ink).raycastTarget=true;
+                Text(panel.transform,"Title",menus[i],26,119,500,48,31,White,true);
+                var close=Button(panel.transform,"BackToMine"+i,"채굴로",566,118,128,48,Panel,null);UnityEventTools.AddIntPersistentListener(close.onClick,page.OpenMenu,0);
+            }
+            var h=page.menuPanels[0].transform;
+            Text(h,"HeroHint","용사마다 장비를 바꿔 원정대를 강화하세요",26,178,668,30,18,Teal);
+            page.heroDetails=new TMP_Text[3];page.slotLabels=new TMP_Text[12];page.slotIcons=new Image[12];
+            for(int hero=0;hero<3;hero++)
+            {
+                float x=20+hero*234;
+                page.heroDetails[hero]=Text(h,"HeroDetails"+hero,"",x,230,220,90,21,White,true,TextAlignmentOptions.Center);
+                for(int slot=0;slot<4;slot++)
+                {
+                    int index=hero*4+slot;float y=335+slot*177;
+                    var b=Button(h,"Slot"+index,"",x,y,220,162,Panel,null);UnityEventTools.AddIntPersistentListener(b.onClick,page.SelectSlot,index);
+                    page.slotIcons[index]=Icon(b.transform,"Item",null,77,10,66,74);
+                    page.slotLabels[index]=b.GetComponentInChildren<TMP_Text>();Rect((RectTransform)page.slotLabels[index].transform,6,93,208,65);page.slotLabels[index].fontSize=17;
+                }
+            }
+            var bag=page.menuPanels[1].transform;
+            page.bagTitle=Text(bag,"BagTitle","",26,180,665,30,20,Teal,true);
+            for(int i=0;i<3;i++){var b=Button(bag,"ChooseHero"+i,new[]{"전사","도적","마법사"}[i],26+i*226,220,216,40,Panel,null);UnityEventTools.AddIntPersistentListener(b.onClick,page.SelectHero,i);}
+            Button(bag,"Unequip","선택 슬롯 해제",26,272,240,36,Panel,page.ClearSlot).GetComponentInChildren<TMP_Text>().fontSize=17;
+            Text(bag,"EquipmentHint","착용 수량은 용사별로 따로 사용됩니다",284,278,410,27,16,Muted);
+            var viewport=New("InventoryViewport",bag,true);Rect((RectTransform)viewport.transform,20,326,680,810);
+            Box(viewport.transform,"Input",0,0,680,810,Ink).raycastTarget=true;viewport.AddComponent<RectMask2D>();
+            var content=New("Items",viewport.transform,true);Rect((RectTransform)content.transform,0,0,680,catalogCount(page)*134);
+            var scroll=viewport.AddComponent<ScrollRect>();scroll.viewport=(RectTransform)viewport.transform;scroll.content=(RectTransform)content.transform;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;
+            page.gearCards=new PlayPage.GearCard[page.catalog.gear.Length];
+            for(int i=0;i<page.gearCards.Length;i++)
+            {
+                var g=page.catalog.gear[i];var c=new PlayPage.GearCard();page.gearCards[i]=c;float y=i*134;
+                c.panel=Box(content.transform,"GearCard"+i,0,y,680,124,Panel);c.icon=Icon(content.transform,"GearIcon"+i,g.icon,12,y+12,64,82);
+                c.name=Text(content.transform,"GearName"+i,g.title,90,y+8,350,31,22,White,true);
+                c.detail=Text(content.transform,"GearDetail"+i,g.description,90,y+43,365,28,16,Teal);
+                c.cost=Text(content.transform,"GearCost"+i,"",90,y+82,565,29,15,Gold);
+                c.button=Button(content.transform,"Equip"+i,"착용",478,y+10,88,42,Hex("34575A"),null);c.action=c.button.GetComponentInChildren<TMP_Text>();c.action.fontSize=16;UnityEventTools.AddIntPersistentListener(c.button.onClick,page.Equip,i);
+                c.craft=Button(content.transform,"Craft"+i,"제작",575,y+10,92,42,Hex("865C32"),null);c.craft.GetComponentInChildren<TMP_Text>().fontSize=16;UnityEventTools.AddIntPersistentListener(c.craft.onClick,page.Craft,i);
+            }
+            Text(page.menuPanels[2].transform,"ComingSoon","새로운 도전을 준비하고 있습니다\n\n지금은 광맥을 개척하고\n원정대의 장비를 모아보세요",70,390,580,230,27,White,false,TextAlignmentOptions.Center);
+            var settings=page.menuPanels[3].transform;
+            var sound=Button(settings,"Sound","소리 ON",80,280,560,70,Panel,page.ToggleSound);page.soundLabel=sound.GetComponentInChildren<TMP_Text>();
+            Button(settings,"Help","플레이 안내",80,376,560,70,Panel,page.Help);
+            Button(settings,"Reset","진행 초기화",80,472,560,70,Panel,page.ResetProgress);
+            Text(settings,"SaveHint","진행 상황은 이 기기에 자동 저장됩니다",80,592,560,60,20,Muted,false,TextAlignmentOptions.Center);
+            foreach(var panel in page.menuPanels)panel.SetActive(false);
+        }
+        static int catalogCount(PlayPage page)=>page.catalog.gear.Length;

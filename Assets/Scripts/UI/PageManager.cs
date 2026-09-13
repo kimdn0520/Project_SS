@@ -11,6 +11,15 @@ using Cysharp.Threading.Tasks;
 /// </summary>
 public class PageManager : SingletonMonoBehaviour<PageManager>
 {
+    [Serializable]
+    public struct ScenePageRegistration
+    {
+        public UIPageType pageType;
+        public SceneBase instance;
+    }
+
+    [Header("[Inspector-cached scene pages (preferred)]")]
+    [SerializeField] private ScenePageRegistration[] scenePages = Array.Empty<ScenePageRegistration>();
     [Header("[Page Prefabs (SceneBase)]")]
     [SerializeField] private SceneBase mainPagePrefab;
     [SerializeField] private SceneBase playPagePrefab;
@@ -95,6 +104,20 @@ public class PageManager : SingletonMonoBehaviour<PageManager>
     /// </summary>
     private void PreloadPages()
     {
+        // Baked scene references avoid hierarchy queries and runtime construction.
+        if (scenePages.Length > 0)
+        {
+            pages.Clear();
+            foreach (var registration in scenePages)
+            {
+                if (registration.instance == null) continue;
+                registration.instance.SetupRenderCamera(mainCamera);
+                registration.instance.Hide();
+                RegisterPage(registration.pageType, registration.instance);
+            }
+            return;
+        }
+
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
@@ -375,8 +398,9 @@ public class PageManager : SingletonMonoBehaviour<PageManager>
             return;
         }
 
-        // 3. 인게임 화면일 때 로비로 돌아가기
-        if (CurrentPageType == UIPageType.PlayPage)
+        if (CurrentPage is IPageBackHandler handler && handler.HandleBack()) return;
+        // Legacy lobby navigation is only available when a lobby was actually registered.
+        if (CurrentPageType == UIPageType.PlayPage && pages.ContainsKey(UIPageType.MainPage.ToString()))
         {
             Change(UIPageType.MainPage);
         }

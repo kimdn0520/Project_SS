@@ -1,0 +1,1 @@
+PASS: intact + four distinct fracture sprites; legacy line cracks disabled; 18 descents with fixed object count; closed/open chest captured.

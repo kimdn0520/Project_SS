@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 using TMPro;
@@ -17,26 +17,8 @@ public static class PagePrefabBuilder
     [MenuItem("ProjectSS/Build Page Prefabs")]
     public static void Execute()
     {
-        if (!Directory.Exists(PREFAB_DIR))
-        {
-            Directory.CreateDirectory(PREFAB_DIR);
-        }
-
-        Camera mainCam = GetOrCreateMainCamera();
-
-        // 1. MainPage 프리팹 생성 (SF 에셋 적용)
-        GameObject mainPagePrefab = CreateMainPagePrefab(mainCam);
-
-        // 2. PlayPage 프리팹 생성 (UI_Canvas와 Game_Root가 병렬인 일반 Transform 루트)
-        GameObject playPagePrefab = CreatePlayPagePrefab(mainCam);
-
-        // 3. Play 씬 리팩토링 (빈 껍데기 + PageManager에 프리팹 연결)
-        SetupCleanPlayScene(mainPagePrefab, playPagePrefab);
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-
-        Debug.Log("<color=cyan>[PagePrefabBuilder] Page 프리팹 캡슐화 및 Space GUI 테마 적용 완료!</color>");
+        // Keep legacy setup entry points on the new direct-to-Play architecture.
+        ProjectSS.Expedition.Editor.ExpeditionBuilder.Build();
     }
 
     private static Camera GetOrCreateMainCamera()

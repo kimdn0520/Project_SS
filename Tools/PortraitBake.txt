@@ -1,0 +1,19 @@
+﻿        private static Sprite BakePortrait(ExpeditionActor source, int index)
+        {
+            Directory.CreateDirectory("Assets/Prototype/Art/Portraits");
+            string path="Assets/Prototype/Art/Portraits/Hero_"+index+".png";
+            var clone=UnityEngine.Object.Instantiate(source.gameObject);clone.SetActive(true);clone.transform.position=new Vector3(1000,0,0);
+            var material=new Material(Shader.Find("Sprites/Default"));
+            foreach(var t in clone.GetComponentsInChildren<Transform>(true))t.gameObject.layer=31;
+            var renderers=clone.GetComponentsInChildren<SpriteRenderer>().Where(r=>r.enabled&&r.sprite!=null).ToArray();
+            var bounds=renderers[0].bounds;foreach(var r in renderers){r.sharedMaterial=material;bounds.Encapsulate(r.bounds);}
+            var go=New("PortraitBakeCamera");var cam=go.AddComponent<Camera>();cam.orthographic=true;cam.orthographicSize=bounds.size.y*.57f;
+            cam.transform.position=new Vector3(bounds.center.x,bounds.center.y,-10);cam.cullingMask=1<<31;cam.clearFlags=CameraClearFlags.SolidColor;cam.backgroundColor=Color.clear;
+            var rt=new RenderTexture(256,320,24,RenderTextureFormat.ARGB32);cam.targetTexture=rt;cam.Render();
+            var prior=RenderTexture.active;RenderTexture.active=rt;var tex=new Texture2D(256,320,TextureFormat.RGBA32,false);tex.ReadPixels(new Rect(0,0,256,320),0,0);tex.Apply();
+            File.WriteAllBytes(path,tex.EncodeToPNG());RenderTexture.active=prior;cam.targetTexture=null;
+            UnityEngine.Object.DestroyImmediate(tex);UnityEngine.Object.DestroyImmediate(rt);UnityEngine.Object.DestroyImmediate(go);UnityEngine.Object.DestroyImmediate(clone);UnityEngine.Object.DestroyImmediate(material);
+            AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
+            var importer=(TextureImporter)AssetImporter.GetAtPath(path);importer.textureType=TextureImporterType.Sprite;importer.spriteImportMode=SpriteImportMode.Single;importer.mipmapEnabled=false;importer.alphaIsTransparency=true;importer.SaveAndReimport();
+            return AssetDatabase.LoadAssetAtPath<Sprite>(path);
+        }

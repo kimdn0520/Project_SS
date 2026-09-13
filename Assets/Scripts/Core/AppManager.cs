@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,10 +39,6 @@ public class AppManager : SingletonMonoBehaviour<AppManager>
         await UniTask.Delay(TimeSpan.FromSeconds(0.2f), cancellationToken: ct);
 
         onProgress?.Invoke(0.50f, "Initializing resource managers...");
-        if (SpriteManager.Instance != null)
-        {
-            SpriteManager.Instance.Initialize();
-        }
         await UniTask.Delay(TimeSpan.FromSeconds(0.25f), cancellationToken: ct);
 
         onProgress?.Invoke(0.80f, "Loading user profile and data...");
@@ -110,26 +106,7 @@ public class AppManager : SingletonMonoBehaviour<AppManager>
     {
         if (globalFadeCanvasGroup != null) return;
 
-        GameObject fadeObj = new GameObject("GlobalFadeOverlay");
-        fadeObj.transform.SetParent(transform, false);
-
-        Canvas canvas = fadeObj.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 9999;
-
-        globalFadeCanvasGroup = fadeObj.AddComponent<CanvasGroup>();
-        globalFadeCanvasGroup.alpha = 0f;
-        globalFadeCanvasGroup.blocksRaycasts = false;
-
-        GameObject imgObj = new GameObject("BlackBackdrop");
-        imgObj.transform.SetParent(fadeObj.transform, false);
-        UnityEngine.UI.Image img = imgObj.AddComponent<UnityEngine.UI.Image>();
-        img.color = Color.black;
-
-        RectTransform rect = img.rectTransform;
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.sizeDelta = Vector2.zero;
+        Debug.LogError("AppManager requires the inspector-assigned fade canvas in Splash.");
     }
 
     #endregion
