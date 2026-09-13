@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -13,6 +13,20 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 {
     [Header("[Hierarchy Root]")]
     [SerializeField] private Transform popupRoot;
+    [SerializeField] private Camera renderCamera;
+
+    public void SetRenderCamera(Camera camera)
+    {
+        renderCamera = camera;
+        foreach (var popup in popups.Values) BindCamera(popup);
+    }
+
+    private void BindCamera(IPopupHandler popup)
+    {
+        if (popup.Canvas == null) return;
+        popup.Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        popup.Canvas.worldCamera = renderCamera;
+    }
 
     [Header("[Sorting Order Settings]")]
     [SerializeField] private int baseSortingOrder = 1000;
@@ -136,20 +150,16 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         }
 
         // 2. Resources 폴더 폴백 로드
-        ResourceRequest request = Resources.LoadAsync<GameObject>($"Prefabs/Popups/{popupName}");
+        ResourceRequest request = Resources.LoadAsync<BasePopupHandler>($"Prefabs/Popups/{popupName}");
         await request;
 
-        if (request.asset is GameObject resGo)
+        if (request.asset is BasePopupHandler resourcePrefab)
         {
-            GameObject instanceGo = Instantiate(resGo, popupRoot);
-            instanceGo.name = popupName;
-            IPopupHandler handler = instanceGo.GetComponent<IPopupHandler>();
-            if (handler != null)
-            {
-                handler.Hide();
-                popups[popupName] = handler;
-                return handler;
-            }
+            var handler = Instantiate(resourcePrefab, popupRoot);
+            handler.name = popupName;
+            handler.Hide();
+            popups[popupName] = handler;
+            return handler;
         }
 
         Debug.LogError($"[PopupManager] 팝업을 찾을 수 없습니다: {popupName}");
@@ -252,6 +262,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
             int newOrder = baseSortingOrder + (popupStack.Count * sortingOrderStep);
             item.Handler.SetSortingOrder(newOrder);
 
+            BindCamera(item.Handler);
             item.Handler.Show();
             item.Handler.OnWillEnter(item.Param);
 

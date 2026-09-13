@@ -1,0 +1,1 @@
+PASS: separate prefab assets; lazy creation; cached reuse; ScreenSpaceCamera injection; equipment filters/equip/unequip; notice; cancellation result; pause release; two cached instances.

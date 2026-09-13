@@ -20,6 +20,7 @@ namespace ProjectSS.Expedition
         public PoolManager pool;
         public SessionPausePolicy pausePolicy;
         public ExpeditionNotice notice;
+        public PopupManager popupManager;
         public ExpeditionInventory inventoryView;
         public EquipmentSelectionPopup equipmentPopup;
         public ExpeditionActor[] heroes, enemies;
@@ -32,6 +33,7 @@ namespace ProjectSS.Expedition
         public ExpeditionMiningView miningView;
         public HoldDigButton holdDig;
         public Image heatBar;
+        public VerticalGauge heatGauge;
 
         public TMP_Text digLabel, soundLabel;
         public GameObject minePanel;
@@ -72,8 +74,7 @@ namespace ProjectSS.Expedition
         public override void SetupRenderCamera(Camera camera)
         {
             base.SetupRenderCamera(camera);
-            if (notice != null) notice.SetupRenderCamera(camera);
-            if (equipmentPopup != null) equipmentPopup.SetupRenderCamera(camera);
+            popupManager.SetRenderCamera(camera);
         }
         public override void OnWillEnter(object param)
         {
@@ -94,8 +95,6 @@ namespace ProjectSS.Expedition
                 Model.Mined += OnMined; Model.HeroHit += OnHeroHit; Model.EnemyHit += OnEnemyHit; Model.BattleEnded += OnBattleEnded;
                 holdDig.OnDig += Dig; holdDig.OnPressedChanged += OnHeld; wired = true;
             }
-            PopupManager.RegisterPopup(notice.PopupName, notice);
-            PopupManager.RegisterPopup(equipmentPopup.PopupName, equipmentPopup);
             foreach (var actor in heroes) actor.InitializeActor();
             foreach (var actor in enemies) actor.InitializeActor();
             miner.InitializeActor(); ApplyEquipment();
@@ -198,7 +197,7 @@ namespace ProjectSS.Expedition
             for(int i=0;i<heroEquipmentPanels.Length;i++)heroEquipmentPanels[i].SetActive(i==hero);
             Refresh();
         }
-        public void SelectSlot(int index){selectedHero=index/4;selectedSlot=index%4;PopupManager.Show(equipmentPopup.PopupName,new EquipmentSelectionPopup.Selection{hero=selectedHero,slot=selectedSlot});}
+        public void SelectSlot(int index){selectedHero=index/4;selectedSlot=index%4;PopupManager.Show(equipmentPopup.PopupName,new EquipmentSelectionPopup.Selection{page=this,hero=selectedHero,slot=selectedSlot});}
         public void SelectRoute(int route){if(pausePolicy.IsPaused||!Model.SelectRoute(route))return;miningView.SetRoute(route);dirty=true;Refresh();}
         public void Dig(){if(!running||pausePolicy.IsPaused||ActiveTab!=0||Time.unscaledTime<manualReady||ChestOpening||miningView.IsDescending)return;manualReady=Time.unscaledTime+Rhythm.Interval;MineOnce(Rhythm.BonusDamage);}
         void MineOnce(int bonus)
@@ -271,8 +270,7 @@ namespace ProjectSS.Expedition
             stageLabel.text=$"{Model.Region}-{Model.Wave}  ·  "+(Model.Region%2==1?"초원 전선":"잊힌 요새")+(Model.IsBoss?"  /  BOSS":"");
             enemyStatus.text=State==Journey.Walking?"다음 적을 찾아 이동 중":State==Journey.Fighting?"교전 중":State==Journey.Recovering?"원정대 재정비":"원정 대기";
             autoBattleToggle.SetIsOnWithoutNotify(d.autoBattle);
-            heatBar.fillAmount=Rhythm.BurstRemaining>0?Rhythm.BurstRemaining/2.6f:Rhythm.Charge/6f;
-            heatBar.color=Rhythm.BurstRemaining>0?Mint:Gold;
+            heatGauge.SetValue(Rhythm.BurstRemaining>0?Rhythm.BurstRemaining/2.6f:Rhythm.Charge/6f,Rhythm.BurstRemaining>0?Mint:Gold);
             enemyBar.fillAmount=Model.Fighting?Model.EnemyHp/Model.EnemyMaxHp:State==Journey.Recovering?0:1;
             enemyHpRoot.position=enemies[visibleEnemy].HpPosition;
             for(int i=0;i<3;i++){heroHpBars[i].fillAmount=Model.HeroHp(i)/Model.HeroMaxHp(i);heroHpRoots[i].position=heroes[i].HpPosition;heroes[i].SetAlive(Model.HeroHp(i)>0);}
@@ -290,11 +288,11 @@ namespace ProjectSS.Expedition
             if(ActiveTab!=2)return;
             inventoryView.Refresh();
         }
-        public void Help(){PopupManager.Show(notice.PopupName,new ExpeditionNotice.Content{title="플레이 안내",body="DIG를 꾹 누르면 채굴이 빨라집니다.\n광맥 속 상자에서 장비를 발견하세요.\n\n용사 관리에서 각 용사의 장비를 바꾸고, 가방에서 재료로 장비를 제작할 수 있습니다.\n\n자동 원정은 패배한 구간에 재도전합니다. 10번째 구간의 보스를 처치하면 다음 지역으로 이동합니다."});}
+        public void Help(){PopupManager.Show(notice.PopupName,new ExpeditionNotice.Content{pausePolicy=pausePolicy,title="플레이 안내",body="곡괭이 버튼을 꾹 누르면 채굴이 빨라집니다.\n광맥 속 상자에서 장비를 발견하세요.\n\n용사 관리에서 장비를 바꾸고, 가방에서 획득한 장비와 재료를 확인하세요.\n\n자동 원정은 패배한 구간에 재도전합니다. 10번째 구간의 보스를 처치하면 다음 지역으로 이동합니다."});}
         public void ResetProgress(){ResetAsync().Forget();}
         async UniTaskVoid ResetAsync()
         {
-            try{bool ok=await PopupManager.ShowAsync<bool>(notice.PopupName,new ExpeditionNotice.Content{title="진행 초기화",body="현재 Play 진행과 획득 장비를 초기화할까요?",action="초기화",confirmation=true}).AttachExternalCancellation(destroyCancellationToken);if(!ok)return;Unwire();Model=new ExpeditionModel(catalog,ExpeditionSave.Fresh(catalog.gear.Length));OnWillEnter(null);dirty=true;Persist();}
+            try{bool ok=await PopupManager.ShowAsync<bool>(notice.PopupName,new ExpeditionNotice.Content{pausePolicy=pausePolicy,title="진행 초기화",body="현재 Play 진행과 획득 장비를 초기화할까요?",action="초기화",confirmation=true}).AttachExternalCancellation(destroyCancellationToken);if(!ok)return;Unwire();Model=new ExpeditionModel(catalog,ExpeditionSave.Fresh(catalog.gear.Length));OnWillEnter(null);dirty=true;Persist();}
             catch(OperationCanceledException){}
         }
         void Persist(){if(Model==null)return;PlayerPrefs.SetString(SaveKey,JsonUtility.ToJson(Model.Data));PlayerPrefs.Save();dirty=false;}

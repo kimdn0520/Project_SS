@@ -66,7 +66,7 @@ namespace ProjectSS.Expedition.Editor
             for(int i=0;i<3;i++)inventory.materialRows[i]=Row(inventory.content,"Material"+i,new[]{"철광석","서리 결정","유적 파편"}[i],"채광으로 획득하는 재료",page.depositSprites[i],680,false);
             inventory.empty=Text("Empty",bag,"보유한 아이템이 없습니다",80,530,560,70,24,Color.gray);inventory.empty.alignment=TextAlignmentOptions.Center;
             page.gearCards=Array.Empty<PlayPage.GearCard>();
-            if(page.equipmentPopup!=null)UnityEngine.Object.DestroyImmediate(page.equipmentPopup.gameObject);
+            if(page.equipmentPopup!=null&&!EditorUtility.IsPersistent(page.equipmentPopup))UnityEngine.Object.DestroyImmediate(page.equipmentPopup.gameObject);
             var go=New("EquipmentSelectionPopup",page.transform);var canvas=go.AddComponent<Canvas>();EditorUtility.CopySerialized(page.notice.Canvas,canvas);
             var scale=go.AddComponent<CanvasScaler>();EditorUtility.CopySerialized(page.notice.Canvas.GetComponent<CanvasScaler>(),scale);
             go.AddComponent<GraphicRaycaster>();var group=go.AddComponent<CanvasGroup>();var popup=go.AddComponent<EquipmentSelectionPopup>();page.equipmentPopup=popup;

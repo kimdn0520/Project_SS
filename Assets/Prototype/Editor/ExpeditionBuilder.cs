@@ -101,6 +101,7 @@ namespace ProjectSS.Expedition.Editor
             }
             var pmConfig = new SerializedObject(pageManager); pmConfig.FindProperty("persistAcrossScenes").boolValue=false;pmConfig.ApplyModifiedPropertiesWithoutUndo();
             page.notice.transform.SetParent(root.transform, true);
+            PopupPrefabArt.Configure(page);
             const string prefabPath="Assets/Resources/Prefabs/PlayPage.prefab";
             AssetDatabase.DeleteAsset("Assets/Prototype/ExpeditionPrototype.unity");
             PrefabUtility.SaveAsPrefabAssetAndConnect(root,prefabPath,InteractionMode.AutomatedAction);

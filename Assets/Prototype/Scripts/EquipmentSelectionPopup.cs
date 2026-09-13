@@ -6,7 +6,7 @@ namespace ProjectSS.Expedition
 {
     public sealed class EquipmentSelectionPopup : BasePopupHandler
     {
-        public sealed class Selection { public int hero, slot; }
+        public sealed class Selection { public int hero, slot; public PlayPage page; }
         public PlayPage page;
         public SessionPausePolicy pausePolicy;
         public TMP_Text title, empty;
@@ -19,8 +19,9 @@ namespace ProjectSS.Expedition
         public void SetupRenderCamera(Camera camera) { Canvas.worldCamera = camera; }
         public override void OnWillEnter(object param)
         {
+            var selection=(Selection)param;page=selection.page;pausePolicy=page.pausePolicy;
             base.OnWillEnter(param);pausePolicy.RequestPause(PopupName);
-            var selection=(Selection)param;hero=selection.hero;slot=selection.slot;
+            hero=selection.hero;slot=selection.slot;
             title.text=new[]{"로웬","린","미라"}[hero]+" · "+new[]{"무기","투구","갑옷","장신구"}[slot]+" 선택";
             float y=0;
             for(int i=0;i<rows.Length;i++)

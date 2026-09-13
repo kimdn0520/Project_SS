@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using TMPro;
 
 namespace ProjectSS.Expedition
@@ -9,6 +9,7 @@ namespace ProjectSS.Expedition
         {
             public string title, body, action = "계속 탐사하기";
             public bool confirmation;
+            public SessionPausePolicy pausePolicy;
         }
         [SerializeField] private TMP_Text titleText, bodyText, actionText;
         [SerializeField] private SessionPausePolicy pausePolicy;
@@ -17,8 +18,9 @@ namespace ProjectSS.Expedition
         public override void OnWillEnter(object param)
         {
             base.OnWillEnter(param);
-            pausePolicy.RequestPause(PopupName);
             var content = (Content)param;
+            pausePolicy = content.pausePolicy;
+            pausePolicy.RequestPause(PopupName);
             titleText.text = content.title; bodyText.text = content.body; actionText.text = content.action;
         }
         public void Accept() { if (!PopupManager.IsChanging) Close(true); }

@@ -1,0 +1,1 @@
+PASS: 0%, 1%, 25%, 50%, 100%; sliced art remains 20x134, only reveal mask height changes.
