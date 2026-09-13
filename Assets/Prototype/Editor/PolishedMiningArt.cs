@@ -8,10 +8,11 @@ namespace ProjectSS.Expedition.Editor
 {
     public static class PolishedMiningArt
     {
-        const string Root="Assets/Prototype/Art/Polished/";
+        const string Root="Assets/Prototype/Art/Cartoon/";
+        static string TexturePath(string file) => System.IO.File.Exists(Root+file+".png") ? Root+file+".png" : "Assets/Prototype/Art/Polished/"+file+".png";
         static Texture2D Texture(string file)
         {
-            string path=Root+file+".png";AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
+            string path=TexturePath(file);AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
             var im=(TextureImporter)AssetImporter.GetAtPath(path);im.textureType=TextureImporterType.Sprite;im.spriteImportMode=SpriteImportMode.Single;
             im.maxTextureSize=2048;im.mipmapEnabled=false;im.alphaIsTransparency=true;im.isReadable=true;im.textureCompression=TextureImporterCompression.Uncompressed;im.filterMode=FilterMode.Bilinear;im.SaveAndReimport();
             return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
@@ -26,8 +27,10 @@ namespace ProjectSS.Expedition.Editor
         }
         static Sprite Sprite(Texture2D texture,Rect rect,string name,Vector2? pivot=null)
         {
-            string path=Root+name+".asset";var old=AssetDatabase.LoadAssetAtPath<Sprite>(path);if(old!=null)return old;
-            var sprite=UnityEngine.Sprite.Create(texture,rect,pivot??new Vector2(.5f,.5f),100,0,SpriteMeshType.FullRect);sprite.name=name;AssetDatabase.CreateAsset(sprite,path);return sprite;
+            string path=Root+name+".asset";var old=AssetDatabase.LoadAssetAtPath<Sprite>(path);
+            var sprite=UnityEngine.Sprite.Create(texture,rect,pivot??new Vector2(.5f,.5f),100,0,SpriteMeshType.FullRect);sprite.name=name;
+            if(old!=null){EditorUtility.CopySerialized(sprite,old);UnityEngine.Object.DestroyImmediate(sprite);EditorUtility.SetDirty(old);return old;}
+            AssetDatabase.CreateAsset(sprite,path);return sprite;
         }
         static void Size(SpriteRenderer sr,float width){sr.transform.localScale=Vector3.one*(width/sr.sprite.bounds.size.x);}
         static Vector3 Point(float x,float y)=>new Vector3((x-360)/100,(640-y)/100,0);
@@ -53,20 +56,18 @@ namespace ProjectSS.Expedition.Editor
             var shaft=Texture("Shaft");var shaftSprite=Sprite(shaft,new Rect(0,0,shaft.width,shaft.height),"ShaftTile");
             var bands=so.FindProperty("shaftBands");var rest=so.FindProperty("bandRest");bands.arraySize=rest.arraySize=2;
             var root=page.miningWorld.Find("ShaftBands");foreach(Transform child in root.Cast<Transform>().ToArray())UnityEngine.Object.DestroyImmediate(child.gameObject);
-            const float centerWidth=5.4f, extensionWidth=.9f;
+            const float centerWidth=7.2f;
             float wallHeight=centerWidth*shaft.height/shaft.width;
-            float edgePixels=shaft.width*extensionWidth/centerWidth;
-            var leftEdge=Sprite(shaft,new Rect(0,0,edgePixels,shaft.height),"ShaftLeftExtension");
-            var rightEdge=Sprite(shaft,new Rect(shaft.width-edgePixels,0,edgePixels,shaft.height),"ShaftRightExtension");
             var material=page.blocks[0].sharedMaterial;material.SetVector("_WorldClipRect",new Vector4(-3.6f,-6.4f,3.6f,2.4f));EditorUtility.SetDirty(material);
             for(int i=0;i<2;i++)
             {
                 var band=new GameObject("ShaftTile_"+i).transform;band.SetParent(root,false);band.position=Point(360,400+i*wallHeight*100);
-                for(int piece=0;piece<3;piece++)
+                // One full-width authored image avoids mirrored duplicate stone shapes at the sides.
+                for(int piece=0;piece<1;piece++)
                 {
-                    var go=new GameObject(piece==0?"Artwork":piece==1?"LeftExtension":"RightExtension");go.transform.SetParent(band,false);
-                    go.transform.localPosition=new Vector3(piece==0?0:piece==1?-3.15f:3.15f,-wallHeight*.5f,0);
-                    var sr=go.AddComponent<SpriteRenderer>();sr.sprite=piece==0?shaftSprite:piece==1?leftEdge:rightEdge;sr.sharedMaterial=material;sr.sortingOrder=-15;sr.flipY=i%2==1;sr.flipX=piece!=0;Size(sr,piece==0?centerWidth:extensionWidth);
+                    var go=new GameObject("Artwork");go.transform.SetParent(band,false);
+                    go.transform.localPosition=new Vector3(0,-wallHeight*.5f,0);
+                    var sr=go.AddComponent<SpriteRenderer>();sr.sprite=shaftSprite;sr.sharedMaterial=material;sr.sortingOrder=-15;sr.flipY=i%2==1;Size(sr,centerWidth);
                 }
                 bands.GetArrayElementAtIndex(i).objectReferenceValue=band;rest.GetArrayElementAtIndex(i).vector3Value=band.localPosition;
             }
@@ -78,7 +79,7 @@ namespace ProjectSS.Expedition.Editor
             var baseRect=baseImage.rectTransform;baseRect.anchorMin=baseRect.anchorMax=new Vector2(0,1);baseRect.pivot=new Vector2(.5f,.5f);baseRect.anchoredPosition=new Vector2(360,-1092);baseRect.sizeDelta=new Vector2(324,324*pedestal.bounds.size.y/pedestal.bounds.size.x);
             parent.Find("DigShadow").gameObject.SetActive(false);page.digLabel.color=new Color(.20f,.11f,.05f);page.digLabel.fontSize=42;page.digLabel.fontStyle=TMPro.FontStyles.Bold;page.digLabel.rectTransform.anchoredPosition=new Vector2(0,7);
             var chestTexture=Texture("Chest");var fullRect=Crop(chestTexture,new Rect(0,0,chestTexture.width,chestTexture.height));
-            var closed=Sprite(chestTexture,fullRect,"ChestClosed");float seam=chestTexture.height*.485f;
+            var closed=Sprite(chestTexture,fullRect,"ChestClosed");float seam=chestTexture.height*.494f;
             var body=Sprite(chestTexture,new Rect(fullRect.x,fullRect.y,fullRect.width,seam-fullRect.y),"ChestBody");
             var lid=Sprite(chestTexture,new Rect(fullRect.x,seam,fullRect.width,fullRect.yMax-seam),"ChestLid",new Vector2(.5f,0));
             var chest=(SpriteRenderer)so.FindProperty("chestVisual").objectReferenceValue;chest.sprite=closed;Size(chest,1.40f);chest.transform.position=Point(430,825-70*closed.bounds.size.y/closed.bounds.size.x);
@@ -100,7 +101,7 @@ namespace ProjectSS.Expedition.Editor
             so.FindProperty("lidFace").objectReferenceValue=lidRenderer;so.FindProperty("lidInside").objectReferenceValue=insideRenderer;so.FindProperty("chestInterior").objectReferenceValue=interiorRenderer;
             so.ApplyModifiedPropertiesWithoutUndo();
             MiningConsoleArt.Configure(page);
-            foreach(string file in new[]{"VeinDamage","Shaft","DigAssembly","Chest","ChestLidInside"}){var importer=(TextureImporter)AssetImporter.GetAtPath(Root+file+".png");importer.isReadable=false;importer.SaveAndReimport();}
+            foreach(string file in new[]{"VeinDamage","Shaft","DigAssembly","Chest","ChestLidInside"}){var importer=(TextureImporter)AssetImporter.GetAtPath(TexturePath(file));importer.isReadable=false;importer.SaveAndReimport();}
             AssetDatabase.SaveAssets();
         }
     }

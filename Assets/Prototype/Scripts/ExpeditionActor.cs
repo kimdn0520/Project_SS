@@ -17,6 +17,7 @@ namespace ProjectSS.Expedition
         [SerializeField] private SpriteRenderer[] tintedRenderers = Array.Empty<SpriteRenderer>();
         [SerializeField] private Color[] baseColors = Array.Empty<Color>();
         [SerializeField] private Vector3 restPosition;
+        [SerializeField] private float facingDirection = 1f;
         private Tween motion;
         private float idleAt;
         private bool ready;
@@ -72,14 +73,14 @@ namespace ProjectSS.Expedition
             idleAt = Time.time + 0.65f;
             motion?.Kill();
             motionRoot.localPosition = restPosition;
-            motion = motionRoot.DOPunchPosition(new Vector3(ranged ? 0.06f : 0.22f, 0.025f, 0), 0.3f, 1, 0.2f);
+            motion = motionRoot.DOPunchPosition(new Vector3((ranged ? 0.06f : 0.22f) * facingDirection, 0.025f, 0), 0.3f, 1, 0.2f);
         }
 
         public void Hit(bool shielded)
         {
             motion?.Kill();
             motionRoot.localPosition = restPosition;
-            motion = motionRoot.DOPunchPosition(new Vector3(-0.12f, 0.015f, 0), 0.25f, 2, 0.25f);
+            motion = motionRoot.DOPunchPosition(new Vector3(-0.12f * facingDirection, 0.015f, 0), 0.25f, 2, 0.25f);
             for (int i = 0; i < tintedRenderers.Length; i++)
             {
                 var sr = tintedRenderers[i];

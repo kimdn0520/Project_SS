@@ -1,0 +1,1 @@
+PASS: mushroom, skeleton and iron golem authored left-facing; walk/attack/hit preserve orientation; attacks move left and recoil moves right.

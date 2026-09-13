@@ -1,0 +1,1 @@
+PASS: all four HP bars at 100/75/50/10/1/0 percent; sliced caps and accurate masked widths; zero hides fill; tween settles. Gold divider shine crosses center, resets on disable and does not block raycasts.

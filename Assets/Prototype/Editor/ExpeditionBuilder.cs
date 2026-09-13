@@ -102,6 +102,9 @@ namespace ProjectSS.Expedition.Editor
             var pmConfig = new SerializedObject(pageManager); pmConfig.FindProperty("persistAcrossScenes").boolValue=false;pmConfig.ApplyModifiedPropertiesWithoutUndo();
             page.notice.transform.SetParent(root.transform, true);
             PopupPrefabArt.Configure(page);
+            SidebarShortcutArt.Configure(page);
+            HealthBarArt.Configure(page);
+            BattleDividerArt.Configure(page);
             const string prefabPath="Assets/Resources/Prefabs/PlayPage.prefab";
             AssetDatabase.DeleteAsset("Assets/Prototype/ExpeditionPrototype.unity");
             PrefabUtility.SaveAsPrefabAssetAndConnect(root,prefabPath,InteractionMode.AutomatedAction);
@@ -185,9 +188,10 @@ namespace ProjectSS.Expedition.Editor
                 var visual = (GameObject)PrefabUtility.InstantiatePrefab(prefab, wrapper.transform);
                 PrefabUtility.UnpackPrefabInstance(visual, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
                 PrepareRenderers(visual, 25);
-                FitActor(visual, i == 2 ? 1.8f : 1.45f, true);
+                FitActor(visual, i == 2 ? 1.8f : 1.45f, false);
                 var actor = wrapper.AddComponent<ExpeditionActor>();
                 ConfigureActor(actor, visual);
+                var facing = new SerializedObject(actor);facing.FindProperty("facingDirection").floatValue=-1;facing.ApplyModifiedPropertiesWithoutUndo();
                 page.enemies[i] = actor;
                 wrapper.SetActive(i == 0);
             }

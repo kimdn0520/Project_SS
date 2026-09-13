@@ -1,0 +1,1 @@
+PASS: two prefab shortcuts raycast + press/release, no click actions or popups. Five fracture frames. 24 scrolling descents, bottom coverage and fixed map object count. Cartoon chest hinge/inside/reward, exactly one reward.

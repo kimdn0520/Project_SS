@@ -49,6 +49,8 @@ namespace ProjectSS.Expedition
         public Button[] routeButtons;
         public Button digButton;
         public Image enemyBar;
+        public OverheadHealthBar enemyHealthBar;
+        public OverheadHealthBar[] heroHealthBars;
         public Image[] heroHpBars;
         public RectTransform[] heroHpRoots;
         public RectTransform enemyHpRoot;
@@ -271,9 +273,8 @@ namespace ProjectSS.Expedition
             enemyStatus.text=State==Journey.Walking?"다음 적을 찾아 이동 중":State==Journey.Fighting?"교전 중":State==Journey.Recovering?"원정대 재정비":"원정 대기";
             autoBattleToggle.SetIsOnWithoutNotify(d.autoBattle);
             heatGauge.SetValue(Rhythm.BurstRemaining>0?Rhythm.BurstRemaining/2.6f:Rhythm.Charge/6f,Rhythm.BurstRemaining>0?Mint:Gold);
-            enemyBar.fillAmount=Model.Fighting?Model.EnemyHp/Model.EnemyMaxHp:State==Journey.Recovering?0:1;
-            enemyHpRoot.position=enemies[visibleEnemy].HpPosition;
-            for(int i=0;i<3;i++){heroHpBars[i].fillAmount=Model.HeroHp(i)/Model.HeroMaxHp(i);heroHpRoots[i].position=heroes[i].HpPosition;heroes[i].SetAlive(Model.HeroHp(i)>0);}
+            enemyHealthBar.SetValue(Model.Fighting?Model.EnemyHp/Model.EnemyMaxHp:State==Journey.Recovering?0:1);
+            for(int i=0;i<3;i++){heroHealthBars[i].SetValue(Model.HeroHp(i)/Model.HeroMaxHp(i));heroes[i].SetAlive(Model.HeroHp(i)>0);}
             depthLabel.text=$"갱도 {d.depth}m";
 
             
@@ -294,6 +295,12 @@ namespace ProjectSS.Expedition
         {
             try{bool ok=await PopupManager.ShowAsync<bool>(notice.PopupName,new ExpeditionNotice.Content{pausePolicy=pausePolicy,title="진행 초기화",body="현재 Play 진행과 획득 장비를 초기화할까요?",action="초기화",confirmation=true}).AttachExternalCancellation(destroyCancellationToken);if(!ok)return;Unwire();Model=new ExpeditionModel(catalog,ExpeditionSave.Fresh(catalog.gear.Length));OnWillEnter(null);dirty=true;Persist();}
             catch(OperationCanceledException){}
+        }
+        void LateUpdate()
+        {
+            if(Model==null||ActiveTab!=0)return;
+            enemyHpRoot.position=enemies[visibleEnemy].HpPosition;
+            for(int i=0;i<heroes.Length;i++)heroHpRoots[i].position=heroes[i].HpPosition;
         }
         void Persist(){if(Model==null)return;PlayerPrefs.SetString(SaveKey,JsonUtility.ToJson(Model.Data));PlayerPrefs.Save();dirty=false;}
         void Unwire(){if(!wired)return;Model.Mined-=OnMined;Model.HeroHit-=OnHeroHit;Model.EnemyHit-=OnEnemyHit;Model.BattleEnded-=OnBattleEnded;holdDig.OnDig-=Dig;holdDig.OnPressedChanged-=OnHeld;wired=false;}
