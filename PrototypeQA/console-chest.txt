@@ -1,0 +1,3 @@
+PASS: seven authored veins cover below viewport during ten descents; no runtime map creation.
+PASS: no NavigationDeck/DIG text, gauge preview captured.
+PASS: unlock -> inside lid -> one reward -> descend; item returned to PoolManager.

@@ -1,1 +1,1 @@
-PASS: real hold mined, cap reversed direction 45 times; travel 20.5px; input root fixed; release/exit/hard cancel reset cap.
+PASS: real hold mined, cap reversed direction 45 times; travel 20.9px; input root fixed; release/exit/hard cancel reset cap.

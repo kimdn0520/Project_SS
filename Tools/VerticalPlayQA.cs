@@ -29,7 +29,7 @@ public static class VerticalPlayQA
                 Check(page.digButton.transform.localPosition==uiRest,"Whole UI moved during mining");
                 if(!captured&&fall>.2f){Shot("vertical-fall");captured=true;}
             }
-            ExecuteEvents.Execute(page.digButton.gameObject,pointer,ExecuteEvents.pointerUpHandler);await UniTask.Delay(1500);
+            ExecuteEvents.Execute(page.digButton.gameObject,pointer,ExecuteEvents.pointerUpHandler);await UniTask.Delay(2600);
             Check(page.Model.Data.excavations>before+2&&fall>.25f,"Hold did not mine / descend");
             Check(Vector3.Distance(rest,page.miner.transform.localPosition)<.01f,"Miner failed to land");
             Check(page.miningWorld.GetComponentsInChildren<Transform>(true).Length==objects,"Runtime map construction");
@@ -37,7 +37,7 @@ public static class VerticalPlayQA
             Shot("vertical-landed");
             page.Model.Data.chest=true;page.miningView.SetChest(true);int chestBefore=page.Model.Data.excavations;
             SessionPausePolicy.Instance.ReleasePause("AppFocusLoss");page.Dig();Check(page.ChestOpening,$"Chest failed to start paused={page.pausePolicy.IsPaused} tab={page.ActiveTab} descending={page.miningView.IsDescending} scale={Time.timeScale}");await UniTask.Delay(400);Check(page.ChestOpening,"Chest ended too early");Shot("vertical-chest");
-            await UniTask.Delay(1900);Check(!page.ChestOpening&&!page.miningView.IsDescending&&page.Model.Data.excavations==chestBefore+1,$"Chest reward/descent: opening={page.ChestOpening} descending={page.miningView.IsDescending} count={page.Model.Data.excavations-chestBefore} paused={page.pausePolicy.IsPaused}");
+            await UniTask.Delay(2500);Check(!page.ChestOpening&&!page.miningView.IsDescending&&page.Model.Data.excavations==chestBefore+1,$"Chest reward/descent: opening={page.ChestOpening} descending={page.miningView.IsDescending} count={page.Model.Data.excavations-chestBefore} paused={page.pausePolicy.IsPaused}");
             page.OpenMenu(2);page.inventoryView.SelectFilter(0);Shot("bag-all");
             page.inventoryView.SelectFilter(1);
             for(int i=0;i<page.inventoryView.gearRows.Length;i++)if(page.inventoryView.gearRows[i].root.gameObject.activeSelf)Check(page.catalog.gear[i].equipSlot==0,"Weapons filter includes armor");

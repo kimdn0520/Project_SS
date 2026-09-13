@@ -88,6 +88,10 @@ namespace ProjectSS.Expedition
             if (route < 0 || route > 2 || (route == 2 && Data.cleared < 10)) return false;
             Data.route = route; return true;
         }
+        public void ClaimChest()
+        {
+            if (Data.chest) Dig(BlockHp);
+        }
         public void Dig(int bonusDamage = 0)
         {
             BlockHp -= MiningPower + Math.Max(0, bonusDamage);

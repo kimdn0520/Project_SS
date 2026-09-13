@@ -425,7 +425,6 @@ namespace ProjectSS.Expedition.Editor
             var hold=new SerializedObject(page.holdDig);hold.FindProperty("circularHitArea").boolValue=true;hold.FindProperty("repeatInterval").floatValue=.035f;hold.FindProperty("initialHoldDelay").floatValue=.13f;hold.FindProperty("pressOffset").vector3Value=new Vector3(0,-15,0);hold.ApplyModifiedPropertiesWithoutUndo();
             DigButtonArt.Configure(page);
             var navigation=New("BottomNavigation",ui,true);Stretch((RectTransform)navigation.transform);
-            Box(navigation.transform,"NavigationDeck",0,1210,720,70,Hex("202B3A"));
             string[] menus={"용사 관리","가방","도전","설정"};float[] menuX={16,119,506,609};
             string[] menuAssets={"Gear_Helmet_01.png","UI_Common_Bag_01_Brown.png","UI_Rewards_Trophy_01_Gold.png","UI_System_Setting_01.png"};
             page.menuButtons=new Image[4];page.menuIcons=new Transform[4];page.menuIconRest=new Vector3[4];

@@ -39,8 +39,15 @@ namespace ProjectSS.Expedition.Editor
             for(int i=0;i<5;i++)damage.GetArrayElementAtIndex(i).objectReferenceValue=rockSprites[i];so.FindProperty("fragmentSprite").objectReferenceValue=rockSprites[5];
             const float veinWidth=3.0f;
             float height=veinWidth*rockSprites[0].bounds.size.y/rockSprites[0].bounds.size.x;float pitch=height+.04f;
+            const int count=7;
+            if(page.blocks.Length<count)
+            {
+                int previous=page.blocks.Length;Array.Resize(ref page.blocks,count);
+                for(int i=previous;i<count;i++){var go=new GameObject("VeinRock_"+i);go.transform.SetParent(page.miningWorld,false);var sr=go.AddComponent<SpriteRenderer>();sr.sharedMaterial=page.blocks[0].sharedMaterial;sr.sortingOrder=10-i;page.blocks[i]=sr;}
+            }
             var positions=so.FindProperty("rockPositions");var scales=so.FindProperty("rockScales");
-            for(int i=0;i<3;i++){var rock=page.blocks[i];rock.sprite=rockSprites[0];Size(rock,veinWidth);rock.transform.position=Point(360,825+height*50+i*pitch*100);positions.GetArrayElementAtIndex(i).vector3Value=rock.transform.localPosition;scales.GetArrayElementAtIndex(i).vector3Value=rock.transform.localScale;}
+            var rocks=so.FindProperty("rocks");rocks.arraySize=positions.arraySize=scales.arraySize=page.blocks.Length;
+            for(int i=0;i<page.blocks.Length;i++){var rock=page.blocks[i];rock.sprite=rockSprites[0];Size(rock,veinWidth);rock.transform.position=Point(360,825+height*50+i*pitch*100);rocks.GetArrayElementAtIndex(i).objectReferenceValue=rock;positions.GetArrayElementAtIndex(i).vector3Value=rock.transform.localPosition;scales.GetArrayElementAtIndex(i).vector3Value=rock.transform.localScale;}
             so.FindProperty("hitOffset").vector3Value=new Vector3(.55f,height*.5f-.10f,0);
             foreach(string field in new[]{"cracks","crackHighlights"}){var arr=so.FindProperty(field);for(int i=0;i<arr.arraySize;i++)((LineRenderer)arr.GetArrayElementAtIndex(i).objectReferenceValue).enabled=false;}
             var shaft=Texture("Shaft");var shaftSprite=Sprite(shaft,new Rect(0,0,shaft.width,shaft.height),"ShaftTile");
@@ -83,8 +90,17 @@ namespace ProjectSS.Expedition.Editor
             lidTransform.localPosition=new Vector3(0,-totalHeight*.5f+body.bounds.size.y*scale);
             so.FindProperty("lidRest").vector3Value=lidTransform.localPosition;
             var glow=(SpriteRenderer)so.FindProperty("chestGlow").objectReferenceValue;glow.transform.localPosition=lidTransform.localPosition+Vector3.down*.06f;glow.transform.localScale=new Vector3(.9f/glow.sprite.bounds.size.x,.3f/glow.sprite.bounds.size.y,1);
+            var insideTexture=Texture("ChestLidInside");var insideSprite=Sprite(insideTexture,Crop(insideTexture,new Rect(0,0,insideTexture.width,insideTexture.height)),"ChestInsideFace",new Vector2(.5f,0));
+            var inside=lidTransform.Find("InsideFace");if(inside==null){inside=new GameObject("InsideFace").transform;inside.SetParent(lidTransform,false);inside.gameObject.AddComponent<SpriteRenderer>();}
+            var insideRenderer=inside.GetComponent<SpriteRenderer>();insideRenderer.sprite=insideSprite;insideRenderer.sharedMaterial=chest.sharedMaterial;insideRenderer.sortingOrder=lidRenderer.sortingOrder;
+            inside.localScale=Vector3.one*(lid.bounds.size.x/insideSprite.bounds.size.x);insideRenderer.enabled=false;
+            var interior=opening.transform.Find("Interior");if(interior==null){interior=new GameObject("Interior").transform;interior.SetParent(opening.transform,false);interior.gameObject.AddComponent<SpriteRenderer>();}
+            var interiorRenderer=interior.GetComponent<SpriteRenderer>();interiorRenderer.sprite=ExpeditionUIArt.Circle();interiorRenderer.sharedMaterial=chest.sharedMaterial;interiorRenderer.sortingOrder=28;interiorRenderer.color=new Color(.045f,.065f,.08f);
+            interior.localPosition=lidTransform.localPosition;interior.localScale=new Vector3(1.25f/interiorRenderer.sprite.bounds.size.x,.30f/interiorRenderer.sprite.bounds.size.y,1);interiorRenderer.enabled=false;
+            so.FindProperty("lidFace").objectReferenceValue=lidRenderer;so.FindProperty("lidInside").objectReferenceValue=insideRenderer;so.FindProperty("chestInterior").objectReferenceValue=interiorRenderer;
             so.ApplyModifiedPropertiesWithoutUndo();
-            foreach(string file in new[]{"VeinDamage","Shaft","DigAssembly","Chest"}){var importer=(TextureImporter)AssetImporter.GetAtPath(Root+file+".png");importer.isReadable=false;importer.SaveAndReimport();}
+            MiningConsoleArt.Configure(page);
+            foreach(string file in new[]{"VeinDamage","Shaft","DigAssembly","Chest","ChestLidInside"}){var importer=(TextureImporter)AssetImporter.GetAtPath(Root+file+".png");importer.isReadable=false;importer.SaveAndReimport();}
             AssetDatabase.SaveAssets();
         }
     }

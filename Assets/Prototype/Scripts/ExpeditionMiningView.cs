@@ -25,6 +25,8 @@ namespace ProjectSS.Expedition
         [SerializeField] private Transform chestLid;
         [SerializeField] private SpriteRenderer chestGlow;
         [SerializeField] private Vector3 lidRest;
+        [SerializeField] private SpriteRenderer lidFace, lidInside, chestInterior;
+        public const float ChestRewardDelay = .78f, ChestDuration = 1.9f;
         private Sequence chestAnimation;
         [SerializeField] private Transform descendingMiner, fractureRoot;
         [SerializeField] private Transform[] shaftBands;
@@ -41,9 +43,16 @@ namespace ProjectSS.Expedition
         {
             ClearFractures(); chestVisual.gameObject.SetActive(false); chestOpenRoot.SetActive(true);
             chestAnimation?.Kill(); chestLid.localPosition=lidRest;chestLid.localRotation=Quaternion.identity;chestGlow.color=new Color(1,.8f,.35f,0);
-            chestAnimation=DOTween.Sequence().Append(chestLid.DOLocalMove(lidRest+Vector3.up*.08f,.42f).SetEase(Ease.OutCubic))
-                .Join(chestLid.DOLocalRotate(new Vector3(-45,0,-4),.42f).SetEase(Ease.OutCubic))
-                .Join(chestGlow.DOFade(.8f,.32f));
+            lidFace.enabled=true;lidInside.enabled=false;chestInterior.enabled=false;
+            // Anticipation, hinge turn, inside face, then reward light. The lid never detaches.
+            chestAnimation=DOTween.Sequence()
+                .Append(chestLid.DOPunchRotation(new Vector3(0,0,3),.16f,2,.2f))
+                .Append(chestLid.DOLocalRotate(new Vector3(-86,0,0),.20f).SetEase(Ease.InQuad))
+                .AppendCallback(()=>{lidFace.enabled=false;lidInside.enabled=true;chestInterior.enabled=true;})
+                .Append(chestLid.DOLocalRotate(Vector3.zero,.32f).SetEase(Ease.OutBack,1.2f))
+                .Join(chestLid.DOLocalMove(lidRest+Vector3.up*.03f,.32f))
+                .Insert(.40f,chestGlow.DOFade(.9f,.28f))
+                .AppendInterval(.35f).Append(chestGlow.DOFade(.25f,.6f));
         }
         public void SetChest(bool chest)
         {

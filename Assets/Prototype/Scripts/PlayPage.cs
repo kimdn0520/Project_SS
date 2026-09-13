@@ -134,8 +134,8 @@ namespace ProjectSS.Expedition
                         if(ChestOpening)
                         {
                             chestClock+=dt;
-                            if(chestClock>=.5f&&!chestRewarded){chestRewarded=true;Model.Dig(Model.BlockMaxHp);}
-                            if(chestClock>=1.15f)FinishChest();
+                            if(chestClock>=ExpeditionMiningView.ChestRewardDelay&&!chestRewarded){chestRewarded=true;Model.ClaimChest();}
+                            if(chestClock>=ExpeditionMiningView.ChestDuration)FinishChest();
                         }
                         if(Model.Data.autoMine && !Rhythm.Holding && !ChestOpening) { miningClock+=dt; if(miningClock>=1.35f){miningClock=0;MineOnce(0);} }
                     }
@@ -279,7 +279,6 @@ namespace ProjectSS.Expedition
             depthLabel.text=$"갱도 {d.depth}m";
 
             
-            digLabel.text=Rhythm.Holding?"DIG!":"DIG";
             for(int i=0;i<3;i++){routeButtons[i].interactable=i<2||d.cleared>=10;routePanels[i].color=d.route==i?new Color(.24f,.48f,.46f):new Color(.12f,.2f,.23f);}
             if(ActiveTab!=1 && ActiveTab!=2)return;
             string[] names={"로웬 · 전사","린 · 도적","미라 · 마법사"};string[] slots={"무기","투구","갑옷","장신구"};
