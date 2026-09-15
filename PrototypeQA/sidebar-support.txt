@@ -1,0 +1,16 @@
+PASS: empty sidebar placeholders removed
+PASS: five typed sidebar icon instances
+PASS: all five icons are nested prefab instances in PlayPage
+PASS: base availability hides icon
+PASS: base availability restores icon
+PASS: support button opens common notice popup
+PASS: editor ad-completion preview consumes one use
+PASS: daily completion accepted 2
+PASS: daily completion accepted 3
+PASS: daily completion accepted 4
+PASS: daily completion accepted 5
+PASS: fifth use hides icon and sixth is rejected
+PASS: daily limit persists to actual save
+PASS: hidden icon resets and reappears on new local day
+PASS: clock rollback does not grant fresh quota
+PASS: next date resets daily quota

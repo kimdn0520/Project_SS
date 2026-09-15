@@ -20,7 +20,7 @@ namespace ProjectSS.Expedition.Editor
                 sky.transform.localScale=new Vector3(sky.transform.localScale.x,(top-bottom)/sky.sprite.bounds.size.y,1);
                 var p=sky.transform.position;p.y=(top+bottom)*.5f;sky.transform.position=p;
             }
-            foreach(var text in new[]{page.stageLabel,page.resources,page.enemyStatus,page.autoBattleToggle.GetComponentInChildren<TMP_Text>()})
+            foreach(var text in new[]{page.stageLabel,page.resources,page.enemyStatus})
             {
                 string path="Assets/Prototype/Art/HeaderOutline-"+text.name+".mat";
                 var mat=AssetDatabase.LoadAssetAtPath<Material>(path);

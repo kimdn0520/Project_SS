@@ -144,6 +144,8 @@ namespace ProjectSS.Expedition.Editor
             if(System.IO.File.Exists(WindowSkinArt.FramePath)&&System.IO.File.Exists(WindowSkinArt.ClosePath))WindowSkinArt.Configure(page);
             if(System.IO.File.Exists("Assets/Prototype/Art/GoldBlueChest-v2.png"))GoldChestArt.Configure(page);
             if(System.IO.File.Exists("Assets/Prototype/Art/WarmWindow-v3.png"))WarmUIArt.Configure(page);
+            FormationArt.Configure(page);
+            SidebarIconArt.Configure(page);
             EditorUtility.SetDirty(page);
         }
         static void RestoreDigGauge(PlayPage page)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 namespace ProjectSS.Expedition
 {
@@ -24,18 +24,20 @@ namespace ProjectSS.Expedition
     }
     [Serializable] public sealed class ExpeditionSave
     {
-        public int version = 3, iron, crystal, relic, cleared, depth, excavations, route, chestPity;
+        public int version = 4, iron, crystal, relic, cleared, depth, excavations, route, chestPity;
+        public string[] ownedHeroes, formation;
+        public int moleSupportDay, moleSupportUsed;
         public bool autoMine, autoBattle = true, chest;
         public int[] inventory;
         public int[] equipment = { 0,-1,-1,-1, 1,-1,-1,-1, 2,-1,-1,-1 };
         public static ExpeditionSave Fresh(int count = 11)
         {
             var d = new ExpeditionSave { inventory = new int[count] };
-            d.inventory[0] = d.inventory[1] = d.inventory[2] = 1; return d;
+            d.inventory[0] = d.inventory[1] = d.inventory[2] = 1; HeroRoster.Migrate(d);return d;
         }
         public bool IsValid(int count)
         {
-            if (version != 3 || inventory == null || inventory.Length != count || equipment == null || equipment.Length != 12) return false;
+            if ((version != 3&&version!=4) || inventory == null || inventory.Length != count || equipment == null || equipment.Length != 12) return false;
             if (iron < 0 || crystal < 0 || relic < 0 || cleared < 0 || cleared > 9999 || depth < 0 || excavations < 0 || route < 0 || route > 2 || chestPity < 0) return false;
             foreach (int n in inventory) if (n < 0) return false;
             foreach (int id in equipment) if (id < -1 || id >= count || (id >= 0 && inventory[id] == 0)) return false;
@@ -50,7 +52,7 @@ namespace ProjectSS.Expedition
             return true;
         }
     }
-    public sealed class ExpeditionModel
+    public sealed partial class ExpeditionModel
     {
         public const double ChestChance = 0.04;
         public const int ChestMinimumVeins = 8;
@@ -98,7 +100,7 @@ namespace ProjectSS.Expedition
         public event Action<bool> BattleEnded, Mined;
         public ExpeditionModel(ExpeditionCatalog catalog, ExpeditionSave data, int seed = -1)
         {
-            Catalog = catalog; Data = data; random = seed < 0 ? new System.Random() : new System.Random(seed);
+            Catalog = catalog; Data = data;HeroRoster.Migrate(Data); random = seed < 0 ? new System.Random() : new System.Random(seed);
             BlockHp = BlockMaxHp; ResetHealth();
         }
         public bool SelectRoute(int route)
@@ -158,57 +160,18 @@ namespace ProjectSS.Expedition
         }
         public bool Equip(int id, int hero)
         {
-            if (id < 0 || id >= Catalog.gear.Length || hero < 0 || hero > 2 || Available(id) <= 0) return false;
+            if (id < 0 || id >= Catalog.gear.Length || !IsOwned(hero) || Available(id) <= 0) return false;
             var g = Catalog.gear[id]; if (g.hero >= 0 && g.hero != hero) return false;
             Data.equipment[hero * 4 + g.equipSlot] = id;
-            if (!Fighting) ResetHealth(); else for (int i=0;i<3;i++) hp[i]=Mathf.Min(hp[i],HeroMaxHp(i));
+            if (!Fighting) ResetHealth();
             return true;
         }
         public bool Unequip(int hero, int slot)
         {
             if (hero < 0 || hero > 2 || slot <= 0 || slot > 3) return false;
             Data.equipment[hero * 4 + slot] = -1;
-            if (!Fighting) ResetHealth(); else hp[hero]=Mathf.Min(hp[hero],HeroMaxHp(hero));
+            if (!Fighting) ResetHealth();
             return true;
-        }
-        public void ResetHealth() { for (int i = 0; i < 3; i++) hp[i] = HeroMaxHp(i); }
-        public bool StartBattle()
-        {
-            if (Fighting) return false;
-            BattleStage = EnemyKind; ResetHealth();
-            EnemyMaxHp = (IsBoss ? 610 : 80 + Wave * 25) * (1 + (Region - 1) * 0.65f);
-            EnemyHp = EnemyMaxHp; EnemyTimer = 1.8f;
-            for (int i = 0; i < 3; i++) timers[i] = 0.35f + i * 0.12f;
-            Fighting = true; return true;
-        }
-        public void Retreat() { if (Fighting) Finish(false); }
-        public void Tick(float dt)
-        {
-            if (!Fighting || dt <= 0) return;
-            for (int i = 0; i < 3 && EnemyHp > 0; i++)
-            {
-                if (hp[i] <= 0) continue; timers[i] -= dt; if (timers[i] > 0) continue;
-                timers[i] += Catalog.gear[Equipped(i, 0)].interval;
-                float damage = HeroDamage(i); EnemyHp = Mathf.Max(0, EnemyHp - damage);
-                HeroHit?.Invoke(i, damage, GearEffect.Normal);
-            }
-            if (EnemyHp <= 0) { Finish(true); return; }
-            EnemyTimer -= dt;
-            if (EnemyTimer <= 0)
-            {
-                EnemyTimer += IsBoss ? 1.65f : 2.1f;
-                LastTargetHero = hp[0] > 0 ? 0 : hp[1] > 0 ? 1 : 2;
-                float damage = (IsBoss ? 31 : 10 + Wave * 1.6f) * (1 + (Region - 1) * 0.45f);
-                hp[LastTargetHero] = Mathf.Max(0, hp[LastTargetHero] - damage);
-                EnemyHit?.Invoke(damage, false);
-                if (TeamHp <= 0) Finish(false);
-            }
-        }
-        void Finish(bool win)
-        {
-            Fighting = false; LastVictory = LastFirstClear = win;
-            if (win) { Data.iron += IsBoss ? 20 : 3; Data.crystal += IsBoss ? 12 : 1; if (IsBoss) Data.relic += 3; Data.cleared++; }
-            BattleEnded?.Invoke(win);
         }
     }
 }

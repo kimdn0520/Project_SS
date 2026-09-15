@@ -56,7 +56,11 @@ namespace ProjectSS.Expedition
         public Image[] heroHpBars;
         public RectTransform[] heroHpRoots;
         public RectTransform enemyHpRoot;
-        public Toggle autoBattleToggle;
+        public FormationPanel formationPanel;
+        public TMP_Text pendingBattleLabel;
+        public Vector3[] formationPositions;
+        [Min(0)] public float retryDelay=3f;
+        public float RetryRemaining=>State==Journey.Recovering&&!Model.LastVictory?Mathf.Max(0,walkClock):0;
         public TMP_Text bagTitle;
         public GearCard[] gearCards;
         public Transform[] scrolling;
@@ -69,7 +73,8 @@ namespace ProjectSS.Expedition
         const string SaveKey = "ProjectSS.Play.v3";
         CancellationTokenSource lifetime;
         float walkClock, miningClock, manualReady, refreshClock, saveClock;
-        bool running, wired, muted, dirty, oneShot;
+        bool running, wired, muted, dirty;
+        readonly System.Collections.Generic.List<GameObject> skillVisuals=new System.Collections.Generic.List<GameObject>();
         int selectedHero, selectedSlot = -1, visibleEnemy;
         private float chestClock;
         private bool chestRewarded;
@@ -96,12 +101,12 @@ namespace ProjectSS.Expedition
             }
             if (!wired)
             {
-                Model.Mined += OnMined; Model.HeroHit += OnHeroHit; Model.EnemyHit += OnEnemyHit; Model.BattleEnded += OnBattleEnded;
+                Model.Mined += OnMined; Model.HeroHit += OnHeroHit; Model.EnemyHit += OnEnemyHit; Model.BattleEnded += OnBattleEnded;Model.SkillCast+=OnSkillCast;
                 holdDig.OnDig += Dig; holdDig.OnPressedChanged += OnHeld; wired = true;
             }
             foreach (var actor in heroes) actor.InitializeActor();
             foreach (var actor in enemies) actor.InitializeActor();
-            miner.InitializeActor(); ApplyEquipment();
+            miner.InitializeActor();Model.CancelBattle();Model.ResetHealth();ApplyEquipment();ApplyFormation(false);
             Model.Data.autoMine=false;
             miningView.SetRoute(Model.Data.route); miningView.SetChest(Model.Data.chest);
             State = Journey.Waiting;ChestOpening=false; SetEnemyVisible(false); OpenMenu(0); Refresh();
@@ -122,7 +127,7 @@ namespace ProjectSS.Expedition
             running=true; lifetime?.Cancel(); lifetime?.Dispose();
             lifetime=CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken); RunAsync(lifetime.Token).Forget();
         }
-        public override void OnWillLeave() { running=false; lifetime?.Cancel(); holdDig.HardCancel(); Persist(); foreach(var fx in effects)fx.ReturnToPool();foreach(var item in itemEffects)item.Return(); }
+        public override void OnWillLeave() { running=false; lifetime?.Cancel(); holdDig.HardCancel();ClearSkillVisuals(); Persist(); foreach(var fx in effects)fx.ReturnToPool();foreach(var item in itemEffects)item.Return(); }
         public override void OnDidLeave() { }
         async UniTaskVoid RunAsync(CancellationToken ct)
         {
@@ -131,16 +136,17 @@ namespace ProjectSS.Expedition
                 while(running)
                 {
                     ct.ThrowIfCancellationRequested();
-                    if(!pausePolicy.IsPaused && ActiveTab==0)
+                    if(!pausePolicy.IsPaused)
                     {
-                        float dt=Mathf.Min(Time.deltaTime,.1f); Rhythm.Tick(dt); TickJourney(dt);
+                        float dt=Mathf.Min(Time.deltaTime,.1f);TickJourney(dt);
+                        if(ActiveTab==0)Rhythm.Tick(dt);
                         if(ChestOpening)
                         {
                             chestClock+=dt;
                             if(chestClock>=ExpeditionMiningView.ChestRewardDelay&&!chestRewarded){chestRewarded=true;Model.ClaimChest();}
                             if(chestClock>=ExpeditionMiningView.ChestDuration)FinishChest();
                         }
-                        if(Model.Data.autoMine && !Rhythm.Holding && !ChestOpening) { miningClock+=dt; if(miningClock>=1.35f){miningClock=0;MineOnce(0);} }
+                        if(ActiveTab==0&&Model.Data.autoMine && !Rhythm.Holding && !ChestOpening) { miningClock+=dt; if(miningClock>=1.35f){miningClock=0;MineOnce(0);} }
                     }
                     refreshClock+=Time.deltaTime; saveClock+=Time.deltaTime;
                     if(refreshClock>=.1f){refreshClock=0;Refresh();}
@@ -154,29 +160,39 @@ namespace ProjectSS.Expedition
         {
             if(State==Journey.Waiting)
             {
-                if(!Model.Data.autoBattle && !oneShot)return;
-                oneShot=false; State=Journey.Walking;walkClock=0;Model.ResetHealth();
+                State=Journey.Walking;walkClock=0;Model.ResetHealth();ApplyEquipment();ApplyFormation(false);
                 visibleEnemy=Model.EnemyKind;enemies[visibleEnemy].InitializeActor();SetEnemyVisible(true);
-                foreach(var h in heroes){h.SetAlive(true);h.SetWalking(true);}
+                foreach(var h in heroes)if(h.gameObject.activeSelf){h.SetAlive(true);h.SetWalking(true);}
             }
             else if(State==Journey.Walking)
             {
                 walkClock+=dt;
                 foreach(var layer in scrolling){var p=layer.localPosition;p.x-=dt*.85f;if(p.x < -7.6f)p.x+=15.2f;layer.localPosition=p;}
                 enemies[visibleEnemy].transform.position=enemyRest[visibleEnemy]+Vector3.right*Mathf.Lerp(5,0,Mathf.Clamp01(walkClock/2.2f));
-                if(walkClock>=2.2f){foreach(var h in heroes)h.SetWalking(false);Model.StartBattle();State=Journey.Fighting;}
+                if(walkClock>=2.2f){BeginEncounter();}
             }
             else if(State==Journey.Fighting)Model.Tick(dt);
             else
             {
                 walkClock-=dt;
-                if(walkClock<=0){State=Journey.Waiting;SetEnemyVisible(false);}
+                if(walkClock<=0)
+                {
+                    if(Model.LastVictory){State=Journey.Waiting;SetEnemyVisible(false);}
+                    else{visibleEnemy=Model.EnemyKind;enemies[visibleEnemy].InitializeActor();SetEnemyVisible(true);BeginEncounter();}
+                }
             }
+        }
+        void BeginEncounter()
+        {
+            ClearSkillVisuals();foreach(var fx in effects)if(fx.IsBattleFeedback)fx.ReturnToPool();if(!Model.StartBattle())return;
+            ApplyEquipment();ApplyFormation(true);
+            foreach(var h in heroes){h.InitializeActor();h.SetWalking(false);}
+            State=Journey.Fighting;
         }
         public void OpenMenu(int menu)
         {
             holdDig.HardCancel(); ActiveTab=menu;
-            // Keep the world visible beneath modal menu curtains; the game loop is gated by ActiveTab.
+            // Battle continues behind menu curtains; mining input is limited to the play tab.
             minePanel.SetActive(true); miningWorld.gameObject.SetActive(true);
             for(int i=0;i<menuPanels.Length;i++)menuPanels[i].SetActive(menu==i+1);
             for(int i=0;i<menuIcons.Length;i++)
@@ -189,6 +205,17 @@ namespace ProjectSS.Expedition
             if(Model!=null)Refresh();
         }
         public void SelectTab(int tab) { OpenMenu(tab); }
+        public void RefreshMoleSupport()
+        {
+            if(Model!=null&&MoleSupportDaily.Refresh(Model.Data,MoleSupportDaily.Day(DateTime.Now)))Persist();
+        }
+#if UNITY_EDITOR
+        public bool CompleteMoleSupportPreview()
+        {
+            bool completed=MoleSupportDaily.Complete(Model.Data,MoleSupportDaily.Day(DateTime.Now));
+            if(completed)Persist();return completed;
+        }
+#endif
         public bool HandleBack()
         {
             if(ActiveTab==1&&!heroGrid.activeSelf){ShowHeroGrid();return true;}
@@ -229,25 +256,44 @@ namespace ProjectSS.Expedition
         }
         void OnHeld(bool held){Rhythm.SetHeld(held);if(!held)miningClock=0;}
         public void ToggleAuto(){Model.Data.autoMine=!Model.Data.autoMine;dirty=true;Refresh();}
-        public void SetAutoBattle(bool enabled){Model.Data.autoBattle=enabled;dirty=true;}
-        public void StartOrRetreat(){if(State==Journey.Fighting){Model.Data.autoBattle=false;Model.Retreat();}else oneShot=true;Refresh();}
         public void ToggleSound(){muted=!muted;miningView.SetMuted(muted);soundLabel.text=muted?"소리 OFF":"소리 ON";}
         public void Craft(int id){if(!Model.Craft(id))return;dirty=true;Refresh();}
         public void Equip(int id)
         {
             EquipForHero(id,selectedHero);
         }
-        public bool EquipForHero(int id,int hero){if(!Model.Equip(id,hero))return false;ApplyEquipment();dirty=true;Refresh();return true;}
-        public bool UnequipForHero(int hero,int slot){if(!Model.Unequip(hero,slot))return false;ApplyEquipment();dirty=true;Refresh();return true;}
-        public void ClearSlot(){if(selectedSlot>0&&Model.Unequip(selectedHero,selectedSlot)){ApplyEquipment();dirty=true;Refresh();}}
+        public bool EquipForHero(int id,int hero){if(!Model.Equip(id,hero))return false;if(!Model.Fighting)ApplyEquipment();dirty=true;Persist();Refresh();return true;}
+        public bool UnequipForHero(int hero,int slot){if(!Model.Unequip(hero,slot))return false;if(!Model.Fighting)ApplyEquipment();dirty=true;Persist();Refresh();return true;}
+        public bool AssignFormation(int slot,int hero){if(!Model.AssignHero(slot,hero))return false;SettingsChanged();return true;}
+        public bool RemoveFormation(int slot){if(!Model.RemoveHero(slot)){ToastPopup.Show("최소 1명의 용사가 출전해야 합니다");return false;}SettingsChanged();return true;}
+        void SettingsChanged(){dirty=true;Persist();if(!Model.Fighting){ApplyFormation(false);ApplyEquipment();}Refresh();}
+        public void ClearSlot(){if(selectedSlot>0)UnequipForHero(selectedHero,selectedSlot);}
         void ApplyEquipment()
         {
             for(int i=0;i<3;i++)
             {
-                var g=catalog.gear[Model.Equipped(i,0)];heroes[i].Equip(g.slot,sprites.Get(g.spriteKey),false);
-                int armor=Model.Equipped(i,2),helmet=Model.Equipped(i,1);
+                int weapon=Model.Fighting?Model.BattleEquipped(i,0):Model.Equipped(i,0);
+                var g=catalog.gear[weapon];heroes[i].Equip(g.slot,sprites.Get(g.spriteKey),false);
+                int armor=Model.Fighting?Model.BattleEquipped(i,2):Model.Equipped(i,2),helmet=Model.Fighting?Model.BattleEquipped(i,1):Model.Equipped(i,1);
                 heroes[i].EquipArmor(armor<0?null:sprites.Get(catalog.gear[armor].spriteKey),helmet<0?null:sprites.Get(catalog.gear[helmet].spriteKey));
             }
+        }
+        void ApplyFormation(bool snapshot)
+        {
+            for(int hero=0;hero<3;hero++)
+            {
+                int position=-1;for(int slot=0;slot<3;slot++)if((snapshot?Model.BattleHero(slot):Model.ConfiguredHero(slot))==hero)position=slot;
+                heroes[hero].gameObject.SetActive(position>=0);heroHpRoots[hero].gameObject.SetActive(position>=0);
+                if(position>=0&&formationPositions!=null&&formationPositions.Length==3)heroes[hero].transform.localPosition=formationPositions[position];
+            }
+        }
+        void ClearSkillVisuals(){foreach(var go in skillVisuals)if(go!=null)Destroy(go);skillVisuals.Clear();}
+        void OnSkillCast(int hero,GearSkillDefinition skill)
+        {
+            if(!Model.Fighting||Model.HeroHp(hero)<=0)return;
+            heroes[hero].CastSkill();Float(heroes[hero].HitPosition+Vector3.up*.3f,skill.title,Mint);
+            enemies[visibleEnemy].Hit(true);
+            if(skill.visualPrefab!=null){var effect=Instantiate(skill.visualPrefab,enemies[visibleEnemy].HitPosition,Quaternion.identity);skillVisuals.Add(effect);Destroy(effect,skill.duration);}
         }
         void SetEnemyVisible(bool visible){for(int i=0;i<enemies.Length;i++)enemies[i].gameObject.SetActive(visible&&i==visibleEnemy);enemyHpRoot.gameObject.SetActive(visible);}
         void OnMined(bool broken)
@@ -274,8 +320,8 @@ namespace ProjectSS.Expedition
         void OnEnemyHit(float damage,bool shielded){enemies[visibleEnemy].Attack();heroes[Model.LastTargetHero].Hit(false);Float(heroes[Model.LastTargetHero].HitPosition,"-"+Mathf.CeilToInt(damage),Color.red);}
         void OnBattleEnded(bool win)
         {
-            State=Journey.Recovering;walkClock=win?1.1f:2.4f;dirty=true;
-            if(win){enemies[visibleEnemy].SetAlive(false);foreach(var h in heroes)if(h.gameObject.activeInHierarchy)h.Celebrate();}
+            State=Journey.Recovering;walkClock=win?1.1f:retryDelay;dirty=true;ClearSkillVisuals();
+            if(win){enemies[visibleEnemy].SetAlive(false);for(int i=0;i<heroes.Length;i++)if(heroes[i].gameObject.activeInHierarchy&&Model.HeroHp(i)>0)heroes[i].Celebrate();}
             
             Persist();
         }
@@ -285,11 +331,12 @@ namespace ProjectSS.Expedition
             if(Model==null)return;var d=Model.Data;
             resources.text=$"철  {d.iron}     결정  {d.crystal}     파편  {d.relic}";
             stageLabel.text=$"{Model.Region}-{Model.Wave}  ·  "+(Model.Region%2==1?"초원 전선":"잊힌 요새")+(Model.IsBoss?"  /  BOSS":"");
-            enemyStatus.text=State==Journey.Walking?"다음 적을 찾아 이동 중":State==Journey.Fighting?"교전 중":State==Journey.Recovering?"원정대 재정비":"원정 대기";
-            autoBattleToggle.SetIsOnWithoutNotify(d.autoBattle);
+            enemyStatus.text=State==Journey.Walking?"이동 중":State==Journey.Fighting?(Model.EnemyFrozenFor>0?"전투 중 · 적 빙결":"전투 중"):State==Journey.Recovering?(Model.LastVictory?"승리 · 다음 웨이브로 이동":$"재도전 대기 · {RetryRemaining:0.0}초"):"원정 준비";
+            if(pendingBattleLabel!=null){pendingBattleLabel.gameObject.SetActive(Model.PendingBattleChanges);pendingBattleLabel.text="다음 전투부터 적용됩니다";}
+            if(formationPanel!=null)formationPanel.Refresh();
             heatGauge.SetValue(Rhythm.BurstRemaining>0?Rhythm.BurstRemaining/2.6f:Rhythm.Charge/6f,Rhythm.BurstRemaining>0?Mint:Gold);
             enemyHealthBar.SetValue(Model.Fighting?Model.EnemyHp/Model.EnemyMaxHp:State==Journey.Recovering?0:1);
-            for(int i=0;i<3;i++){heroHealthBars[i].SetValue(Model.HeroHp(i)/Model.HeroMaxHp(i));heroes[i].SetAlive(Model.HeroHp(i)>0);}
+            for(int i=0;i<3;i++){heroHealthBars[i].SetValue(Model.HeroHp(i)/Mathf.Max(1,Model.HasSnapshot&&(State==Journey.Fighting||State==Journey.Recovering)?Model.BattleMaxHp(i):Model.HeroMaxHp(i)));heroes[i].SetAlive(Model.HeroHp(i)>0);}
             depthLabel.text=$"갱도 {d.depth}m";
 
             
@@ -298,7 +345,7 @@ namespace ProjectSS.Expedition
             string[] names={"로웬 · 전사","린 · 도적","미라 · 마법사"};string[] slots={"무기","투구","갑옷","장신구"};
             for(int h=0;h<3;h++)
             {
-                heroDetails[h].text=names[h]+$"\n공격 {Model.HeroDamage(h):0} · HP {Model.HeroMaxHp(h):0}";
+                heroDetails[h].text=names[h]+$" · 추천 위치: {HeroRoster.Positions[h]}\n공격 {Model.HeroDamage(h):0} · HP {Model.HeroMaxHp(h):0}";
                 for(int s=0;s<4;s++){int index=h*4+s,id=Model.Equipped(h,s);slotIcons[index].enabled=id>=0;if(id>=0)slotIcons[index].sprite=catalog.gear[id].icon;slotLabels[index].text=slots[s]+"\n"+(id>=0?catalog.gear[id].title:"비어 있음");}
             }
             if(ActiveTab!=2)return;
@@ -313,12 +360,19 @@ namespace ProjectSS.Expedition
         }
         void LateUpdate()
         {
-            if(Model==null||ActiveTab!=0)return;
+            if(Model==null)return;
             enemyHpRoot.position=enemies[visibleEnemy].HpPosition;
             for(int i=0;i<heroes.Length;i++)heroHpRoots[i].position=heroes[i].HpPosition;
         }
         void Persist(){if(Model==null)return;PlayerPrefs.SetString(SaveKey,JsonUtility.ToJson(Model.Data));PlayerPrefs.Save();dirty=false;}
-        void Unwire(){if(!wired)return;Model.Mined-=OnMined;Model.HeroHit-=OnHeroHit;Model.EnemyHit-=OnEnemyHit;Model.BattleEnded-=OnBattleEnded;holdDig.OnDig-=Dig;holdDig.OnPressedChanged-=OnHeld;wired=false;}
+        void Unwire()
+        {
+            if(!wired)return;
+            // Editor domain reload can clear the managed model before destroying the page.
+            if(Model!=null){Model.Mined-=OnMined;Model.HeroHit-=OnHeroHit;Model.EnemyHit-=OnEnemyHit;Model.BattleEnded-=OnBattleEnded;Model.SkillCast-=OnSkillCast;}
+            if(holdDig!=null){holdDig.OnDig-=Dig;holdDig.OnPressedChanged-=OnHeld;}
+            wired=false;
+        }
         void OnApplicationPause(bool pause){if(pause)Persist();}
         void OnApplicationQuit(){Persist();}
         void OnDestroy(){running=false;lifetime?.Cancel();lifetime?.Dispose();Unwire();}

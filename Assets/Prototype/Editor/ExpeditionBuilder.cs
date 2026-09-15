@@ -400,11 +400,6 @@ namespace ProjectSS.Expedition.Editor
             Box(ui,"TopHUD",0,0,720,100,Ink);
             page.stageLabel=Text(ui,"Stage","1-1 · 초원 전선",24,12,450,34,25,White,true);
             page.resources=Text(ui,"Resources","철 0   결정 0   파편 0",24,58,660,30,18,Gold);
-            var toggle=New("AutoBattle",ui,true).AddComponent<Toggle>();Rect((RectTransform)toggle.transform,500,16,200,32);
-            var checkBack=Box(toggle.transform,"CheckBack",0,0,30,30,Panel);checkBack.raycastTarget=true;
-            var check=Box(toggle.transform,"Check",6,6,18,18,Teal);toggle.targetGraphic=checkBack;toggle.graphic=check;
-            Text(toggle.transform,"Label","자동 원정",40,0,154,32,19,White);
-            UnityEventTools.AddPersistentListener(toggle.onValueChanged,page.SetAutoBattle);page.autoBattleToggle=toggle;
             Region(ui,"BattleHUD",100,300,out var bh);
             page.enemyStatus=Text(bh,"BattleStatus","이동 중",24,104,430,25,15,White);
             page.heroHpBars=new Image[3];page.heroHpRoots=new RectTransform[3];

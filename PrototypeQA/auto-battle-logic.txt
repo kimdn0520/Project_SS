@@ -1,0 +1,43 @@
+PASS: v3 inventory compatibility
+PASS: v3 migration preserves resources, gear, progress and defaults formation
+PASS: invalid and duplicate IDs repaired
+PASS: unowned/all-empty repaired to owned hero
+PASS: occupied slot exchange
+PASS: move deployed hero to empty slot
+PASS: replace with undeployed hero
+PASS: last hero protected and equipment remains hero-owned
+PASS: front target skips empty slots
+PASS: battle resolves
+PASS: 1/2/3 hero formation can win
+PASS: front target skips empty slots
+PASS: battle resolves
+PASS: 1/2/3 hero formation can win
+PASS: front target skips empty slots
+PASS: battle resolves
+PASS: 1/2/3 hero formation can win
+PASS: dead front hero skipped
+PASS: next living hero takes damage
+PASS: battle resolves
+PASS: 1-9 advances to 1-10 boss
+PASS: battle resolves
+PASS: boss rewards and 2-1 progression
+PASS: result/reward processed once
+PASS: battle resolves
+PASS: 2-5 defeat keeps stage and grants no clear reward
+PASS: retry resets all health and enemy timer
+PASS: configuration editable during battle
+PASS: battle snapshot unaffected by equipment/formation edits
+PASS: next battle applies pending snapshot
+PASS: skill waits for initial cooldown
+PASS: skill uses correct hero and authored effect
+PASS: automatic frost nova targets living enemy
+PASS: freeze suspends enemy attacks
+PASS: skill definition copied for current battle
+PASS: no skill after battle ends
+PASS: previous battle delayed status cleared
+PASS: reconnect restores configuration/progress without rewarding
+PASS: reconnect starts fresh encounter
+PASS: dead caster cannot cast
+PASS: undefined burn execution not invented
+PASS: mining durability/material loop unchanged
+PASS: mining chest awards one gear

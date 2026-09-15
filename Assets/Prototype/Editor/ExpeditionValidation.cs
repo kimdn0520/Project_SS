@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -77,9 +77,9 @@ namespace ProjectSS.Expedition.Editor
             if(page.Model.Data.cleared!=before+1)throw new Exception("Journey failed to advance");
             page.Model.Data.autoBattle=false;
             for(int i=0;i<60;i++)page.TickJourney(.1f);
-            if(page.State!=PlayPage.Journey.Waiting)throw new Exception("Auto OFF started another fight");
+            if(page.State==PlayPage.Journey.Waiting)throw new Exception("Legacy auto OFF incorrectly stopped automatic progression");
             page.Model.Data.autoBattle=true;
-            Debug.Log("JOURNEY PASS: Splash -> PlayPage, one page, walk -> battle -> next wave, auto OFF waits after fight");
+            Debug.Log("JOURNEY PASS: Splash -> PlayPage, one page, walk -> battle -> next wave, legacy auto OFF ignored");
         }
         public static void UiCheck()
         {

@@ -7,11 +7,17 @@ namespace ProjectSS.Expedition
     {
         public PlayPage page;
         public RectTransform safeArea;
+        float nextRefresh;
         void LateUpdate()
         {
             if (safeArea == null || Screen.width <= 0 || Screen.height <= 0) return;
             ApplySafeArea(Screen.safeArea, new Vector2(Screen.width, Screen.height));
             safeArea.gameObject.SetActive(page != null && page.minePanel.activeInHierarchy);
+            if(Application.isPlaying&&Time.unscaledTime>=nextRefresh)
+            {
+                nextRefresh=Time.unscaledTime+1;
+                foreach(var icon in safeArea.GetComponentsInChildren<BaseSidebarIcon>(true))icon.RefreshVisibility();
+            }
         }
         public void ApplySafeArea(Rect area, Vector2 screen)
         {

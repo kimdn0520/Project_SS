@@ -11,10 +11,12 @@ namespace ProjectSS.Expedition
         [SerializeField] private SpriteRenderer spark;
         [SerializeField] private PoolManager pool;
         private Sequence sequence;
+        public bool IsBattleFeedback {get;private set;}
         [SerializeField] private Sprite defaultSpark;
         [SerializeField] private Material battleMaterial, miningMaterial;
         public void Loot(Vector3 position, Sprite icon, string text, bool equipment)
         {
+            IsBattleFeedback=false;
             sequence?.Kill(); transform.position = position; transform.localScale = Vector3.one; transform.localRotation = Quaternion.identity;
             spark.sharedMaterial = miningMaterial; spark.sprite = icon; spark.color = Color.white;
             spark.transform.localScale = Vector3.one * (equipment ? .54f : .36f) / Mathf.Max(icon.bounds.size.x, icon.bounds.size.y);
@@ -28,6 +30,7 @@ namespace ProjectSS.Expedition
         {
             sequence?.Kill();
             bool mining = position.y < 0;
+            IsBattleFeedback=!mining;
             position.x = Mathf.Clamp(position.x, -2.4f, 2.4f);
             position.y = Mathf.Clamp(position.y, mining ? -2f : 3f, mining ? -.3f : 5.2f);
             spark.sharedMaterial = mining ? miningMaterial : battleMaterial;
@@ -46,6 +49,7 @@ namespace ProjectSS.Expedition
         }
         public void Scatter(Vector3 position, Sprite sprite, Color color, int index)
         {
+            IsBattleFeedback=false;
             sequence?.Kill();
             transform.position = position;
             transform.localScale = Vector3.one;
@@ -62,7 +66,7 @@ namespace ProjectSS.Expedition
                 .Insert(0.32f, spark.DOFade(0, 0.30f))
                 .OnComplete(ReturnToPool);
         }
-        public void ReturnToPool() { sequence?.Kill(); pool.ReturnCached(this); }
+        public void ReturnToPool() { IsBattleFeedback=false;sequence?.Kill(); pool.ReturnCached(this); }
         private void OnDisable() { sequence?.Kill(); }
     }
 }

@@ -52,8 +52,8 @@ namespace ProjectSS.Expedition.Editor
                 results.Add("PASS: live walking/encounters/basic attacks advance 1-1 through 1-10 boss into 2-1");
                 page.Model.Data.autoBattle=false;
                 await UniTask.Delay(1600,cancellationToken:page.destroyCancellationToken);
-                if(page.State!=PlayPage.Journey.Waiting)throw new Exception("Auto OFF does not stop between encounters");
-                results.Add("PASS: auto OFF waits after current encounter");
+                if(page.State==PlayPage.Journey.Waiting)throw new Exception("Legacy auto OFF stopped automatic encounters");
+                results.Add("PASS: legacy auto OFF does not stop automatic encounters");
                 Time.timeScale=1;page.Refresh();ExpeditionValidation.Capture();File.Copy("PrototypeQA/latest.png","PrototypeQA/stage-2-1.png",true);
                 // Sample a full tile cycle, including the exact seam, while preserving every baked tile.
                 var positions=page.scrolling.Select(t=>t.localPosition).ToArray();

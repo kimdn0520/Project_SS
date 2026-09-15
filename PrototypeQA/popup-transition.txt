@@ -1,0 +1,3 @@
+PASS: opening 0; stable button states across 2 frames; touches shielded then restored
+PASS: opening 1; stable button states across 12 frames; touches shielded then restored
+PASS: opening 2; stable button states across 18 frames; touches shielded then restored

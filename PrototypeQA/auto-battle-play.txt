@@ -1,0 +1,49 @@
+PASS: legacy battle toggle removed from live prefab
+PASS: automatic encounter starts
+PASS: actor follows formation slot 2
+PASS: matching health bar active for hero 2
+PASS: undeployed actor hidden 0
+PASS: undeployed actor hidden 1
+PASS: undeployed actor hidden 2
+PASS: automatic encounter starts
+PASS: actor follows formation slot 0
+PASS: matching health bar active for hero 1
+PASS: actor follows formation slot 2
+PASS: matching health bar active for hero 0
+PASS: undeployed actor hidden 0
+PASS: undeployed actor hidden 1
+PASS: undeployed actor hidden 2
+PASS: automatic encounter starts
+PASS: actor follows formation slot 0
+PASS: matching health bar active for hero 2
+PASS: actor follows formation slot 1
+PASS: matching health bar active for hero 0
+PASS: actor follows formation slot 2
+PASS: matching health bar active for hero 1
+PASS: undeployed actor hidden 0
+PASS: undeployed actor hidden 1
+PASS: undeployed actor hidden 2
+PASS: automatic encounter starts
+PASS: live equipment and formation edits accepted
+PASS: live battle retains old gear/position/HP/timer
+PASS: pending changes message visible
+PASS: retry default is 3 seconds
+PASS: retry waits full duration
+PASS: retry starts new snapshot after 3 seconds
+PASS: retry visuals follow updated formation
+PASS: automatic encounter starts
+PASS: actual 2-5 defeat preserves wave
+PASS: 2-5 retry restores HP on same wave
+PASS: automatic encounter starts
+PASS: live skill cast and freeze event attached to correct hero
+PASS: automatic encounter starts
+PASS: live 1-9 clear
+PASS: automatic encounter starts
+PASS: live 1-10 boss
+PASS: live boss clear to 2-1
+PASS: formation UI selection flow
+PASS: actual legacy PlayerPrefs load migrates without resetting progress
+PASS: actual reconnect restores formation and restarts wave without reward
+PASS: real DIG opens chest during automatic journey
+PASS: production async loop automatically moves, attacks and rewards; state=Recovering, paused=False
+PASS: real chest animation awards gear once and finishes alongside auto combat

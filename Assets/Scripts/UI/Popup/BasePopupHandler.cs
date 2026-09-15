@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// 모든 팝업의 기반 클래스.
@@ -26,6 +27,29 @@ public abstract class BasePopupHandler : MonoBehaviour, IPopupHandler
 
     public virtual string PopupName => string.IsNullOrEmpty(gameObject.name) ? GetType().Name : gameObject.name;
     public bool IsOpen { get; private set; }
+    private GameObject transitionInputBlocker;
+
+    private void SetTransitionInputBlocked(bool blocked)
+    {
+        // CanvasGroup.interactable changes every descendant Selectable's tint.
+        // Absorb pointer input without changing the buttons' visual states.
+        if (blocked && transitionInputBlocker == null && Canvas != null)
+        {
+            transitionInputBlocker = new GameObject("TransitionInputBlocker", typeof(RectTransform), typeof(Image));
+            var rect = (RectTransform)transitionInputBlocker.transform;
+            rect.SetParent(Canvas.transform, false);
+            rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one;
+            rect.offsetMin = rect.offsetMax = Vector2.zero;
+            var image = transitionInputBlocker.GetComponent<Image>();
+            image.color = Color.clear; image.raycastTarget = true;
+        }
+        if (transitionInputBlocker != null)
+        {
+            transitionInputBlocker.transform.SetAsLastSibling();
+            transitionInputBlocker.SetActive(blocked);
+        }
+        if (blocked && EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
+    }
 
     /// <summary>
     /// 개별 팝업만의 커스텀 등장/퇴장 연출. null이면 PopupManager의 기본 애니메이션 사용
@@ -92,13 +116,15 @@ public abstract class BasePopupHandler : MonoBehaviour, IPopupHandler
         // 트랜지션 연출 중에는 터치 입력 방지
         if (CanvasGroup != null)
         {
-            CanvasGroup.interactable = false;
-            CanvasGroup.blocksRaycasts = false;
+            CanvasGroup.interactable = true;
+            CanvasGroup.blocksRaycasts = true;
         }
+        SetTransitionInputBlocked(true);
     }
 
     public virtual void OnDidEnter(object param)
     {
+        SetTransitionInputBlocked(false);
         // 트랜지션 완료 후 터치 입력 활성화
         if (CanvasGroup != null)
         {
@@ -112,9 +138,9 @@ public abstract class BasePopupHandler : MonoBehaviour, IPopupHandler
         // 퇴장 시작 시 즉시 터치 입력 차단
         if (CanvasGroup != null)
         {
-            CanvasGroup.interactable = false;
-            CanvasGroup.blocksRaycasts = false;
+            CanvasGroup.blocksRaycasts = true;
         }
+        SetTransitionInputBlocked(true);
     }
 
     public virtual void OnDidLeave()

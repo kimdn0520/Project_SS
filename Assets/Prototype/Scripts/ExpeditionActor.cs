@@ -44,6 +44,7 @@ namespace ProjectSS.Expedition
 
         public void InitializeActor()
         {
+            motion?.Kill();walking=false;idleAt=0;
             ready = true;
             alive = true;
             motionRoot.localPosition = restPosition;
@@ -75,6 +76,12 @@ namespace ProjectSS.Expedition
             motionRoot.localPosition = restPosition;
             motion = motionRoot.DOPunchPosition(new Vector3((ranged ? 0.06f : 0.22f) * facingDirection, 0.025f, 0), 0.3f, 1, 0.2f);
         }
+        public void CastSkill()
+        {
+            if(!alive)return;Play("Skill");idleAt=Time.time+.65f;
+            motion?.Kill();motionRoot.localPosition=restPosition;
+            motion=motionRoot.DOPunchPosition(Vector3.up*.10f,.35f,1,.2f);
+        }
 
         public void Hit(bool shielded)
         {
@@ -95,6 +102,7 @@ namespace ProjectSS.Expedition
         {
             if (alive == value) return;
             alive = value; idleAt = 0;
+            if(!value){motion?.Kill();motionRoot.localPosition=restPosition;}
             Play(value ? "Idle" : "Defeat");
         }
         public void MineStrike(float interval)
