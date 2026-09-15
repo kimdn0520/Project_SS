@@ -1,0 +1,1 @@
+PASS: compatible CharacterMaker chest 045 / helmet 041; armor retained in play; mining swing captured.

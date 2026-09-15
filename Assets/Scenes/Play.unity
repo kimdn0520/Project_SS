@@ -361,6 +361,16 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1418988515}
+    - target: {fileID: 2764263509346467387, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4292670975
+      objectReference: {fileID: 0}
+    - target: {fileID: 2764263509346467387, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
     - target: {fileID: 3676848878888504577, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -410,6 +420,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279320379977601455, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4292670975
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279320379977601455, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047051900061520788, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4292670975
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047051900061520788, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
       objectReference: {fileID: 0}
     - target: {fileID: 7175907921622229916, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
         type: 3}

@@ -31,7 +31,7 @@ namespace ProjectSS.Expedition
                 var row = gearRows[i]; var gear = page.catalog.gear[i];
                 bool show = filter != 2 && (filter == 0 || gear.equipSlot == 0) && page.Model.Data.inventory[i] > 0;
                 row.root.gameObject.SetActive(show); if(!show) continue;
-                row.root.anchoredPosition = new Vector2(0,-y); y += 128;
+                row.root.anchoredPosition = new Vector2(0,-y); y += row.root.sizeDelta.y + 12;
                 row.count.text = $"보유 {page.Model.Data.inventory[i]} · 사용 중 {page.Model.Data.inventory[i]-page.Model.Available(i)}";
             }
             int[] counts = {page.Model.Data.iron,page.Model.Data.crystal,page.Model.Data.relic};
@@ -39,11 +39,18 @@ namespace ProjectSS.Expedition
             {
                 var row=materialRows[i]; bool show=filter!=1 && counts[i]>0;
                 row.root.gameObject.SetActive(show); if(!show)continue;
-                row.root.anchoredPosition=new Vector2(0,-y);y+=128;row.count.text=$"보유 {counts[i]}";
+                row.root.anchoredPosition=new Vector2(0,-y);y+=row.root.sizeDelta.y+12;row.count.text=$"보유 {counts[i]}";
             }
             content.sizeDelta=new Vector2(content.sizeDelta.x,y);
             empty.gameObject.SetActive(y==0);
-            for(int i=0;i<tabs.Length;i++)tabs[i].color=i==filter?new Color(.24f,.48f,.46f):new Color(.12f,.2f,.23f);
+            for(int i=0;i<tabs.Length;i++)
+            {
+                bool selected=i==filter;
+                tabs[i].color=new Color(.078f,.137f,.173f);
+                var surface=tabs[i].transform.Find("Surface")?.GetComponent<Image>();
+                if(surface!=null)surface.color=selected?new Color(.21f,.43f,.45f):new Color(.95f,.96f,.91f);
+                var label=tabs[i].GetComponentInChildren<TMP_Text>();if(label!=null)label.color=selected?Color.white:new Color(.14f,.24f,.29f);
+            }
         }
     }
 }

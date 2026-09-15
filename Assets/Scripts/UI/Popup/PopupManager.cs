@@ -24,7 +24,8 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     private void BindCamera(IPopupHandler popup)
     {
         if (popup.Canvas == null) return;
-        popup.Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        popup.Canvas.renderMode = popup.Canvas.GetComponentInChildren<ProjectSS.Expedition.PopupSafeLayout>(true) != null
+            ? RenderMode.ScreenSpaceOverlay : RenderMode.ScreenSpaceCamera;
         popup.Canvas.worldCamera = renderCamera;
     }
 

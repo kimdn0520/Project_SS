@@ -53,13 +53,13 @@ namespace ProjectSS.Expedition
             label.text = "";
             spark.sharedMaterial = miningMaterial;
             spark.sprite = sprite; spark.color = color;
-            spark.transform.localScale = Vector3.one * (0.08f + (index % 3) * 0.035f) / Mathf.Max(sprite.bounds.size.x, sprite.bounds.size.y);
+            spark.transform.localScale = Vector3.one * (0.10f + (index % 4) * 0.045f) / Mathf.Max(sprite.bounds.size.x, sprite.bounds.size.y);
             float direction = index % 2 == 0 ? -1 : 1;
-            var destination = position + new Vector3(direction * (0.35f + index * 0.1f), -0.5f, 0);
+            var destination = position + new Vector3(direction * Random.Range(.4f, 1.3f), Random.Range(-.9f, -.35f), 0);
             sequence = DOTween.Sequence()
-                .Append(transform.DOJump(destination, 0.25f + (index % 3) * 0.12f, 1, 0.48f))
-                .Join(transform.DORotate(new Vector3(0, 0, direction * 210), 0.48f))
-                .Insert(0.24f, spark.DOFade(0, 0.24f))
+                .Append(transform.DOJump(destination, Random.Range(.3f, .85f), 1, 0.62f))
+                .Join(transform.DORotate(new Vector3(0, 0, direction * Random.Range(150f, 360f)), 0.62f))
+                .Insert(0.32f, spark.DOFade(0, 0.30f))
                 .OnComplete(ReturnToPool);
         }
         public void ReturnToPool() { sequence?.Kill(); pool.ReturnCached(this); }

@@ -1,0 +1,1 @@
+PASS: menu curtain and order 500, bottom nav raycast blocked, curtain close, equipment above menu, designer Common close position preserved, notice/close. 1080x2400

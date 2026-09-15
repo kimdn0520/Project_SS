@@ -39,6 +39,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _WorldClipRect: {r: -3.6, g: 2.4, b: 3.6, a: 5.4}
+    - _WorldClipRect: {r: -3.6, g: 2.4, b: 3.6, a: 6.4}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

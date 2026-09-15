@@ -29,10 +29,12 @@ namespace ProjectSS.Expedition
                 var g=page.catalog.gear[i]; var row=rows[i];
                 bool show=g.equipSlot==slot&&(g.hero<0||g.hero==hero)&&page.Model.Data.inventory[i]>0;
                 row.root.gameObject.SetActive(show);if(!show)continue;
-                row.root.anchoredPosition=new Vector2(0,-y);y+=132;
+                row.root.anchoredPosition=new Vector2(0,-y);y+=row.root.sizeDelta.y+12;
                 bool equipped=page.Model.Equipped(hero,slot)==i;
                 row.count.text=equipped?"착용 중":page.Model.Available(i)>0?$"선택하여 장착 · 여유 {page.Model.Available(i)}":"다른 용사가 사용 중";
                 row.button.interactable=!equipped&&page.Model.Available(i)>0;
+                var surface=row.root.Find("Surface")?.GetComponent<Image>();
+                if(surface!=null)surface.color=equipped?new Color(.76f,.88f,.81f):new Color(.95f,.96f,.91f);
             }
             content.sizeDelta=new Vector2(content.sizeDelta.x,y);scroll.verticalNormalizedPosition=1;
             empty.gameObject.SetActive(y==0);unequip.gameObject.SetActive(slot>0);unequip.interactable=page.Model.Equipped(hero,slot)>=0;

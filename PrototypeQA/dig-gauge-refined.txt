@@ -1,0 +1,1 @@
+PASS: original gold/steel frame and ticks restored; smooth charge settles at 65%; zero fill hidden.

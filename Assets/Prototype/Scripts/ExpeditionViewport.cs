@@ -9,6 +9,7 @@ namespace ProjectSS.Expedition
         [SerializeField] private Camera renderCamera;
         private Rect previousSafe;
         private int width, height;
+        private Camera backdrop;
         private void OnEnable() { Refresh(); }
         private void Update()
         {
@@ -18,6 +19,18 @@ namespace ProjectSS.Expedition
         {
             if (renderCamera == null || Screen.width <= 0 || Screen.height <= 0) return;
             width = Screen.width; height = Screen.height;
+            // Clear the full display before the letterboxed world camera. Otherwise overlay
+            // controls leave stale pixels outside its viewport when the resolution changes.
+            if (Application.isPlaying && backdrop == null)
+            {
+                var go = new GameObject("ViewportBackdrop", typeof(Camera));
+                go.transform.SetParent(transform, false);
+                backdrop = go.GetComponent<Camera>();
+                backdrop.cullingMask = 0;
+                backdrop.clearFlags = CameraClearFlags.SolidColor;
+                backdrop.depth = renderCamera.depth - 1;
+                backdrop.backgroundColor = renderCamera.backgroundColor;
+            }
             previousSafe = Screen.safeArea;
             Rect area = previousSafe;
             if (area.width <= 0 || area.height <= 0) area = new Rect(0, 0, width, height);
@@ -34,5 +47,6 @@ namespace ProjectSS.Expedition
             }
             renderCamera.rect = new Rect(area.x / width, area.y / height, area.width / width, area.height / height);
         }
+        private void OnDisable() { if(backdrop!=null) { Destroy(backdrop.gameObject);backdrop=null; } }
     }
 }

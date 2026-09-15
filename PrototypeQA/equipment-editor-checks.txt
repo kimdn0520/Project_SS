@@ -1,0 +1,21 @@
+PASS draft properties editable in UI
+PASS legacy catalog validates
+PASS draft isolates additions
+PASS frost template
+PASS frost template validates
+PASS reject skill below legendary
+PASS reject inverted range
+PASS reject non-finite skill values
+PASS duplicate has unique ID and independent nested data
+PASS reject duplicate ID
+PASS save completes
+PASS nested data saved
+PASS Unity references preserved
+PASS disk round-trip
+PASS undo restores draft and clean state
+PASS redo restores dirty state
+PASS discard clears unsaved state
+PASS append preserves player progress
+PASS reject catalog shrink
+PASS reject invalid save expansion
+PASS original catalog untouched

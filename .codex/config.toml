@@ -1,0 +1,7 @@
+﻿[mcp_servers.coplay_mcp]
+command = 'C:\Users\kimdn\.local\bin\uvx.exe'
+args = ["--python", ">=3.11", "coplay-mcp-server@latest"]
+cwd = 'C:\Users\kimdn\Project_SS'
+startup_timeout_sec = 60
+tool_timeout_sec = 720
+env = { MCP_TOOL_TIMEOUT = "720000" }

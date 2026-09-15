@@ -1,0 +1,1 @@
+PASS: route popup common prefab, selection, locked route, pause/resume, notice/equipment open/back, settings removal, safe edge anchors, sliced HP including 1%/0%, pooled break fragments. Screen: 720x1280

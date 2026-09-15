@@ -116,11 +116,11 @@ namespace ProjectSS.Expedition
             if (broken) fractureReset = DOVirtual.DelayedCall(0.10f, ClearFractures, false);
             impactFlash.DOKill(); impactFlash.color = new Color(1f, 0.86f, 0.42f, broken ? 0.8f : 0.45f);
             impactFlash.DOFade(0, 0.1f);
-            int count = broken ? (burst ? 9 : 6) : 2;
+            int count = broken ? (burst ? 16 : 12) : 2;
             for (int i = 0; i < count; i++)
             {
                 var fx = pool.RentCached("ExpeditionFx") as ExpeditionFx;
-                if (fx != null) fx.Scatter(HitPosition, fragmentSprite != null ? fragmentSprite : rocks[activeRock].sprite, Color.white, i);
+                if (fx != null) fx.Scatter(HitPosition, fragmentSprite != null ? fragmentSprite : rocks[activeRock].sprite, (route == 1 ? new Color(.55f,.85f,1f) : route == 2 ? new Color(1f,.8f,.4f) : new Color(.8f,.87f,.9f)), i);
             }
             audioSource.pitch = 1 + Random.Range(-0.015f, 0.015f);
             var clip = broken ? breakSound : hitSounds[nextHitSound++ % hitSounds.Length];

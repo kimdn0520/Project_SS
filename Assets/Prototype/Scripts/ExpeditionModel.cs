@@ -11,6 +11,16 @@ namespace ProjectSS.Expedition
         public GearEffect effect;
         public Sprite icon;
         public WeaponItem prefab;
+        // Authoring metadata is additive: existing catalog indices and combat fields stay valid.
+        public string id;
+        public GearRarity rarity;
+        public int maxRandomOptions = 1;
+        public GearRandomOption[] randomOptions = Array.Empty<GearRandomOption>();
+        public GearSkillDefinition skill = new GearSkillDefinition();
+        public SkillDefinition skillAsset;
+        // Retain inline data for existing catalogs until explicitly migrated in the editor.
+        public GearSkillDefinition ResolvedSkill => rarity < GearRarity.Legendary ? null :
+            skillAsset != null ? skillAsset.settings : skill != null && skill.enabled ? skill : null;
     }
     [Serializable] public sealed class ExpeditionSave
     {
@@ -29,6 +39,14 @@ namespace ProjectSS.Expedition
             if (iron < 0 || crystal < 0 || relic < 0 || cleared < 0 || cleared > 9999 || depth < 0 || excavations < 0 || route < 0 || route > 2 || chestPity < 0) return false;
             foreach (int n in inventory) if (n < 0) return false;
             foreach (int id in equipment) if (id < -1 || id >= count || (id >= 0 && inventory[id] == 0)) return false;
+            return true;
+        }
+        // The authoring tool appends gear without moving existing indices. Preserve old saves
+        // when new catalog entries are added; shrinking or invalid saves still fail validation.
+        public bool TryExpandInventory(int count)
+        {
+            if (inventory == null || inventory.Length < 3 || inventory.Length > count || !IsValid(inventory.Length)) return false;
+            if (inventory.Length < count) Array.Resize(ref inventory, count);
             return true;
         }
     }

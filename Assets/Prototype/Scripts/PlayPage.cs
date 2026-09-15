@@ -23,6 +23,7 @@ namespace ProjectSS.Expedition
         public PopupManager popupManager;
         public ExpeditionInventory inventoryView;
         public EquipmentSelectionPopup equipmentPopup;
+        public VeinSelectionPopup veinPopup;
         public ExpeditionActor[] heroes, enemies;
         public ExpeditionActor miner;
         public Transform miningWorld;
@@ -88,7 +89,7 @@ namespace ProjectSS.Expedition
                 try
                 {
                     var saved = JsonUtility.FromJson<ExpeditionSave>(PlayerPrefs.GetString(SaveKey,""));
-                    if (saved != null && saved.IsValid(catalog.gear.Length) && ValidLoadout(saved)) d = saved;
+                    if (saved != null && saved.TryExpandInventory(catalog.gear.Length) && saved.IsValid(catalog.gear.Length) && ValidLoadout(saved)) d = saved;
                 }
                 catch (ArgumentException) { }
                 Model = new ExpeditionModel(catalog,d);
@@ -175,13 +176,14 @@ namespace ProjectSS.Expedition
         public void OpenMenu(int menu)
         {
             holdDig.HardCancel(); ActiveTab=menu;
-            minePanel.SetActive(menu==0); miningWorld.gameObject.SetActive(menu==0);
+            // Keep the world visible beneath modal menu curtains; the game loop is gated by ActiveTab.
+            minePanel.SetActive(true); miningWorld.gameObject.SetActive(true);
             for(int i=0;i<menuPanels.Length;i++)menuPanels[i].SetActive(menu==i+1);
             for(int i=0;i<menuIcons.Length;i++)
             {
                 bool selected=menu==menuDestinations[i];
                 menuIcons[i].DOKill();menuIcons[i].DOLocalMove(menuIconRest[i]+Vector3.up*(selected?10:0),.16f).SetEase(Ease.OutQuad).SetUpdate(true);
-                menuButtons[i].color=selected?new Color(.38f,.35f,.56f):new Color(.17f,.21f,.30f);
+                menuButtons[i].color=selected?new Color(1f,.94f,.78f):new Color(.8f,.86f,1f);
             }
             if(menu==1)ShowHeroGrid();
             if(Model!=null)Refresh();
@@ -203,6 +205,17 @@ namespace ProjectSS.Expedition
         }
         public void SelectSlot(int index){selectedHero=index/4;selectedSlot=index%4;PopupManager.Show(equipmentPopup.PopupName,new EquipmentSelectionPopup.Selection{page=this,hero=selectedHero,slot=selectedSlot});}
         public void SelectRoute(int route){if(pausePolicy.IsPaused||!Model.SelectRoute(route))return;miningView.SetRoute(route);dirty=true;Refresh();}
+        public void OpenVeins()
+        {
+            if (Model == null || ChestOpening || miningView.IsDescending || PopupManager.IsOpenAny) return;
+            holdDig.HardCancel();
+            PopupManager.Show(veinPopup.PopupName, this);
+        }
+        public void ChangeVein(int route)
+        {
+            if (ChestOpening || miningView.IsDescending || !Model.SelectRoute(route)) return;
+            miningView.SetRoute(route); dirty=true; Refresh();
+        }
         public void Dig(){if(!running||pausePolicy.IsPaused||ActiveTab!=0||Time.unscaledTime<manualReady||ChestOpening||miningView.IsDescending)return;manualReady=Time.unscaledTime+Rhythm.Interval;MineOnce(Rhythm.BonusDamage);}
         void MineOnce(int bonus)
         {
@@ -280,7 +293,7 @@ namespace ProjectSS.Expedition
             depthLabel.text=$"갱도 {d.depth}m";
 
             
-            for(int i=0;i<3;i++){routeButtons[i].interactable=i<2||d.cleared>=10;routePanels[i].color=d.route==i?new Color(.24f,.48f,.46f):new Color(.12f,.2f,.23f);}
+            for(int i=0;i<routeButtons.Length;i++){routeButtons[i].interactable=i<2||d.cleared>=10;routePanels[i].color=d.route==i?new Color(.24f,.48f,.46f):new Color(.12f,.2f,.23f);}
             if(ActiveTab!=1 && ActiveTab!=2)return;
             string[] names={"로웬 · 전사","린 · 도적","미라 · 마법사"};string[] slots={"무기","투구","갑옷","장신구"};
             for(int h=0;h<3;h++)

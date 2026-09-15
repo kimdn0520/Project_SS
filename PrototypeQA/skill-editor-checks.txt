@@ -1,0 +1,21 @@
+PASS new skill is isolated draft with unique ID
+PASS skill fields editable
+PASS new skill validates
+PASS skill-only save persists icon and definition
+PASS skill duplication has independent data and unique ID
+PASS duplicate skill IDs rejected
+PASS invalid area skill rejected
+PASS non-finite skill settings rejected
+PASS switching skills preserves independent unsaved drafts
+PASS save all persists multiple skill drafts
+PASS multiple gear entries share one asset
+PASS shared edit propagates to all connected gear
+PASS gear reference survives disk round-trip
+PASS runtime resolves equipment skills only at legendary or mythic
+PASS legacy migration preserves values and avoids ID collision
+PASS identical migration reuses existing asset
+PASS external edits block overwrite
+PASS skill undo restores clean state
+PASS skill redo restores dirty state
+PASS discard leaves saved skill untouched
+PASS original game catalog untouched
