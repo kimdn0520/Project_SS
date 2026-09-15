@@ -14,6 +14,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     [Header("[Hierarchy Root]")]
     [SerializeField] private Transform popupRoot;
     [SerializeField] private Camera renderCamera;
+    public Camera RenderCamera => renderCamera != null ? renderCamera : (renderCamera = Camera.main);
 
     public void SetRenderCamera(Camera camera)
     {
@@ -24,9 +25,9 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     private void BindCamera(IPopupHandler popup)
     {
         if (popup.Canvas == null) return;
-        popup.Canvas.renderMode = popup.Canvas.GetComponentInChildren<ProjectSS.Expedition.PopupSafeLayout>(true) != null
-            ? RenderMode.ScreenSpaceOverlay : RenderMode.ScreenSpaceCamera;
-        popup.Canvas.worldCamera = renderCamera;
+        popup.Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        popup.Canvas.worldCamera = RenderCamera;
+        popup.Canvas.planeDistance = 10f;
     }
 
     [Header("[Sorting Order Settings]")]

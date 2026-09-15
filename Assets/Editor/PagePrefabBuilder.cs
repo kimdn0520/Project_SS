@@ -1097,15 +1097,7 @@ public static class PagePrefabBuilder
             }
         }
 
-        SerializedObject smSo = new SerializedObject(spriteMgr);
-        var regListProp = smSo.FindProperty("registeredSprites");
-        regListProp.ClearArray();
-        for (int i = 0; i < coreSprites.Count; i++)
-        {
-            regListProp.InsertArrayElementAtIndex(i);
-            regListProp.GetArrayElementAtIndex(i).objectReferenceValue = coreSprites[i];
-        }
-        smSo.ApplyModifiedProperties();
+        ProjectSS.Expedition.Editor.EquipmentAtlasArt.BindFolder(spriteMgr,"Assets/Textures","LegacyUI");
 
         // PageManager (씬 루트 레벨 싱글톤)
         PageManager pageManager = Object.FindAnyObjectByType<PageManager>();

@@ -56,7 +56,7 @@ namespace ProjectSS.Expedition.Editor
             var layer=page.GetComponentInChildren<MenuPanelLayer>(true);
             if(layer==null)
             {
-                var root=New("MenuPanelCanvas",page.transform);var canvas=root.gameObject.AddComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=500;
+                var root=New("MenuPanelCanvas",page.transform);var canvas=root.gameObject.AddComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceCamera;canvas.planeDistance=10f;canvas.sortingOrder=500;
                 var scaler=root.gameObject.AddComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(720,1280);scaler.screenMatchMode=CanvasScaler.ScreenMatchMode.Expand;
                 root.gameObject.AddComponent<GraphicRaycaster>();var group=root.gameObject.AddComponent<CanvasGroup>();
                 layer=root.gameObject.AddComponent<MenuPanelLayer>();layer.page=page;layer.group=group;

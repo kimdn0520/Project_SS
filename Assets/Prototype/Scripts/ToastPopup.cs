@@ -29,12 +29,15 @@ namespace ProjectSS.Expedition
         private void Display(string message, Vector2? screenPos, float duration)
         {
             sequence?.Kill();
+            var canvas = GetComponent<Canvas>();
+            canvas.renderMode=RenderMode.ScreenSpaceCamera;
+            canvas.worldCamera=PopupManager.Instance!=null?PopupManager.Instance.RenderCamera:Camera.main;
+            canvas.planeDistance=10f;
             gameObject.SetActive(true);
             messageText.text = message;
             group.alpha = 0;
             group.interactable = group.blocksRaycasts = false;
             Canvas.ForceUpdateCanvases();
-            var canvas = GetComponent<Canvas>();
             var safe = Screen.safeArea;
             float scale = Mathf.Max(.001f, canvas.scaleFactor);
             float width = Mathf.Min(580, (safe.width - 32) / scale);
@@ -44,7 +47,7 @@ namespace ProjectSS.Expedition
             var half = bubble.sizeDelta * scale * .5f;
             point.x = Mathf.Clamp(point.x, safe.xMin + half.x + 8, safe.xMax - half.x - 8);
             point.y = Mathf.Clamp(point.y, safe.yMin + half.y + 8, safe.yMax - half.y - 32 * scale);
-            RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)bubble.parent, point, null, out var local);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)bubble.parent, point, canvas.worldCamera, out var local);
             bubble.anchoredPosition = local;
             sequence = DOTween.Sequence().SetUpdate(true)
                 .Append(group.DOFade(1, .16f))

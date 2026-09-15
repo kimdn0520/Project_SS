@@ -168,7 +168,7 @@ namespace ProjectSS.Expedition.Editor
                 foreach(var child in existing.Find("SafeArea").Cast<Transform>().ToArray())child.SetParent(page.minePanel.transform,false);
                 Object.DestroyImmediate(existing.gameObject);
             }
-            var root=Rect("SidebarCanvas",page.transform);var canvas=root.gameObject.AddComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=200;
+            var root=Rect("SidebarCanvas",page.transform);var canvas=root.gameObject.AddComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceCamera;canvas.planeDistance=10f;canvas.sortingOrder=200;
             var scaler=root.gameObject.AddComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(720,1280);scaler.screenMatchMode=CanvasScaler.ScreenMatchMode.Expand;
             root.gameObject.AddComponent<GraphicRaycaster>();var safe=Rect("SafeArea",root);Stretch(safe);
             var layout=root.gameObject.AddComponent<ExpeditionSidebarLayout>();layout.page=page;layout.safeArea=safe;

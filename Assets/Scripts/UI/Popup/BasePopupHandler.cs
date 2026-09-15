@@ -108,9 +108,11 @@ public abstract class BasePopupHandler : MonoBehaviour, IPopupHandler
 
     public virtual void OnWillEnter(object param)
     {
-        if (Canvas != null && Canvas.worldCamera == null)
+        if (Canvas != null)
         {
-            Canvas.worldCamera = Camera.main;
+            Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            if(Canvas.worldCamera == null)Canvas.worldCamera = PopupManager.Instance != null ? PopupManager.Instance.RenderCamera : Camera.main;
+            Canvas.planeDistance = 10f;
         }
 
         // 트랜지션 연출 중에는 터치 입력 방지

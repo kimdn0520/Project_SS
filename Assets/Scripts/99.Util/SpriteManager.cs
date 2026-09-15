@@ -7,13 +7,9 @@ public class SpriteManager : SingletonMonoBehaviour<SpriteManager>
     [SerializeField]
     private SpriteAtlasSO spriteAtlasData;
 
-    [Header("[Direct Registered Sprites]")]
-    [SerializeField]
-    private List<Sprite> registeredSprites = new List<Sprite>();
-
     private readonly Dictionary<string, Sprite> _spriteDic = new Dictionary<string, Sprite>();
 
-    public bool HasData => spriteAtlasData != null || (registeredSprites != null && registeredSprites.Count > 0);
+    public bool HasData => spriteAtlasData != null;
 
     protected override void Awake()
     {
@@ -23,17 +19,8 @@ public class SpriteManager : SingletonMonoBehaviour<SpriteManager>
 
     public void Initialize()
     {
-        // 1. 인스펙터에 직접 등록된 개별 스프라이트 등록
-        if (registeredSprites != null)
-        {
-            foreach (var sp in registeredSprites)
-            {
-                if (sp == null) continue;
-                Register(sp.name, sp);
-            }
-        }
-
-        // 2. SpriteAtlasSO의 아틀라스 스프라이트 등록
+        _spriteDic.Clear();
+        // Folder-packed atlases are the source of runtime equipment sprites.
         if (spriteAtlasData != null && spriteAtlasData.Atlases != null)
         {
             foreach (SpriteAtlas atlas in spriteAtlasData.Atlases)

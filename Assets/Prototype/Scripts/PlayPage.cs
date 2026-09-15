@@ -80,10 +80,26 @@ namespace ProjectSS.Expedition
         private bool chestRewarded;
         public bool ChestOpening { get; private set; }
         static readonly Color Gold = new Color(1, .77f, .36f), Mint = new Color(.4f, .93f, .8f);
+        Camera uiRenderCamera;
         public override void SetupRenderCamera(Camera camera)
         {
             base.SetupRenderCamera(camera);
-            popupManager.SetRenderCamera(camera);
+            if(camera==null)return;
+            if(uiRenderCamera==null)
+            {
+                var go=new GameObject("UI Camera",typeof(Camera));go.transform.SetParent(transform,false);
+                // Separate camera-space UI from the letterboxed world and its geometry.
+                go.transform.position=new Vector3(0,0,-1000);
+                uiRenderCamera=go.GetComponent<Camera>();uiRenderCamera.clearFlags=CameraClearFlags.Depth;
+                uiRenderCamera.orthographic=true;uiRenderCamera.orthographicSize=5;
+                uiRenderCamera.nearClipPlane=.1f;uiRenderCamera.farClipPlane=100;
+                uiRenderCamera.allowHDR=false;uiRenderCamera.allowMSAA=false;
+            }
+            uiRenderCamera.depth=camera.depth+10;uiRenderCamera.targetDisplay=camera.targetDisplay;
+            foreach(var panel in GetComponentsInChildren<MenuPanelLayer>(true))panel.BindCamera(uiRenderCamera);
+            var sidebar=transform.Find("SidebarCanvas").GetComponent<Canvas>();
+            sidebar.renderMode=RenderMode.ScreenSpaceCamera;sidebar.worldCamera=uiRenderCamera;sidebar.planeDistance=10;
+            popupManager.SetRenderCamera(uiRenderCamera);
         }
         public override void OnWillEnter(object param)
         {

@@ -1,0 +1,1 @@
+PASS: folder-only atlas packing; all 11 gear keys resolve to packed sprites in Play Mode; original icon references preserved; packer=SpriteAtlasV2

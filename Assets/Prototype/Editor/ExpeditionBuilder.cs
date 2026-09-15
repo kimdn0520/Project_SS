@@ -74,7 +74,7 @@ namespace ProjectSS.Expedition.Editor
             Set(page, "canvas", ui); Set(page, "canvasGroup", group);
             page.sprites = sprites; page.pool = pool; page.pausePolicy = pause;
             page.catalog = MakeCatalog();
-            SetArray(sprites, "registeredSprites", registered);
+            EquipmentAtlasArt.Configure(sprites, registered);
             Set(pageManager, "mainCamera", cam);
             Set(pageManager, "pagesRoot", root.transform);
             var pm = new SerializedObject(pageManager);
@@ -696,6 +696,8 @@ namespace ProjectSS.Expedition.Editor
         }
         private static Sprite SpriteAt(string path, string name = null)
         {
+            string equipment=EquipmentAtlasArt.Folder+"/"+Path.GetFileName(path);
+            if(!File.Exists(path)&&File.Exists(equipment))path=equipment;
             var sprites = AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().ToArray();
             var result = name == null ? sprites.FirstOrDefault() : sprites.FirstOrDefault(s => s.name == name);
             if (result == null) throw new InvalidOperationException("Missing sprite: " + path + " / " + name);
@@ -703,7 +705,7 @@ namespace ProjectSS.Expedition.Editor
         }
         private static Sprite FirstSprite(string folder, string prefix)
         {
-            string file = Directory.GetFiles(folder, prefix + "*.png").OrderBy(p => p).First();
+            string file = Directory.GetFiles(folder, prefix + "*.png").Concat(Directory.Exists(EquipmentAtlasArt.Folder)?Directory.GetFiles(EquipmentAtlasArt.Folder,prefix+"*.png"):Array.Empty<string>()).OrderBy(p => p).First();
             return SpriteAt(file.Replace('\\', '/'));
         }
         private static Color Hex(string value) { ColorUtility.TryParseHtmlString("#" + value, out var color); return color; }

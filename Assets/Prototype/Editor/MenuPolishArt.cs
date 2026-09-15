@@ -153,7 +153,7 @@ namespace ProjectSS.Expedition.Editor
         static void Toast(TMP_FontAsset font)
         {
             var root=new GameObject("ToastPopup",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(ToastPopup));
-            var canvas=root.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=5000;
+            var canvas=root.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceCamera;canvas.planeDistance=10f;canvas.sortingOrder=5000;
             var scaler=root.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(720,1280);scaler.screenMatchMode=CanvasScaler.ScreenMatchMode.Expand;
             var bubble=Box(root.transform,"Bubble",0,0,580,90,Accent);bubble.rectTransform.anchorMin=bubble.rectTransform.anchorMax=bubble.rectTransform.pivot=new Vector2(.5f,.5f);bubble.rectTransform.anchoredPosition=Vector2.zero;
             var group=bubble.gameObject.AddComponent<CanvasGroup>();group.blocksRaycasts=group.interactable=false;
