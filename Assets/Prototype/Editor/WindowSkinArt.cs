@@ -74,9 +74,10 @@ namespace ProjectSS.Expedition.Editor
                         Frame(image,frame);image.rectTransform.anchoredPosition=new Vector2(16,-100);image.rectTransform.sizeDelta=new Vector2(688,1073);
                     }
                     if(image.name.StartsWith("BackToMine"))
-                    {Close(image,close);image.rectTransform.anchoredPosition=new Vector2(662,-85);}
+                    {Close(image,close);}
                 }
             }
+            AlignPanelClose(page);
             foreach(var text in new[]{page.stageLabel,page.resources})
             {
                 text.fontStyle=FontStyles.Bold;text.fontWeight=FontWeight.Heavy;
@@ -89,6 +90,27 @@ namespace ProjectSS.Expedition.Editor
             var sky=page.GetComponentInChildren<BattleSkyExtension>(true);
             if(sky!=null){sky.sky.enabled=false;sky.sky.rectTransform.anchorMin=sky.sky.rectTransform.anchorMax=Vector2.one;sky.sky.rectTransform.sizeDelta=Vector2.zero;}
             EditorUtility.SetDirty(page);
+        }
+        public static void AlignPanelClose(PlayPage page)
+        {
+            var common=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/PopupCommon.prefab");
+            var referenceFrame=(RectTransform)common.transform.Find("Window/bg");
+            var referenceClose=(RectTransform)common.transform.Find("Window/Close");
+            // Match the authored button pivot's offset from the frame's upper-right corner.
+            Vector2 offset=referenceClose.anchoredPosition-referenceFrame.anchoredPosition-new Vector2(referenceFrame.rect.width,0);
+            foreach(var panel in page.menuPanels)
+            {
+                var images=panel.GetComponentsInChildren<Image>(true);
+                var frame=images.FirstOrDefault(i=>i.name=="Backdrop"||i.name=="BagBackground");
+                if(frame==null)continue;
+                foreach(var button in images.Where(i=>i.name.StartsWith("BackToMine")))
+                {
+                    var r=button.rectTransform;r.anchorMin=r.anchorMax=new Vector2(0,1);r.pivot=referenceClose.pivot;
+                    r.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,referenceClose.rect.width);
+                    r.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,referenceClose.rect.height);
+                    r.anchoredPosition=frame.rectTransform.anchoredPosition+new Vector2(frame.rectTransform.rect.width,0)+offset;
+                }
+            }
         }
     }
 }
