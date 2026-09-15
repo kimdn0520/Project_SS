@@ -47,6 +47,15 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     private readonly Queue<PopupItem> popupQueue = new Queue<PopupItem>();
 
     private CancellationTokenSource transitionCts;
+    private readonly HashSet<IPopupHandler> closing = new HashSet<IPopupHandler>();
+
+    private void ReleasePopup(IPopupHandler handler)
+    {
+        if (popups.TryGetValue(handler.PopupName, out var registered) && ReferenceEquals(registered, handler))
+            popups.Remove(handler.PopupName);
+        if (handler is Component component && component != null)
+            Destroy(component.gameObject);
+    }
 
     /// <summary>
     /// 전역 기본 팝업 연출 (개별 팝업에 Animation이 없을 때 사용)
@@ -135,7 +144,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     private async UniTask<IPopupHandler> GetOrCreatePopupAsync(string popupName)
     {
-        if (popups.TryGetValue(popupName, out IPopupHandler cached))
+        if (!prefabRegistry.ContainsKey(popupName) && popups.TryGetValue(popupName, out IPopupHandler cached))
         {
             return cached;
         }
@@ -156,6 +165,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
         if (request.asset is BasePopupHandler resourcePrefab)
         {
+            prefabRegistry[popupName] = resourcePrefab;
             var handler = Instantiate(resourcePrefab, popupRoot);
             handler.name = popupName;
             handler.Hide();
@@ -191,6 +201,13 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     public static async UniTask<object> ShowAsync(string popupName, object param = null, Action<object> closeCallback = null)
     {
         if (Instance == null) return null;
+        var existing = Instance.popupStack.Find(p => string.Equals(p.Handler.PopupName, popupName, StringComparison.OrdinalIgnoreCase));
+        if (existing != null)
+        {
+            var existingResult = await existing.CompletionSource.Task;
+            closeCallback?.Invoke(existingResult);
+            return existingResult;
+        }
 
         IPopupHandler handler = await Instance.GetOrCreatePopupAsync(popupName);
         if (handler == null) return null;
@@ -350,7 +367,12 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
             await CloseByItemAsync(top, result);
         }
 
-        Instance.popupQueue.Clear();
+        while (Instance.popupQueue.Count > 0)
+        {
+            var pending = Instance.popupQueue.Dequeue();
+            Instance.ReleasePopup(pending.Handler);
+            pending.Complete(null);
+        }
     }
 
     /// <summary>
@@ -361,11 +383,13 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         if (Instance == null || Instance.popupStack.Count == 0) return;
 
         PopupItem item = Instance.popupStack[^1];
+        Instance.transitionCts?.Cancel();
         Instance.popupStack.RemoveAt(Instance.popupStack.Count - 1);
 
         item.Handler.OnWillLeave();
         item.Handler.OnDidLeave();
         item.Handler.Hide();
+        Instance.ReleasePopup(item.Handler);
         item.Complete(result);
         OnPopupClosed?.Invoke(item.Handler);
 
@@ -374,7 +398,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     private static async UniTask CloseByItemAsync(PopupItem item, object result)
     {
-        if (Instance == null || item == null) return;
+        if (Instance == null || item == null || !Instance.popupStack.Contains(item) || !Instance.closing.Add(item.Handler)) return;
 
         Instance.transitionCts?.Cancel();
         Instance.transitionCts?.Dispose();
@@ -398,6 +422,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
             item.Handler.Hide();
 
             Instance.popupStack.Remove(item);
+            Instance.ReleasePopup(item.Handler);
             item.Complete(result);
             OnPopupClosed?.Invoke(item.Handler);
         }
@@ -407,6 +432,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         }
         finally
         {
+            Instance.closing.Remove(item.Handler);
             Instance.isChanging = false;
             Instance.CheckNextQueuedPopup();
         }
@@ -427,17 +453,24 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     public static void Clear()
     {
         if (Instance == null) return;
+        Instance.transitionCts?.Cancel();
 
         foreach (var item in Instance.popupStack)
         {
             item.Handler.OnWillLeave();
             item.Handler.OnDidLeave();
             item.Handler.Hide();
+            Instance.ReleasePopup(item.Handler);
             item.Complete(null);
         }
 
         Instance.popupStack.Clear();
-        Instance.popupQueue.Clear();
+        while (Instance.popupQueue.Count > 0)
+        {
+            var pending = Instance.popupQueue.Dequeue();
+            Instance.ReleasePopup(pending.Handler);
+            pending.Complete(null);
+        }
         Instance.isChanging = false;
     }
 

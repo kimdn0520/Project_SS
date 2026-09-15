@@ -45,7 +45,7 @@ namespace ProjectSS.Expedition
             if(page.EquipForHero(id,hero))Close(true);
         }
         public void RemoveEquipment(){if(!PopupManager.IsChanging&&page.UnequipForHero(hero,slot))Close(true);}
-        public override void OnDidLeave(){pausePolicy.ReleasePause(PopupName);}
+        public override void OnDidLeave(){pausePolicy.ReleasePause(PopupName);pausePolicy=null;}
         protected override void OnDestroy(){if(pausePolicy!=null)pausePolicy.ReleasePause(PopupName);base.OnDestroy();}
     }
 }

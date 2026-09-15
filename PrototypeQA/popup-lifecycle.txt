@@ -1,0 +1,1 @@
+PASS: PopupRoot parent; selection stays open and refreshes; selected route no-op; close destroys; reopen creates new instance; immediate close, repeated same-name queue, Clear and CloseAll leave no children.

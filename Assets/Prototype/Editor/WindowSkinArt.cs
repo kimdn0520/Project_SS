@@ -78,6 +78,7 @@ namespace ProjectSS.Expedition.Editor
                 }
             }
             AlignPanelClose(page);
+            WindowTitleArt.Configure(page);
             foreach(var text in new[]{page.stageLabel,page.resources})
             {
                 text.fontStyle=FontStyles.Bold;text.fontWeight=FontWeight.Heavy;

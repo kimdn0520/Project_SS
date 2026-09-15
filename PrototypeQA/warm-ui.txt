@@ -1,0 +1,1 @@
+PASS: separate route button changes route and closes; selected button disabled; lock state checked; settings and mining previews captured.

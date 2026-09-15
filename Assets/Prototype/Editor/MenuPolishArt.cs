@@ -56,6 +56,7 @@ namespace ProjectSS.Expedition.Editor
                 foreach(var b in panel.GetComponentsInChildren<Button>(true))if(b.name.StartsWith("BackToMine"))Rect((RectTransform)b.transform,610,120,58,58);
             }
             Heroes(page);
+            AlignHeroMenuIcon(page);
             var bag=page.inventoryView;
             Rect(page.bagTitle.rectTransform,54,190,612,35);
             for(int i=0;i<bag.tabs.Length;i++)
@@ -75,6 +76,17 @@ namespace ProjectSS.Expedition.Editor
             Popup("Assets/Resources/Prefabs/Popups/ExpeditionNotice.prefab");
             Toast(page.depthLabel.font);
             EditorUtility.SetDirty(page);
+        }
+        public static void AlignHeroMenuIcon(PlayPage page)
+        {
+            var image=page.menuIcons[0].GetComponent<Image>();
+            var r=image.rectTransform;
+            image.preserveAspect=true;
+            r.anchorMin=r.anchorMax=new Vector2(.5f,1);r.pivot=new Vector2(.5f,.5f);
+            r.sizeDelta=new Vector2(112,112);r.localScale=Vector3.one;
+            // Compensate for the portrait's transparent padding so the visible hero is centered.
+            r.anchoredPosition=new Vector2(2.275f,-1.625f);
+            page.menuIconRest[0]=r.localPosition;
         }
         public static void AlignBagTabs(ExpeditionInventory bag)
         {

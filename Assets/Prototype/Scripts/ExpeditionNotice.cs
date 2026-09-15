@@ -24,7 +24,7 @@ namespace ProjectSS.Expedition
             titleText.text = content.title; bodyText.text = content.body; actionText.text = content.action;
         }
         public void Accept() { if (!PopupManager.IsChanging) Close(true); }
-        public override void OnDidLeave() { pausePolicy.ReleasePause(PopupName); }
+        public override void OnDidLeave() { pausePolicy.ReleasePause(PopupName); pausePolicy=null; }
         protected override void OnDestroy() { if (pausePolicy != null) pausePolicy.ReleasePause(PopupName); base.OnDestroy(); }
     }
 }

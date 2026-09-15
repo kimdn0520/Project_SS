@@ -26,6 +26,7 @@ namespace ProjectSS.Expedition
         [SerializeField] private SpriteRenderer chestGlow;
         [SerializeField] private Vector3 lidRest;
         [SerializeField] private SpriteRenderer lidFace, lidInside, chestInterior;
+        [SerializeField] private SpriteRenderer[] chestSparkles = new SpriteRenderer[0];
         public const float ChestRewardDelay = .78f, ChestDuration = 1.9f;
         private Sequence chestAnimation;
         [SerializeField] private Transform descendingMiner, fractureRoot;
@@ -53,6 +54,16 @@ namespace ProjectSS.Expedition
                 .Join(chestLid.DOLocalMove(lidRest+Vector3.up*.03f,.32f))
                 .Insert(.40f,chestGlow.DOFade(.9f,.28f))
                 .AppendInterval(.35f).Append(chestGlow.DOFade(.25f,.6f));
+            for(int i=0;i<chestSparkles.Length;i++)
+            {
+                var sparkle=chestSparkles[i];sparkle.transform.localPosition=chestGlow.transform.localPosition;
+                sparkle.color=new Color(1,.82f,.3f,0);
+                float start=.42f+i*.035f;
+                var target=sparkle.transform.localPosition+new Vector3((i-2.5f)*.18f,.48f+(i%3)*.14f,0);
+                chestAnimation.Insert(start,sparkle.transform.DOLocalMove(target,.62f).SetEase(Ease.OutQuad));
+                chestAnimation.Insert(start,sparkle.DOFade(.95f,.10f));
+                chestAnimation.Insert(start+.20f,sparkle.DOFade(0,.42f));
+            }
         }
         public void SetChest(bool chest)
         {
