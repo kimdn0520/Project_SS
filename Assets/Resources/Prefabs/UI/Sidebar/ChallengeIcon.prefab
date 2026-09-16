@@ -367,9 +367,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB3C4\uC804"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -399,7 +398,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

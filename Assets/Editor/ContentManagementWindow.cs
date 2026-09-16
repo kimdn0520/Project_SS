@@ -154,7 +154,9 @@ namespace ProjectSS.ContentEditor
             if (GearDirty)
             {
                 Undo.RecordObject(source, "Save equipment catalog");
+                source.weaponCapacity=draft.weaponCapacity;source.armorCapacity=draft.armorCapacity;source.accessoryCapacity=draft.accessoryCapacity;source.dismantleRefundRate=draft.dismantleRefundRate;
                 source.gear = draft.gear.Select(g => JsonUtility.FromJson<GearDefinition>(JsonUtility.ToJson(g))).ToArray();
+                source.materials = (draft.materials ?? Array.Empty<MaterialDefinition>()).Select(m => JsonUtility.FromJson<MaterialDefinition>(JsonUtility.ToJson(m))).ToArray();
                 EditorUtility.SetDirty(source);
                 AssetDatabase.SaveAssetIfDirty(source);
                 baseline = EditorJsonUtility.ToJson(source);

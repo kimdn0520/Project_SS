@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -11,7 +11,7 @@ namespace ProjectSS.Expedition.Editor
         static void Ref(Object target,string field,Object value){var so=new SerializedObject(target);so.FindProperty(field).objectReferenceValue=value;so.ApplyModifiedPropertiesWithoutUndo();}
         public static void Configure(PlayPage page)
         {
-            const string texture="Assets/Textures/UI/popup-bg-minimal-578x765.png";
+            const string texture="Assets/Textures/UI/Common/Frames/popup-bg-minimal-578x765.png";
             var importer=(TextureImporter)AssetImporter.GetAtPath(texture);
             importer.textureType=TextureImporterType.Sprite;importer.spriteImportMode=SpriteImportMode.Single;
             importer.spriteBorder=new Vector4(64,64,64,64);importer.spritePixelsPerUnit=100;

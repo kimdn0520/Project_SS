@@ -45,7 +45,7 @@ namespace ProjectSS.Expedition
         public int[] menuDestinations;
         public Transform[] menuIcons;
         public Vector3[] menuIconRest;
-        public TMP_Text resources, stageLabel, enemyStatus, depthLabel;
+        public TMP_Text resources, stageLabel, depthLabel;
         public TMP_Text[] routeLabels, heroDetails, slotLabels;
         public Image[] slotIcons, routePanels;
         public Button[] routeButtons;
@@ -262,7 +262,7 @@ namespace ProjectSS.Expedition
         public void Dig(){if(!running||pausePolicy.IsPaused||ActiveTab!=0||Time.unscaledTime<manualReady||ChestOpening||miningView.IsDescending)return;manualReady=Time.unscaledTime+Rhythm.Interval;MineOnce(Rhythm.BonusDamage);}
         void MineOnce(int bonus)
         {
-            if(Model.Data.chest){ChestOpening=true;chestClock=0;chestRewarded=false;miningView.OpenChest();}
+            if(Model.Data.chest){if(!Model.PrepareChestReward()){dirty=true;Persist();ToastPopup.Show(Model.LastLoot);return;}ChestOpening=true;chestClock=0;chestRewarded=false;miningView.OpenChest();}
             else Model.Dig(bonus);
         }
         void FinishChest()
@@ -273,12 +273,14 @@ namespace ProjectSS.Expedition
         void OnHeld(bool held){Rhythm.SetHeld(held);if(!held)miningClock=0;}
         public void ToggleAuto(){Model.Data.autoMine=!Model.Data.autoMine;dirty=true;Refresh();}
         public void ToggleSound(){muted=!muted;miningView.SetMuted(muted);soundLabel.text=muted?"소리 OFF":"소리 ON";}
-        public void Craft(int id){if(!Model.Craft(id))return;dirty=true;Refresh();}
+        public void Craft(int id){if(!Model.Craft(id)){if(id>=0&&id<catalog.gear.Length&&!Model.HasGearSpace(id))ToastPopup.Show("보관함이 가득 찼습니다.");return;}dirty=true;Refresh();}
         public void Equip(int id)
         {
             EquipForHero(id,selectedHero);
         }
         public bool EquipForHero(int id,int hero){if(!Model.Equip(id,hero))return false;if(!Model.Fighting)ApplyEquipment();dirty=true;Persist();Refresh();return true;}
+        public void SaveGearChanges(){dirty=true;Persist();Refresh();}
+        public bool EquipInstanceForHero(string uid,int hero){if(!Model.EquipInstance(uid,hero))return false;if(!Model.Fighting)ApplyEquipment();SaveGearChanges();return true;}
         public bool UnequipForHero(int hero,int slot){if(!Model.Unequip(hero,slot))return false;if(!Model.Fighting)ApplyEquipment();dirty=true;Persist();Refresh();return true;}
         public bool AssignFormation(int slot,int hero){if(!Model.AssignHero(slot,hero))return false;SettingsChanged();return true;}
         public bool RemoveFormation(int slot){if(!Model.RemoveHero(slot)){ToastPopup.Show("최소 1명의 용사가 출전해야 합니다");return false;}SettingsChanged();return true;}
@@ -347,7 +349,6 @@ namespace ProjectSS.Expedition
             if(Model==null)return;var d=Model.Data;
             resources.text=$"철  {d.iron}     결정  {d.crystal}     파편  {d.relic}";
             stageLabel.text=$"{Model.Region}-{Model.Wave}  ·  "+(Model.Region%2==1?"초원 전선":"잊힌 요새")+(Model.IsBoss?"  /  BOSS":"");
-            enemyStatus.text=State==Journey.Walking?"이동 중":State==Journey.Fighting?(Model.EnemyFrozenFor>0?"전투 중 · 적 빙결":"전투 중"):State==Journey.Recovering?(Model.LastVictory?"승리 · 다음 웨이브로 이동":$"재도전 대기 · {RetryRemaining:0.0}초"):"원정 준비";
             if(pendingBattleLabel!=null){pendingBattleLabel.gameObject.SetActive(Model.PendingBattleChanges);pendingBattleLabel.text="다음 전투부터 적용됩니다";}
             if(formationPanel!=null)formationPanel.Refresh();
             heatGauge.SetValue(Rhythm.BurstRemaining>0?Rhythm.BurstRemaining/2.6f:Rhythm.Charge/6f,Rhythm.BurstRemaining>0?Mint:Gold);

@@ -12,6 +12,7 @@ namespace ProjectSS.Expedition.Editor
     {
         public const string Folder="Assets/Textures/Equipment";
         public const string AtlasFolder="Assets/SpriteAtlas";
+        public const string RegistryPath=AtlasFolder+"/SpriteAtlasScriptable.asset";
         static void DirectoryAsset(string path){if(AssetDatabase.IsValidFolder(path))return;DirectoryAsset(Path.GetDirectoryName(path).Replace('\\','/'));AssetDatabase.CreateFolder(Path.GetDirectoryName(path).Replace('\\','/'),Path.GetFileName(path));}
         public static void Configure(SpriteManager manager,IEnumerable<Sprite> sprites)
         {
@@ -33,14 +34,29 @@ namespace ProjectSS.Expedition.Editor
             var packing=source.GetPackingSettings();packing.enableRotation=false;packing.enableTightPacking=false;packing.padding=4;source.SetPackingSettings(packing);
             var texture=source.GetTextureSettings();texture.generateMipMaps=false;texture.filterMode=FilterMode.Bilinear;source.SetTextureSettings(texture);
             SpriteAtlasAsset.Save(source,path);AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceUpdate);
+            // Atlas V2 stores these settings on its importer, not in SpriteAtlasAsset.
+            // Persist them there so reimports cannot rotate or tightly pack uGUI sprites.
+            var importer=AssetImporter.GetAtPath(path);
+            var importerSo=new SerializedObject(importer);
+            var importedPacking=importerSo.FindProperty("m_PackingSettings");
+            importedPacking.FindPropertyRelative("enableRotation").boolValue=false;
+            importedPacking.FindPropertyRelative("enableTightPacking").boolValue=false;
+            importedPacking.FindPropertyRelative("padding").intValue=4;
+            var importedTexture=importerSo.FindProperty("m_TextureSettings");
+            importedTexture.FindPropertyRelative("maxTextureSize").intValue=name=="UICommon"?4096:2048;
+            importedTexture.FindPropertyRelative("generateMipMaps").boolValue=false;
+            importerSo.ApplyModifiedPropertiesWithoutUndo();importer.SaveAndReimport();
             var atlas=AssetDatabase.LoadAssetAtPath<SpriteAtlas>(path);
-            string dataPath=AtlasFolder+"/"+name+"AtlasData.asset";
-            if(name=="Equipment"&&AssetDatabase.LoadAssetAtPath<SpriteAtlasSO>(dataPath)==null&&AssetDatabase.LoadAssetAtPath<SpriteAtlasSO>("Assets/Resources/SpriteAtlasSO.asset")!=null)
+            string dataPath=RegistryPath;
+            if(AssetDatabase.LoadAssetAtPath<SpriteAtlasSO>(dataPath)==null)
             {
-                string error=AssetDatabase.MoveAsset("Assets/Resources/SpriteAtlasSO.asset",dataPath);if(error!="")throw new InvalidOperationException(error);
+                string existing=AssetDatabase.FindAssets("t:SpriteAtlasSO").Select(AssetDatabase.GUIDToAssetPath).FirstOrDefault();
+                if(!string.IsNullOrEmpty(existing))
+                {string error=AssetDatabase.MoveAsset(existing,dataPath);if(error!="")throw new InvalidOperationException(error);}
             }
             var data=AssetDatabase.LoadAssetAtPath<SpriteAtlasSO>(dataPath);
             if(data==null){data=ScriptableObject.CreateInstance<SpriteAtlasSO>();AssetDatabase.CreateAsset(data,dataPath);}
+            data.name="SpriteAtlasScriptable";
             var so=new SerializedObject(data);var list=so.FindProperty("atlases");
             // Preserve any previously assigned atlases in the user's registry.
             bool found=false;for(int i=0;i<list.arraySize;i++)if(list.GetArrayElementAtIndex(i).objectReferenceValue==atlas)found=true;

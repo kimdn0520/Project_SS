@@ -36,7 +36,7 @@ namespace ProjectSS.Expedition.Editor
                     text.outlineWidth=.2f;text.outlineColor=Color.black;
                     var r=text.rectTransform;r.anchoredPosition=new Vector2(43,-4);r.sizeDelta=new Vector2(39,24);
                     ((MoleSupportIcon)icon).remainingText=text;
-                    const string art="Assets/Prototype/Art/Sidebar/MoleSupport.png";
+                    const string art="Assets/Textures/UI/Icons/Navigation/MoleSupport.png";
                     var importer=AssetImporter.GetAtPath(art) as TextureImporter;
                     if(importer!=null)
                     {

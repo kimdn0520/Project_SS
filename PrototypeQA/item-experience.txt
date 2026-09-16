@@ -1,0 +1,1 @@
+PASS: original JadeAction ManageGear with 256px import; restored vein action/selected state; white battle label; bag name/description; click opens weapon stats; armor/accessory/material details; close returns to bag; pause policy.

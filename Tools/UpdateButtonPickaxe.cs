@@ -9,7 +9,7 @@ public static class UpdateButtonPickaxe
     {
         if(EditorApplication.isPlaying)throw new System.Exception("Stop play before editing");
         const string path="Assets/Resources/Prefabs/PlayPage.prefab";
-        var sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Layer Lab/2D Minimal-IconPack/Icons/256/Gear_Weapons_Pickaxe_01.png");
+        var sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Icons/Navigation/Gear_Weapons_Pickaxe_01.png");
         if(sprite==null)throw new System.Exception("Pickaxe sprite missing");
         var root=PrefabUtility.LoadPrefabContents(path);
         try

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectSS.Expedition.ExpeditionCatalog
   gear:
   - title: "\uB0A1\uC740 \uAC80"
-    description: "\uC804\uC0AC\uC758 \uAE30\uBCF8 \uBB34\uAE30"
+    description: "\uB0A1\uC558\uC9C0\uB9CC \uC544\uC9C1 \uC4F8\uB9CC\uD574 \uBCF4\uC774\uB294
+      \uAC80\uC774\uB2E4."
     spriteKey: FA_WP_Main_Sword_019_WoodSilver
     slot: Sword
     hero: 0
@@ -26,12 +27,37 @@ MonoBehaviour:
     damage: 11
     interval: 1.25
     health: 0
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 150
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: cc245947d46df4a1fb3eab3a1f4f17d4, type: 3}
     prefab: {fileID: 5508760744990219585, guid: ae433a9fe661c4541b4b9e34a2262a37,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uC815\uCC30 \uB2E8\uAC80"
-    description: "\uBE60\uB978 \uC5F0\uC18D \uACF5\uACA9"
+    description: "\uC815\uCC30\uBCD1\uC774 \uAC00\uBCCD\uAC8C \uD734\uB300\uD558\uB294
+      \uB0A0\uB835\uD55C \uB2E8\uAC80\uC774\uB2E4."
     spriteKey: FA_WP_Main_Sword_005_GrayWhite
     slot: Sword
     hero: 1
@@ -43,12 +69,37 @@ MonoBehaviour:
     damage: 7
     interval: 0.72
     health: 0
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 150
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: 475cf63e9b6644acd8608ea6b2abaddd, type: 3}
     prefab: {fileID: 1954017503696182490, guid: 279ac00782a163642923251507402dfd,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uACAC\uC2B5 \uC644\uB4DC"
-    description: "\uB9C8\uBC95 \uD53C\uD574"
+    description: "\uB9C8\uBC95\uC744 \uBC30\uC6B0\uB294 \uACAC\uC2B5\uC0DD\uC744
+      \uC704\uD55C \uC18C\uBC15\uD55C \uC644\uB4DC\uB2E4."
     spriteKey: FA_WP_Main_Wand_003_BlueWood
     slot: Wand
     hero: 2
@@ -60,12 +111,37 @@ MonoBehaviour:
     damage: 10
     interval: 1.6
     health: 0
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 150
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: b71741f1093b64f68a124cbdd0552041, type: 3}
     prefab: {fileID: 8598826335849478581, guid: 20ef682577b9826409772953a7baf4d8,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uCCA0\uAE30\uC0AC\uC758 \uAC80"
-    description: "\uAE30\uBCF8 \uACF5\uACA9 26 \xB7 1.2\uCD08 \uAC04\uACA9"
+    description: "\uCCA0\uAE30\uC0AC\uAC00 \uC815\uC131\uAECF \uC190\uC9C8\uD55C
+      \uD2BC\uD2BC\uD55C \uAC80\uC774\uB2E4."
     spriteKey: FA_WP_Main_Sword_009_GraySilver
     slot: Sword
     hero: 0
@@ -77,12 +153,37 @@ MonoBehaviour:
     damage: 26
     interval: 1.2
     health: 0
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 150
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: 435059805481a4ab8bfaed3c6e2d35d9, type: 3}
     prefab: {fileID: 4067270351722380306, guid: 10201d089b7b17c4c8e5375084b04979,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uD30C\uC1C4 \uB9DD\uCE58"
-    description: "\uAE30\uBCF8 \uACF5\uACA9 34 \xB7 1.5\uCD08 \uAC04\uACA9"
+    description: "\uB2E8\uB2E8\uD55C \uBC14\uC704\uB3C4 \uBD80\uC220 \uAC83 \uAC19\uC740
+      \uBB35\uC9C1\uD55C \uB9DD\uCE58\uB2E4."
     spriteKey: FA_WP_Main_Blunt_004_Gray
     slot: Blunt
     hero: 0
@@ -94,12 +195,37 @@ MonoBehaviour:
     damage: 34
     interval: 1.5
     health: 0
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 150
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: d1498e98effb44b20803cf3df0cc0bc2, type: 3}
     prefab: {fileID: 1512013957428823956, guid: 28f4f377c6888be4997161449f62dfb2,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uC11C\uB9AC \uC9C0\uD321\uC774"
-    description: "\uAE30\uBCF8 \uACF5\uACA9 23 \xB7 1.6\uCD08 \uAC04\uACA9"
+    description: "\uC190\uC7A1\uC774\uC5D0\uC11C \uCC28\uAC00\uC6B4 \uAE30\uC6B4\uC774
+      \uD750\uB974\uB294 \uC9C0\uD321\uC774\uB2E4."
     spriteKey: FA_WP_Main_Staff_003_WoodSkyblue
     slot: Staff
     hero: 2
@@ -111,12 +237,37 @@ MonoBehaviour:
     damage: 23
     interval: 1.6
     health: 0
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 150
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: e755888d9b5f1441ead164d78166d916, type: 3}
     prefab: {fileID: 6958877556174707226, guid: 2c484551c1738f84680bfb8ec7ba4541,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uD761\uD608 \uB2E8\uAC80"
-    description: "\uAE30\uBCF8 \uACF5\uACA9 15 \xB7 0.72\uCD08 \uAC04\uACA9"
+    description: "\uB0A0 \uB05D\uC5D0 \uBD89\uC740 \uBE5B\uC774 \uB9F4\uB3C4\uB294
+      \uC218\uC0C1\uD55C \uB2E8\uAC80\uC774\uB2E4."
     spriteKey: FA_WP_Main_Sword_008_Purple
     slot: Sword
     hero: 1
@@ -128,12 +279,37 @@ MonoBehaviour:
     damage: 15
     interval: 0.72
     health: 0
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 150
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: a71b0c89a4ebf48fdbc46f69dcd78355, type: 3}
     prefab: {fileID: 2324196106817296878, guid: 89bc9cc45308d88459c55279d8ee5072,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uD654\uC5FC \uC9C0\uD321\uC774"
-    description: "\uAE30\uBCF8 \uACF5\uACA9 31 \xB7 1.6\uCD08 \uAC04\uACA9"
+    description: "\uC791\uC740 \uBD88\uC528\uB97C \uD488\uACE0 \uC788\uB294 \uB530\uB73B\uD55C
+      \uC9C0\uD321\uC774\uB2E4."
     spriteKey: FA_WP_Main_Staff_004_WoodPink
     slot: Staff
     hero: 2
@@ -145,12 +321,37 @@ MonoBehaviour:
     damage: 31
     interval: 1.6
     health: 0
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 150
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: 18c67ce785e3c4e35bdd2b7e1d726ac6, type: 3}
     prefab: {fileID: 4680984490747551385, guid: c2f5e93cffbb3aa42bfff0ecdadf8140,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uC218\uD638 \uAC11\uC637"
-    description: "\uACF5\uC6A9 \xB7 \uCD5C\uB300 \uCCB4\uB825 +100"
+    description: "\uC624\uB79C \uC6D0\uC815\uC5D0\uB3C4 \uBAB8\uC744 \uB4E0\uB4E0\uD558\uAC8C
+      \uAC10\uC2F8\uC8FC\uB294 \uAC11\uC637\uC774\uB2E4."
     spriteKey: FA_Chest_001_Silver
     slot: Chest
     hero: -1
@@ -162,12 +363,37 @@ MonoBehaviour:
     damage: 0
     interval: 0
     health: 100
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 0
+    skillAmplification: 0
+    defense: 0
     effect: 5
     icon: {fileID: 21300000, guid: 7d05193fc24254e8ba1d675db81f98a3, type: 3}
     prefab: {fileID: 4632179152544806088, guid: bca56579abdf7bd49a82156f4c31c55f,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uD0D0\uD5D8 \uD22C\uAD6C"
-    description: "\uACF5\uC6A9 \xB7 \uCD5C\uB300 \uCCB4\uB825 +35"
+    description: "\uAC70\uCE5C \uD0D0\uD5D8\uAE38\uC5D0\uC11C \uBA38\uB9AC\uB97C
+      \uBCF4\uD638\uD574 \uC8FC\uB294 \uD22C\uAD6C\uB2E4."
     spriteKey: FA_Helmet_001_Ivory
     slot: Helmet
     hero: -1
@@ -179,12 +405,37 @@ MonoBehaviour:
     damage: 0
     interval: 0
     health: 35
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 0
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: 54b9ebd31817b4aab8e65198228597ae, type: 3}
     prefab: {fileID: 6844594859371752030, guid: 5d6fa6d2c8ab4e047a6e7d348eefc05e,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
   - title: "\uC11C\uB9AC \uBD80\uC801"
-    description: "\uACF5\uC6A9 \xB7 \uACF5\uACA9 +5 / \uCCB4\uB825 +15"
+    description: "\uCC28\uAC00\uC6B4 \uACB0\uC815\uC774 \uB9E4\uB2EC\uB9B0 \uC791\uC740
+      \uD589\uC6B4\uC758 \uBD80\uC801\uC774\uB2E4."
     spriteKey: Economy_Gem_03_Blue
     slot: Accessory
     hero: -1
@@ -196,7 +447,53 @@ MonoBehaviour:
     damage: 5
     interval: 0
     health: 15
+    criticalChance: 0
+    evasion: 0
+    criticalDamage: 0
+    skillAmplification: 0
+    defense: 0
     effect: 0
     icon: {fileID: 21300000, guid: 5ec9e94b5510f4a9c8b65396fe1985c0, type: 3}
     prefab: {fileID: 7778303395052057981, guid: bc568413b195bad4d97f12b07a2613ce,
       type: 3}
+    id: 
+    rarity: 0
+    maxRandomOptions: 1
+    randomOptions: []
+    skill:
+      enabled: 0
+      id: 
+      title: 
+      description: 
+      effect: 0
+      trigger: 0
+      target: 1
+      cooldown: 10
+      chance: 100
+      duration: 2
+      radius: 3
+      power: 0
+      visualPrefab: {fileID: 0}
+    skillAsset: {fileID: 0}
+  materials:
+  - id: iron
+    title: "\uCCA0\uAD11\uC11D"
+    description: "\uC5EC\uB7EC \uC7A5\uBE44\uB97C \uB9CC\uB4DC\uB294 \uB370 \uC4F0\uC774\uB294
+      \uB2E8\uB2E8\uD55C \uAD11\uC11D\uC774\uB2E4."
+    icon: {fileID: 21300000, guid: 07a3e9c0ff2504cd2a54d4102dd0cfa3, type: 3}
+    rarity: 0
+    storage: 1
+  - id: crystal
+    title: "\uC11C\uB9AC \uACB0\uC815"
+    description: "\uC740\uC740\uD55C \uB0C9\uAE30\uB97C \uBA38\uAE08\uC740 \uD22C\uBA85\uD55C
+      \uACB0\uC815\uC774\uB2E4."
+    icon: {fileID: 21300000, guid: 5ec9e94b5510f4a9c8b65396fe1985c0, type: 3}
+    rarity: 0
+    storage: 2
+  - id: relic
+    title: "\uC720\uC801 \uD30C\uD3B8"
+    description: "\uC624\uB798\uB41C \uC720\uC801\uC5D0\uC11C \uBC1C\uACAC\uD55C
+      \uC2E0\uBE44\uB85C\uC6B4 \uD30C\uD3B8\uC774\uB2E4."
+    icon: {fileID: 21300000, guid: 6c11b61c9554b45678a48bfaddf3abcc, type: 3}
+    rarity: 0
+    storage: 3

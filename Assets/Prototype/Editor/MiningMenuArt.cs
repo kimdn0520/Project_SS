@@ -20,7 +20,7 @@ namespace ProjectSS.Expedition.Editor
    for(int i=0;i<4;i++)
    {
     var b=page.menuButtons[i].GetComponent<Button>();b.name=names[i];b.GetComponentInChildren<TMP_Text>(true).text=labels[i];b.onClick=new Button.ButtonClickedEvent();UnityEventTools.AddIntPersistentListener(b.onClick,page.OpenMenu,page.menuDestinations[i]);
-    if(sprites[i]!=null)page.menuIcons[i].GetComponent<Image>().sprite=AssetDatabase.LoadAssetAtPath<Sprite>(Icons+sprites[i]);
+    if(sprites[i]!=null)page.menuIcons[i].GetComponent<Image>().sprite=UIAssetPaths.LoadSprite(Icons+sprites[i]);
    }
    page.menuPanels[0].transform.Find("Title").GetComponent<TMP_Text>().text="용사";
    if(page.menuPanels.Length>4&&page.menuPanels[4]!=null)UnityEngine.Object.DestroyImmediate(page.menuPanels[4]);
@@ -30,7 +30,7 @@ namespace ProjectSS.Expedition.Editor
    for(int i=0;i<2;i++)
    {
     var go=new GameObject(i==0?"PickaxePowerPreview":"MiningSpeedPreview",typeof(RectTransform),typeof(Image));Rect(go,panel.transform,26,250+i*194,668,166);var image=go.GetComponent<Image>();image.sprite=ExpeditionUIArt.Panel();image.type=Image.Type.Sliced;image.color=new Color(.13f,.22f,.26f);image.raycastTarget=false;
-    var iconGo=new GameObject("Icon",typeof(RectTransform),typeof(Image));Rect(iconGo,go.transform,22,29,96,96);var icon=iconGo.GetComponent<Image>();icon.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(Icons+"Gear_Weapons_Pickaxe_01.png");icon.preserveAspect=true;icon.raycastTarget=false;
+    var iconGo=new GameObject("Icon",typeof(RectTransform),typeof(Image));Rect(iconGo,go.transform,22,29,96,96);var icon=iconGo.GetComponent<Image>();icon.sprite=UIAssetPaths.LoadSprite(Icons+"Gear_Weapons_Pickaxe_01.png");icon.preserveAspect=true;icon.raycastTarget=false;
     Text(page,go.transform,"Title",i==0?"곡괭이 강화":"채광 속도",140,25,350,38,27,new Color(1,.86f,.57f));
     Text(page,go.transform,"Description",i==0?"광맥에 주는 타격 피해 증가":"연속 채광의 타격 간격 감소",140,77,430,38,21,new Color(.76f,.84f,.83f));
     var badge=Text(page,go.transform,"ComingSoon","준비 중",530,29,112,32,18,new Color(.65f,.73f,.74f));badge.alignment=TextAlignmentOptions.Right;

@@ -1,1 +1,3 @@
-PASS: menu curtain and order 500, bottom nav raycast blocked, curtain close, equipment above menu, designer Common close position preserved, notice/close. 1080x2400
+FAIL: System.Exception: Designer close position changed
+  at WindowSkinQA.Check (System.Boolean b, System.String message) [0x00009] in <479e09fff02241b083d8456f51ec6531>:0 
+  at WindowSkinQA.Run () [0x00519] in <479e09fff02241b083d8456f51ec6531>:0 

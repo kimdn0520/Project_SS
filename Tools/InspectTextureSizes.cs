@@ -1,0 +1,5 @@
+using System;using System.Linq;using System.Text;using UnityEditor;using UnityEngine;using UnityEngine.UI;
+public static class InspectTextureSizes {
+ public static string Execute(){var b=new StringBuilder();foreach(var g in AssetDatabase.FindAssets("t:Texture2D",new[]{"Assets/Textures/UI/Common"})){var p=AssetDatabase.GUIDToAssetPath(g);var i=AssetImporter.GetAtPath(p) as TextureImporter;if(i==null)continue;i.GetSourceTextureWidthAndHeight(out int w,out int h);var t=AssetDatabase.LoadAssetAtPath<Texture2D>(p);b.AppendLine(p+" source="+w+"x"+h+" imported="+t.width+"x"+t.height+" max="+i.maxTextureSize);}
+ foreach(var g in AssetDatabase.FindAssets("t:Prefab",new[]{"Assets/Resources/Prefabs"})){var p=AssetDatabase.GUIDToAssetPath(g);foreach(var im in AssetDatabase.LoadAssetAtPath<GameObject>(p).GetComponentsInChildren<Image>(true)){if(im.sprite==null)continue;var s=AssetDatabase.GetAssetPath(im.sprite);if(s.Contains("home-background")||s.Contains("Dig_")||s.Contains("DigAssembly")||s.Contains("DigCap"))b.AppendLine("USE "+p+" / "+im.name+" / "+im.sprite.name+" rect="+im.rectTransform.rect.size+" enabled="+im.gameObject.activeSelf);}}
+ return b.ToString();}}

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 using TMPro;
@@ -11,7 +11,6 @@ using System.Collections.Generic;
 public static class PagePrefabBuilder
 {
     private const string PREFAB_DIR = "Assets/Resources/Prefabs";
-    private const string MAIN_PAGE_PREFAB_PATH = "Assets/Resources/Prefabs/MainPage.prefab";
     private const string PLAY_PAGE_PREFAB_PATH = "Assets/Resources/Prefabs/PlayPage.prefab";
 
     [MenuItem("ProjectSS/Build Page Prefabs")]
@@ -37,205 +36,7 @@ public static class PagePrefabBuilder
         return cam;
     }
 
-    #region MainPage Prefab Builder
 
-    private static GameObject CreateMainPagePrefab(Camera mainCam)
-    {
-        GameObject rootObj = new GameObject("MainPage");
-        MainPageView mainPageView = rootObj.AddComponent<MainPageView>();
-
-        GameObject canvasObj = new GameObject("UI_Canvas");
-        canvasObj.transform.SetParent(rootObj.transform, false);
-
-        Canvas canvas = canvasObj.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        canvas.worldCamera = mainCam;
-        canvas.planeDistance = 10f;
-        canvas.sortingOrder = 10;
-
-        CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(720, 1280);
-        scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-        scaler.matchWidthOrHeight = 0.5f;
-
-        canvasObj.AddComponent<GraphicRaycaster>();
-        CanvasGroup canvasGroup = canvasObj.AddComponent<CanvasGroup>();
-
-        Sprite spaceBgSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Background_Images/large/home-background-large.png");
-        GameObject bgObj = new GameObject("Space_Background");
-        bgObj.transform.SetParent(canvasObj.transform, false);
-        RectTransform bgRect = bgObj.AddComponent<RectTransform>();
-        bgRect.anchorMin = Vector2.zero;
-        bgRect.anchorMax = Vector2.one;
-        bgRect.sizeDelta = Vector2.zero;
-        Image bgImage = bgObj.AddComponent<Image>();
-        if (spaceBgSprite != null)
-        {
-            bgImage.sprite = spaceBgSprite;
-            bgImage.type = Image.Type.Simple;
-            bgImage.preserveAspect = false;
-        }
-        else
-        {
-            bgImage.color = new Color(0.06f, 0.07f, 0.12f, 1f);
-        }
-
-        // 2-1. TabSwiper (컨텐츠 스와이프 영역, Canvas 직속 자식)
-        GameObject contentArea = new GameObject("TabSwiper");
-        contentArea.transform.SetParent(canvasObj.transform, false);
-        RectTransform caRect = contentArea.AddComponent<RectTransform>();
-        caRect.anchorMin = new Vector2(0, 0);
-        caRect.anchorMax = new Vector2(1, 1);
-        caRect.offsetMin = new Vector2(0, 130);
-        caRect.offsetMax = new Vector2(0, -110);
-
-        Image caImg = contentArea.AddComponent<Image>();
-        caImg.color = new Color(0, 0, 0, 0.005f);
-
-        GameObject content = new GameObject("Content");
-        content.transform.SetParent(contentArea.transform, false);
-        RectTransform cRect = content.AddComponent<RectTransform>();
-        cRect.anchorMin = new Vector2(0, 0);
-        cRect.anchorMax = new Vector2(0, 1);
-        cRect.pivot = new Vector2(0, 0.5f);
-        cRect.sizeDelta = new Vector2(720 * 3, 0);
-        cRect.anchoredPosition = new Vector2(-720, 0);
-
-        SwipeTabController swipeCtrl = contentArea.AddComponent<SwipeTabController>();
-        SerializedObject swipeSo = new SerializedObject(swipeCtrl);
-        swipeSo.FindProperty("contentRect").objectReferenceValue = cRect;
-        swipeSo.FindProperty("tabWidth").floatValue = 720f;
-        swipeSo.FindProperty("totalTabs").intValue = 3;
-        swipeSo.FindProperty("initialTabIndex").intValue = 1;
-        swipeSo.ApplyModifiedProperties();
-
-        Sprite shopContainerSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Containers/Large/shop-container-large.png");
-        CreateTabContent(content.transform, 0, "SHOP", "SPACE BLACK MARKET", "Buy Space Fighters, Shields and Laser Upgrades!", shopContainerSprite);
-
-        Sprite homeContainerSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Containers/Large/inventory-menu-container-large.png");
-        GameObject homeTab = CreateTabContent(content.transform, 1, "MISSION LOBBY", "SECTOR 7: DEEP SPACE PATROL", "Hostile Alien Fleets Detected Ahead! Deploy your fighter to defend the galaxy.", homeContainerSprite);
-
-        Sprite startBtnSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Button_Images/Source_Image_Sprites/large/large-blue-sparkle-large.png");
-        if (startBtnSprite == null)
-            startBtnSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Button_Images/Source_Image_Sprites/large/large-blue-large.png");
-
-        Button btnStart = CreateSFActionButton("Btn_StartGame", homeTab.transform, new Vector2(0, -180), new Vector2(340, 90), "START MISSION", startBtnSprite, new Color(0.2f, 0.9f, 1f));
-
-        Sprite rankContainerSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Containers/Large/victory-defeat-container-large.png");
-        CreateTabContent(content.transform, 2, "RANKING", "GALACTIC LEADERBOARD", "1. Commander Shepard (Wave 99) | 2. StarLord (Wave 85) | 3. Nova (Wave 72)", rankContainerSprite);
-
-        // 2-2. SafeArea (상단 재화 바 및 하단 탭 바 컨테이너)
-        GameObject safePanel = new GameObject("SafeArea");
-        safePanel.transform.SetParent(canvasObj.transform, false);
-        RectTransform safeRect = safePanel.AddComponent<RectTransform>();
-        safeRect.anchorMin = Vector2.zero;
-        safeRect.anchorMax = Vector2.one;
-        safeRect.sizeDelta = Vector2.zero;
-        safePanel.AddComponent<SafeAreaHelper>();
-
-        Sprite panelSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Containers/Large/homepage-icon-container-large.png");
-        Sprite coinSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Icons/coin-128.png");
-        Sprite gemSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Icons/gem-128.png");
-
-        GameObject topArea = new GameObject("TopArea");
-        topArea.transform.SetParent(safePanel.transform, false);
-        RectTransform topRect = topArea.AddComponent<RectTransform>();
-        topRect.anchorMin = new Vector2(0, 1);
-        topRect.anchorMax = new Vector2(1, 1);
-        topRect.pivot = new Vector2(0.5f, 1);
-        topRect.sizeDelta = new Vector2(0, 110);
-        topRect.anchoredPosition = Vector2.zero;
-
-        Image topBg = topArea.AddComponent<Image>();
-        if (panelSprite != null) topBg.sprite = panelSprite;
-        topBg.color = new Color(0.1f, 0.14f, 0.22f, 0.92f);
-
-        CreateResourceBadge(topArea.transform, new Vector2(-150, -55), coinSprite, "12,500 G", Color.yellow);
-        CreateResourceBadge(topArea.transform, new Vector2(150, -55), gemSprite, "350 GEM", new Color(0.3f, 0.85f, 1f));
-
-        // 2-3. BarBG (하단 바 배경 - 로열 블루 + 상단 골드 라인 + 구분선)
-        GameObject barBgObj = new GameObject("BarBG");
-        barBgObj.transform.SetParent(safePanel.transform, false);
-        RectTransform barBgRect = barBgObj.AddComponent<RectTransform>();
-        barBgRect.anchorMin = new Vector2(0, 0);
-        barBgRect.anchorMax = new Vector2(1, 0);
-        barBgRect.pivot = new Vector2(0.5f, 0);
-        barBgRect.sizeDelta = new Vector2(0, 130);
-        barBgRect.anchoredPosition = Vector2.zero;
-
-        Image barBgImg = barBgObj.AddComponent<Image>();
-        barBgImg.color = new Color(0.04f, 0.20f, 0.48f, 1f); // 로열 블루
-
-        // 상단 골드 테두리 라인
-        GameObject goldLine = new GameObject("TopGoldLine");
-        goldLine.transform.SetParent(barBgObj.transform, false);
-        RectTransform goldRect = goldLine.AddComponent<RectTransform>();
-        goldRect.anchorMin = new Vector2(0, 1);
-        goldRect.anchorMax = new Vector2(1, 1);
-        goldRect.pivot = new Vector2(0.5f, 1);
-        goldRect.sizeDelta = new Vector2(0, 4);
-        goldRect.anchoredPosition = Vector2.zero;
-        Image goldImg = goldLine.AddComponent<Image>();
-        goldImg.color = new Color(1f, 0.74f, 0.05f, 1f); // 황금색
-
-        // 세로 구분선 (Dividers)
-        CreateDivider("Divider_1", barBgObj.transform, -120f);
-        CreateDivider("Divider_2", barBgObj.transform, 120f);
-
-        // 2-4. TabButtonParent (3개 탭 버튼 컨테이너 - RectTransform & HorizontalLayoutGroup)
-        GameObject tabParentObj = new GameObject("TabButtonParent");
-        tabParentObj.transform.SetParent(safePanel.transform, false);
-        RectTransform tabParentRect = tabParentObj.AddComponent<RectTransform>();
-        tabParentRect.anchorMin = new Vector2(0, 0);
-        tabParentRect.anchorMax = new Vector2(1, 0);
-        tabParentRect.pivot = new Vector2(0.5f, 0);
-        tabParentRect.anchoredPosition = new Vector2(0, -50);
-        tabParentRect.sizeDelta = new Vector2(0, 200);
-
-        HorizontalLayoutGroup hlg = tabParentObj.AddComponent<HorizontalLayoutGroup>();
-        hlg.padding = new RectOffset(0, 0, 0, 0);
-        hlg.spacing = 0;
-        hlg.childAlignment = TextAnchor.MiddleCenter;
-        hlg.childControlWidth = true;
-        hlg.childControlHeight = false;
-        hlg.childScaleWidth = false;
-        hlg.childScaleHeight = false;
-        hlg.childForceExpandWidth = true;
-        hlg.childForceExpandHeight = true;
-
-        BottomTabBar bottomTabBar = tabParentObj.AddComponent<BottomTabBar>();
-
-        Sprite shopIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/TabIcon_Shop.png");
-        Sprite homeIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/TabIcon_Home.png");
-        Sprite rankIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/TabIcon_Leaderboard.png");
-
-        Button btnShop = CreateTabButton("TabButtonShop", tabParentObj.transform, "SHOP", shopIcon);
-        Button btnHome = CreateTabButton("TabButtonHome", tabParentObj.transform, "HOME", homeIcon);
-        Button btnRank = CreateTabButton("TabButtonLeaderboard", tabParentObj.transform, "LEADERBOARD", rankIcon);
-
-        SerializedObject btbSo = new SerializedObject(bottomTabBar);
-        SerializedProperty tabsProp = btbSo.FindProperty("tabs");
-        tabsProp.ClearArray();
-        AddTabToBar(tabsProp, 0, btnShop, "SHOP");
-        AddTabToBar(tabsProp, 1, btnHome, "HOME");
-        AddTabToBar(tabsProp, 2, btnRank, "LEADERBOARD");
-        btbSo.ApplyModifiedProperties();
-
-        SerializedObject mpSo = new SerializedObject(mainPageView);
-        mpSo.FindProperty("canvas").objectReferenceValue = canvas;
-        mpSo.FindProperty("canvasGroup").objectReferenceValue = canvasGroup;
-        mpSo.FindProperty("swipeTabController").objectReferenceValue = swipeCtrl;
-        mpSo.FindProperty("bottomTabBar").objectReferenceValue = bottomTabBar;
-        mpSo.FindProperty("startGameButton").objectReferenceValue = btnStart;
-        mpSo.ApplyModifiedProperties();
-
-        GameObject prefab = PrefabUtility.SaveAsPrefabAsset(rootObj, MAIN_PAGE_PREFAB_PATH);
-        Object.DestroyImmediate(rootObj);
-        return prefab;
-    }
-
-    #endregion
 
     #region PlayPage Prefab Builder (v2: UI_Canvas and Game_Root Siblings with WorldAreaLayoutBinder)
 
@@ -273,7 +74,7 @@ public static class PagePrefabBuilder
         safeRect.sizeDelta = Vector2.zero;
         safeAreaObj.AddComponent<SafeAreaHelper>();
 
-        Sprite containerSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Space_Exploration_GUI_Kit/Containers/Large/homepage-icon-container-large.png");
+        Sprite containerSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Common/Frames/homepage-icon-container-large.png");
 
         // 2-2. TopHudRegion (높이 112)
         GameObject topHudObj = new GameObject("TopHudRegion");
@@ -507,7 +308,7 @@ public static class PagePrefabBuilder
         bvRt.anchorMax = Vector2.one;
         bvRt.sizeDelta = Vector2.zero;
         Image baseImg = baseVisObj.AddComponent<Image>();
-        Sprite digBaseSp = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Dig_Button_Base.png");
+        Sprite digBaseSp = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Common/Mining/Dig_Button_Base.png");
         if (digBaseSp != null) baseImg.sprite = digBaseSp;
         baseImg.color = Color.white;
         baseImg.raycastTarget = false;
@@ -521,7 +322,7 @@ public static class PagePrefabBuilder
         faceRt.sizeDelta = new Vector2(-24, -24);
         faceRt.anchoredPosition = Vector2.zero;
         Image faceImg = faceObj.AddComponent<Image>();
-        Sprite digFaceSp = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Dig_Button_Face.png");
+        Sprite digFaceSp = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Common/Mining/Dig_Button_Face.png");
         if (digFaceSp != null) faceImg.sprite = digFaceSp;
         faceImg.color = Color.white;
         faceImg.raycastTarget = true;
@@ -534,7 +335,7 @@ public static class PagePrefabBuilder
         ringRt.anchorMax = Vector2.one;
         ringRt.sizeDelta = Vector2.zero;
         Image ringImg = ringObj.AddComponent<Image>();
-        Sprite ringSp = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Dig_Progress_Ring.png");
+        Sprite ringSp = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Common/Mining/Dig_Progress_Ring.png");
         if (ringSp != null) ringImg.sprite = ringSp;
         ringImg.type = Image.Type.Filled;
         ringImg.fillMethod = Image.FillMethod.Radial360;
@@ -1097,7 +898,8 @@ public static class PagePrefabBuilder
             }
         }
 
-        ProjectSS.Expedition.Editor.EquipmentAtlasArt.BindFolder(spriteMgr,"Assets/Textures","LegacyUI");
+        ProjectSS.Expedition.Editor.EquipmentAtlasArt.BindFolder(spriteMgr,"Assets/Textures/UI/Common","UICommon");
+        ProjectSS.Expedition.Editor.EquipmentAtlasArt.BindFolder(spriteMgr,"Assets/Textures/UI/Icons","UIIcons");
 
         // PageManager (씬 루트 레벨 싱글톤)
         PageManager pageManager = Object.FindAnyObjectByType<PageManager>();

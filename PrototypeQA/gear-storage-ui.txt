@@ -1,0 +1,1 @@
+PASS: individual duplicate rows, equipped badge/protection, read-only exact-instance details, aligned X, cell dismantle cancel/confirm, save, 100 items with 11 pooled cells and recycled UID clicks.

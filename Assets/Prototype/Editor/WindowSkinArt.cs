@@ -9,7 +9,7 @@ namespace ProjectSS.Expedition.Editor
     public static class WindowSkinArt
     {
         public const string FramePath="Assets/Prototype/Art/WindowFrame-v2.png";
-        public const string ClosePath="Assets/Prototype/Art/WindowClose-red-v3.png";
+        public const string ClosePath="Assets/Textures/UI/Common/Buttons/WindowClose-red-v3.png";
         static Sprite Import(string path,Vector4 border)
         {
             var importer=(TextureImporter)AssetImporter.GetAtPath(path);
@@ -29,6 +29,7 @@ namespace ProjectSS.Expedition.Editor
             const string path="Assets/Prototype/Art/WindowFrameUI.mat";var mat=AssetDatabase.LoadAssetAtPath<Material>(path);
             if(mat==null){mat=new Material(Shader.Find("ProjectSS/UI/WindowFrame"));AssetDatabase.CreateAsset(mat,path);}
             image.material=mat;
+            if(image.GetComponent<AtlasLocalUV>()==null)image.gameObject.AddComponent<AtlasLocalUV>();
         }
         static void Close(Image image,Sprite sprite)
         {
@@ -36,6 +37,7 @@ namespace ProjectSS.Expedition.Editor
             const string path="Assets/Prototype/Art/WindowCloseUI.mat";var mat=AssetDatabase.LoadAssetAtPath<Material>(path);
             if(mat==null){mat=new Material(Shader.Find("ProjectSS/UI/WindowFrame"));AssetDatabase.CreateAsset(mat,path);}
             mat.SetFloat("_HalfExtent",512);mat.SetFloat("_CornerRadius",208);EditorUtility.SetDirty(mat);image.material=mat;
+            if(image.GetComponent<AtlasLocalUV>()==null)image.gameObject.AddComponent<AtlasLocalUV>();
         }
         public static void Configure(PlayPage page)
         {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.U2D;
 
-[CreateAssetMenu(fileName = "SpriteAtlasSO", menuName = "Scriptable Objects/SpriteAtlasSO")]
+[CreateAssetMenu(fileName = "SpriteAtlasScriptable", menuName = "ProjectSS/Sprite Atlas Registry")]
 public class SpriteAtlasSO : ScriptableObject
 {
     [SerializeField]

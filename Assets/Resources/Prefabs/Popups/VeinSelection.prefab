@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: 8697930304645236119}
   - component: {fileID: 8642131677846167167}
   - component: {fileID: 5386337610920229366}
+  - component: {fileID: 3467624791331275291}
   m_Layer: 0
   m_Name: SelectAction
   m_TagString: Untagged
@@ -485,6 +486,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3467624791331275291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2465153184803392293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a4482d878c128469467a8b31550d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectSS.Expedition.AtlasLocalUV
 --- !u!1 &3328689078811455623
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,9 +565,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC11C\uB9AC \uAD11\uB9E5"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -584,7 +596,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1090,9 +1102,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uAD11\uB9E5 \uC120\uD0DD"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1122,7 +1133,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 20
   m_fontSizeMax: 30
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1228,9 +1239,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1311,6 +1321,7 @@ GameObject:
   - component: {fileID: 6270909441245612448}
   - component: {fileID: 8377591320409741703}
   - component: {fileID: 358056327472726243}
+  - component: {fileID: 2085923114991982689}
   m_Layer: 0
   m_Name: SelectAction
   m_TagString: Untagged
@@ -1433,6 +1444,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2085923114991982689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4792346015872410195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a4482d878c128469467a8b31550d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectSS.Expedition.AtlasLocalUV
 --- !u!1 &4941215602042186879
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,9 +1598,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uCCA0 \uAD11\uB9E5"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1607,7 +1629,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1713,9 +1735,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC120\uD0DD"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1745,7 +1766,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 16
   m_fontSizeMax: 24
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1991,6 +2012,7 @@ GameObject:
   - component: {fileID: 1445492195990502723}
   - component: {fileID: 6630746013866042115}
   - component: {fileID: 4605325258753041079}
+  - component: {fileID: 1466039541499557192}
   m_Layer: 0
   m_Name: SelectAction
   m_TagString: Untagged
@@ -2113,6 +2135,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1466039541499557192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6583126304703774812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a4482d878c128469467a8b31550d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectSS.Expedition.AtlasLocalUV
 --- !u!1 &6723456896924588387
 GameObject:
   m_ObjectHideFlags: 0
@@ -2180,9 +2214,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC120\uD0DD"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2212,7 +2245,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 16
   m_fontSizeMax: 24
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2393,9 +2426,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC720\uC801 \uAD11\uB9E5"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2425,7 +2457,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -2531,9 +2563,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC120\uD0DD"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2563,7 +2594,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 16
   m_fontSizeMax: 24
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2669,9 +2700,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uCC44\uAD74\uD560 \uAD11\uB9E5\uC744 \uC120\uD0DD\uD558\uC138\uC694"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2807,9 +2837,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2945,9 +2974,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3123,6 +3151,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7773178770172200515, guid: e4f757cc185b9374bb7f86dd959d5f83,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -361
+      objectReference: {fileID: 0}
+    - target: {fileID: 7773178770172200515, guid: e4f757cc185b9374bb7f86dd959d5f83,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -640.2
       objectReference: {fileID: 0}
     - target: {fileID: 8003396971500834167, guid: e4f757cc185b9374bb7f86dd959d5f83,
         type: 3}

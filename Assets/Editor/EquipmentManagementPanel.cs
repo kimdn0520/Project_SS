@@ -17,6 +17,10 @@ namespace ProjectSS.ContentEditor
         private int rarityFilter, slotFilter;
         private Vector2 listScroll, detailScroll;
         private bool advanced;
+        private int category;
+        private readonly MaterialManagementPanel materials = new MaterialManagementPanel();
+        private bool MatchesCategory(GearDefinition g) => g != null && (category == 0 ||
+            category == 1 && g.equipSlot == 0 || category == 2 && (g.equipSlot == 1 || g.equipSlot == 2) || category == 3 && g.equipSlot == 3);
 
         public void Draw(ContentManagementWindow host)
         {
@@ -31,7 +35,22 @@ namespace ProjectSS.ContentEditor
                 EditorGUILayout.HelpBox("편집할 ExpeditionCatalog 에셋을 선택하세요.", MessageType.Info);
                 GUILayout.FlexibleSpace(); return;
             }
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                host.draft.weaponCapacity = Mathf.Max(1, EditorGUILayout.IntField("무기 보관 한도",host.draft.weaponCapacity));
+                host.draft.armorCapacity = Mathf.Max(1, EditorGUILayout.IntField("방어구 보관 한도",host.draft.armorCapacity));
+                host.draft.accessoryCapacity = Mathf.Max(1, EditorGUILayout.IntField("장신구 보관 한도",host.draft.accessoryCapacity));
+            }
+            host.draft.dismantleRefundRate = EditorGUILayout.Slider("분해 재료 반환 비율",host.draft.dismantleRefundRate,0,1);
             if (host.draft.gear == null) host.draft.gear = Array.Empty<GearDefinition>();
+            int nextCategory = GUILayout.Toolbar(category, new[] { "전체 장비", "무기", "갑옷 · 투구", "장신구", "재료" }, GUILayout.Height(28));
+            if (nextCategory != category)
+            {
+                category = nextCategory; slotFilter = rarityFilter = 0; search = "";
+                host.selected = Array.FindIndex(host.draft.gear, MatchesCategory);
+                GUI.FocusControl(null);
+            }
+            if (category == 4) { materials.Draw(host); return; }
             using (new EditorGUILayout.HorizontalScope())
             {
                 DrawList(host);
@@ -52,18 +71,18 @@ namespace ProjectSS.ContentEditor
                 }
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    if (GUILayout.Button("+ 새 장비")) Add(host, false);
-                    using (new EditorGUI.DisabledScope(host.draft.gear.Length == 0))
+                    if (GUILayout.Button("+ 새 " + new[] { "장비", "무기", "방어구", "장신구" }[category])) Add(host, false);
+                    using (new EditorGUI.DisabledScope(host.selected < 0 || host.draft.gear.Length == 0))
                         if (GUILayout.Button("선택 복제")) Add(host, true);
                 }
-                if (GUILayout.Button("+ 전설 서리지팡이 예시")) AddFrost(host);
+                if (category <= 1 && GUILayout.Button("+ 전설 서리지팡이 예시")) AddFrost(host);
                 GUILayout.Space(5);
                 listScroll = EditorGUILayout.BeginScrollView(listScroll);
                 int count = 0;
                 for (int i = 0; i < host.draft.gear.Length; i++)
                 {
                     var g = host.draft.gear[i];
-                    if (g == null) continue;
+                    if (!MatchesCategory(g)) continue;
                     if (rarityFilter > 0 && (int)g.rarity != rarityFilter - 1 || slotFilter > 0 && g.equipSlot != slotFilter - 1) continue;
                     if (!string.IsNullOrWhiteSpace(search) && ($"{g.title} {g.id} {g.description}").IndexOf(search, StringComparison.OrdinalIgnoreCase) < 0) continue;
                     if (count++ % 3 == 0) EditorGUILayout.BeginHorizontal();
@@ -89,7 +108,7 @@ namespace ProjectSS.ContentEditor
         {
             using (new EditorGUILayout.VerticalScope(GUILayout.ExpandWidth(true)))
             {
-                if (host.draft.gear.Length == 0) { GUILayout.Label("새 장비를 추가해 시작하세요."); GUILayout.FlexibleSpace(); return; }
+                if (host.draft.gear.Length == 0 || host.selected < 0) { GUILayout.Label("새 장비를 추가해 시작하세요."); GUILayout.FlexibleSpace(); return; }
                 host.selected = Mathf.Clamp(host.selected, 0, host.draft.gear.Length - 1);
                 var data = new SerializedObject(host.draft);
                 data.Update();
@@ -110,10 +129,29 @@ namespace ProjectSS.ContentEditor
                 desc.stringValue = EditorGUILayout.TextArea(desc.stringValue, GUILayout.MinHeight(48));
 
                 Section("기본 능력치");
-                Field(g, "damage", "공격력"); Field(g, "health", "추가 체력");
-                Field(g, "interval", "공격 간격 (초)");
-                float interval = g.FindPropertyRelative("interval").floatValue;
-                if (interval > 0) EditorGUILayout.LabelField("기본 DPS", (g.FindPropertyRelative("damage").floatValue / interval).ToString("0.##"));
+                int equipSlot = g.FindPropertyRelative("equipSlot").intValue;
+                if (equipSlot == 0)
+                {
+                    Field(g, "damage", "공격력");
+                    var interval = g.FindPropertyRelative("interval");
+                    float currentSpeed = interval.floatValue > 0 ? 1 / interval.floatValue : 0;
+                    float speed = EditorGUILayout.FloatField("공격속도 (회/초)", currentSpeed);
+                    if (speed != currentSpeed) interval.floatValue = speed > 0 ? 1 / speed : 0;
+                    Field(g, "criticalChance", "치명타 확률 (%)"); Field(g, "criticalDamage", "치명타 피해 (%)");
+                    Field(g, "skillAmplification", "스킬 증폭 (%)");
+                    EditorGUILayout.HelpBox("치명타 피해 150% = 기본 피해의 1.5배. 공격속도는 초당 공격 횟수입니다.", MessageType.None);
+                }
+                else if (equipSlot == 1 || equipSlot == 2)
+                {
+                    Field(g, "defense", "방어력"); Field(g, "health", "체력"); Field(g, "evasion", "회피율 (%)");
+                }
+                else
+                {
+                    Field(g, "damage", "공격력"); Field(g, "health", "체력"); Field(g, "defense", "방어력");
+                    Field(g, "criticalChance", "치명타 확률 (%)"); Field(g, "criticalDamage", "치명타 피해 추가 (%)");
+                    Field(g, "evasion", "회피율 (%)"); Field(g, "skillAmplification", "스킬 증폭 (%)");
+                }
+                EditorGUILayout.HelpBox("공격력·공격속도·체력은 기존 전투에 반영됩니다. 신규 능력치는 편집·저장·상세 표시까지 지원하며, 전투 계산 연동은 별도입니다.", MessageType.Info);
 
                 Section("고유 효과");
                 Popup(g, "effect", "효과", new[] { "없음", "방어구 파괴", "냉기", "화상", "흡혈", "방어" });
@@ -179,7 +217,7 @@ namespace ProjectSS.ContentEditor
                 if (advanced)
                 {
                     Field(g, "prefab", "드롭 프리팹"); Field(g, "spriteKey", "캐릭터 파츠 키"); Field(g, "slot", "캐릭터 파츠 슬롯");
-                    EditorGUILayout.HelpBox("기존 세이브가 목록 인덱스를 사용하므로 삭제·순서 변경은 제공하지 않습니다. 장비 추가 시 보유 수량 배열은 확장되어 기존 진행을 보존합니다. 새 장비의 게임 표시에는 고정 인벤토리 UI와 드롭 프리팹 연결이 별도로 필요합니다.", MessageType.Info);
+                    EditorGUILayout.HelpBox("기존 세이브를 보존하기 위해 삭제·순서 변경은 제공하지 않습니다. 추가한 장비는 획득 시 가방과 장비 선택 목록에 자동으로 표시됩니다. 캐릭터 착용 외형과 드롭 연출에는 파츠/프리팹 연결이 필요합니다.", MessageType.Info);
                 }
                 if (EditorGUI.EndChangeCheck()) { data.ApplyModifiedProperties(); host.Changed(); }
                 else data.ApplyModifiedProperties();
@@ -236,7 +274,10 @@ namespace ProjectSS.ContentEditor
         private void Add(ContentManagementWindow host, bool duplicate)
         {
             var gear = duplicate ? JsonUtility.FromJson<GearDefinition>(JsonUtility.ToJson(host.draft.gear[Mathf.Clamp(host.selected, 0, host.draft.gear.Length - 1)])) :
-                new GearDefinition { title = "새 장비", hero = -1, interval = 1, damage = 10 };
+                new GearDefinition { title = category == 2 ? "새 갑옷" : category == 3 ? "새 장신구" : "새 무기",
+                    description = "아이템의 특징을 적어주세요.", hero = -1, interval = 1,
+                    equipSlot = category == 2 ? 2 : category == 3 ? 3 : 0,
+                    damage = category < 2 ? 10 : 0, criticalDamage = category < 2 ? 150 : 0 };
             if (duplicate) gear.title += " (복사)";
             gear.id = "gear_" + Guid.NewGuid().ToString("N").Substring(0, 12);
             Append(host, gear);
@@ -277,6 +318,7 @@ namespace ProjectSS.ContentEditor
                 foreach (var error in EntryErrors(g, resolve)) result.Add($"#{i:D3} {g?.title}: {error}");
                 if (g != null && !string.IsNullOrWhiteSpace(g.id) && !ids.Add(g.id.Trim())) result.Add($"#{i:D3}: 중복 ID '{g.id}'");
             }
+            result.AddRange(MaterialManagementPanel.Errors(catalog));
             return result;
         }
 
@@ -288,6 +330,8 @@ namespace ProjectSS.ContentEditor
             if (!Enum.IsDefined(typeof(GearRarity), g.rarity)) errors.Add("희귀도가 올바르지 않습니다.");
             if (g.equipSlot < 0 || g.equipSlot > 3 || g.hero < -1 || g.hero > 2) errors.Add("장착 부위 또는 사용 직업이 올바르지 않습니다.");
             if (!NonNegative(g.damage) || !NonNegative(g.health) || !NonNegative(g.interval) || (g.equipSlot == 0 && g.interval <= 0)) errors.Add("공격력·체력은 0 이상, 무기 공격 간격은 0보다 커야 합니다.");
+            if (!NonNegative(g.criticalChance) || g.criticalChance > 100 || !NonNegative(g.evasion) || g.evasion > 100) errors.Add("치명타 확률·회피율은 0~100%여야 합니다.");
+            if (!NonNegative(g.criticalDamage) || !NonNegative(g.skillAmplification) || !NonNegative(g.defense)) errors.Add("치명타 피해·스킬 증폭·방어력은 0 이상의 유한한 수치여야 합니다.");
             if (g.iron < 0 || g.crystal < 0 || g.relic < 0 || g.unlock < 0) errors.Add("제작 비용과 해금 단계는 음수일 수 없습니다.");
             if (g.maxRandomOptions < 0) errors.Add("최대 옵션 개수는 0 이상이어야 합니다.");
             var options = g.randomOptions ?? Array.Empty<GearRandomOption>();

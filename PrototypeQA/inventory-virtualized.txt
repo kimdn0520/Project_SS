@@ -1,0 +1,4 @@
+PASS
+1000 items, 11 reusable cells; overscan 2 per side
+Fast scrolling through 1000 items reuses same cells; recycled click opens item 999
+Two-row buffers, empty/category/material changes, shrinking data, disable/reopen pooling passed

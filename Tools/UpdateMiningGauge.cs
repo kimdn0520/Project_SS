@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +18,7 @@ public static class UpdateMiningGauge
    foreach(var floor in root.GetComponentsInChildren<Transform>(true).Where(t=>t.name=="MineFloor").ToArray())UnityEngine.Object.DestroyImmediate(floor.gameObject);
    var parent=page.minePanel.transform;
    foreach(var old in parent.GetComponentsInChildren<Transform>(true).Where(t=>t.name=="BurstGaugeFrame"||t.name=="BurstGauge").ToArray())UnityEngine.Object.DestroyImmediate(old.gameObject);
-   var sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Prototype/Art/Panel9Slice.png");
+   var sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Common/Cells/Panel9Slice.png");
    Make(parent,"BurstGaugeFrame",529,978,22,150,sprite,new Color(.16f,.25f,.28f));
    var fill=Make(parent,"BurstGauge",533,982,14,142,sprite,new Color(1,.77f,.36f));
    fill.type=Image.Type.Filled;fill.fillMethod=Image.FillMethod.Vertical;fill.fillOrigin=0;fill.fillAmount=0;page.heatBar=fill;

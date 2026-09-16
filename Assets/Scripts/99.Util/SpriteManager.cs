@@ -33,7 +33,10 @@ public class SpriteManager : SingletonMonoBehaviour<SpriteManager>
                 {
                     if (sprite == null) continue;
                     string cleanedName = sprite.name.Replace("(Clone)", "");
-                    Register(cleanedName, sprite);
+                    // The registry lists gameplay equipment first. UI thumbnails can have
+                    // the same name; they must not replace a character's equipped sprite.
+                    if (!_spriteDic.ContainsKey(cleanedName)) Register(cleanedName, sprite);
+                    Register(atlas.name + "/" + cleanedName, sprite);
                 }
             }
         }

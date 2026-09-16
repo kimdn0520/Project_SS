@@ -1,0 +1,1 @@
+PASS: Arial Rounded Bold Outline preset, Korean fallback glyphs, equipment slots/rows, popup close/navigation. Screenshots captured for heroes, slots, equipment, bag and veins.

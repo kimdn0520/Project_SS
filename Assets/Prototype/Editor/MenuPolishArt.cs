@@ -41,7 +41,7 @@ namespace ProjectSS.Expedition.Editor
         }
         public static void Configure(PlayPage page)
         {
-            cell=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Prototype/Art/Panel9Slice.png");
+            cell=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Common/Cells/Panel9Slice.png");
             foreach(var panel in page.menuPanels)
             {
                 foreach(var t in panel.GetComponentsInChildren<TMP_Text>(true))t.color=t.name=="SaveHint"||t.name=="ComingSoon"?Muted:Ink;
@@ -90,8 +90,11 @@ namespace ProjectSS.Expedition.Editor
         }
         public static void AlignBagTabs(ExpeditionInventory bag)
         {
-            foreach(var tab in bag.tabs)
+            float width = (612 - 12 * (bag.tabs.Length - 1)) / bag.tabs.Length;
+            for(int i = 0; i < bag.tabs.Length; i++)
             {
+                var tab = bag.tabs[i];
+                Rect(tab.rectTransform,54+i*(width+12),242,width,50);
                 var surface=tab.transform.Find("Surface") as RectTransform;
                 if(surface!=null)
                 {

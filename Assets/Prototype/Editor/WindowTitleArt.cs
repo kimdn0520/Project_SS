@@ -16,7 +16,7 @@ namespace ProjectSS.Expedition.Editor
             var child=parent.Find(name);
             if(child==null){child=new GameObject(name,typeof(RectTransform),typeof(Image)).transform;child.SetParent(parent,false);}
             var image=child.GetComponent<Image>();Rect(image.rectTransform,position,size);
-            image.sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Prototype/Art/Panel9Slice.png");
+            image.sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Textures/UI/Common/Cells/Panel9Slice.png");
             image.type=Image.Type.Sliced;image.color=color;image.raycastTarget=false;return image;
         }
         static Color ColorOf(string hex){ColorUtility.TryParseHtmlString("#"+hex,out var color);return color;}
@@ -37,7 +37,7 @@ namespace ProjectSS.Expedition.Editor
         }
         public static void Configure(PlayPage page)
         {
-            const string art="Assets/Prototype/Art/GoldTitle-v2.png";
+            const string art="Assets/Textures/UI/Common/Frames/GoldTitle-v2.png";
             var imp=(TextureImporter)AssetImporter.GetAtPath(art);imp.textureType=TextureImporterType.Sprite;
             imp.spriteImportMode=SpriteImportMode.Multiple;imp.spritePixelsPerUnit=100;
             imp.maxTextureSize=2048;imp.textureCompression=TextureImporterCompression.Uncompressed;imp.mipmapEnabled=false;imp.alphaIsTransparency=true;

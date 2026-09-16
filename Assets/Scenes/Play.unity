@@ -747,6 +747,11 @@ PrefabInstance:
       propertyPath: m_ActiveFontFeatures.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3793842030834054137, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3809935682415032141, guid: 8949ff785d0ad9f47b39cb753b77d6bf,
         type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag

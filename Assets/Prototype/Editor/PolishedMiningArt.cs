@@ -9,12 +9,12 @@ namespace ProjectSS.Expedition.Editor
     public static class PolishedMiningArt
     {
         const string Root="Assets/Prototype/Art/Cartoon/";
-        static string TexturePath(string file) => System.IO.File.Exists(Root+file+".png") ? Root+file+".png" : "Assets/Prototype/Art/Polished/"+file+".png";
+        static string TexturePath(string file) => System.IO.File.Exists("Assets/Textures/UI/Common/Mining/"+file+".png") ? "Assets/Textures/UI/Common/Mining/"+file+".png" : System.IO.File.Exists(Root+file+".png") ? Root+file+".png" : "Assets/Prototype/Art/Polished/"+file+".png";
         static Texture2D Texture(string file)
         {
             string path=TexturePath(file);AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
-            var im=(TextureImporter)AssetImporter.GetAtPath(path);im.textureType=TextureImporterType.Sprite;im.spriteImportMode=SpriteImportMode.Single;
-            im.maxTextureSize=2048;im.mipmapEnabled=false;im.alphaIsTransparency=true;im.isReadable=true;im.textureCompression=TextureImporterCompression.Uncompressed;im.filterMode=FilterMode.Bilinear;im.SaveAndReimport();
+            var im=(TextureImporter)AssetImporter.GetAtPath(path);im.textureType=TextureImporterType.Sprite;if(im.spriteImportMode!=SpriteImportMode.Multiple)im.spriteImportMode=SpriteImportMode.Single;
+            im.maxTextureSize=(file=="DigAssembly"||file=="DigCapDomed")?1024:2048;im.mipmapEnabled=false;im.alphaIsTransparency=true;im.isReadable=true;im.textureCompression=TextureImporterCompression.Uncompressed;im.filterMode=FilterMode.Bilinear;im.SaveAndReimport();
             return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
         static Rect Crop(Texture2D texture,Rect cell)
@@ -27,6 +27,8 @@ namespace ProjectSS.Expedition.Editor
         }
         static Sprite Sprite(Texture2D texture,Rect rect,string name,Vector2? pivot=null)
         {
+            var imported=AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(texture)).OfType<Sprite>().FirstOrDefault(s=>s.name==name);
+            if(imported!=null)return imported;
             string path=Root+name+".asset";var old=AssetDatabase.LoadAssetAtPath<Sprite>(path);
             var sprite=UnityEngine.Sprite.Create(texture,rect,pivot??new Vector2(.5f,.5f),100,0,SpriteMeshType.FullRect);sprite.name=name;
             if(old!=null){EditorUtility.CopySerialized(sprite,old);UnityEngine.Object.DestroyImmediate(sprite);EditorUtility.SetDirty(old);return old;}

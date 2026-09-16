@@ -1,0 +1,1 @@
+PASS: one SpriteAtlasScriptable; 3 atlases (Equipment=11 sprites; UICommon=21 sprites; UIIcons=24 sprites); 437 UI image references / 36 unique sprites under Textures with explicit NonAtlas exclusions; 42 custom masks use local atlas UVs.

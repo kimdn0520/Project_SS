@@ -1,0 +1,1 @@
+PASS: 121 checks; migration, distinct rolls, exact equip, category limits, safe dismantle, battle protection, full chest retention, save/reload.

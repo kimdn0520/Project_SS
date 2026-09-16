@@ -57,8 +57,8 @@ namespace ProjectSS.Expedition.Editor
             page.bagTitle=Text("BagTitle",bag,"보유 아이템",26,180,660,32,24,Color.white);
             var back=Button("BackToMine1",bag,"채굴로",566,118,128,48);UnityEventTools.AddIntPersistentListener(back.onClick,page.OpenMenu,0);
             var inventory=bag.GetComponent<ExpeditionInventory>();if(inventory==null)inventory=bag.gameObject.AddComponent<ExpeditionInventory>();
-            page.inventoryView=inventory;inventory.page=page;inventory.tabs=new Image[3];
-            for(int i=0;i<3;i++){var b=Button("BagFilter"+i,bag,new[]{"전체","무기","재료"}[i],26+i*226,228,216,48);UnityEventTools.AddIntPersistentListener(b.onClick,inventory.SelectFilter,i);inventory.tabs[i]=(Image)b.targetGraphic;}
+            page.inventoryView=inventory;inventory.page=page;inventory.tabs=new Image[4];
+            for(int i=0;i<4;i++){var b=Button("BagFilter"+i,bag,ExpeditionInventory.CategoryNames[i],26+i*171,228,155,48);UnityEventTools.AddIntPersistentListener(b.onClick,inventory.SelectFilter,i);inventory.tabs[i]=(Image)b.targetGraphic;}
             inventory.scroll=List(bag,"InventoryViewport",20,294,680,840,out inventory.content);
             inventory.gearRows=new ExpeditionInventory.Row[page.catalog.gear.Length];
             for(int i=0;i<inventory.gearRows.Length;i++){var g=page.catalog.gear[i];inventory.gearRows[i]=Row(inventory.content,"BagItem"+i,g.title,Detail(g),g.icon,680,false);}

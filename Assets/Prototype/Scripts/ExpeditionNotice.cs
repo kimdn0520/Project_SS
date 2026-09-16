@@ -13,7 +13,8 @@ namespace ProjectSS.Expedition
         }
         [SerializeField] private TMP_Text titleText, bodyText, actionText;
         [SerializeField] private SessionPausePolicy pausePolicy;
-        public override string PopupName => "ExpeditionNotice";
+        [SerializeField] private string popupName = "ExpeditionNotice";
+        public override string PopupName => popupName;
         public void SetupRenderCamera(Camera camera) { Canvas.worldCamera = camera; }
         public override void OnWillEnter(object param)
         {

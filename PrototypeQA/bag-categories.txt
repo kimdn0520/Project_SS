@@ -1,0 +1,1 @@
+PASS: four tab labels and actual button listeners; weapons; helmet+armor; accessories; materials; owned-only filtering; empty state; detail popup and return.

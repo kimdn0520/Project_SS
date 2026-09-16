@@ -8,6 +8,9 @@ namespace ProjectSS.Expedition
         public string title, description, spriteKey, slot;
         public int hero, iron, crystal, relic, unlock, equipSlot;
         public float damage, interval, health;
+        [Range(0, 100)] public float criticalChance, evasion;
+        [Min(0)] public float criticalDamage = 150, skillAmplification, defense;
+        public float AttacksPerSecond => interval > 0 ? 1f / interval : 0;
         public GearEffect effect;
         public Sprite icon;
         public WeaponItem prefab;
@@ -29,6 +32,10 @@ namespace ProjectSS.Expedition
         public int moleSupportDay, moleSupportUsed;
         public bool autoMine, autoBattle = true, chest;
         public int[] inventory;
+        public int pendingChestGear = -1;
+        public System.Collections.Generic.List<GearInstance> gearInstances;
+        public string[] equippedInstances;
+        public MaterialStack[] materials = Array.Empty<MaterialStack>();
         public int[] equipment = { 0,-1,-1,-1, 1,-1,-1,-1, 2,-1,-1,-1 };
         public static ExpeditionSave Fresh(int count = 11)
         {
@@ -37,10 +44,29 @@ namespace ProjectSS.Expedition
         }
         public bool IsValid(int count)
         {
-            if ((version != 3&&version!=4) || inventory == null || inventory.Length != count || equipment == null || equipment.Length != 12) return false;
+            if ((version != 3&&version!=4&&version!=5) || inventory == null || inventory.Length != count || equipment == null || equipment.Length != 12) return false;
             if (iron < 0 || crystal < 0 || relic < 0 || cleared < 0 || cleared > 9999 || depth < 0 || excavations < 0 || route < 0 || route > 2 || chestPity < 0) return false;
             foreach (int n in inventory) if (n < 0) return false;
+            var materialIds = new System.Collections.Generic.HashSet<string>();
+            foreach (var stack in materials ?? Array.Empty<MaterialStack>())
+                if (stack == null || string.IsNullOrWhiteSpace(stack.id) || stack.count < 0 || !materialIds.Add(stack.id)) return false;
             foreach (int id in equipment) if (id < -1 || id >= count || (id >= 0 && inventory[id] == 0)) return false;
+            if (version >= 5)
+            {
+                if (gearInstances == null || equippedInstances == null || equippedInstances.Length != 12 || pendingChestGear < -1 || pendingChestGear >= count) return false;
+                var ids = new System.Collections.Generic.Dictionary<string, GearInstance>(); var counts = new int[count];
+                foreach (var g in gearInstances) {
+                    if (g == null || string.IsNullOrEmpty(g.uid) || ids.ContainsKey(g.uid) || g.definition < 0 || g.definition >= count) return false;
+                    ids.Add(g.uid,g); counts[g.definition]++;
+                    foreach (var o in g.options ?? Array.Empty<GearRoll>()) if (o == null || float.IsNaN(o.value) || float.IsInfinity(o.value)) return false;
+                }
+                for(int i=0;i<count;i++) if(counts[i]!=inventory[i])return false;
+                var equipped = new System.Collections.Generic.HashSet<string>();
+                for(int i=0;i<12;i++) {
+                    if(equipment[i]<0) { if(!string.IsNullOrEmpty(equippedInstances[i]))return false; }
+                    else if(string.IsNullOrEmpty(equippedInstances[i]) || !ids.TryGetValue(equippedInstances[i],out var g) || g.definition!=equipment[i] || !equipped.Add(g.uid))return false;
+                }
+            }
             return true;
         }
         // The authoring tool appends gear without moving existing indices. Preserve old saves
@@ -86,13 +112,13 @@ namespace ProjectSS.Expedition
         public float HeroMaxHp(int i)
         {
             float total = i == 0 ? 160 : i == 1 ? 90 : 75;
-            for (int slot = 1; slot < 4; slot++) { int id = Equipped(i, slot); if (id >= 0) total += Catalog.gear[id].health; }
+            for (int slot = 1; slot < 4; slot++) { int id = Equipped(i, slot); if (id >= 0) total += EquippedStat(i,slot,GearOptionStat.Health,Catalog.gear[id].health); }
             return total;
         }
         public float HeroDamage(int i)
         {
-            float n = Catalog.gear[Equipped(i, 0)].damage;
-            for (int s = 1; s < 4; s++) { int id = Equipped(i, s); if (id >= 0) n += Catalog.gear[id].damage; }
+            float n = EquippedStat(i,0,GearOptionStat.Attack,Catalog.gear[Equipped(i, 0)].damage);
+            for (int s = 1; s < 4; s++) { int id = Equipped(i, s); if (id >= 0) n += EquippedStat(i,s,GearOptionStat.Attack,Catalog.gear[id].damage); }
             return n;
         }
         public event Action<int,float,GearEffect> HeroHit;
@@ -101,7 +127,7 @@ namespace ProjectSS.Expedition
         public ExpeditionModel(ExpeditionCatalog catalog, ExpeditionSave data, int seed = -1)
         {
             Catalog = catalog; Data = data;HeroRoster.Migrate(Data); random = seed < 0 ? new System.Random() : new System.Random(seed);
-            BlockHp = BlockMaxHp; ResetHealth();
+            MigrateGearInstances(); BlockHp = BlockMaxHp; ResetHealth();
         }
         public bool SelectRoute(int route)
         {
@@ -114,6 +140,7 @@ namespace ProjectSS.Expedition
         }
         public void Dig(int bonusDamage = 0)
         {
+            if (Data.chest && !PrepareChestReward()) { LastGear = -1; LastAmount = 0; Mined?.Invoke(false); return; }
             BlockHp -= MiningPower + Math.Max(0, bonusDamage);
             bool broken = BlockHp <= 0; LastGear = -1;
             if (broken)
@@ -121,12 +148,8 @@ namespace ProjectSS.Expedition
                 Data.excavations++; Data.depth += 2;
                 if (Data.chest)
                 {
-                    int eligible = 0;
-                    for (int i = 3; i < Catalog.gear.Length; i++) if (Catalog.gear[i].unlock <= Data.cleared) eligible++;
-                    int roll = random.Next(eligible);
-                    for (int i = 3; i < Catalog.gear.Length; i++)
-                        if (Catalog.gear[i].unlock <= Data.cleared && roll-- == 0) { LastGear = i; break; }
-                    Data.inventory[LastGear]++; LastAmount = 1;
+                    LastGear = Data.pendingChestGear;
+                    TryAddGear(LastGear); Data.pendingChestGear = -1; LastAmount = 1;
                     LastLoot = Catalog.gear[LastGear].title + " 발견!"; Data.chestPity = 0;
                 }
                 else
@@ -151,25 +174,23 @@ namespace ProjectSS.Expedition
         public bool CanCraft(int id)
         {
             if (id < 3 || id >= Catalog.gear.Length) return false;
-            var g = Catalog.gear[id]; return Data.cleared >= g.unlock && Data.iron >= g.iron && Data.crystal >= g.crystal && Data.relic >= g.relic;
+            var g = Catalog.gear[id]; return HasGearSpace(id) && Data.cleared >= g.unlock && Data.iron >= g.iron && Data.crystal >= g.crystal && Data.relic >= g.relic;
         }
         public bool Craft(int id)
         {
             if (!CanCraft(id)) return false; var g = Catalog.gear[id];
-            Data.iron -= g.iron; Data.crystal -= g.crystal; Data.relic -= g.relic; Data.inventory[id]++; return true;
+            Data.iron -= g.iron; Data.crystal -= g.crystal; Data.relic -= g.relic; TryAddGear(id); return true;
         }
         public bool Equip(int id, int hero)
         {
-            if (id < 0 || id >= Catalog.gear.Length || !IsOwned(hero) || Available(id) <= 0) return false;
-            var g = Catalog.gear[id]; if (g.hero >= 0 && g.hero != hero) return false;
-            Data.equipment[hero * 4 + g.equipSlot] = id;
-            if (!Fighting) ResetHealth();
-            return true;
+            if (id < 0 || id >= Catalog.gear.Length) return false;
+            foreach(var instance in Copies(id)) if(!IsInstanceEquipped(instance.uid))return EquipInstance(instance.uid,hero);
+            return false;
         }
         public bool Unequip(int hero, int slot)
         {
             if (hero < 0 || hero > 2 || slot <= 0 || slot > 3) return false;
-            Data.equipment[hero * 4 + slot] = -1;
+            Data.equipment[hero * 4 + slot] = -1; Data.equippedInstances[hero * 4 + slot] = null;
             if (!Fighting) ResetHealth();
             return true;
         }

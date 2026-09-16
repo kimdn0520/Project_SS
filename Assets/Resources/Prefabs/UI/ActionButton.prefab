@@ -67,9 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uD655\uC778"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 67e298f69b42a6148ab2cb3f5a441db3, type: 2}
-  m_sharedMaterial: {fileID: 5075064012278689880, guid: 67e298f69b42a6148ab2cb3f5a441db3,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ea3c904c0de3dbc4c8a88cc9a85dee60, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7f5e0f7af05c71d4d98316543bbd48e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -99,7 +98,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 16
   m_fontSizeMax: 24
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -150,6 +149,7 @@ GameObject:
   - component: {fileID: 6586115995007022730}
   - component: {fileID: 2614192318982323913}
   - component: {fileID: 3196281924033582942}
+  - component: {fileID: 3044243729102327750}
   m_Layer: 0
   m_Name: ActionButton
   m_TagString: Untagged
@@ -260,3 +260,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3044243729102327750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7305278986674978715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a4482d878c128469467a8b31550d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectSS.Expedition.AtlasLocalUV

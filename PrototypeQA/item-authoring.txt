@@ -1,0 +1,21 @@
+PASS category 1 creates correct slot
+PASS category 2 creates correct slot
+PASS category 3 creates correct slot
+PASS attack speed converts to attacks per second
+PASS material clone uses unique stable ID and own storage
+PASS draft isolates all categories
+PASS all item categories validate
+PASS reject probability above 100
+PASS reject invalid defense
+PASS reject duplicate material IDs
+PASS save all categories and reload
+PASS new gear stats persisted
+PASS material icon reference persisted
+PASS new gear preserves existing inventory/currencies
+PASS custom material separate from legacy currency
+PASS material count save round-trip
+PASS new gear and material rows generated automatically
+PASS newly owned gear and material visible
+PASS new rows bind correct authored data
+PASS cloned rows clear old prefab listeners
+PASS original catalog unchanged by QA

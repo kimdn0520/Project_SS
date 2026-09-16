@@ -20,11 +20,11 @@ namespace ProjectSS.Expedition.Editor
   }
   static void Import()
   {
-   const string fp="Assets/Prototype/Art/WarmWindow-v3.png",bp="Assets/Prototype/Art/JadeAction-v3.png";
+   const string fp="Assets/Textures/UI/Common/Frames/WarmWindow-v3.png",bp="Assets/Textures/UI/Common/Buttons/JadeAction-v3.png";
    foreach(var path in new[]{fp,bp})
    {
     var imp=(TextureImporter)AssetImporter.GetAtPath(path);imp.textureType=TextureImporterType.Sprite;imp.spritePixelsPerUnit=100;
-    imp.maxTextureSize=4096;imp.mipmapEnabled=false;imp.alphaIsTransparency=true;imp.textureCompression=TextureImporterCompression.Uncompressed;
+    imp.maxTextureSize=path==bp?256:4096;imp.mipmapEnabled=false;imp.alphaIsTransparency=true;imp.textureCompression=TextureImporterCompression.Uncompressed;
     imp.filterMode=FilterMode.Bilinear;imp.npotScale=TextureImporterNPOTScale.None;
     if(path==fp){imp.spriteImportMode=SpriteImportMode.Single;imp.spriteBorder=new Vector4(180,180,180,180);}
     else{imp.spriteImportMode=SpriteImportMode.Multiple;imp.spritesheet=new[]{new SpriteMetaData{name="Action",rect=new Rect(41,137,2090,481),alignment=0,pivot=new Vector2(.5f,.5f),border=new Vector4(190,100,190,100)}};}
@@ -35,10 +35,11 @@ namespace ProjectSS.Expedition.Editor
    buttonMaterial=Material("Assets/Prototype/Art/JadeActionUI.mat",0,0,true);buttonMaterial.SetFloat("_UseDarkKey",2);
   }
   static void Frame(Image im)
-  {im.sprite=frame;im.material=frameMaterial;im.color=Color.white;im.type=Image.Type.Sliced;im.pixelsPerUnitMultiplier=5;}
+  {im.sprite=frame;im.material=frameMaterial;im.color=Color.white;im.type=Image.Type.Sliced;im.pixelsPerUnitMultiplier=5;if(im.GetComponent<AtlasLocalUV>()==null)im.gameObject.AddComponent<AtlasLocalUV>();}
   static void Style(Button b)
   {
-   var im=b.GetComponent<Image>();im.sprite=button;im.material=buttonMaterial;im.color=Color.white;im.type=Image.Type.Sliced;im.pixelsPerUnitMultiplier=8;
+   var im=b.GetComponent<Image>();im.sprite=button;im.material=buttonMaterial;im.color=Color.white;im.type=Image.Type.Sliced;im.pixelsPerUnitMultiplier=8f;
+   if(im.GetComponent<AtlasLocalUV>()==null)im.gameObject.AddComponent<AtlasLocalUV>();
    var surface=b.transform.Find("Surface");if(surface!=null)surface.gameObject.SetActive(false);
    b.transition=Selectable.Transition.ColorTint;var colors=b.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(1,.97f,.85f);colors.pressedColor=new Color(.73f,.79f,.73f);colors.selectedColor=Color.white;colors.disabledColor=new Color(.55f,.61f,.58f);colors.fadeDuration=.08f;b.colors=colors;
    foreach(var text in b.GetComponentsInChildren<TMP_Text>(true))

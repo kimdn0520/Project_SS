@@ -1,0 +1,2 @@
+﻿using System.Text;using UnityEditor;using UnityEngine;using TMPro;
+public static class InspectNotice {public static string Execute(){var r=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/ExpeditionNotice.prefab");var b=new StringBuilder();foreach(var t in r.GetComponentsInChildren<RectTransform>(true))if(t.name.Contains("Title")||t.name=="Accept"||t.name=="Contents"||t.name=="NoticeBody")b.AppendLine(t.name+" parent="+t.parent.name+" pos="+t.anchoredPosition+" size="+t.sizeDelta+" active="+t.gameObject.activeSelf);return b.ToString();}}

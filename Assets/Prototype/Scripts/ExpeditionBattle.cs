@@ -34,7 +34,7 @@ namespace ProjectSS.Expedition
         public int BattleEquipped(int hero,int slot)=>combatEquipment==null?Equipped(hero,slot):combatEquipment[hero*4+slot];
         public float BattleMaxHp(int hero)=>combatHeroes[hero]?.maxHp??HeroMaxHp(hero);
         public float BattleDamage(int hero)=>combatHeroes[hero]?.damage??HeroDamage(hero);
-        public float BattleInterval(int hero)=>combatHeroes[hero]?.interval??Mathf.Max(.1f,Catalog.gear[Equipped(hero,0)].interval);
+        public float BattleInterval(int hero)=>combatHeroes[hero]?.interval??Mathf.Max(.1f,HeroAttackInterval(hero));
         public float AttackRemaining(int hero)=>timers[hero];
         public bool PendingBattleChanges
         {
@@ -42,7 +42,7 @@ namespace ProjectSS.Expedition
             {
                 if(!Fighting||!HasSnapshot)return false;
                 for(int s=0;s<3;s++)if(combatSlots[s]!=ConfiguredHero(s))return true;
-                for(int i=0;i<12;i++)if(combatEquipment[i]!=Data.equipment[i])return true;
+                for(int i=0;i<12;i++)if(combatEquipment[i]!=Data.equipment[i]||combatInstanceIds[i]!=Data.equippedInstances[i])return true;
                 return false;
             }
         }
@@ -77,11 +77,11 @@ namespace ProjectSS.Expedition
             if(Fighting)return false;
             HeroRoster.Migrate(Data);
             combatCleared=Data.cleared;BattleStage=EnemyKind;
-            combatEquipment=(int[])Data.equipment.Clone();frozen=0;BattleGeneration++;
+            combatEquipment=(int[])Data.equipment.Clone();combatInstanceIds=(string[])Data.equippedInstances.Clone();frozen=0;BattleGeneration++;
             for(int slot=0;slot<3;slot++)combatSlots[slot]=ConfiguredHero(slot);
             for(int hero=0;hero<3;hero++)
             {
-                var snapshot=new CombatHero{damage=HeroDamage(hero),maxHp=HeroMaxHp(hero),interval=Mathf.Max(.1f,Catalog.gear[Equipped(hero,0)].interval)};
+                var snapshot=new CombatHero{damage=HeroDamage(hero),maxHp=HeroMaxHp(hero),interval=Mathf.Max(.1f,HeroAttackInterval(hero))};
                 combatHeroes[hero]=snapshot;hp[hero]=IsDeployed(hero)?snapshot.maxHp:0;timers[hero]=snapshot.interval;
                 for(int slot=0;slot<4;slot++)
                 {

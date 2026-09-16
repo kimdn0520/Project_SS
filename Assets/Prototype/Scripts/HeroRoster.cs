@@ -24,7 +24,7 @@ namespace ProjectSS.Expedition
                 if(id!=null&&owned.Contains(id)&&used.Add(id))slots[slot]=id;
             }
             if(used.Count==0)slots[0]=owned[0];
-            save.formation=slots;save.version=4;save.autoBattle=true;
+            save.formation=slots;save.version=Math.Max(save.version,4);save.autoBattle=true;
         }
     }
 }

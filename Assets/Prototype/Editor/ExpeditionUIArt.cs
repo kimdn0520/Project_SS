@@ -10,7 +10,7 @@ namespace ProjectSS.Expedition.Editor
     {
         public static Sprite Circle()
         {
-            const string path = "Assets/Prototype/Art/DigCircle.png";
+            const string path = "Assets/Textures/UI/Common/Mining/DigCircle.png";
             if (!File.Exists(path))
             {
                 var t = new Texture2D(256,256,TextureFormat.RGBA32,false);
@@ -29,7 +29,7 @@ namespace ProjectSS.Expedition.Editor
         }
         public static Sprite Panel()
         {
-            const string path = "Assets/Prototype/Art/Panel9Slice.png";
+            const string path = "Assets/Textures/UI/Common/Cells/Panel9Slice.png";
             if (!File.Exists(path))
             {
                 var texture = new Texture2D(64, 64, TextureFormat.RGBA32, false);

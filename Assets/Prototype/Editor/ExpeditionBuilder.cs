@@ -401,7 +401,6 @@ namespace ProjectSS.Expedition.Editor
             page.stageLabel=Text(ui,"Stage","1-1 · 초원 전선",24,12,450,34,25,White,true);
             page.resources=Text(ui,"Resources","철 0   결정 0   파편 0",24,58,660,30,18,Gold);
             Region(ui,"BattleHUD",100,300,out var bh);
-            page.enemyStatus=Text(bh,"BattleStatus","이동 중",24,104,430,25,15,White);
             page.heroHpBars=new Image[3];page.heroHpRoots=new RectTransform[3];
             for(int i=0;i<3;i++)page.heroHpBars[i]=OverheadBar(bh,"HeroHP_"+i,page.heroes[i].HpPosition,66,Teal,out page.heroHpRoots[i]);
             page.enemyBar=OverheadBar(bh,"EnemyHP",page.enemies[0].HpPosition,110,Hex("EA8F77"),out page.enemyHpRoot);
@@ -522,7 +521,7 @@ namespace ProjectSS.Expedition.Editor
         private static Sprite BakePortrait(ExpeditionActor source, int index)
         {
             Directory.CreateDirectory("Assets/Prototype/Art/Portraits");
-            string path="Assets/Prototype/Art/Portraits/Hero_"+index+".png";
+            string path="Assets/Textures/UI/Icons/Portraits/Hero_"+index+".png";
             var clone=UnityEngine.Object.Instantiate(source.gameObject);clone.SetActive(true);clone.transform.position=new Vector3(1000,0,0);
             var material=new Material(Shader.Find("Sprites/Default"));
             foreach(var t in clone.GetComponentsInChildren<Transform>(true))t.gameObject.layer=31;
@@ -696,6 +695,7 @@ namespace ProjectSS.Expedition.Editor
         }
         private static Sprite SpriteAt(string path, string name = null)
         {
+            path=UIAssetPaths.Resolve(path);
             string equipment=EquipmentAtlasArt.Folder+"/"+Path.GetFileName(path);
             if(!File.Exists(path)&&File.Exists(equipment))path=equipment;
             var sprites = AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().ToArray();

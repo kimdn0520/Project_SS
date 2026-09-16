@@ -114,11 +114,11 @@ namespace ProjectSS.Expedition.Editor
         public static void Configure(PlayPage page)
         {
             popup=Import("Assets/ETC/bg_popup.png",new Vector4(49,49,49,49));
-            panel=Import("Assets/Textures/UI/popup-bg-minimal-578x765.png",new Vector4(64,64,64,64));
-            menu=Import("Assets/ETC/menu_bg.png",new Vector4(22,22,22,22));
+            panel=Import("Assets/Textures/UI/Common/Frames/popup-bg-minimal-578x765.png",new Vector4(64,64,64,64));
+            menu=Import("Assets/Textures/UI/Common/Cells/menu_bg.png",new Vector4(22,22,22,22));
             close=Import("Assets/ETC/btn_close.png",Vector4.zero);
-            fill=Import("Assets/ETC/progressbar_green.png",new Vector4(20,18,20,18));
-            track=Import("Assets/ETC/bg_progressbar_navy.png",new Vector4(23,20,23,20));
+            fill=Import("Assets/Textures/UI/Common/Bars/progressbar_green.png",new Vector4(20,18,20,18));
+            track=Import("Assets/Textures/UI/Common/Bars/bg_progressbar_navy.png",new Vector4(23,20,23,20));
             var common=Common();UpgradePopup(Folder+"ExpeditionNotice.prefab",common);UpgradePopup(Folder+"EquipmentSelection.prefab",common);
             page.veinPopup=Veins(page,common);
             var so=new SerializedObject(page.popupManager);var list=so.FindProperty("popupPrefabs");list.arraySize=3;list.GetArrayElementAtIndex(0).objectReferenceValue=page.notice;list.GetArrayElementAtIndex(1).objectReferenceValue=page.equipmentPopup;list.GetArrayElementAtIndex(2).objectReferenceValue=page.veinPopup;so.ApplyModifiedPropertiesWithoutUndo();
@@ -143,7 +143,7 @@ namespace ProjectSS.Expedition.Editor
             BattleHeaderArt.Configure(page);
             if(System.IO.File.Exists(WindowSkinArt.FramePath)&&System.IO.File.Exists(WindowSkinArt.ClosePath))WindowSkinArt.Configure(page);
             if(System.IO.File.Exists("Assets/Prototype/Art/GoldBlueChest-v2.png"))GoldChestArt.Configure(page);
-            if(System.IO.File.Exists("Assets/Prototype/Art/WarmWindow-v3.png"))WarmUIArt.Configure(page);
+            if(System.IO.File.Exists("Assets/Textures/UI/Common/Frames/WarmWindow-v3.png"))WarmUIArt.Configure(page);
             FormationArt.Configure(page);
             SidebarIconArt.Configure(page);
             EditorUtility.SetDirty(page);

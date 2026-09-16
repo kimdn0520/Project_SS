@@ -1,0 +1,192 @@
+{
+  "moves": [
+    {
+      "from": "Assets/ETC/bg_cell.png",
+      "to": "Assets/Textures/UI/Common/Cells/bg_cell.png"
+    },
+    {
+      "from": "Assets/ETC/bg_progressbar_navy.png",
+      "to": "Assets/Textures/UI/Common/Bars/bg_progressbar_navy.png"
+    },
+    {
+      "from": "Assets/ETC/menu_bg.png",
+      "to": "Assets/Textures/UI/Common/Cells/menu_bg.png"
+    },
+    {
+      "from": "Assets/ETC/progressbar_green.png",
+      "to": "Assets/Textures/UI/Common/Bars/progressbar_green.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Blunt/FA_WP_Main_Blunt_004_Gray.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_WP_Main_Blunt_004_Gray.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Chest/FA_Chest_001_Silver.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_Chest_001_Silver.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Helmet/FA_Helmet_001_Ivory.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_Helmet_001_Ivory.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Staff/FA_WP_Main_Staff_003_WoodSkyblue.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_WP_Main_Staff_003_WoodSkyblue.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Staff/FA_WP_Main_Staff_004_WoodPink.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_WP_Main_Staff_004_WoodPink.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Sword/FA_WP_Main_Sword_005_GrayWhite.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_WP_Main_Sword_005_GrayWhite.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Sword/FA_WP_Main_Sword_008_Purple.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_WP_Main_Sword_008_Purple.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Sword/FA_WP_Main_Sword_009_GraySilver.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_WP_Main_Sword_009_GraySilver.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Sword/FA_WP_Main_Sword_019_WoodSilver.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_WP_Main_Sword_019_WoodSilver.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-CharacterMaker/Extenstions/Parts Pack Base/Thumbnail/Wand/FA_WP_Main_Wand_003_BlueWood.png",
+      "to": "Assets/Textures/UI/Icons/Equipment/FA_WP_Main_Wand_003_BlueWood.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-IconPack/Icons/256/Economy_Gem_03_Yellow.png",
+      "to": "Assets/Textures/UI/Icons/Materials/Economy_Gem_03_Yellow.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-IconPack/Icons/256/Gear_Weapons_Pickaxe_01.png",
+      "to": "Assets/Textures/UI/Icons/Navigation/Gear_Weapons_Pickaxe_01.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-IconPack/Icons/256/Material_Ore_03_Silver.png",
+      "to": "Assets/Textures/UI/Icons/Materials/Material_Ore_03_Silver.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-IconPack/Icons/256/UI_Common_Bag_01_Brown.png",
+      "to": "Assets/Textures/UI/Icons/Navigation/UI_Common_Bag_01_Brown.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-IconPack/Icons/256/UI_Rewards_Gift_02_Yellow.png",
+      "to": "Assets/Textures/UI/Icons/Navigation/UI_Rewards_Gift_02_Yellow.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-IconPack/Icons/256/UI_Rewards_Trophy_01_Gold.png",
+      "to": "Assets/Textures/UI/Icons/Navigation/UI_Rewards_Trophy_01_Gold.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-IconPack/Icons/256/UI_Shop_05_Purple.png",
+      "to": "Assets/Textures/UI/Icons/Navigation/UI_Shop_05_Purple.png"
+    },
+    {
+      "from": "Assets/Layer Lab/2D Minimal-IconPack/Icons/256/UI_System_Setting_01.png",
+      "to": "Assets/Textures/UI/Icons/Navigation/UI_System_Setting_01.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/Cartoon/DigAssembly.png",
+      "to": "Assets/Textures/UI/Common/Mining/DigAssembly.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/Cartoon/DigCapDomed.png",
+      "to": "Assets/Textures/UI/Common/Mining/DigCapDomed.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/Cartoon/DigPedestal.asset",
+      "to": "Assets/Textures/UI/Common/Mining/DigPedestal.asset"
+    },
+    {
+      "from": "Assets/Prototype/Art/Cartoon/DomedDigCap.asset",
+      "to": "Assets/Textures/UI/Common/Mining/DomedDigCap.asset"
+    },
+    {
+      "from": "Assets/Prototype/Art/DigCircle.png",
+      "to": "Assets/Textures/UI/Common/Mining/DigCircle.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/GoldTitle-v2.png",
+      "to": "Assets/Textures/UI/Common/Frames/GoldTitle-v2.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/JadeAction-v3.png",
+      "to": "Assets/Textures/UI/Common/Buttons/JadeAction-v3.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/Panel9Slice.png",
+      "to": "Assets/Textures/UI/Common/Cells/Panel9Slice.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/Portraits/Hero_0.png",
+      "to": "Assets/Textures/UI/Icons/Portraits/Hero_0.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/Portraits/Hero_1.png",
+      "to": "Assets/Textures/UI/Icons/Portraits/Hero_1.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/Portraits/Hero_2.png",
+      "to": "Assets/Textures/UI/Icons/Portraits/Hero_2.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/Sidebar/MoleSupport.png",
+      "to": "Assets/Textures/UI/Icons/Navigation/MoleSupport.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/WarmWindow-v3.png",
+      "to": "Assets/Textures/UI/Common/Frames/WarmWindow-v3.png"
+    },
+    {
+      "from": "Assets/Prototype/Art/WindowClose-red-v3.png",
+      "to": "Assets/Textures/UI/Common/Buttons/WindowClose-red-v3.png"
+    },
+    {
+      "from": "Assets/Space_Exploration_GUI_Kit/Background_Images/large/home-background-large.png",
+      "to": "Assets/Textures/UI/Common/Backgrounds/home-background-large.png"
+    },
+    {
+      "from": "Assets/Space_Exploration_GUI_Kit/Button_Images/Source_Image_Sprites/large/large-blue-sparkle-large.png",
+      "to": "Assets/Textures/UI/Common/Buttons/large-blue-sparkle-large.png"
+    },
+    {
+      "from": "Assets/Space_Exploration_GUI_Kit/Containers/Large/homepage-icon-container-large.png",
+      "to": "Assets/Textures/UI/Common/Frames/homepage-icon-container-large.png"
+    },
+    {
+      "from": "Assets/Space_Exploration_GUI_Kit/Containers/Large/inventory-menu-container-large.png",
+      "to": "Assets/Textures/UI/Common/Frames/inventory-menu-container-large.png"
+    },
+    {
+      "from": "Assets/Space_Exploration_GUI_Kit/Containers/Large/shop-container-large.png",
+      "to": "Assets/Textures/UI/Common/Frames/shop-container-large.png"
+    },
+    {
+      "from": "Assets/Space_Exploration_GUI_Kit/Containers/Large/victory-defeat-container-large.png",
+      "to": "Assets/Textures/UI/Common/Frames/victory-defeat-container-large.png"
+    },
+    {
+      "from": "Assets/Space_Exploration_GUI_Kit/Icons/coin-128.png",
+      "to": "Assets/Textures/UI/Icons/Materials/coin-128.png"
+    },
+    {
+      "from": "Assets/Textures/UI/Dig_Button_Base.png",
+      "to": "Assets/Textures/UI/Common/Mining/Dig_Button_Base.png"
+    },
+    {
+      "from": "Assets/Textures/UI/Dig_Button_Face.png",
+      "to": "Assets/Textures/UI/Common/Mining/Dig_Button_Face.png"
+    },
+    {
+      "from": "Assets/Textures/UI/Dig_Progress_Ring.png",
+      "to": "Assets/Textures/UI/Common/Mining/Dig_Progress_Ring.png"
+    },
+    {
+      "from": "Assets/Textures/UI/popup-bg-minimal-578x765.png",
+      "to": "Assets/Textures/UI/Common/Frames/popup-bg-minimal-578x765.png"
+    }
+  ]
+}

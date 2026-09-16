@@ -3,7 +3,7 @@
 `WarmUIArt.Configure` applies the warm ivory/gold frame to menus and PopupCommon instances, preserving their transforms and close button positions. It runs last in the imported UI builder.
 
 - Frame: `WarmWindow-v3.png`, 180 borders, Sliced Image with PPU multiplier 5. Use `WarmWindowUI.mat` to exclude the generated outside matte with the rounded silhouette mask.
-- Action: `JadeAction-v3.png`, cropped sprite with 190/100 borders, Sliced Image with multiplier 8. `JadeActionUI.mat` removes its neutral outside matte. Neither generated source should be used without its assigned UI material.
+- Action: `JadeAction-v3.png`, original source preserved and imported at a maximum of 256 pixels (256×85 texture). Source sprite borders remain 190/100; Unity scales both borders and sprite PPU during import. Keep Sliced Image multiplier 8 to preserve the original on-screen border thickness. `JadeActionUI.mat` removes its neutral outside matte. Neither generated source should be used without its assigned UI material. ManageGear keeps this JadeAction skin and its original 136×34 layout.
 - Reusable template: `Assets/Resources/Prefabs/UI/ActionButton.prefab`. Pressed/disabled states use Button color tint; labels remain centered inside symmetric padding.
 - Applied to settings actions, hero-list return buttons, popup confirmation buttons, and vein selection actions. Mining upgrade previews show disabled `준비 중` actions; upgrade gameplay is not implemented by this skin change.
 - Vein cards are informational. Only `SelectAction` changes the route; selected and locked choices are disabled. Runtime selection also validates the route and unlock condition before changing it. A successful selection keeps the popup open and refreshes all choice states.
