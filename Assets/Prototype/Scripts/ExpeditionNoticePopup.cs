@@ -3,7 +3,7 @@ using TMPro;
 
 namespace ProjectSS.Expedition
 {
-    public sealed class ExpeditionNotice : BasePopupHandler
+    public sealed class ExpeditionNoticePopup : BasePopupHandler
     {
         public sealed class Content
         {
@@ -13,7 +13,7 @@ namespace ProjectSS.Expedition
         }
         [SerializeField] private TMP_Text titleText, bodyText, actionText;
         [SerializeField] private SessionPausePolicy pausePolicy;
-        [SerializeField] private string popupName = "ExpeditionNotice";
+        [SerializeField] private string popupName = "ExpeditionNoticePopup";
         public override string PopupName => popupName;
         public void SetupRenderCamera(Camera camera) { Canvas.worldCamera = camera; }
         public override void OnWillEnter(object param)

@@ -12,6 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee137c67a0e81a42b7a60bf6ce69905, type: 3}
   m_Name: ExpeditionCatalog
   m_EditorClassIdentifier: Assembly-CSharp::ProjectSS.Expedition.ExpeditionCatalog
+  weaponCapacity: 100
+  armorCapacity: 100
+  accessoryCapacity: 100
+  dismantleRefundRate: 0.25
+  heroes:
+  - id: rowen
+    grade: 0
+  - id: rin
+    grade: 0
+  - id: mira
+    grade: 0
+  heroStarCosts: 050000000a0000001400000028000000
   gear:
   - title: "\uB0A1\uC740 \uAC80"
     description: "\uB0A1\uC558\uC9C0\uB9CC \uC544\uC9C1 \uC4F8\uB9CC\uD574 \uBCF4\uC774\uB294

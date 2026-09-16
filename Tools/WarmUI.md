@@ -1,6 +1,6 @@
 # Warm window and action button skin
 
-`WarmUIArt.Configure` applies the warm ivory/gold frame to menus and PopupCommon instances, preserving their transforms and close button positions. It runs last in the imported UI builder.
+`WarmUIArt.Configure` applies the warm ivory/gold frame to menus and CommonPopup instances, preserving their transforms and close button positions. It runs last in the imported UI builder.
 
 - Frame: `WarmWindow-v3.png`, 180 borders, Sliced Image with PPU multiplier 5. Use `WarmWindowUI.mat` to exclude the generated outside matte with the rounded silhouette mask.
 - Action: `JadeAction-v3.png`, original source preserved and imported at a maximum of 256 pixels (256×85 texture). Source sprite borders remain 190/100; Unity scales both borders and sprite PPU during import. Keep Sliced Image multiplier 8 to preserve the original on-screen border thickness. `JadeActionUI.mat` removes its neutral outside matte. Neither generated source should be used without its assigned UI material. ManageGear keeps this JadeAction skin and its original 136×34 layout.

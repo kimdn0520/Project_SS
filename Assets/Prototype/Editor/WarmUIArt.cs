@@ -74,12 +74,12 @@ namespace ProjectSS.Expedition.Editor
     var desc=preview.transform.Find("Description")?.GetComponent<TMP_Text>();if(desc!=null){Rect(desc.rectTransform,136,61,440,36);desc.fontSize=18;}
     var b=Create(preview.transform,"UpgradeAction","준비 중",page.depthLabel.font,424,104,166,54);b.interactable=false;
    }
-   foreach(var name in new[]{"PopupCommon","ExpeditionNotice","EquipmentSelection","VeinSelection"})
+   foreach(var name in new[]{"CommonPopup","ExpeditionNoticePopup","EquipmentSelectionPopup","VeinSelectionPopup"})
    {
     var path="Assets/Resources/Prefabs/Popups/"+name+".prefab";var root=PrefabUtility.LoadPrefabContents(path);
     try
     {
-     var window=root.transform.Find(name=="PopupCommon"?"Window":"PopupCommon/Window");Frame(window.Find("bg").GetComponent<Image>());
+     var window=root.transform.Find(name=="CommonPopup"?"Window":"CommonPopup/Window");Frame(window.Find("bg").GetComponent<Image>());
      foreach(var b in root.GetComponentsInChildren<Button>(true))if(b.name=="Accept"||b.name=="Unequip")Style(b);
      var vein=root.GetComponent<VeinSelectionPopup>();if(vein!=null)Veins(vein,page.depthLabel.font);
      PrefabUtility.SaveAsPrefabAsset(root,path);

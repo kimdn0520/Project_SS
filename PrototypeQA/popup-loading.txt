@@ -1,0 +1,1 @@
+PASS: no serialized popup dependencies, on-demand load, duplicate-open deduplication, lazy queue, close/reopen, clear during load, nested results and idle asset collection.

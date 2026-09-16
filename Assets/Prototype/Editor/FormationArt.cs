@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEditor.Events;
@@ -39,6 +39,7 @@ namespace ProjectSS.Expedition.Editor
             control.hint=Text(grid,"CollectionHint","슬롯 선택 → 용사 선택",font,54,324,612,36,18);
             page.pendingBattleLabel=Text(page.menuPanels[0].transform,"PendingBattleChanges","다음 전투부터 적용됩니다",font,54,160,612,26,17);
             page.pendingBattleLabel.color=new Color(.67f,.31f,.12f);
+            if(AssetDatabase.LoadAssetAtPath<GameObject>(HeroCollectionArt.CardPath)==null)
             for(int i=0;i<8;i++)
             {
                 var card=grid.Find("HeroCard"+i);Rect((RectTransform)card,54+(i%3)*210,382+(i/3)*232,192,214);
@@ -59,6 +60,7 @@ namespace ProjectSS.Expedition.Editor
                 }
             }
             for(int h=0;h<3;h++){Rect(page.heroDetails[h].rectTransform,54,489,612,90);page.heroDetails[h].fontSize=22;}
+            HeroCollectionArt.Configure(page);
             EditorUtility.SetDirty(page);
         }
     }

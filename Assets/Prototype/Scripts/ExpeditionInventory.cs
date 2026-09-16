@@ -212,14 +212,14 @@ namespace ProjectSS.Expedition
         public void OpenDetails(int index, bool material, string uid = null)
         {
             if (PopupManager.IsChanging || index < 0 || index >= (material ? page.catalog.materials.Length : page.catalog.gear.Length)) return;
-            PopupManager.Show("ItemDetails", new ItemDetailsPopup.Selection { page = page, index = index, material = material, uid = uid });
+            PopupManager.Show("ItemDetailsPopup", new ItemDetailsPopup.Selection { page = page, index = index, material = material, uid = uid });
         }
         public async UniTaskVoid ConfirmDismantle(string uid)
         {
             if(confirming||PopupManager.IsChanging||!page.Model.CanDismantle(uid))return;
             var model=page.Model;var instance=model.Instance(uid);confirming=true;
             try{
-                bool accepted=await PopupManager.ShowAsync<bool>("DismantleConfirmation",new ExpeditionNotice.Content{
+                bool accepted=await PopupManager.ShowAsync<bool>("DismantleConfirmationPopup",new ExpeditionNoticePopup.Content{
                     pausePolicy=page.pausePolicy,title="장비 분해",body=page.catalog.gear[instance.definition].title+"을(를) 분해하시겠습니까?",action="분해",confirmation=true}).AttachExternalCancellation(destroyCancellationToken);
                 if(accepted){if(model.Dismantle(uid)){page.SaveGearChanges();Refresh();}else ToastPopup.Show("사용 중인 장비는 분해할 수 없습니다.");}
             }catch(OperationCanceledException){}finally{confirming=false;}

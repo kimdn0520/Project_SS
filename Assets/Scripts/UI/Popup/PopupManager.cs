@@ -34,13 +34,12 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     [SerializeField] private int baseSortingOrder = 1000;
     [SerializeField] private int sortingOrderStep = 10;
 
-    [Header("[Pre-registered Popup Prefabs]")]
-    [SerializeField] private List<BasePopupHandler> popupPrefabs = new List<BasePopupHandler>();
-
-    // 팝업 캐시 및 프리팹 딕셔너리
+    // Only live instances are retained. Prefabs are loaded on demand, never cached.
     private readonly Dictionary<string, IPopupHandler> popups = new Dictionary<string, IPopupHandler>(StringComparer.OrdinalIgnoreCase);
-    private readonly Dictionary<string, BasePopupHandler> prefabRegistry = new Dictionary<string, BasePopupHandler>(StringComparer.OrdinalIgnoreCase);
-
+    private readonly Dictionary<string, UniTaskCompletionSource<object>> pendingShows = new Dictionary<string, UniTaskCompletionSource<object>>(StringComparer.OrdinalIgnoreCase);
+    private int generation;
+    public int LiveInstanceCount => popups.Count;
+    public int QueuedCount => popupQueue.Count;
     // 열려있는 팝업 스택 (최상단 팝업이 Last)
     private readonly List<PopupItem> popupStack = new List<PopupItem>();
 
@@ -52,6 +51,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     private void ReleasePopup(IPopupHandler handler)
     {
+        if(handler==null)return;
         if (popups.TryGetValue(handler.PopupName, out var registered) && ReferenceEquals(registered, handler))
             popups.Remove(handler.PopupName);
         if (handler is Component component && component != null)
@@ -88,14 +88,6 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         if (popupRoot == null)
             popupRoot = transform;
 
-        // 인스펙터에 등록된 프리팹 등록
-        foreach (var prefab in popupPrefabs)
-        {
-            if (prefab != null)
-            {
-                RegisterPrefab(prefab.PopupName, prefab);
-            }
-        }
     }
 
     private void Update()
@@ -119,12 +111,6 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     #region Registration & Prefab Management
 
-    public static void RegisterPrefab(string popupName, BasePopupHandler prefab)
-    {
-        if (Instance == null || string.IsNullOrEmpty(popupName) || prefab == null) return;
-        Instance.prefabRegistry[popupName] = prefab;
-    }
-
     public static void RegisterPopup(string popupName, IPopupHandler handler)
     {
         if (Instance == null || string.IsNullOrEmpty(popupName) || handler == null) return;
@@ -140,42 +126,31 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     public static bool Contains(string popupName)
     {
         if (Instance == null || string.IsNullOrEmpty(popupName)) return false;
-        return Instance.popups.ContainsKey(popupName) || Instance.prefabRegistry.ContainsKey(popupName);
+        return Instance.popups.ContainsKey(popupName);
     }
 
-    private async UniTask<IPopupHandler> GetOrCreatePopupAsync(string popupName)
+    private async UniTask<IPopupHandler> GetOrCreatePopupAsync(string popupName, int expectedGeneration)
     {
-        if (!prefabRegistry.ContainsKey(popupName) && popups.TryGetValue(popupName, out IPopupHandler cached))
-        {
-            return cached;
-        }
-
-        // 1. 등록된 프리팹에서 생성
-        if (prefabRegistry.TryGetValue(popupName, out BasePopupHandler prefab) && prefab != null)
-        {
-            BasePopupHandler instance = Instantiate(prefab, popupRoot);
-            instance.name = popupName;
-            instance.Hide();
-            popups[popupName] = instance;
-            return instance;
-        }
-
-        // 2. Resources 폴더 폴백 로드
         ResourceRequest request = Resources.LoadAsync<BasePopupHandler>($"Prefabs/Popups/{popupName}");
         await request;
-
-        if (request.asset is BasePopupHandler resourcePrefab)
+        if(this == null || generation != expectedGeneration) return null;
+        if(request.asset is BasePopupHandler prefab)
         {
-            prefabRegistry[popupName] = resourcePrefab;
-            var handler = Instantiate(resourcePrefab, popupRoot);
-            handler.name = popupName;
-            handler.Hide();
-            popups[popupName] = handler;
+            var handler=Instantiate(prefab,popupRoot);handler.name=popupName;handler.Hide();
+            popups[popupName]=handler;
             return handler;
         }
-
         Debug.LogError($"[PopupManager] 팝업을 찾을 수 없습니다: {popupName}");
         return null;
+    }
+
+    // Resources keeps asset memory until an unused-assets collection. Call at an idle
+    // scene/loading boundary when needed, not on every popup close (which can hitch).
+    public static async UniTask ReleaseUnusedAssetsAsync()
+    {
+        var manager=Instance;
+        if(manager.isChanging || manager.popupStack.Count>0 || manager.popupQueue.Count>0 || manager.pendingShows.Count>0)return;
+        await Resources.UnloadUnusedAssets();
     }
 
     #endregion
@@ -201,23 +176,31 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     public static async UniTask<object> ShowAsync(string popupName, object param = null, Action<object> closeCallback = null)
     {
-        if (Instance == null) return null;
-        var existing = Instance.popupStack.Find(p => string.Equals(p.Handler.PopupName, popupName, StringComparison.OrdinalIgnoreCase));
-        if (existing != null)
+        var manager=Instance;
+        if (manager == null || string.IsNullOrWhiteSpace(popupName)) return null;
+        if(manager.pendingShows.TryGetValue(popupName,out var pending))
+        { var result=await pending.Task;closeCallback?.Invoke(result);return result; }
+        var existing=manager.popupStack.Find(p=>string.Equals(p.Handler.PopupName,popupName,StringComparison.OrdinalIgnoreCase));
+        if(existing!=null){var result=await existing.CompletionSource.Task;closeCallback?.Invoke(result);return result;}
+        var completion=new UniTaskCompletionSource<object>();manager.pendingShows.Add(popupName,completion);
+        int expected=manager.generation;
+        try
         {
-            var existingResult = await existing.CompletionSource.Task;
-            closeCallback?.Invoke(existingResult);
-            return existingResult;
+            await UniTask.WaitUntil(()=>manager==null||manager.generation!=expected||!manager.isChanging);
+            if(manager==null||manager.generation!=expected)return null;
+            manager.isChanging=true;
+            var handler=await manager.GetOrCreatePopupAsync(popupName,expected);
+            if(handler==null){if(manager!=null&&manager.generation==expected)manager.isChanging=false;return null;}
+            var tcs=new UniTaskCompletionSource<object>();
+            await manager.ShowInternalAsync(new PopupItem(handler,param,null,tcs));
+            var result=await tcs.Task;completion.TrySetResult(result);closeCallback?.Invoke(result);return result;
         }
-
-        IPopupHandler handler = await Instance.GetOrCreatePopupAsync(popupName);
-        if (handler == null) return null;
-
-        var tcs = new UniTaskCompletionSource<object>();
-        var item = new PopupItem(handler, param, closeCallback, tcs);
-
-        await Instance.ShowInternalAsync(item);
-        return await tcs.Task;
+        finally
+        {
+            completion.TrySetResult(null);
+            if(manager!=null&&manager.pendingShows.TryGetValue(popupName,out var registered)&&ReferenceEquals(registered,completion))manager.pendingShows.Remove(popupName);
+            if(manager!=null)manager.CheckNextQueuedPopup();
+        }
     }
 
     /// <summary>
@@ -236,24 +219,11 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     public static async UniTask<object> QueueAsync(string popupName, object param = null, Action<object> closeCallback = null)
     {
-        if (Instance == null) return null;
-
-        IPopupHandler handler = await Instance.GetOrCreatePopupAsync(popupName);
-        if (handler == null) return null;
-
-        var tcs = new UniTaskCompletionSource<object>();
-        var item = new PopupItem(handler, param, closeCallback, tcs);
-
-        if (Instance.popupStack.Count == 0 && !Instance.isChanging)
-        {
-            await Instance.ShowInternalAsync(item);
-        }
-        else
-        {
-            Instance.popupQueue.Enqueue(item);
-        }
-
-        return await tcs.Task;
+        var manager=Instance;
+        if(manager==null||string.IsNullOrWhiteSpace(popupName))return null;
+        var item=new PopupItem(popupName,param,closeCallback,new UniTaskCompletionSource<object>());
+        manager.popupQueue.Enqueue(item);manager.CheckNextQueuedPopup();
+        return await item.CompletionSource.Task;
     }
 
     private async UniTask ShowInternalAsync(PopupItem item)
@@ -441,10 +411,20 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     private void CheckNextQueuedPopup()
     {
-        if (popupQueue.Count > 0 && popupStack.Count == 0 && !isChanging)
+        if(popupQueue.Count>0&&popupStack.Count==0&&!isChanging)OpenNextQueuedAsync().Forget();
+    }
+    private async UniTaskVoid OpenNextQueuedAsync()
+    {
+        isChanging=true;int expected=generation;var item=popupQueue.Dequeue();
+        try
         {
-            PopupItem next = popupQueue.Dequeue();
-            ShowInternalAsync(next).Forget();
+            var handler=await GetOrCreatePopupAsync(item.Name,expected);
+            if(handler==null){item.Complete(null);return;}
+            item.Handler=handler;await ShowInternalAsync(item);
+        }
+        finally
+        {
+            if(this!=null&&generation==expected){isChanging=false;CheckNextQueuedPopup();}
         }
     }
 
@@ -454,7 +434,10 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     public static void Clear()
     {
         if (Instance == null) return;
+        Instance.generation++;
         Instance.transitionCts?.Cancel();
+        foreach(var pending in new List<UniTaskCompletionSource<object>>(Instance.pendingShows.Values))pending.TrySetResult(null);
+        Instance.pendingShows.Clear();
 
         foreach (var item in Instance.popupStack)
         {
@@ -479,6 +462,11 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     private void OnDestroy()
     {
+        generation++;
+        foreach(var pending in new List<UniTaskCompletionSource<object>>(pendingShows.Values))pending.TrySetResult(null);
+        foreach(var item in popupStack)item.Complete(null);
+        foreach(var item in popupQueue)item.Complete(null);
+        pendingShows.Clear();popupStack.Clear();popupQueue.Clear();popups.Clear();
         transitionCts?.Cancel();
         transitionCts?.Dispose();
     }
@@ -488,21 +476,26 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     /// </summary>
     private class PopupItem
     {
-        public IPopupHandler Handler { get; }
+        public IPopupHandler Handler { get; set; }
+        public string Name { get; }
         public object Param { get; }
         public Action<object> CloseCallback { get; }
         public UniTaskCompletionSource<object> CompletionSource { get; }
 
         public PopupItem(IPopupHandler handler, object param, Action<object> closeCallback, UniTaskCompletionSource<object> utcs)
         {
-            Handler = handler;
+            Handler = handler;Name=handler.PopupName;
             Param = param;
             CloseCallback = closeCallback;
             CompletionSource = utcs;
         }
 
+        public PopupItem(string name,object param,Action<object> closeCallback,UniTaskCompletionSource<object> completion)
+        {Name=name;Param=param;CloseCallback=closeCallback;CompletionSource=completion;}
+        private bool completed;
         public void Complete(object result)
         {
+            if(completed)return;completed=true;
             CloseCallback?.Invoke(result);
             CompletionSource?.TrySetResult(result);
         }

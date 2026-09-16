@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 199175136437144376}
   - component: {fileID: 6287229186614751669}
   m_Layer: 0
-  m_Name: ItemDetails
+  m_Name: ItemDetailsPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1579,7 +1579,7 @@ PrefabInstance:
     - target: {fileID: 8003396971500834167, guid: e4f757cc185b9374bb7f86dd959d5f83,
         type: 3}
       propertyPath: m_Name
-      value: PopupCommon
+      value: CommonPopup
       objectReference: {fileID: 0}
     - target: {fileID: 8521541743674621168, guid: e4f757cc185b9374bb7f86dd959d5f83,
         type: 3}

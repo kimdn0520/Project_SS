@@ -35,7 +35,7 @@ public static class ImportedUIQA
             await Shot("main");
             page.OpenVeins();await UniTask.Delay(400);var vein=PopupManager.CurrentPopup as VeinSelectionPopup;
             Check(vein!=null&&page.pausePolicy.IsPaused,"Vein open/pause failed");
-            Check(vein.transform.Find("PopupCommon/Window/Contents")!=null,"No common popup");
+            Check(vein.transform.Find("CommonPopup/Window/Contents")!=null,"No common popup");
             await Shot("veins");vein.Choose(1);await UniTask.Delay(350);
             page.pausePolicy.ReleasePause("AppFocusLoss");
             Check(page.Model.Data.route==1&&!PopupManager.IsOpenAny&&!page.pausePolicy.IsPaused,"Route change/close/resume failed: route="+page.Model.Data.route+" open="+PopupManager.IsOpenAny+" paused="+page.pausePolicy.IsPaused);

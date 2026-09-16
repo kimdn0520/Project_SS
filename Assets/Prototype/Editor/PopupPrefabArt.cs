@@ -22,14 +22,13 @@ namespace ProjectSS.Expedition.Editor
             var notice=Author(page.notice,sprite);var equipment=Author(page.equipmentPopup,sprite);
             Ref(notice,"pausePolicy",null);equipment.page=null;equipment.pausePolicy=null;
             Directory.CreateDirectory("Assets/Resources/Prefabs/Popups");
-            var noticeAsset=PrefabUtility.SaveAsPrefabAsset(notice.gameObject,"Assets/Resources/Prefabs/Popups/ExpeditionNotice.prefab").GetComponent<ExpeditionNotice>();
-            var equipAsset=PrefabUtility.SaveAsPrefabAsset(equipment.gameObject,"Assets/Resources/Prefabs/Popups/EquipmentSelection.prefab").GetComponent<EquipmentSelectionPopup>();
+            var noticeAsset=PrefabUtility.SaveAsPrefabAsset(notice.gameObject,"Assets/Resources/Prefabs/Popups/ExpeditionNoticePopup.prefab").GetComponent<ExpeditionNoticePopup>();
+            var equipAsset=PrefabUtility.SaveAsPrefabAsset(equipment.gameObject,"Assets/Resources/Prefabs/Popups/EquipmentSelectionPopup.prefab").GetComponent<EquipmentSelectionPopup>();
             if(!EditorUtility.IsPersistent(page.notice))Object.DestroyImmediate(page.notice.gameObject);
             if(!EditorUtility.IsPersistent(page.equipmentPopup))Object.DestroyImmediate(page.equipmentPopup.gameObject);
             Object.DestroyImmediate(notice.gameObject);Object.DestroyImmediate(equipment.gameObject);
             page.notice=noticeAsset;page.equipmentPopup=equipAsset;
-            var so=new SerializedObject(page.popupManager);var a=so.FindProperty("popupPrefabs");a.arraySize=2;a.GetArrayElementAtIndex(0).objectReferenceValue=noticeAsset;a.GetArrayElementAtIndex(1).objectReferenceValue=equipAsset;
-            so.FindProperty("renderCamera").objectReferenceValue=null;so.ApplyModifiedPropertiesWithoutUndo();
+            var so=new SerializedObject(page.popupManager);so.FindProperty("renderCamera").objectReferenceValue=null;so.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(page);
         }
         static T Author<T>(T source,Sprite sprite) where T:BasePopupHandler

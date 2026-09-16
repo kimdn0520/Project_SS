@@ -1,0 +1,2 @@
+﻿using UnityEngine;using ProjectSS.Expedition;
+public static class InspectHeroStars{public static string Execute(){var p=Object.FindFirstObjectByType<PlayPage>();var star=p.formationPanel.collectionCells[0].stars[0];return "active="+star.isActiveAndEnabled+" rect="+star.rectTransform.rect+" renderer="+(star.canvasRenderer!=null)+" material="+star.material+" canvas="+star.canvas+" color="+star.color;}}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -26,9 +26,9 @@ public static class PopupPrefabQA
             page.SelectSlot(2);await UniTask.Delay(300);Check(ReferenceEquals(equipment,PopupManager.CurrentPopup),"Popup cache not reused");
             equipment.rows[item].button.onClick.Invoke();await UniTask.Delay(300);Check(page.Model.Equipped(0,2)==item&&!PopupManager.IsOpenAny,"Equip failed");
             page.SelectSlot(2);await UniTask.Delay(300);equipment.unequip.onClick.Invoke();await UniTask.Delay(300);Check(page.Model.Equipped(0,2)==-1,"Unequip failed");
-            page.Help();await UniTask.Delay(300);var notice=(ExpeditionNotice)PopupManager.CurrentPopup;
+            page.Help();await UniTask.Delay(300);var notice=(ExpeditionNoticePopup)PopupManager.CurrentPopup;
             Check(notice.Canvas.worldCamera==page.Canvas.worldCamera,"Notice camera missing");Shot("popup-notice");notice.Accept();await UniTask.Delay(300);
-            var answer=PopupManager.ShowAsync<bool>(page.notice.PopupName,new ExpeditionNotice.Content{pausePolicy=page.pausePolicy,title="진행 초기화",body="현재 Play 진행과 획득 장비를 초기화할까요?",action="초기화",confirmation=true});await UniTask.Delay(300);Shot("popup-confirmation");notice.OnEscape();Check(!await answer,"Cancel returned true");
+            var answer=PopupManager.ShowAsync<bool>("ExpeditionNoticePopup",new ExpeditionNoticePopup.Content{pausePolicy=page.pausePolicy,title="진행 초기화",body="현재 Play 진행과 획득 장비를 초기화할까요?",action="초기화",confirmation=true});await UniTask.Delay(300);Shot("popup-confirmation");notice.OnEscape();Check(!await answer,"Cancel returned true");
             Check(!page.pausePolicy.IsPaused&&page.GetComponentsInChildren<BasePopupHandler>(true).Length==2,"Popup reuse/pause final state failed");
             File.WriteAllText("PrototypeQA/popup-prefabs.txt","PASS: separate prefab assets; lazy creation; cached reuse; ScreenSpaceCamera injection; equipment filters/equip/unequip; notice; cancellation result; pause release; two cached instances.");Debug.Log("POPUP PREFAB QA PASS");
         }

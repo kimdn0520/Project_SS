@@ -451,7 +451,7 @@ GameObject:
   - component: {fileID: 2023625762676189035}
   - component: {fileID: 3993974323747919059}
   m_Layer: 0
-  m_Name: PopupCommon
+  m_Name: CommonPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

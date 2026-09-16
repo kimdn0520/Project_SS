@@ -43,13 +43,13 @@ namespace ProjectSS.Expedition.Editor
             imp.maxTextureSize=2048;imp.textureCompression=TextureImporterCompression.Uncompressed;imp.mipmapEnabled=false;imp.alphaIsTransparency=true;
             imp.spritesheet=new[]{new SpriteMetaData{name="GoldTitle",rect=new Rect(40,170,1906,460),alignment=0,pivot=new Vector2(.5f,.5f),border=new Vector4(160,130,160,130)}};
             imp.SaveAndReimport();gold=AssetDatabase.LoadAllAssetsAtPath(art).OfType<Sprite>().First();
-            foreach(var name in new[]{"PopupCommon","ExpeditionNotice","EquipmentSelection","VeinSelection"})
+            foreach(var name in new[]{"CommonPopup","ExpeditionNoticePopup","EquipmentSelectionPopup","VeinSelectionPopup"})
             {
                 var path="Assets/Resources/Prefabs/Popups/"+name+".prefab";
                 var root=PrefabUtility.LoadPrefabContents(path);
                 try
                 {
-                    var window=root.transform.Find(name=="PopupCommon"?"Window":"PopupCommon/Window");
+                    var window=root.transform.Find(name=="CommonPopup"?"Window":"CommonPopup/Window");
                     var title=window.Find("Title");
                     var caption=title.Find("Caption")?.GetComponent<TMP_Text>();
                     if(caption==null)

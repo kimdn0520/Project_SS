@@ -43,13 +43,13 @@ namespace ProjectSS.Expedition.Editor
         {
             var frame=Import(FramePath,new Vector4(160,160,160,160));var close=Import(ClosePath,Vector4.zero);
             // Modify graphics only: the designer-owned Common close transform is preserved.
-            foreach(var name in new[]{"PopupCommon","ExpeditionNotice","EquipmentSelection","VeinSelection"})
+            foreach(var name in new[]{"CommonPopup","ExpeditionNoticePopup","EquipmentSelectionPopup","VeinSelectionPopup"})
             {
                 string path="Assets/Resources/Prefabs/Popups/"+name+".prefab";
                 var root=PrefabUtility.LoadPrefabContents(path);
                 try
                 {
-                    var window=root.transform.Find(name=="PopupCommon"?"Window":"PopupCommon/Window");
+                    var window=root.transform.Find(name=="CommonPopup"?"Window":"CommonPopup/Window");
                     Frame(window.Find("bg").GetComponent<Image>(),frame);Close(window.Find("Close").GetComponent<Image>(),close);
                     PrefabUtility.SaveAsPrefabAsset(root,path);
                 }
@@ -96,7 +96,7 @@ namespace ProjectSS.Expedition.Editor
         }
         public static void AlignPanelClose(PlayPage page)
         {
-            var common=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/PopupCommon.prefab");
+            var common=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/CommonPopup.prefab");
             var referenceFrame=(RectTransform)common.transform.Find("Window/bg");
             var referenceClose=(RectTransform)common.transform.Find("Window/Close");
             // Match the authored button pivot's offset from the frame's upper-right corner.

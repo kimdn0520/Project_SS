@@ -4,7 +4,7 @@ namespace ProjectSS.Expedition
     {
         public static void Show(PlayPage page, string title, string body)
         {
-            PopupManager.Show(page.notice.PopupName, new ExpeditionNotice.Content
+            PopupManager.Show("ExpeditionNoticePopup", new ExpeditionNoticePopup.Content
             { title=title, body=body, action="확인", pausePolicy=page.pausePolicy });
         }
     }

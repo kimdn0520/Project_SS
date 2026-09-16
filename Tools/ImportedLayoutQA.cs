@@ -52,7 +52,7 @@ public static class ImportedLayoutQA
     static async UniTaskVoid EquipmentShot()
     {
         var page=UnityEngine.Object.FindFirstObjectByType<PlayPage>();page.OpenMenu(1);page.OpenHero(0);page.SelectSlot(0);await UniTask.Delay(700);
-        var t=PopupManager.CurrentPopup.Canvas.transform.Find("PopupCommon/Window/Close");var im=t.GetComponent<Image>();
+        var t=PopupManager.CurrentPopup.Canvas.transform.Find("CommonPopup/Window/Close");var im=t.GetComponent<Image>();
         Debug.Log("CLOSE QA active="+t.gameObject.activeInHierarchy+" culled="+im.canvasRenderer.cull+" alpha="+im.canvasRenderer.GetAlpha()+" world="+t.position+" canvas="+im.canvas.name+" size="+((RectTransform)t).rect);
         await Shot("equipment-close");
     }
@@ -66,8 +66,8 @@ public static class ImportedLayoutQA
     {await UniTask.WaitForEndOfFrame(UnityEngine.Object.FindFirstObjectByType<PlayPage>());var t=ScreenCapture.CaptureScreenshotAsTexture();File.WriteAllBytes("PrototypeQA/"+name+".png",t.EncodeToPNG());UnityEngine.Object.Destroy(t);}
     public static string Inspect()
     {
-        var asset=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/EquipmentSelection.prefab");
-        var r=asset.transform.Find("PopupCommon/Window/Close");var im=r.GetComponent<Image>();var b=r.GetComponent<Button>();
+        var asset=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/EquipmentSelectionPopup.prefab");
+        var r=asset.transform.Find("CommonPopup/Window/Close");var im=r.GetComponent<Image>();var b=r.GetComponent<Button>();
         return "Close="+r.gameObject.activeSelf+" image="+im.enabled+" color="+im.color+" pos="+((RectTransform)r).anchoredPosition+" scale="+r.localScale+" sprite="+im.sprite+" children="+r.childCount+" button="+b.enabled;
     }
 }

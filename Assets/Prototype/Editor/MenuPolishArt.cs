@@ -71,9 +71,9 @@ namespace ProjectSS.Expedition.Editor
             }
             foreach(var im in page.menuPanels[4].GetComponentsInChildren<Image>(true))
                 if(im.name.EndsWith("Preview")){Rect(im.rectTransform,54,im.name.StartsWith("Pickaxe")?260:458,612,166);Surface(im,Paper);Label(im.transform,"Title",136,24,320,38,26,Ink);Label(im.transform,"Description",136,76,448,60,20,Muted);Label(im.transform,"ComingSoon",468,28,116,32,18,Muted);}
-            Popup("Assets/Resources/Prefabs/Popups/EquipmentSelection.prefab");
-            Popup("Assets/Resources/Prefabs/Popups/VeinSelection.prefab");
-            Popup("Assets/Resources/Prefabs/Popups/ExpeditionNotice.prefab");
+            Popup("Assets/Resources/Prefabs/Popups/EquipmentSelectionPopup.prefab");
+            Popup("Assets/Resources/Prefabs/Popups/VeinSelectionPopup.prefab");
+            Popup("Assets/Resources/Prefabs/Popups/ExpeditionNoticePopup.prefab");
             Toast(page.depthLabel.font);
             EditorUtility.SetDirty(page);
         }

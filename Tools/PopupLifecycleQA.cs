@@ -26,8 +26,8 @@ public static class PopupLifecycleQA
    await PopupManager.CloseAsync();await Settle();Check(first==null&&root.childCount==0,"Closed popup retained");
    page.OpenVeins();await Settle();var second=(VeinSelectionPopup)PopupManager.CurrentPopup;
    Check(second.GetInstanceID()!=id,"Popup reused instead of instantiated");PopupManager.CloseImmediate();await Settle();Check(second==null&&root.childCount==0,"Immediate close retained popup");
-   PopupManager.Queue("VeinSelection",page);await Settle();var queuedFirst=(VeinSelectionPopup)PopupManager.CurrentPopup;
-   PopupManager.Queue("VeinSelection",page);await PopupManager.CloseAsync();await Settle();
+   PopupManager.Queue("VeinSelectionPopup",page);await Settle();var queuedFirst=(VeinSelectionPopup)PopupManager.CurrentPopup;
+   PopupManager.Queue("VeinSelectionPopup",page);await PopupManager.CloseAsync();await Settle();
    Check(queuedFirst==null&&PopupManager.CurrentPopup is VeinSelectionPopup,"Repeated queued popup lost");
    PopupManager.Clear();await Settle();Check(root.childCount==0&&!PopupManager.IsOpenAny,"Clear retained popup");
    page.OpenMenu(1);page.OpenHero(0);page.SelectSlot(0);await Settle();

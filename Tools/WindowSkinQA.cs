@@ -27,7 +27,7 @@ public static class WindowSkinQA
             layer.Close();await UniTask.WaitForEndOfFrame(page);Check(page.ActiveTab==0&&!layer.curtain.activeSelf,"Curtain close failed: tab="+page.ActiveTab+", curtain="+layer.curtain.activeSelf+", popup="+PopupManager.IsOpenAny);
             page.OpenMenu(2);await Shot("bag");page.OpenMenu(1);page.OpenHero(0);page.SelectSlot(0);await Shot("equipment");
             var popup=(EquipmentSelectionPopup)PopupManager.CurrentPopup;Check(popup.Canvas.sortingOrder>500,"Nested popup behind menu");
-            var close=(RectTransform)popup.transform.Find("PopupCommon/Window/Close");Check(close.anchoredPosition==new Vector2(648,-215),"Designer close position changed");
+            var close=(RectTransform)popup.transform.Find("CommonPopup/Window/Close");Check(close.anchoredPosition==new Vector2(648,-215),"Designer close position changed");
             popup.OnClickClose();await UniTask.Delay(300);Check(!PopupManager.IsOpenAny&&page.ActiveTab==1,"Nested close did not return to panel");
             page.OpenMenu(0);page.Help();await Shot("notice");PopupManager.CurrentPopup.OnEscape();await UniTask.Delay(300);
             File.WriteAllText("PrototypeQA/window-skin.txt","PASS: menu curtain and order 500, bottom nav raycast blocked, curtain close, equipment above menu, designer Common close position preserved, notice/close. "+Screen.width+"x"+Screen.height);

@@ -46,14 +46,14 @@ namespace ProjectSS.Expedition.Editor
         }
         static GameObject Common()
         {
-            var existing=AssetDatabase.LoadAssetAtPath<GameObject>(Folder+"PopupCommon.prefab");
+            var existing=AssetDatabase.LoadAssetAtPath<GameObject>(Folder+"CommonPopup.prefab");
             if(existing!=null)return existing;
-            var root=Rect("PopupCommon",null); Stretch(root);root.gameObject.AddComponent<PopupSafeLayout>();
+            var root=Rect("CommonPopup",null); Stretch(root);root.gameObject.AddComponent<PopupSafeLayout>();
             var window=Rect("Window",root);window.anchorMin=window.anchorMax=window.pivot=new Vector2(.5f,.5f);window.anchoredPosition=Vector2.zero;
             Image(Rect("bg",window,30,230,660,830),popup,new Color(.70f,.85f,.83f));
             Stretch(Rect("Contents",window)); Stretch(Rect("Title",window));
             var b=Image(Rect("Close",window,620,260,58,58),close,Color.white).gameObject.AddComponent<Button>();CloseStyle(b);
-            var asset=PrefabUtility.SaveAsPrefabAsset(root.gameObject,Folder+"PopupCommon.prefab");Object.DestroyImmediate(root.gameObject);return asset;
+            var asset=PrefabUtility.SaveAsPrefabAsset(root.gameObject,Folder+"CommonPopup.prefab");Object.DestroyImmediate(root.gameObject);return asset;
         }
         static Transform AttachCommon(BasePopupHandler handler,GameObject common)
         {
@@ -65,7 +65,7 @@ namespace ProjectSS.Expedition.Editor
             var root=PrefabUtility.LoadPrefabContents(path);
             try
             {
-                if(root.transform.Find("PopupCommon")!=null)
+                if(root.transform.Find("CommonPopup")!=null)
                 {
                     foreach(var child in root.transform.Cast<Transform>())if(child.name=="Dim"||child.name=="Curtain")Stretch((RectTransform)child);
                     PrefabUtility.SaveAsPrefabAsset(root,path);return;
@@ -91,7 +91,7 @@ namespace ProjectSS.Expedition.Editor
         }
         static VeinSelectionPopup Veins(PlayPage page,GameObject common)
         {
-            var root=Rect("VeinSelection",null);var canvas=root.gameObject.AddComponent<Canvas>();
+            var root=Rect("VeinSelectionPopup",null);var canvas=root.gameObject.AddComponent<Canvas>();
             EditorUtility.CopySerialized(page.notice.Canvas,canvas);canvas.worldCamera=null;
             var scaler=root.gameObject.AddComponent<CanvasScaler>();EditorUtility.CopySerialized(page.notice.Canvas.GetComponent<CanvasScaler>(),scaler);
             root.gameObject.AddComponent<GraphicRaycaster>();var group=root.gameObject.AddComponent<CanvasGroup>();
@@ -109,7 +109,7 @@ namespace ProjectSS.Expedition.Editor
                 var icon=Image(Rect("Ore",row.transform,18,22,80,80),page.depositSprites[i],Color.white);icon.type=UnityEngine.UI.Image.Type.Simple;icon.preserveAspect=true;icon.raycastTarget=false;
                 handler.labels[i]=Text(Rect("Label",row.transform,115,38,435,70),page.depthLabel.font,new[]{"철 광맥","서리 광맥","유적 광맥"}[i],25);
             }
-            root.gameObject.SetActive(false);var asset=PrefabUtility.SaveAsPrefabAsset(root.gameObject,Folder+"VeinSelection.prefab");Object.DestroyImmediate(root.gameObject);return asset.GetComponent<VeinSelectionPopup>();
+            root.gameObject.SetActive(false);var asset=PrefabUtility.SaveAsPrefabAsset(root.gameObject,Folder+"VeinSelectionPopup.prefab");Object.DestroyImmediate(root.gameObject);return asset.GetComponent<VeinSelectionPopup>();
         }
         public static void Configure(PlayPage page)
         {
@@ -119,9 +119,8 @@ namespace ProjectSS.Expedition.Editor
             close=Import("Assets/ETC/btn_close.png",Vector4.zero);
             fill=Import("Assets/Textures/UI/Common/Bars/progressbar_green.png",new Vector4(20,18,20,18));
             track=Import("Assets/Textures/UI/Common/Bars/bg_progressbar_navy.png",new Vector4(23,20,23,20));
-            var common=Common();UpgradePopup(Folder+"ExpeditionNotice.prefab",common);UpgradePopup(Folder+"EquipmentSelection.prefab",common);
+            var common=Common();UpgradePopup(Folder+"ExpeditionNoticePopup.prefab",common);UpgradePopup(Folder+"EquipmentSelectionPopup.prefab",common);
             page.veinPopup=Veins(page,common);
-            var so=new SerializedObject(page.popupManager);var list=so.FindProperty("popupPrefabs");list.arraySize=3;list.GetArrayElementAtIndex(0).objectReferenceValue=page.notice;list.GetArrayElementAtIndex(1).objectReferenceValue=page.equipmentPopup;list.GetArrayElementAtIndex(2).objectReferenceValue=page.veinPopup;so.ApplyModifiedPropertiesWithoutUndo();
             foreach(var b in page.routeButtons)if(b!=null)Object.DestroyImmediate(b.gameObject);
             page.routeButtons=Array.Empty<Button>();page.routePanels=Array.Empty<Image>();page.routeLabels=Array.Empty<TMP_Text>();
             foreach(var p in page.menuPanels)

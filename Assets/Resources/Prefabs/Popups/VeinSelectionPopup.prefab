@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 6627257286557656213}
   - component: {fileID: 5219972632201643354}
   m_Layer: 0
-  m_Name: VeinSelection
+  m_Name: VeinSelectionPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3165,7 +3165,7 @@ PrefabInstance:
     - target: {fileID: 8003396971500834167, guid: e4f757cc185b9374bb7f86dd959d5f83,
         type: 3}
       propertyPath: m_Name
-      value: PopupCommon
+      value: CommonPopup
       objectReference: {fileID: 0}
     - target: {fileID: 8521541743674621168, guid: e4f757cc185b9374bb7f86dd959d5f83,
         type: 3}

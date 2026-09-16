@@ -29,7 +29,7 @@ public static class SidebarQA
             mole.isAvailable=false;mole.RefreshVisibility();Check(!mole.gameObject.activeSelf,"base availability hides icon");
             mole.isAvailable=true;mole.RefreshVisibility();Check(mole.gameObject.activeSelf,"base availability restores icon");
             mole.GetComponent<Button>().onClick.Invoke();await UniTask.Delay(500,ignoreTimeScale:true);
-            var popup=UnityEngine.Object.FindFirstObjectByType<ExpeditionNotice>();Check(popup!=null,"support button opens common notice popup");
+            var popup=UnityEngine.Object.FindFirstObjectByType<ExpeditionNoticePopup>();Check(popup!=null,"support button opens common notice popup");
             float deadline=Time.realtimeSinceStartup+10;
             while(PopupManager.IsChanging&&Time.realtimeSinceStartup<deadline)await UniTask.Yield();
             popup.Accept();

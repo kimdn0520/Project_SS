@@ -9,7 +9,7 @@ namespace ProjectSS.Expedition
         public TMP_Text[] labels;
         public TMP_Text[] choiceLabels, conditions;
         private PlayPage page;
-        public override string PopupName => "VeinSelection";
+        public override string PopupName => "VeinSelectionPopup";
         public override void OnWillEnter(object param)
         {
             base.OnWillEnter(param);

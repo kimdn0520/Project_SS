@@ -10,6 +10,7 @@ namespace ProjectSS.Expedition
         public Image[] slotBackgrounds;
         public Button[] removeButtons;
         public TMP_Text hint;
+        public HeroCollectionCell[] collectionCells;
         int selected=-1;
         public void SelectPosition(int slot){selected=slot;Refresh();}
         public void SelectHero(int hero)
@@ -33,10 +34,12 @@ namespace ProjectSS.Expedition
             {
                 int slot=page.Model.FormationSlot(h);
                 bool owned=page.Model.IsOwned(h);
+                cardStates[h].gameObject.SetActive(false);
                 cardStates[h].text=!owned?"미보유":slot<0?"미출전":HeroRoster.Positions[slot]+" · 출전 중";
                 foreach(var b in cardStates[h].transform.parent.GetComponentsInChildren<Button>(true))b.interactable=owned;
             }
-            hint.text=selected<0?"슬롯 선택 → 용사 선택 · 장비 버튼으로 장비 관리":HeroRoster.Positions[selected]+"에 배치할 용사를 선택하세요";
+            foreach(var cell in collectionCells??System.Array.Empty<HeroCollectionCell>())cell.Refresh();
+            hint.gameObject.SetActive(false);
         }
         void OnEnable(){selected=-1;Refresh();}
     }

@@ -125,7 +125,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5730657086388415897}
-        m_TargetAssemblyTypeName: ProjectSS.Expedition.ExpeditionNotice, Assembly-CSharp
+        m_TargetAssemblyTypeName: ProjectSS.Expedition.ExpeditionNoticePopup, Assembly-CSharp
         m_MethodName: Accept
         m_Mode: 0
         m_Arguments:
@@ -649,7 +649,7 @@ GameObject:
   - component: {fileID: 5730657086388415897}
   - component: {fileID: 7256677207600173798}
   m_Layer: 0
-  m_Name: ExpeditionNotice
+  m_Name: ExpeditionNoticePopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -750,7 +750,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d19ebbbb7d5ca3e4e9d61f40db825b3a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProjectSS.Expedition.ExpeditionNotice
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectSS.Expedition.ExpeditionNoticePopup
   canvas: {fileID: 5636788982397205410}
   canvasGroup: {fileID: 7256677207600173798}
   curtainButton: {fileID: 4037117894410232231}
@@ -761,7 +761,7 @@ MonoBehaviour:
   bodyText: {fileID: 4417090642695528813}
   actionText: {fileID: 9160796218420734822}
   pausePolicy: {fileID: 0}
-  popupName: ExpeditionNotice
+  popupName: ExpeditionNoticePopup
 --- !u!225 &7256677207600173798
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1193,7 +1193,7 @@ PrefabInstance:
     - target: {fileID: 8003396971500834167, guid: e4f757cc185b9374bb7f86dd959d5f83,
         type: 3}
       propertyPath: m_Name
-      value: PopupCommon
+      value: CommonPopup
       objectReference: {fileID: 0}
     - target: {fileID: 8521541743674621168, guid: e4f757cc185b9374bb7f86dd959d5f83,
         type: 3}

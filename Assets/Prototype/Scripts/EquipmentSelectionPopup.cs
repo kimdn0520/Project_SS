@@ -17,7 +17,7 @@ namespace ProjectSS.Expedition
         public Button unequip;
         private int hero, slot;
         private GearInstance[] instances;
-        public override string PopupName => "EquipmentSelection";
+        public override string PopupName => "EquipmentSelectionPopup";
         public void SetupRenderCamera(Camera camera) { Canvas.worldCamera = camera; }
         public override void OnWillEnter(object param)
         {

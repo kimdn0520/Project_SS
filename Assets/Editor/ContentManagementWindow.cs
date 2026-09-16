@@ -34,7 +34,7 @@ namespace ProjectSS.ContentEditor
         {
             minSize = new Vector2(940, 620);
             panels = new IContentManagementPanel[] { new EquipmentManagementPanel(),
-                new PlannedPanel("캐릭터"), new PlannedPanel("몬스터"), new SkillManagementPanel(),
+                new HeroManagementPanel(), new PlannedPanel("몬스터"), new SkillManagementPanel(),
                 new PlannedPanel("스테이지"), new PlannedPanel("상점") };
             Undo.undoRedoPerformed += OnUndoRedo;
             if (draft == null)
@@ -155,6 +155,7 @@ namespace ProjectSS.ContentEditor
             {
                 Undo.RecordObject(source, "Save equipment catalog");
                 source.weaponCapacity=draft.weaponCapacity;source.armorCapacity=draft.armorCapacity;source.accessoryCapacity=draft.accessoryCapacity;source.dismantleRefundRate=draft.dismantleRefundRate;
+                source.heroes=(draft.heroes??Array.Empty<HeroDefinition>()).Select(h=>JsonUtility.FromJson<HeroDefinition>(JsonUtility.ToJson(h))).ToArray();source.heroStarCosts=(int[])draft.heroStarCosts.Clone();
                 source.gear = draft.gear.Select(g => JsonUtility.FromJson<GearDefinition>(JsonUtility.ToJson(g))).ToArray();
                 source.materials = (draft.materials ?? Array.Empty<MaterialDefinition>()).Select(m => JsonUtility.FromJson<MaterialDefinition>(JsonUtility.ToJson(m))).ToArray();
                 EditorUtility.SetDirty(source);

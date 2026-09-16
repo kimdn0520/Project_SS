@@ -538,10 +538,10 @@ namespace ProjectSS.Expedition.Editor
             return AssetDatabase.LoadAssetAtPath<Sprite>(path);
         }
 
-        private static ExpeditionNotice MakeNotice(Camera cam, SessionPausePolicy pause)
+        private static ExpeditionNoticePopup MakeNotice(Camera cam, SessionPausePolicy pause)
         {
-            var canvas = MakeCanvas("ExpeditionNotice", null, cam, 1000);
-            var popup = canvas.gameObject.AddComponent<ExpeditionNotice>();
+            var canvas = MakeCanvas("ExpeditionNoticePopup", null, cam, 1000);
+            var popup = canvas.gameObject.AddComponent<ExpeditionNoticePopup>();
             var group = canvas.gameObject.AddComponent<CanvasGroup>();
             Set(popup, "canvas", canvas); Set(popup, "canvasGroup", group); Set(popup, "pausePolicy", pause);
             Box(canvas.transform, "Dim", 0, 0, 720, 1280, new Color(0.025f, 0.065f, 0.075f, 0.92f)).raycastTarget = true;

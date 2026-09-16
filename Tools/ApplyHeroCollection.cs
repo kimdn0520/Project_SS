@@ -1,0 +1,2 @@
+﻿using UnityEditor;using UnityEngine;using ProjectSS.Expedition;using ProjectSS.Expedition.Editor;
+public static class ApplyHeroCollection {public static string Execute(){const string path="Assets/Resources/Prefabs/PlayPage.prefab";var root=PrefabUtility.LoadPrefabContents(path);try{var page=root.GetComponent<PlayPage>();HeroCollectionArt.Configure(page);EditorUtility.SetDirty(page.catalog);PrefabUtility.SaveAsPrefabAsset(root,path);AssetDatabase.SaveAssets();}finally{PrefabUtility.UnloadPrefabContents(root);}return "Hero grade/star/duplicate cells saved.";}}

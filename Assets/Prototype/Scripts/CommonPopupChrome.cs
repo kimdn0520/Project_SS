@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 namespace ProjectSS.Expedition
 {
-    // PopupCommon owns the relationship between its frame and close control.
+    // CommonPopup owns the relationship between its frame and close control.
     // Consumers may resize the frame; they never author separate close coordinates.
     [ExecuteAlways, DisallowMultipleComponent]
     public sealed class CommonPopupChrome : MonoBehaviour

@@ -1,4 +1,4 @@
-﻿using System;using System.IO;using System.Linq;using System.Reflection;using Cysharp.Threading.Tasks;using UnityEditor;using UnityEngine;using ProjectSS.Expedition;
+using System;using System.IO;using System.Linq;using System.Reflection;using Cysharp.Threading.Tasks;using UnityEditor;using UnityEngine;using ProjectSS.Expedition;
 public static class GearStorageUIQA {
  static void Check(bool ok,string message){if(!ok)throw new Exception(message);}
  static async UniTask Wait()=>await UniTask.WaitUntil(()=>!PopupManager.IsChanging).Timeout(TimeSpan.FromSeconds(5));
@@ -14,11 +14,11 @@ public static class GearStorageUIQA {
  string selected=m.Copies(3).Last().uid;Check(bag.TryGetInstanceRow(selected,out var row),"Exact copy row");await Shot(p,"storage");
  row.button.onClick.Invoke();await UniTask.WaitUntil(()=>PopupManager.CurrentPopup is ItemDetailsPopup&&!PopupManager.IsChanging).Timeout(TimeSpan.FromSeconds(5));
  var popup=(ItemDetailsPopup)PopupManager.CurrentPopup;Check(popup.SelectedUid==selected,"Exact copy details");
- var window=popup.transform.Find("PopupCommon/Window");Check(window.Find("Contents").GetComponentsInChildren<UnityEngine.UI.Button>(true).Length==0,"Details contains no action buttons");
+ var window=popup.transform.Find("CommonPopup/Window");Check(window.Find("Contents").GetComponentsInChildren<UnityEngine.UI.Button>(true).Length==0,"Details contains no action buttons");
  var bg=(RectTransform)window.Find("bg");var close=(RectTransform)window.Find("Close");var chrome=window.GetComponent<CommonPopupChrome>();chrome.Apply();var frameTop=bg.TransformPoint(new Vector3(bg.rect.xMax,bg.rect.yMax,0));var closeTop=close.TransformPoint(new Vector3(close.rect.xMax,close.rect.yMax,0));Check(Vector3.Distance(frameTop,closeTop)<2,"X follows common frame corner");await Shot(p,"instance");
  popup.OnEscape();await Wait();
- row.dismantle.onClick.Invoke();await UniTask.WaitUntil(()=>PopupManager.CurrentPopup is ExpeditionNotice&&!PopupManager.IsChanging).Timeout(TimeSpan.FromSeconds(5));var confirm=(ExpeditionNotice)PopupManager.CurrentPopup;var frame=confirm.transform.Find("PopupCommon/Window/bg") as RectTransform;Check(frame.rect.width==500&&frame.rect.height==280,"Compact confirmation size");Check(confirm.PopupName=="DismantleConfirmation","Dedicated confirmation variant");await Shot(p,"confirm");PopupManager.CurrentPopup.OnEscape();await Wait();await UniTask.Yield();Check(m.Instance(selected)!=null,"Cancel preserves item");
- row.dismantle.onClick.Invoke();await UniTask.WaitUntil(()=>PopupManager.CurrentPopup is ExpeditionNotice&&!PopupManager.IsChanging).Timeout(TimeSpan.FromSeconds(5));((ExpeditionNotice)PopupManager.CurrentPopup).Accept();await Wait();await UniTask.Delay(100,ignoreTimeScale:true);
+ row.dismantle.onClick.Invoke();await UniTask.WaitUntil(()=>PopupManager.CurrentPopup is ExpeditionNoticePopup&&!PopupManager.IsChanging).Timeout(TimeSpan.FromSeconds(5));var confirm=(ExpeditionNoticePopup)PopupManager.CurrentPopup;var frame=confirm.transform.Find("CommonPopup/Window/bg") as RectTransform;Check(frame.rect.width==500&&frame.rect.height==280,"Compact confirmation size");Check(confirm.PopupName=="DismantleConfirmationPopup","Dedicated confirmation variant");await Shot(p,"confirm");PopupManager.CurrentPopup.OnEscape();await Wait();await UniTask.Yield();Check(m.Instance(selected)!=null,"Cancel preserves item");
+ row.dismantle.onClick.Invoke();await UniTask.WaitUntil(()=>PopupManager.CurrentPopup is ExpeditionNoticePopup&&!PopupManager.IsChanging).Timeout(TimeSpan.FromSeconds(5));((ExpeditionNoticePopup)PopupManager.CurrentPopup).Accept();await Wait();await UniTask.Delay(100,ignoreTimeScale:true);
  Check(m.Instance(selected)==null&&m.Data.inventory[3]==1&&bag.FilteredInstanceIds.Count==4,"Only requested copy removed");Check(!m.Dismantle(equipped),"Equipped model protection");
  while(m.StorageUsed(0)<100)m.TryAddGear(3);bag.Refresh();int created=bag.CreatedCellCount;
  for(int n=0;n<=20;n++){bag.scroll.verticalNormalizedPosition=1-n/20f;bag.scroll.onValueChanged.Invoke(bag.scroll.normalizedPosition);await UniTask.Yield();}

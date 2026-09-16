@@ -1,6 +1,6 @@
 # Imported UI and miner appearance
 
-- `Assets/Resources/Prefabs/Popups/PopupCommon.prefab`: shared nested Window / bg / Contents / Title / Close structure used by notice, equipment, and vein popups.
+- `Assets/Resources/Prefabs/Popups/CommonPopup.prefab`: shared nested Window / bg / Contents / Title / Close structure used by notice, equipment, and vein popups.
 - `bg_popup`: popup background, border 49 on all sides, muted teal tint.
 - Existing `popup-bg-minimal-578x765`: menu panels and vein rows, border 64.
 - `menu_bg`: bottom menu buttons, border 22.

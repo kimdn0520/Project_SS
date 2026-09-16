@@ -29,6 +29,7 @@ namespace ProjectSS.Expedition
     {
         public int version = 4, iron, crystal, relic, cleared, depth, excavations, route, chestPity;
         public string[] ownedHeroes, formation;
+        public System.Collections.Generic.List<HeroProgress> heroProgress;
         public int moleSupportDay, moleSupportUsed;
         public bool autoMine, autoBattle = true, chest;
         public int[] inventory;
@@ -51,6 +52,9 @@ namespace ProjectSS.Expedition
             foreach (var stack in materials ?? Array.Empty<MaterialStack>())
                 if (stack == null || string.IsNullOrWhiteSpace(stack.id) || stack.count < 0 || !materialIds.Add(stack.id)) return false;
             foreach (int id in equipment) if (id < -1 || id >= count || (id >= 0 && inventory[id] == 0)) return false;
+            var progressIds=new System.Collections.Generic.HashSet<string>();
+            foreach(var progress in heroProgress??new System.Collections.Generic.List<HeroProgress>())
+                if(progress==null||string.IsNullOrEmpty(progress.id)||!progressIds.Add(progress.id)||progress.stars<1||progress.stars>5||progress.duplicates<0)return false;
             if (version >= 5)
             {
                 if (gearInstances == null || equippedInstances == null || equippedInstances.Length != 12 || pendingChestGear < -1 || pendingChestGear >= count) return false;
@@ -127,7 +131,7 @@ namespace ProjectSS.Expedition
         public ExpeditionModel(ExpeditionCatalog catalog, ExpeditionSave data, int seed = -1)
         {
             Catalog = catalog; Data = data;HeroRoster.Migrate(Data); random = seed < 0 ? new System.Random() : new System.Random(seed);
-            MigrateGearInstances(); BlockHp = BlockMaxHp; ResetHealth();
+            MigrateGearInstances(); InitializeHeroProgression(); BlockHp = BlockMaxHp; ResetHealth();
         }
         public bool SelectRoute(int route)
         {

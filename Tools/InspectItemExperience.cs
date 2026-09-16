@@ -8,8 +8,8 @@ public static class InspectItemExperience
 {
  public static string Execute()
  {
-  var go=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/ExpeditionNotice.prefab");
-  var so=new SerializedObject(go.GetComponent<ExpeditionNotice>());
+  var go=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/ExpeditionNoticePopup.prefab");
+  var so=new SerializedObject(go.GetComponent<ExpeditionNoticePopup>());
   string result="";
   foreach(var f in new[]{"canvas","canvasGroup","curtainButton","closeButton","titleText","bodyText","actionText"})result+=f+"="+so.FindProperty(f)?.objectReferenceValue+"\n";
   foreach(var b in go.GetComponentsInChildren<Button>(true))result+="Button "+b.name+" parent="+b.transform.parent.name+"\n";

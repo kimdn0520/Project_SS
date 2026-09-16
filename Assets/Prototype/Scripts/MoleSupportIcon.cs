@@ -25,7 +25,7 @@ namespace ProjectSS.Expedition
             try
             {
                 var page=Page;
-                var content=new ExpeditionNotice.Content
+                var content=new ExpeditionNoticePopup.Content
                 {
                     title="두더지 지원품",
                     body=$"하루 5번, 광고를 보고 지원품을 받는 기능을 준비 중입니다.\n\n오늘 남은 횟수: {MoleSupportDaily.Remaining(page.Model.Data)}/5\n\n광고와 보상 종류는 아직 기획 중입니다.",
@@ -35,7 +35,7 @@ namespace ProjectSS.Expedition
                 content.body+="\n\n에디터 미리보기: 아래 버튼은 광고 완료를 테스트합니다. 실제 광고·보상은 없습니다.";
                 content.action="광고 완료 테스트";
 #endif
-                bool accepted=await PopupManager.ShowAsync<bool>(page.notice.PopupName,content).AttachExternalCancellation(destroyCancellationToken);
+                bool accepted=await PopupManager.ShowAsync<bool>("ExpeditionNoticePopup",content).AttachExternalCancellation(destroyCancellationToken);
 #if UNITY_EDITOR
                 if(accepted){page.CompleteMoleSupportPreview();RefreshVisibility();}
 #endif

@@ -1,0 +1,1 @@
+PASS: 17 hero progression checks (migration, thresholds, 5-star cap, overflow retention, unlock, save/reload, E-S grades).

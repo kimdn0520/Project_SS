@@ -19,11 +19,11 @@ namespace ProjectSS.Expedition
         public SpriteManager sprites;
         public PoolManager pool;
         public SessionPausePolicy pausePolicy;
-        public ExpeditionNotice notice;
+        [NonSerialized] public ExpeditionNoticePopup notice; // Temporary editor-builder state, never a serialized prefab dependency.
         public PopupManager popupManager;
         public ExpeditionInventory inventoryView;
-        public EquipmentSelectionPopup equipmentPopup;
-        public VeinSelectionPopup veinPopup;
+        [NonSerialized] public EquipmentSelectionPopup equipmentPopup; // Temporary editor-builder state, never a serialized prefab dependency.
+        [NonSerialized] public VeinSelectionPopup veinPopup; // Temporary editor-builder state, never a serialized prefab dependency.
         public ExpeditionActor[] heroes, enemies;
         public ExpeditionActor miner;
         public Transform miningWorld;
@@ -246,13 +246,13 @@ namespace ProjectSS.Expedition
             for(int i=0;i<heroEquipmentPanels.Length;i++)heroEquipmentPanels[i].SetActive(i==hero);
             Refresh();
         }
-        public void SelectSlot(int index){selectedHero=index/4;selectedSlot=index%4;PopupManager.Show(equipmentPopup.PopupName,new EquipmentSelectionPopup.Selection{page=this,hero=selectedHero,slot=selectedSlot});}
+        public void SelectSlot(int index){selectedHero=index/4;selectedSlot=index%4;PopupManager.Show("EquipmentSelectionPopup",new EquipmentSelectionPopup.Selection{page=this,hero=selectedHero,slot=selectedSlot});}
         public void SelectRoute(int route){if(pausePolicy.IsPaused||!Model.SelectRoute(route))return;miningView.SetRoute(route);dirty=true;Refresh();}
         public void OpenVeins()
         {
             if (Model == null || ChestOpening || miningView.IsDescending || PopupManager.IsOpenAny) return;
             holdDig.HardCancel();
-            PopupManager.Show(veinPopup.PopupName, this);
+            PopupManager.Show("VeinSelectionPopup", this);
         }
         public void ChangeVein(int route)
         {
@@ -279,6 +279,7 @@ namespace ProjectSS.Expedition
             EquipForHero(id,selectedHero);
         }
         public bool EquipForHero(int id,int hero){if(!Model.Equip(id,hero))return false;if(!Model.Fighting)ApplyEquipment();dirty=true;Persist();Refresh();return true;}
+        public bool GrantHeroCopies(int hero,int amount=1){if(!Model.GrantHeroCopies(hero,amount))return false;SaveGearChanges();return true;}
         public void SaveGearChanges(){dirty=true;Persist();Refresh();}
         public bool EquipInstanceForHero(string uid,int hero){if(!Model.EquipInstance(uid,hero))return false;if(!Model.Fighting)ApplyEquipment();SaveGearChanges();return true;}
         public bool UnequipForHero(int hero,int slot){if(!Model.Unequip(hero,slot))return false;if(!Model.Fighting)ApplyEquipment();dirty=true;Persist();Refresh();return true;}
@@ -368,11 +369,11 @@ namespace ProjectSS.Expedition
             if(ActiveTab!=2)return;
             inventoryView.Refresh();
         }
-        public void Help(){PopupManager.Show(notice.PopupName,new ExpeditionNotice.Content{pausePolicy=pausePolicy,title="플레이 안내",body="곡괭이 버튼을 꾹 누르면 채굴이 빨라집니다.\n광맥 속 상자에서 장비를 발견하세요.\n\n용사 관리에서 장비를 바꾸고, 가방에서 획득한 장비와 재료를 확인하세요.\n\n자동 원정은 패배한 구간에 재도전합니다. 10번째 구간의 보스를 처치하면 다음 지역으로 이동합니다."});}
+        public void Help(){PopupManager.Show("ExpeditionNoticePopup",new ExpeditionNoticePopup.Content{pausePolicy=pausePolicy,title="플레이 안내",body="곡괭이 버튼을 꾹 누르면 채굴이 빨라집니다.\n광맥 속 상자에서 장비를 발견하세요.\n\n용사 관리에서 장비를 바꾸고, 가방에서 획득한 장비와 재료를 확인하세요.\n\n자동 원정은 패배한 구간에 재도전합니다. 10번째 구간의 보스를 처치하면 다음 지역으로 이동합니다."});}
         public void ResetProgress(){ResetAsync().Forget();}
         async UniTaskVoid ResetAsync()
         {
-            try{bool ok=await PopupManager.ShowAsync<bool>(notice.PopupName,new ExpeditionNotice.Content{pausePolicy=pausePolicy,title="진행 초기화",body="현재 Play 진행과 획득 장비를 초기화할까요?",action="초기화",confirmation=true}).AttachExternalCancellation(destroyCancellationToken);if(!ok)return;Unwire();Model=new ExpeditionModel(catalog,ExpeditionSave.Fresh(catalog.gear.Length));OnWillEnter(null);dirty=true;Persist();}
+            try{bool ok=await PopupManager.ShowAsync<bool>("ExpeditionNoticePopup",new ExpeditionNoticePopup.Content{pausePolicy=pausePolicy,title="진행 초기화",body="현재 Play 진행과 획득 장비를 초기화할까요?",action="초기화",confirmation=true}).AttachExternalCancellation(destroyCancellationToken);if(!ok)return;Unwire();Model=new ExpeditionModel(catalog,ExpeditionSave.Fresh(catalog.gear.Length));OnWillEnter(null);dirty=true;Persist();}
             catch(OperationCanceledException){}
         }
         void LateUpdate()

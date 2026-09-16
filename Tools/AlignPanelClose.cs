@@ -21,7 +21,7 @@ public static class AlignPanelClose
     }
     public static string Inspect()
     {
-        var common=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/PopupCommon.prefab");
+        var common=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Popups/CommonPopup.prefab");
         return string.Join("\n",common.GetComponentsInChildren<RectTransform>(true).Where(r=>r.name=="bg"||r.name=="Close").Select(r=>r.name+" position="+r.anchoredPosition+" size="+r.sizeDelta+" pivot="+r.pivot+" anchors="+r.anchorMin+" / "+r.anchorMax));
     }
 }

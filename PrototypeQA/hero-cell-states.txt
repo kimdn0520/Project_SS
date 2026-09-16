@@ -1,0 +1,1 @@
+PASS: only earned stars, centered 1/3/5-star groups, sliced partial/full gauge and hidden hint.

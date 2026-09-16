@@ -11,7 +11,7 @@ namespace ProjectSS.Expedition
         public Image icon;
         SessionPausePolicy pause;
         public string SelectedUid { get; private set; }
-        public override string PopupName => "ItemDetails";
+        public override string PopupName => "ItemDetailsPopup";
         public static readonly string[] RarityNames = { "일반", "희귀", "영웅", "전설", "신화" };
         public override void OnWillEnter(object param)
         {

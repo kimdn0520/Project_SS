@@ -69,7 +69,7 @@ public static class ApplyItemExperience
         finally{PrefabUtility.UnloadPrefabContents(root);}
         // Restore action buttons, not the informational vein cards.
         var action=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/UI/ActionButton.prefab").GetComponent<Image>();
-        const string veinPath="Assets/Resources/Prefabs/Popups/VeinSelection.prefab";
+        const string veinPath="Assets/Resources/Prefabs/Popups/VeinSelectionPopup.prefab";
         root=PrefabUtility.LoadPrefabContents(veinPath);
         try
         {
@@ -82,7 +82,7 @@ public static class ApplyItemExperience
         }
         finally{PrefabUtility.UnloadPrefabContents(root);}
         BuildPopup(); AssetDatabase.SaveAssets();
-        return "Compact ManageGear, restored vein actions, bold white battle header, inventory descriptions and ItemDetails popup saved.";
+        return "Compact ManageGear, restored vein actions, bold white battle header, inventory descriptions and ItemDetailsPopup popup saved.";
     }
     static void SeedCatalog(PlayPage page)
     {
@@ -110,11 +110,11 @@ public static class ApplyItemExperience
     }
     static void BuildPopup()
     {
-        var root=PrefabUtility.LoadPrefabContents("Assets/Resources/Prefabs/Popups/ExpeditionNotice.prefab");
+        var root=PrefabUtility.LoadPrefabContents("Assets/Resources/Prefabs/Popups/ExpeditionNoticePopup.prefab");
         try
         {
-            root.name="ItemDetails";
-            var old=root.GetComponent<ExpeditionNotice>(); var oldSo=new SerializedObject(old);
+            root.name="ItemDetailsPopup";
+            var old=root.GetComponent<ExpeditionNoticePopup>(); var oldSo=new SerializedObject(old);
             var popup=root.AddComponent<ItemDetailsPopup>(); var so=new SerializedObject(popup);
             foreach(var field in new[]{"canvas","canvasGroup","curtainButton","closeButton"})
                 so.FindProperty(field).objectReferenceValue=oldSo.FindProperty(field).objectReferenceValue;
@@ -125,7 +125,7 @@ public static class ApplyItemExperience
             var button=actionLabel.GetComponentInParent<Button>(true); button.onClick=new Button.ButtonClickedEvent();
             UnityEventTools.AddPersistentListener(button.onClick,popup.OnClickClose); actionLabel.text="닫기";
             UnityEngine.Object.DestroyImmediate(old);
-            var window=root.transform.Find("PopupCommon/Window");
+            var window=root.transform.Find("CommonPopup/Window");
             var frame=(RectTransform)window.Find("bg");
             // Fit all content inside the existing 660x830 common window.
             var contents=window.Find("Contents");
@@ -147,7 +147,7 @@ public static class ApplyItemExperience
             popup.ownership=Label(contents,"Ownership",92,840,532,36,21);
             Rect((RectTransform)button.transform,230,900,260,64);
             popup.title.text="아이템 정보";
-            PrefabUtility.SaveAsPrefabAsset(root,"Assets/Resources/Prefabs/Popups/ItemDetails.prefab");
+            PrefabUtility.SaveAsPrefabAsset(root,"Assets/Resources/Prefabs/Popups/ItemDetailsPopup.prefab");
         }
         finally{PrefabUtility.UnloadPrefabContents(root);}
     }

@@ -5,8 +5,8 @@ public static class ApplyGearStorageUI {
  const string target="Assets/Textures/UI/Icons/Navigation/Dismantle.png";
  if(AssetDatabase.LoadMainAssetAtPath(target)==null)AssetDatabase.CopyAsset("Assets/Space_Exploration_GUI_Kit/Picto_Icons/Dark_Purple/trash-64.png",target);
  var importer=(TextureImporter)AssetImporter.GetAtPath(target);importer.textureType=TextureImporterType.Sprite;importer.spriteImportMode=SpriteImportMode.Single;importer.maxTextureSize=64;importer.mipmapEnabled=false;importer.SaveAndReimport();var sprite=AssetDatabase.LoadAssetAtPath<Sprite>(target);
- const string path="Assets/Resources/Prefabs/Popups/ItemDetails.prefab";var root=PrefabUtility.LoadPrefabContents(path);
- try{var popup=root.GetComponent<ItemDetailsPopup>();var window=root.transform.Find("PopupCommon/Window");
+ const string path="Assets/Resources/Prefabs/Popups/ItemDetailsPopup.prefab";var root=PrefabUtility.LoadPrefabContents(path);
+ try{var popup=root.GetComponent<ItemDetailsPopup>();var window=root.transform.Find("CommonPopup/Window");
  foreach(var b in window.Find("Contents").GetComponentsInChildren<Button>(true))UnityEngine.Object.DestroyImmediate(b.gameObject);
  Rect(popup.stats.transform.parent as RectTransform,92,495,532,425);Rect(popup.ownership.rectTransform,92,938,532,32);popup.ownership.alignment=TextAlignmentOptions.Left;
  window.GetComponent<CommonPopupChrome>()?.Apply();
