@@ -8,26 +8,10 @@ public abstract class SceneBase : MonoBehaviour, IPageHandler
 {
     [Header("[Canvas References]")]
     [SerializeField] protected Canvas canvas;
-    public Canvas Canvas
-    {
-        get
-        {
-            if (canvas == null)
-                canvas = GetComponentInChildren<Canvas>(true);
-            return canvas;
-        }
-    }
+    public Canvas Canvas => canvas;
 
     [SerializeField] protected CanvasGroup canvasGroup;
-    public CanvasGroup CanvasGroup
-    {
-        get
-        {
-            if (canvasGroup == null)
-                canvasGroup = GetComponentInChildren<CanvasGroup>(true);
-            return canvasGroup;
-        }
-    }
+    public CanvasGroup CanvasGroup => canvasGroup;
 
     /// <summary>
     /// Screen Space - Camera 캔버스에 Render Camera를 주입 (Dependency Injection)
@@ -37,11 +21,6 @@ public abstract class SceneBase : MonoBehaviour, IPageHandler
         if (cam == null) return;
 
         Canvas targetCanvas = Canvas;
-        if (targetCanvas == null)
-        {
-            targetCanvas = GetComponentInChildren<Canvas>(true);
-        }
-
         if (targetCanvas != null)
         {
             targetCanvas.renderMode = RenderMode.ScreenSpaceCamera;

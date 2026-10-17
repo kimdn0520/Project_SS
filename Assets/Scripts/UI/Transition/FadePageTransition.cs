@@ -35,9 +35,6 @@ public class FadePageTransition : IPageTransition
         if (page is SceneBase sb && sb.CanvasGroup != null)
             return sb.CanvasGroup;
 
-        if (page is Component comp)
-            return comp.GetComponentInChildren<CanvasGroup>(true);
-
         return null;
     }
 

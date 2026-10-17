@@ -39,6 +39,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     private readonly Dictionary<string, UniTaskCompletionSource<object>> pendingShows = new Dictionary<string, UniTaskCompletionSource<object>>(StringComparer.OrdinalIgnoreCase);
     private int generation;
     public int LiveInstanceCount => popups.Count;
+    public bool HasOpenPopups => popupStack.Count > 0;
     public int QueuedCount => popupQueue.Count;
     // 열려있는 팝업 스택 (최상단 팝업이 Last)
     private readonly List<PopupItem> popupStack = new List<PopupItem>();

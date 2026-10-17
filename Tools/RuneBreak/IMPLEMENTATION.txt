@@ -1,0 +1,41 @@
+RUNE BREAK — Unity replacement
+
+Open Assets/Scenes/Splash.unity and press Play. Splash loads Play; MainPage is the initial page.
+MainPage and PlayPage are saved at Assets/Resources/Prefabs and are preplaced in Play.unity.
+MainPage tabs use stable IDs: shop, leaderboard, home, team, cards. Only Home is implemented.
+PlayPage has the puzzle, five recast slots, top-right settings, and three bottom ready-booster placeholders.
+The HTML chapter names, north/east text panels, debug stats, undo/restart/hint controls and Z/R/H shortcuts are intentionally absent.
+
+Runtime hierarchy is authored in prefabs. Serialized references are used by the game/page initialization.
+PoolManager's baked pool supplies 48 flights with six cached trail images each.
+Particle effects use a bounded 650-particle/48-wave mesh, without spawning GameObjects.
+SpriteAtlasSO and SpriteManager register the point-filtered, uncompressed original-pixel atlas.
+The rule model and solver are independent from MonoBehaviour. Damage/storage is reserved on input.
+WAIT taps never consume a rune. Five stored runes are safe; only an additional stored rune loses.
+
+Art source: Tools/RuneBreak/Source/rune-break-layers.html (unaltered copy of the supplied HTML).
+export-original.cjs executes its original drawing code with presentation.cjs UI overrides to produce cabinet/runes/all gate-hole variants.
+Gates show one colored block per remaining hit point; numeric badges, OK and TO POUCH are removed.
+Source/RuneBreak.aseprite is the editable rune sheet. Aseprite PNG round-trip has zero differing channels.
+export-audio.cjs renders the original oscillator/envelope/noise-filter recipes to WAV assets.
+Sound randomness and the Web Audio compressor are not bit-identical between runtimes.
+Comfy Desktop window access was rejected by automatic approval review; it was not used to regenerate art.
+
+Regenerate assets: npm ci --prefix Tools/RuneBreak
+node Tools/RuneBreak/export-original.cjs [prototype.html] [optional-level-catalog.json]
+node Tools/RuneBreak/export-audio.cjs
+Then use Unity menu Rune Break / Rebuild pages and scenes. This explicitly replaces both page prefabs and scenes.
+An optional level catalog uses the same {levels:[...]} schema as Assets/RuneBreak/Data/levels.json.
+After changing layer counts/colors or adding levels, rerun export so matching gate art is baked.
+The current board supports size 6, capacity 5, at most 28 runes. Further board sizes need layout authoring.
+
+Validation menu: Rune Break / Validate rules against HTML.
+QA/rules-report.json records all 130 original solution transitions and 3,600 additional input scenarios.
+All six levels solve; levels 5 and 6 cannot solve with capacity 4.
+Live validation exercises rapid reservation, undo cancellation, stable hierarchy count, and a full level-6 solve.
+RuntimePresentationReset verifies all six level transitions, immediate transform reset, page reentry, and 50 interrupted launches reusing all 48 pooled flights.
+Undo and solver code remain as test/development helpers, not exposed gameplay controls.
+
+Previous game-specific scripts, editor generators and resource prefabs were moved out of Unity into Archive/LegacyGame.
+Its existing source/art, including the pre-existing modified Korean font asset, are preserved there.
+Purchased asset packs and shared utilities were retained. HealerPrototype was not modified.

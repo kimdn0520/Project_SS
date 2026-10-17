@@ -1,0 +1,35 @@
+{
+  "unity": "6000.3.2f1",
+  "compileErrors": 0,
+  "entryFlow": "Splash -> Play -> MainPage -> PlayPage",
+  "levelCount": 6,
+  "originalStateTransitionsCompared": 130,
+  "additionalRuleScenarios": 3600,
+  "level5And6RequireFiveStorageSlots": true,
+  "rapidLaunchAndPoolCancellation": "passed; six simultaneous launches; hierarchy unchanged",
+  "levelTransitionReset": "passed; six transitions with blocked-tap feedback, immediate resting transforms, restart/undo/page reentry, 50 interrupted launches and all 48 baked flights reused; hierarchy unchanged",
+  "liveLevel6Solve": { "taps": 39, "peakStorage": 5, "result": "won" },
+  "uiInteraction": "passed: rune raycast/click, settings listeners, modal blocking, five lobby tabs",
+  "layoutsChecked": ["540x960", "540x1200", "768x1024"],
+  "removedPrototypeUI": ["chapter title", "north/east text panels", "undo/restart/hint buttons", "Z/R/H shortcuts", "debug stats"],
+  "pixelComparisons": {
+    "board": { "pixels": 82944, "differences": 0 },
+    "northSeal": { "pixels": 15600, "differences": 0 },
+    "eastSeal": { "pixels": 18000, "differences": 0 },
+    "emptyRecastPanel": { "pixels": 37152, "differences": 0 },
+    "twoWaitingSlots": { "pixels": 7920, "differences": 0 },
+    "asepriteRoundTrip": { "differentChannels": 0 }
+  },
+  "pixelComparisonBaseline": "Original art before gate UI simplification; the latest gate presentation is covered by the screenshots below.",
+  "gatePresentation": {
+    "remainingHealth": "Live three-hit gate rendered as three blocks; a completed hit selected gate_1_E_0_2 with two remaining blocks.",
+    "removed": ["numeric gate badges", "OK completion badge", "TO POUCH plaque"],
+    "screenshots": ["Gate-3-blocks.png", "Gate-2-blocks.png", "Gate-completed.png"],
+    "compileErrors": 0
+  },
+  "artWorkflow": "Original HTML drawing functions + presentation.cjs UI overrides -> PNG -> Unity point-filtered atlas; original rune sheet also preserved and round-trip verified in Aseprite",
+  "comfyDesktop": "Window access rejected by automatic approval review; app was not used to generate art.",
+  "audio": "Original synthesis recipes rendered offline; not a bit-identical Web Audio/compressor implementation.",
+  "legacyGame": "Archived outside Unity Assets at Archive/LegacyGame",
+  "progressAfterQA": "Reset RuneBreak.Clears and RuneBreak.Next to 0"
+}

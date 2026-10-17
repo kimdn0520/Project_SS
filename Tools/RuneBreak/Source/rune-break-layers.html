@@ -1,0 +1,1477 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#17282f"><meta name="description" content="방향 룬을 탭해서 내보내고, 보관된 룬을 재발사해 같은 색 결계를 부수는 픽셀 퍼즐 프로토타입."><title>RUNE BREAK 0.2 · 겹결계</title><style>:root{--paper:#f2eddf;--ink:#26383e;--muted:#6e7977;--line:#d4d4c7;--green:#557a68;--accent:#be6d51;--navy:#17282f;--shadow:#1d2c3330}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:'Apple SD Gothic Neo','Malgun Gothic','NanumSquare',system-ui,sans-serif;font-size:14px;-webkit-tap-highlight-color:transparent}button,input{font:inherit}button{cursor:pointer;color:inherit}button:disabled{cursor:default;opacity:.42}button:focus-visible,a:focus-visible{outline:3px solid #d99b63;outline-offset:3px}button{touch-action:manipulation}button:hover:not(:disabled){filter:brightness(1.04)}.app{max-width:1140px;margin:0 auto;padding:24px 28px 20px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 0 18px;border-bottom:1px solid var(--line)}.brand{display:flex;gap:13px;align-items:center}.brand-icon{width:43px;height:43px;image-rendering:pixelated}.wordmark{display:block;width:215px;height:22px;image-rendering:pixelated}.brand p{font-size:11px;letter-spacing:.12em;color:var(--muted);margin:8px 0 0}.top-actions{display:flex;gap:8px}.smallbtn{height:37px;min-width:38px;border:1px solid #c9cec3;background:#e8e8db;padding:0 11px;font-size:12px;box-shadow:0 2px 0 #c9cbbd}.smallbtn.on{background:#d9e4d7;border-color:#9caf9e}.edition{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.06em;color:var(--muted)}.layout{display:grid;grid-template-columns:minmax(0,1fr) 292px;gap:32px;padding-top:23px}.play{min-width:0}.stagehead{display:flex;align-items:center;gap:12px;margin-bottom:14px}.stage-no{font-family:ui-monospace,monospace;font-size:23px;font-weight:900;color:var(--accent);min-width:35px}.stagehead h1{font-size:20px;letter-spacing:-.045em;margin:0 0 4px}.stagehead p{font-size:12px;color:var(--muted);margin:0}.stage-nav{display:flex;gap:6px;margin-left:auto}.stage-nav button{height:32px;width:32px;border:1px solid var(--line);background:transparent;font-size:16px}.cabinet{padding:7px;background:#65716a;border:2px solid #2b3d42;box-shadow:0 5px 0 #273b43,0 14px 24px #192e3918;position:relative}.arena{position:relative;line-height:0;width:100%;background:#17282f;overflow:hidden}#game{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:manipulation}.hitlayer{position:absolute;inset:0;pointer-events:none}.hit{position:absolute;border:0;background:transparent;color:transparent;padding:0;pointer-events:auto;cursor:pointer;touch-action:manipulation;border-radius:0}.hit[hidden]{display:none}.hit:focus-visible{outline:2px dashed #fff0b0;outline-offset:1px}.hit[aria-disabled=true]{cursor:default}.game-overlay{position:absolute;inset:0;display:grid;align-items:center;justify-items:center;background:#12202fd6;z-index:5;line-height:1.5;padding:20px;backdrop-filter:blur(2px)}[hidden]{display:none!important}.result-card{background:#efe7d4;border:4px solid #263941;box-shadow:0 0 0 3px #c4b996,8px 8px 0 #07192466;max-width:330px;width:100%;padding:25px 22px;text-align:center}.result-pixel{width:100%;height:25px;image-rendering:pixelated;margin:8px 0}.result-card h2{font-size:23px;margin:12px 0 8px}.result-card p{font-size:13px;line-height:1.7;color:#647370;margin:0}.result-metrics{display:grid;grid-template-columns:1fr 1fr;margin:20px 0;border-top:1px solid #cccbbb;border-bottom:1px solid #cccbbb;padding:13px 0}.result-metrics b{display:block;font-family:ui-monospace,monospace;font-size:25px}.result-metrics span{font-size:11px;color:#64736f}.result-buttons{display:grid;gap:10px}.primary{border:1px solid #2a4a41;box-shadow:0 3px 0 #253e38;background:#62886b;color:#fbf1d4;padding:11px 15px;font-weight:800}.secondary{border:1px solid #c1c8ba;background:#e3e5d8;padding:10px;font-size:13px}.message{min-height:43px;margin:14px 0 0;display:flex;align-items:center;gap:9px;color:#506563;font-size:13px;line-height:1.5}.message .lamp{height:7px;width:7px;background:#738b71;flex-shrink:0}.message.warn{color:#a55f49}.message.warn .lamp{background:#c87958}.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.control{background:#e3e6da;border:1px solid #bdc8bd;box-shadow:0 3px 0 #b6c0b4;min-height:42px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:12px}.control.hint{background:#ded7bf;border-color:#c1b28c;box-shadow:0 3px 0 #b9ac88}.control kbd{font-family:ui-monospace,monospace;color:#7b8475;font-size:10px;font-weight:400}.meta-line{display:flex;justify-content:space-between;color:#798580;font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.06em;margin-top:17px}.side{padding-top:4px}.section-label{display:flex;justify-content:space-between;align-items:center;font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.14em;color:#7d877d;margin:0 0 14px}.mission h2{font-size:27px;line-height:1.3;letter-spacing:-.055em;margin:0 0 12px;font-weight:850}.mission p{line-height:1.8;font-size:13px;margin:0;color:#67746f}.seal-list{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:21px 0 20px}.seal-stat{background:#e7e8dc;border:1px solid #d0d7c9;padding:10px 11px}.seal-top{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700}.seal-icon{width:14px;height:17px;image-rendering:pixelated}.seal-title{display:flex;align-items:center;gap:6px}.seal-hp{font-family:ui-monospace,monospace;font-weight:600;font-size:12px}.hpbar{height:4px;background:#cad1c5;margin-top:9px}.hpfill{height:100%;transition:width .16s}.legend{border-top:1px solid var(--line);padding:18px 0}.legend-row{display:flex;align-items:center;gap:10px;font-size:12px;margin-bottom:11px;line-height:1.5}.legend-row:last-child{margin:0}.legend-icon{width:30px;height:30px;image-rendering:pixelated;flex:none}.legend-row b{display:block;font-weight:800}.legend-row small{display:block;color:#78847d;font-size:11px}.chapter-label{border-top:1px solid var(--line);padding-top:20px}.chapters{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:18px}.chapter{background:#e8e9dd;border:1px solid #d0d5c8;min-height:58px;text-align:left;padding:9px 9px;position:relative}.chapter.active{background:#dce6d9;border-color:#6e8b77;box-shadow:inset 3px 0 0 #6e8b77}.chapter .num{font-family:ui-monospace,monospace;font-size:10px;color:#8d998c;display:block;margin-bottom:5px}.chapter .name{font-size:11px;font-weight:800;letter-spacing:-.02em}.chapter .tick{position:absolute;right:8px;top:8px;color:#64846a;font-size:10px}.stage-tip{padding:13px 14px;background:#e5e1cf;border-left:3px solid #b9a570;color:#6a735f;line-height:1.7;font-size:12px}.footer{border-top:1px solid var(--line);margin-top:28px;padding-top:12px;display:flex;justify-content:space-between;gap:10px;font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.06em;color:#8b9186}.modal-backdrop{position:fixed;inset:0;background:#132830bb;z-index:20;display:grid;place-items:center;padding:20px}.settings{width:100%;max-width:400px;background:var(--paper);border:3px solid #3a5154;box-shadow:6px 6px 0 #0e202977;padding:24px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.modal-head h2{margin:0;font-size:21px}.close-btn{font-size:20px;background:none;border:0}.setting-row{margin:16px 0;line-height:1.6;display:flex;align-items:center;justify-content:space-between;gap:12px}.setting-row label{font-size:13px}.setting-row small{font-size:11px;display:block;color:var(--muted)}.setting-row input[type=checkbox]{width:18px;height:18px;accent-color:#60866d}.setting-row input[type=range]{width:145px;accent-color:#60866d}.settings .note{font-size:12px;line-height:1.75;color:#738079;padding-top:14px;border-top:1px solid var(--line)}.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(min-width:950px){.cabinet{max-width:604px;margin:0 auto}.play{max-width:620px}.app{padding-top:22px}.layout{gap:34px}.arena{max-height:none}}
+@media(max-width:850px){.app{padding:16px 18px}.layout{grid-template-columns:minmax(0,1fr) 245px;gap:20px}.mission h2{font-size:23px}.side{font-size:12px}.wordmark{width:190px;height:auto}.edition{display:none}.chapter .name{font-size:10px}}
+@media(max-width:680px){.app{padding:12px 12px 24px;max-width:540px}.top{padding-bottom:12px}.brand-icon{width:31px;height:31px}.wordmark{width:168px;height:auto}.brand{gap:8px}.brand p{font-size:9px;margin-top:5px}.top-actions{gap:5px}.smallbtn{height:33px;font-size:10px;padding:0 7px;min-width:32px}.sound-label{display:none}.layout{display:flex;flex-direction:column;padding-top:14px;gap:22px}.play{width:100%}.stagehead{gap:8px;margin-bottom:10px}.stagehead h1{font-size:17px}.stagehead p{font-size:10px}.stage-no{font-size:20px;min-width:28px}.stage-nav button{width:30px;height:30px}.cabinet{padding:4px}.message{font-size:12px;min-height:40px;margin-top:11px}.controls{gap:7px}.control{min-height:41px;font-size:12px;gap:5px}.control kbd{display:none}.meta-line{margin-top:14px;font-size:9px}.side{display:grid;grid-template-columns:1fr;gap:0;padding-top:0}.mission{border-top:1px solid var(--line);padding-top:20px}.mission h2{font-size:22px;display:none}.mission .section-label{margin-bottom:10px}.mission p{font-size:12px}.seal-list{margin:14px 0 15px;grid-template-columns:repeat(4,1fr);gap:6px}.seal-stat{padding:7px 7px}.seal-title{gap:3px;font-size:10px}.seal-icon{width:10px;height:12px}.seal-hp{font-size:9px}.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 0}.legend-row{margin:0;gap:6px;align-items:flex-start;font-size:10px}.legend-row small{font-size:9px}.legend-icon{width:24px;height:24px}.chapters{grid-template-columns:repeat(4,1fr);gap:6px}.chapter{min-height:57px;padding:8px 6px}.chapter .name{font-size:10px;line-height:1.45}.chapter-label{padding-top:15px}.section-label{font-size:10px}.stage-tip{font-size:11px}.footer{font-size:8px;line-height:1.7;margin-top:22px}.result-card{padding:18px 18px;max-width:290px}.result-card h2{font-size:21px}.result-card p{font-size:12px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* v0.2: keep the original pixel cabinet; forecasts stay next to the board on phones. */
+.layered-forecast{max-width:604px;margin:0 auto 14px;grid-template-columns:1fr 1fr;gap:9px}
+.seal-stat{padding:10px 12px;background:#e6e6d7;border:1px solid #cbd0bd;min-width:0;position:relative}
+.seal-stat.complete{opacity:.66}
+.seal-direction{font-size:11px;color:#788378;font-weight:500}
+.layer-track{display:flex;align-items:center;gap:5px;margin-top:9px;min-height:29px}
+.layer-chip{display:flex;align-items:center;justify-content:center;gap:4px;padding:5px 7px;min-width:43px;border:1px solid #c7cbbb;font-size:11px;background:#dce0d2;position:relative}
+.layer-chip canvas{width:10px;height:12px;image-rendering:pixelated}
+.layer-chip.now{border:2px solid var(--rune-color);padding:4px 6px;background:#f7f0d9;box-shadow:0 2px 0 #bbbca7}
+.layer-chip.past{opacity:.4;text-decoration:line-through}
+.layer-chip.future{opacity:.64}
+.layer-chip span{font-family:ui-monospace,monospace;font-weight:800;white-space:nowrap}
+.layer-chevron{font-size:12px;color:#7f8b7b}
+.layer-caption{font-size:10px;color:#738073;margin-top:7px;min-height:14px;line-height:1.4}
+.layer-caption.reserved{color:#a06943}
+.build-note{margin:0 0 15px;padding:13px 14px;border:1px solid #d2d5c6;background:#e9e8dc;font-size:12px;line-height:1.75;color:#65736a}
+.build-note b{color:#40594d;font-size:12px}.build-note p{margin:7px 0 0}.build-note strong{font-family:ui-monospace,monospace;font-size:11px;color:#435e51}
+.stage-tag-layer{font-size:10px}
+@media(max-width:680px){.layered-forecast{grid-template-columns:1fr 1fr;margin:0 auto 10px;gap:6px}.seal-stat{padding:8px 7px}.seal-title{font-size:10px;gap:4px}.seal-direction{font-size:9px}.seal-hp{font-size:10px}.layer-track{gap:3px;margin-top:7px}.layer-chip{min-width:32px;padding:4px 5px;font-size:10px;gap:3px}.layer-chip.now{padding:3px 4px}.layer-chip canvas{width:8px;height:10px}.layer-chevron{font-size:10px}.layer-caption{font-size:9px;line-height:1.3;min-height:12px;margin-top:6px}.chapters{grid-template-columns:repeat(3,1fr)}.build-note{font-size:11px}.stagehead h1{font-size:16px}.stagehead p{font-size:10px}}
+/* A changing reservation caption must never move touch targets mid-volley. */
+@media(max-width:680px){.layer-caption{height:26px;min-height:26px;overflow:hidden}}
+</style></head>
+<body><div class="app">
+<header class="top"><div class="brand"><canvas class="brand-icon" id="brandIcon" width="32" height="32" aria-hidden="true"></canvas><div><canvas class="wordmark" id="wordmark" width="215" height="22" aria-label="Rune Break"></canvas><p>결계 돌파 · 겹결계 비교판</p></div></div><div class="top-actions"><button class="smallbtn" id="soundBtn" title="효과음 켜기 / 끄기" aria-pressed="false"><span id="soundGlyph">♪</span> <span class="sound-label" id="soundLabel">소리 끔</span></button><button class="smallbtn" id="settingsBtn" title="설정">설정</button></div></header>
+<main class="layout"><section class="play" aria-label="플레이 보드"><div class="stagehead"><span class="stage-no" id="stageNo">01</span><div><h1 id="stageName">첫 번째 균열</h1><p id="stageTag">직진 발사</p></div><div class="stage-nav"><button id="prevBtn" aria-label="이전 레벨">←</button><button id="nextBtn" aria-label="다음 레벨">→</button></div></div>
+<div class="seal-list layered-forecast" id="sealList" aria-label="결계의 현재 층과 다음 색"></div>
+<div class="cabinet"><div class="arena" id="arena"><canvas id="game" width="480" height="584" aria-label="화살표 블록과 색 결계, 하단 재발사 슬롯"></canvas><div class="hitlayer" id="hitlayer"></div><div class="game-overlay" id="result" hidden role="dialog" aria-modal="true" aria-labelledby="resultTitle"><div class="result-card"><canvas class="result-pixel" id="resultPixel" width="260" height="25" aria-hidden="true"></canvas><h2 id="resultTitle"></h2><p id="resultDesc"></p><div class="result-metrics"><div><b id="metricA">0</b><span id="metricALabel">직접 타격</span></div><div><b id="metricB">0</b><span id="metricBLabel">재발사</span></div></div><div class="result-buttons"><button class="primary" id="resultPrimary">다음 방으로</button><button class="secondary" id="resultUndo">한 수 되돌리기</button></div></div></div></div></div>
+<div class="message" id="messageBox"><span class="lamp"></span><span id="message" role="status" aria-live="polite">앞을 막는 룬부터 탭해 보세요.</span></div>
+<div class="controls"><button class="control" id="undoBtn">↶ 되돌리기 <kbd>Z</kbd></button><button class="control" id="restartBtn">↻ 다시 시작 <kbd>R</kbd></button><button class="control hint" id="hintBtn">✦ 한 수 보기 <kbd>H</kbd></button></div>
+<div class="meta-line"><span id="moveStat">TAPS 00 · BOARD 08</span><span id="comboStat">BEST CHAIN 0</span></div></section>
+<aside class="side"><section class="mission"><div class="section-label"><span>THE OBJECTIVE</span><span class="edition">BUILD 0.2</span></div><h2>색을 준비하고,<br>다음 층을 여세요.</h2><p id="missionDesc"></p></section>
+<section class="legend" aria-label="규칙 안내"><div class="legend-row"><canvas class="legend-icon" data-legend="arrow" width="32" height="32"></canvas><div><b>방향대로 발사</b><small>막혀 있으면 기다려요.</small></div></div><div class="legend-row"><canvas class="legend-icon" data-legend="storage" width="32" height="32"></canvas><div><b>다른 색은 보관</b><small>정원을 넘기면 게임오버.</small></div></div><div class="legend-row"><canvas class="legend-icon" data-legend="burst" width="32" height="32"></canvas><div><b>탭해서 재발사</b><small>드러난 색만 공격해요.</small></div></div></section>
+<div class="section-label chapter-label"><span>CHAMBERS / 6</span><span id="clearCount">0 CLEARED</span></div><nav class="chapters" id="chapters" aria-label="레벨 선택"></nav><div class="build-note"><b>이번에 달라진 한 가지</b><p>겉의 색을 깨야 다음 색을 쏠 수 있어요. 보관함의 <strong>TAP</strong>은 발사 가능, <strong>WAIT</strong>는 아직 봉인된 색이에요.</p><p>가득 찬 상태도 안전해요. 단, 한 개를 더 보관하면 게임오버.</p></div><div class="stage-tip" id="stageTip"></div></aside></main>
+<footer class="footer"><span>RUNE BREAK / PIXEL PUZZLE LAB</span><span>겹결계만 추가 · 보관 5칸 · 시간제한 없음</span></footer></div>
+<div class="modal-backdrop" id="settingsModal" hidden><section class="settings" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><div class="modal-head"><h2 id="settingsTitle">플레이 설정</h2><button class="close-btn" id="closeSettings" aria-label="설정 닫기">×</button></div><div class="setting-row"><label for="audioToggle">효과음<small>발사 · 균열 · 결계 파괴</small></label><input type="checkbox" id="audioToggle"></div><div class="setting-row"><label for="volume">음량</label><input type="range" id="volume" min="0" max="100" value="45"></div><div class="setting-row"><label for="reducedToggle">움직임 줄이기<small>화면 흔들림 제거 · 파편 축소</small></label><input type="checkbox" id="reducedToggle"></div><div class="setting-row"><label for="pathToggle">마우스 경로 미리보기<small>누르기 전에 직격 / 보관 / 막힘 확인</small></label><input type="checkbox" id="pathToggle" checked></div><p class="note">한 룬은 결계에 피해 1을 줍니다. 보관 칸은 도착 중인 룬까지 예약돼요. 정원까지는 안전하고, 추가 보관이 발생할 때만 실패합니다.<br><br>겹결계는 겉에 드러난 색만 공격할 수 있어요. 뒤의 색과 체력은 모두 공개됩니다. 왼쪽·아래쪽은 보관 통로예요.<br><br>마지막 타격을 예약하면 다음 층을 겨냥할 수 있어요. 타격 연출은 예약 순서로 이어지며, 대상이 없는 룬은 소모되지 않아요. 타이머·재발사 쿨타임·자동 발사는 없습니다.</p><button class="primary" id="settingsDone" style="width:100%;margin-top:10px">계속 플레이</button></section></div>
+<script>/* RUNE BREAK 0.2 — layered seals. Pure, deterministic rules.
+   Input order reserves damage. Flight timing NEVER changes the outcome.
+   Solve searches board occupancy + both seal progress counters, with memoization.
+   Each color belongs to one seal, so auto-targeting is unambiguous. */
+(function(root){
+'use strict';
+const DIRS={N:{x:0,y:-1,name:'위'},E:{x:1,y:0,name:'오른쪽'},S:{x:0,y:1,name:'아래'},W:{x:-1,y:0,name:'왼쪽'}};
+const SIDES=['N','E'], COLORS=['red','blue','gold','green'];
+const clone=s=>JSON.parse(JSON.stringify(s));
+const compiled=new WeakMap();
+function compile(level){
+ if(compiled.has(level))return compiled.get(level);
+ const n=level.blocks.length;if(n>28)throw Error('This comparison build supports at most 28 runes.');
+ const bits=level.blocks.map((b,i)=>2**i),index=Object.fromEntries(level.blocks.map((b,i)=>[b.id,i]));
+ const blockers=[],walls=[],colors=level.blocks.map(b=>COLORS.indexOf(b.color)),totals=[0,0,0,0];
+ for(let i=0;i<n;i++){
+  const b=level.blocks[i],d=DIRS[b.dir];let mask=0,wall=false;totals[colors[i]]++;
+  for(let x=b.x+d.x,y=b.y+d.y;x>=0&&y>=0&&x<level.size&&y<level.size;x+=d.x,y+=d.y){
+   for(let j=0;j<n;j++)if(level.blocks[j].x===x&&level.blocks[j].y===y)mask|=bits[j];
+   if((level.walls||[]).some(w=>w[0]===x&&w[1]===y))wall=true;
+  }blockers.push(mask);walls.push(wall);
+ }
+ const flat=SIDES.map(side=>(level.seals[side]||[]).flatMap(l=>Array(l.hp).fill(COLORS.indexOf(l.color))));
+ const prefixes=flat.map(arr=>{const out=[[0,0,0,0]];for(const c of arr){const p=out[out.length-1].slice();p[c]++;out.push(p);}return out;});
+ const c={n,bits,index,colors,totals,blockers,walls,flat,prefixes,scale:2**n};compiled.set(level,c);return c;
+}
+function total(level,side){return (level.seals[side]||[]).reduce((n,l)=>n+l.hp,0);}
+function gate(level,s,side){
+ let spent=s.spent[side]||0;const layers=level.seals[side]||[];
+ for(let i=0;i<layers.length;i++){const l=layers[i];if(spent<l.hp)return {side,color:l.color,hp:l.hp-spent,max:l.hp,index:i,damage:spent,layers:layers.length,next:layers[i+1]||null};spent-=l.hp;}
+ return {side,color:null,hp:0,max:0,index:layers.length,damage:0,layers:layers.length,next:null};
+}
+function initial(level){
+ return {board:level.blocks.map(b=>b.id),slots:Array(level.capacity).fill(null),spent:{N:0,E:0},hp:{N:total(level,'N'),E:total(level,'E')},out:[],phase:'play',failed:null,taps:0,direct:0,stored:0,relaunch:0,peak:0};
+}
+function block(level,id){return level.blocks.find(b=>b.id===id);}
+function target(level,s,color){return SIDES.find(side=>gate(level,s,side).color===color)||null;}
+function probe(level,s,id){
+ const b=block(level,id);if(!b||!s.board.includes(id))return {ok:false,reason:'missing'};
+ const d=DIRS[b.dir];
+ for(let x=b.x+d.x,y=b.y+d.y;x>=0&&y>=0&&x<level.size&&y<level.size;x+=d.x,y+=d.y){
+  const obstruction=s.board.find(k=>{const p=block(level,k);return p.x===x&&p.y===y;});
+  if(obstruction)return {ok:false,reason:'blocked',blocker:obstruction,x,y};
+  if((level.walls||[]).some(w=>w[0]===x&&w[1]===y))return {ok:false,reason:'wall',x,y};
+ }
+ const direct=gate(level,s,b.dir).color===b.color;
+ return {ok:true,kind:direct?'direct':'store',side:b.dir,overflow:!direct&&!s.slots.includes(null)};
+}
+function hit(level,s,b,side,type,extra={}){
+ const g=gate(level,s,side);s.spent[side]++;s.hp[side]--;s.out.push(b.id);
+ const next=gate(level,s,side);
+ return {type,id:b.id,side,color:b.color,layer:g.index,damageIndex:g.damage,max:g.max,layerBreak:g.hp===1,sealBreak:!next.color,nextColor:next.color,spent:s.spent[side],...extra};
+}
+function step(level,state,action){
+ if(state.phase!=='play')return {ok:false,reason:'finished',state};
+ const s=clone(state),events=[];
+ if(action.type==='board'){
+  const p=probe(level,s,action.id);if(!p.ok)return {ok:false,...p,state};
+  const b=block(level,action.id);s.taps++;s.board=s.board.filter(id=>id!==b.id);
+  if(p.kind==='direct'){s.direct++;events.push(hit(level,s,b,b.dir,'direct'));}
+  else{
+   const slot=s.slots.indexOf(null);
+   if(slot<0){s.phase='lost';s.failed=b.id;events.push({type:'overflow',id:b.id,side:b.dir});}
+   else{s.slots[slot]=b.id;s.stored++;s.peak=Math.max(s.peak,s.slots.filter(Boolean).length);events.push({type:'store',id:b.id,side:b.dir,slot});}
+  }
+ }else if(action.type==='slot'){
+  const slot=s.slots.indexOf(action.id);if(slot<0)return {ok:false,reason:'missing',state};
+  const b=block(level,action.id),side=target(level,s,b.color);
+  if(!side)return {ok:false,reason:'sealed',color:b.color,state};
+  s.taps++;s.slots[slot]=null;s.relaunch++;events.push(hit(level,s,b,side,'relaunch',{slot}));
+ }else return {ok:false,reason:'bad-action',state};
+ if(s.phase==='play'&&s.board.length===0&&s.slots.every(x=>x===null)&&SIDES.every(k=>s.hp[k]===0))s.phase='won';
+ return {ok:true,state:s,events};
+}
+function choices(level,s,includeOverflow=false){
+ if(s.phase!=='play')return [];
+ const out=[];
+ for(const id of s.slots)if(id&&target(level,s,block(level,id).color))out.push({type:'slot',id});
+ for(const id of s.board){const p=probe(level,s,id);if(p.ok&&(includeOverflow||!p.overflow))out.push({type:'board',id});}
+ return out;
+}
+function analyze(level,s=initial(level),options={}){
+ if(s.phase==='lost')return {status:'dead',route:null,nodes:0};
+ const c=compile(level),limit=options.maxNodes||250000,capacity=options.capacity??level.capacity;
+ let initialMask=0;for(const id of s.board)initialMask|=c.bits[c.index[id]];
+ const memo=new Map();let nodes=0,limited=false;
+ function dfs(mask,p0,p1){
+  const key=mask+c.scale*(p0*(c.flat[1].length+1)+p1);
+  if(memo.has(key))return memo.get(key);
+  if(++nodes>limit){limited=true;return undefined;}
+  if(!mask&&p0===c.flat[0].length&&p1===c.flat[1].length){memo.set(key,[]);return [];}
+  const remain=[0,0,0,0];for(let i=0;i<c.n;i++)if(mask&c.bits[i])remain[c.colors[i]]++;
+  const stored=c.totals.map((n,k)=>n-remain[k]-c.prefixes[0][p0][k]-c.prefixes[1][p1][k]);
+  const occupied=stored.reduce((a,b)=>a+b,0);if(occupied>capacity||stored.some(n=>n<0)){memo.set(key,null);return null;}
+  const front=[c.flat[0][p0],c.flat[1][p1]],actions=[];
+  for(let side=0;side<2;side++)if(front[side]!==undefined&&stored[front[side]]>0)actions.push({type:'slot',color:COLORS[front[side]],side,score:10});
+  for(let i=0;i<c.n;i++)if((mask&c.bits[i])&&!(mask&c.blockers[i])&&!c.walls[i]){
+   const si=SIDES.indexOf(level.blocks[i].dir),direct=si>=0&&front[si]===c.colors[i];
+   if(!direct&&occupied>=capacity)continue;
+   let unlock=0;for(let j=0;j<c.n;j++)if((mask&c.bits[j])&&(c.blockers[j]&c.bits[i]))unlock++;
+   actions.push({type:'board',id:level.blocks[i].id,i,side:direct?si:-1,score:direct?12:(front.includes(c.colors[i])?5:0)+unlock*.1});
+  }
+  actions.sort((a,b)=>b.score-a.score);
+  for(const a of actions){
+   let m=mask,u=p0,v=p1;
+   if(a.type==='board')m^=c.bits[a.i];
+   if(a.side===0)u++;if(a.side===1)v++;
+   const rest=dfs(m,u,v);
+   if(rest!==null&&rest!==undefined){const result=[a,...rest];memo.set(key,result);return result;}
+   if(limited)return undefined;
+  }
+  memo.set(key,null);return null;
+ }
+ const raw=dfs(initialMask,s.spent.N,s.spent.E);
+ if(limited)return {status:'limit',route:null,nodes};
+ if(raw===null)return {status:'dead',route:null,nodes};
+ let work=clone(s);const route=[];
+ for(const a of raw){
+  const action=a.type==='board'?{type:'board',id:a.id}:{type:'slot',id:work.slots.find(id=>id&&block(level,id).color===a.color)};
+  const r=step(level,work,action);if(!r.ok)throw Error('Solver replay diverged');route.push(action);work=r.state;
+ }
+ return {status:'solved',route,nodes};
+}
+function solve(level,s=initial(level),options){return analyze(level,s,options).route;}
+function hint(level,s){const result=analyze(level,s);return result.status==='solved'?result.route[0]||null:null;}
+function validate(level){
+ if(!Number.isInteger(level.capacity)||level.capacity<1||level.capacity>5)throw Error('Capacity must be 1..5');
+ const cells=new Set(),ids=new Set(),need={},have={},owners={};
+ for(const side of SIDES){const layers=level.seals[side]||[];for(const l of layers){if(!COLORS.includes(l.color)||!Number.isInteger(l.hp)||l.hp<1)throw Error('Invalid layer');if(owners[l.color]&&owners[l.color]!==side)throw Error('A color must belong to only one seal');owners[l.color]=side;need[l.color]=(need[l.color]||0)+l.hp;}}
+ for(const b of level.blocks){if(!DIRS[b.dir]||!COLORS.includes(b.color)||!Number.isInteger(b.x)||!Number.isInteger(b.y)||b.x<0||b.x>=level.size||b.y<0||b.y>=level.size)throw Error('Invalid block');if(cells.has(b.x+','+b.y)||ids.has(b.id))throw Error('Duplicate block');cells.add(b.x+','+b.y);ids.add(b.id);have[b.color]=(have[b.color]||0)+1;}
+ for(const col of COLORS)if((need[col]||0)!==(have[col]||0))throw Error('Rune / damage count mismatch: '+col);
+ const answer=analyze(level);if(answer.status!=='solved')throw Error('Unsolvable level '+level.name+' ('+answer.status+')');return true;
+}
+const api={DIRS,SIDES,COLORS,clone,compile,initial,block,total,gate,target,probe,step,choices,analyze,solve,hint,validate};
+root.RuneEngine=api;if(typeof module!=='undefined')module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);
+</script><script>(function(root){
+'use strict';
+const levels=[
+  {
+    "id": "first-layer",
+    "name": "껍질 너머의 색",
+    "tag": "01 · 겹결계 배우기",
+    "desc": "파란 룬은 빨간 껍질 뒤의 결계가 열릴 때까지 기다려요.",
+    "tip": "오른쪽 빨간 층을 깨면, 보관한 파랑을 연달아 쏠 수 있어요.",
+    "size": 6,
+    "capacity": 5,
+    "seals": {
+      "N": [
+        {
+          "color": "green",
+          "hp": 2
+        },
+        {
+          "color": "gold",
+          "hp": 2
+        }
+      ],
+      "E": [
+        {
+          "color": "red",
+          "hp": 2
+        },
+        {
+          "color": "blue",
+          "hp": 2
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "b0",
+        "x": 0,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b1",
+        "x": 2,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b2",
+        "x": 4,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b3",
+        "x": 0,
+        "y": 4,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b4",
+        "x": 1,
+        "y": 0,
+        "dir": "N",
+        "color": "green"
+      },
+      {
+        "id": "b5",
+        "x": 4,
+        "y": 0,
+        "dir": "N",
+        "color": "green"
+      },
+      {
+        "id": "b6",
+        "x": 1,
+        "y": 5,
+        "dir": "W",
+        "color": "gold"
+      },
+      {
+        "id": "b7",
+        "x": 5,
+        "y": 5,
+        "dir": "S",
+        "color": "gold"
+      }
+    ]
+  },
+  {
+    "id": "save-and-burst",
+    "name": "준비한 세 발",
+    "tag": "02 · 보관 후 연속 발사",
+    "desc": "파랑 세 개를 미리 꺼내 두세요. 빨강을 깨면 세 발이 한꺼번에 준비돼요.",
+    "tip": "보관된 파랑은 대기 중. 현재 색과 다음 색을 구분해 보세요.",
+    "size": 6,
+    "capacity": 5,
+    "seals": {
+      "N": [
+        {
+          "color": "green",
+          "hp": 2
+        },
+        {
+          "color": "gold",
+          "hp": 4
+        }
+      ],
+      "E": [
+        {
+          "color": "red",
+          "hp": 3
+        },
+        {
+          "color": "blue",
+          "hp": 3
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "b0",
+        "x": 0,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b1",
+        "x": 2,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b2",
+        "x": 3,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b3",
+        "x": 4,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b4",
+        "x": 0,
+        "y": 4,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b5",
+        "x": 0,
+        "y": 5,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b6",
+        "x": 1,
+        "y": 0,
+        "dir": "N",
+        "color": "green"
+      },
+      {
+        "id": "b7",
+        "x": 4,
+        "y": 0,
+        "dir": "N",
+        "color": "green"
+      },
+      {
+        "id": "b8",
+        "x": 2,
+        "y": 4,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b9",
+        "x": 3,
+        "y": 4,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b10",
+        "x": 5,
+        "y": 4,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b11",
+        "x": 5,
+        "y": 5,
+        "dir": "S",
+        "color": "gold"
+      }
+    ]
+  },
+  {
+    "id": "last-space",
+    "name": "빈칸을 남겨 줘",
+    "tag": "03 · 첫 번째 선택 퍼즐",
+    "desc": "나갈 수 있다고 전부 꺼내면 안 돼요. 초록을 꺼낼 보관칸을 남겨 주세요.",
+    "tip": "노랑부터 너무 많이 보관하면 막혀요. 파랑 뒤 초록이 위쪽 결계를 여는 열쇠예요.",
+    "size": 6,
+    "capacity": 5,
+    "seals": {
+      "N": [
+        {
+          "color": "green",
+          "hp": 1
+        },
+        {
+          "color": "gold",
+          "hp": 4
+        }
+      ],
+      "E": [
+        {
+          "color": "red",
+          "hp": 1
+        },
+        {
+          "color": "blue",
+          "hp": 3
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "b0",
+        "x": 0,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b1",
+        "x": 1,
+        "y": 2,
+        "dir": "E",
+        "color": "green"
+      },
+      {
+        "id": "b2",
+        "x": 2,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b3",
+        "x": 3,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b4",
+        "x": 4,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b5",
+        "x": 0,
+        "y": 4,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b6",
+        "x": 2,
+        "y": 4,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b7",
+        "x": 4,
+        "y": 4,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b8",
+        "x": 5,
+        "y": 5,
+        "dir": "S",
+        "color": "gold"
+      }
+    ]
+  },
+  {
+    "id": "red-again",
+    "name": "다시 만나는 빨강",
+    "tag": "04 · 세 겹의 결계",
+    "desc": "빨강을 한 번 깨도 끝이 아니에요. 파랑 뒤에는 빨강이 다시 기다려요.",
+    "tip": "두 줄을 무작정 섞어 빼면 주머니가 막혀요. 다음 층까지 생각해 보세요.",
+    "size": 6,
+    "capacity": 5,
+    "seals": {
+      "N": [
+        {
+          "color": "green",
+          "hp": 1
+        },
+        {
+          "color": "gold",
+          "hp": 3
+        }
+      ],
+      "E": [
+        {
+          "color": "red",
+          "hp": 1
+        },
+        {
+          "color": "blue",
+          "hp": 3
+        },
+        {
+          "color": "red",
+          "hp": 2
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "b0",
+        "x": 0,
+        "y": 1,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b1",
+        "x": 1,
+        "y": 1,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b2",
+        "x": 2,
+        "y": 1,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b3",
+        "x": 3,
+        "y": 1,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b4",
+        "x": 4,
+        "y": 1,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b5",
+        "x": 5,
+        "y": 1,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b6",
+        "x": 0,
+        "y": 4,
+        "dir": "W",
+        "color": "gold"
+      },
+      {
+        "id": "b7",
+        "x": 1,
+        "y": 4,
+        "dir": "W",
+        "color": "gold"
+      },
+      {
+        "id": "b8",
+        "x": 2,
+        "y": 4,
+        "dir": "W",
+        "color": "gold"
+      },
+      {
+        "id": "b9",
+        "x": 3,
+        "y": 4,
+        "dir": "W",
+        "color": "green"
+      }
+    ]
+  },
+  {
+    "id": "two-turns",
+    "name": "두 결계의 저울",
+    "tag": "05 · 다섯 칸의 계획",
+    "desc": "두 길 모두 네 개의 미래 색에 가로막혔어요. 어느 쪽부터 열까요?",
+    "tip": "초록은 위쪽 결계로 재발사해야 해요. 초록을 잠깐 보관할 한 칸까지 계산하세요.",
+    "size": 6,
+    "capacity": 5,
+    "seals": {
+      "N": [
+        {
+          "color": "green",
+          "hp": 2
+        },
+        {
+          "color": "gold",
+          "hp": 4
+        },
+        {
+          "color": "green",
+          "hp": 2
+        }
+      ],
+      "E": [
+        {
+          "color": "red",
+          "hp": 2
+        },
+        {
+          "color": "blue",
+          "hp": 4
+        },
+        {
+          "color": "red",
+          "hp": 2
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "b0",
+        "x": 0,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b1",
+        "x": 1,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b2",
+        "x": 2,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b3",
+        "x": 3,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b4",
+        "x": 4,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b5",
+        "x": 5,
+        "y": 2,
+        "dir": "N",
+        "color": "blue"
+      },
+      {
+        "id": "b6",
+        "x": 5,
+        "y": 1,
+        "dir": "N",
+        "color": "blue"
+      },
+      {
+        "id": "b7",
+        "x": 5,
+        "y": 0,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b8",
+        "x": 5,
+        "y": 3,
+        "dir": "W",
+        "color": "green"
+      },
+      {
+        "id": "b9",
+        "x": 4,
+        "y": 3,
+        "dir": "W",
+        "color": "green"
+      },
+      {
+        "id": "b10",
+        "x": 3,
+        "y": 3,
+        "dir": "W",
+        "color": "green"
+      },
+      {
+        "id": "b11",
+        "x": 2,
+        "y": 3,
+        "dir": "W",
+        "color": "green"
+      },
+      {
+        "id": "b12",
+        "x": 1,
+        "y": 3,
+        "dir": "W",
+        "color": "gold"
+      },
+      {
+        "id": "b13",
+        "x": 0,
+        "y": 3,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b14",
+        "x": 0,
+        "y": 4,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b15",
+        "x": 0,
+        "y": 5,
+        "dir": "W",
+        "color": "gold"
+      }
+    ]
+  },
+  {
+    "id": "woven-seals",
+    "name": "마지막 봉인실",
+    "tag": "06 · 두 수 앞의 공간",
+    "desc": "보관한 색을 해방하려면, 두 결계를 번갈아 열어야 해요.",
+    "tip": "층의 색과 방향을 함께 보세요. 바로 쏠 수 있는 룬도 다음 길에 어떤 영향을 주는지 확인하세요.",
+    "size": 6,
+    "capacity": 5,
+    "seals": {
+      "N": [
+        {
+          "color": "green",
+          "hp": 2
+        },
+        {
+          "color": "gold",
+          "hp": 7
+        },
+        {
+          "color": "green",
+          "hp": 2
+        }
+      ],
+      "E": [
+        {
+          "color": "red",
+          "hp": 2
+        },
+        {
+          "color": "blue",
+          "hp": 7
+        },
+        {
+          "color": "red",
+          "hp": 2
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "id": "b0",
+        "x": 0,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b1",
+        "x": 1,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b2",
+        "x": 2,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b3",
+        "x": 3,
+        "y": 2,
+        "dir": "E",
+        "color": "red"
+      },
+      {
+        "id": "b4",
+        "x": 4,
+        "y": 2,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b5",
+        "x": 5,
+        "y": 2,
+        "dir": "N",
+        "color": "blue"
+      },
+      {
+        "id": "b6",
+        "x": 5,
+        "y": 1,
+        "dir": "N",
+        "color": "blue"
+      },
+      {
+        "id": "b7",
+        "x": 5,
+        "y": 0,
+        "dir": "E",
+        "color": "blue"
+      },
+      {
+        "id": "b8",
+        "x": 5,
+        "y": 3,
+        "dir": "W",
+        "color": "green"
+      },
+      {
+        "id": "b9",
+        "x": 4,
+        "y": 3,
+        "dir": "W",
+        "color": "green"
+      },
+      {
+        "id": "b10",
+        "x": 3,
+        "y": 3,
+        "dir": "W",
+        "color": "green"
+      },
+      {
+        "id": "b11",
+        "x": 2,
+        "y": 3,
+        "dir": "W",
+        "color": "green"
+      },
+      {
+        "id": "b12",
+        "x": 1,
+        "y": 3,
+        "dir": "W",
+        "color": "gold"
+      },
+      {
+        "id": "b13",
+        "x": 0,
+        "y": 3,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b14",
+        "x": 0,
+        "y": 4,
+        "dir": "S",
+        "color": "gold"
+      },
+      {
+        "id": "b15",
+        "x": 0,
+        "y": 5,
+        "dir": "W",
+        "color": "gold"
+      },
+      {
+        "id": "b16",
+        "x": 3,
+        "y": 4,
+        "dir": "N",
+        "color": "blue"
+      },
+      {
+        "id": "b17",
+        "x": 4,
+        "y": 1,
+        "dir": "W",
+        "color": "blue"
+      },
+      {
+        "id": "b18",
+        "x": 3,
+        "y": 5,
+        "dir": "W",
+        "color": "blue"
+      },
+      {
+        "id": "b19",
+        "x": 5,
+        "y": 5,
+        "dir": "N",
+        "color": "gold"
+      },
+      {
+        "id": "b20",
+        "x": 4,
+        "y": 4,
+        "dir": "N",
+        "color": "gold"
+      },
+      {
+        "id": "b21",
+        "x": 2,
+        "y": 4,
+        "dir": "N",
+        "color": "gold"
+      }
+    ]
+  }
+];
+root.RuneLevels=levels;if(typeof module!=='undefined')module.exports=levels;
+})(typeof window!=='undefined'?window:globalThis);
+</script><script>/* Original, code-drawn pixel art. No external images, fonts, or network requests. */
+(function(root){
+'use strict';
+const W=480,H=584,CELL=48,BX=96,BY=84;
+const P={
+ red:{name:'빨강',label:'EMBER',dark:'#883f50',mid:'#d86d75',light:'#ffc49e',ink:'#412a3b'},
+ blue:{name:'파랑',label:'TIDE',dark:'#355875',mid:'#669fb4',light:'#c0e4e5',ink:'#223c52'},
+ gold:{name:'노랑',label:'SPARK',dark:'#96723d',mid:'#e2b860',light:'#fff1af',ink:'#513d29'},
+ green:{name:'초록',label:'GROVE',dark:'#436b57',mid:'#83ae83',light:'#d4e7ac',ink:'#293f36'}
+};
+const glyphs={
+ A:['01110','11011','11011','11111','11011','11011','11011'],B:['11110','11011','11011','11110','11011','11011','11110'],C:['01111','11000','11000','11000','11000','11000','01111'],D:['11110','11011','11011','11011','11011','11011','11110'],E:['11111','11000','11000','11110','11000','11000','11111'],F:['11111','11000','11000','11110','11000','11000','11000'],G:['01111','11000','11000','11011','11011','11011','01110'],H:['11011','11011','11011','11111','11011','11011','11011'],I:['111','010','010','010','010','010','111'],J:['00111','00011','00011','00011','11011','11011','01110'],K:['11011','11011','11110','11100','11110','11011','11011'],L:['11000','11000','11000','11000','11000','11000','11111'],M:['10001','11011','11111','10101','10101','10101','10101'],N:['11001','11001','11101','11111','11011','11011','11001'],O:['01110','11011','11011','11011','11011','11011','01110'],P:['11110','11011','11011','11110','11000','11000','11000'],Q:['01110','11011','11011','11011','11111','01110','00011'],R:['11110','11011','11011','11110','11100','11010','11011'],S:['01111','11000','11000','01110','00011','00011','11110'],T:['11111','00100','00100','00100','00100','00100','00100'],U:['11011','11011','11011','11011','11011','11011','01110'],V:['11011','11011','11011','11011','01010','01110','00100'],W:['10101','10101','10101','10101','11111','11011','10001'],X:['11011','11011','01010','00100','01010','11011','11011'],Y:['11011','11011','01010','00100','00100','00100','00100'],Z:['11111','00011','00010','00100','01000','11000','11111'],
+ '0':['01110','11011','11011','11011','11011','11011','01110'],'1':['010','110','010','010','010','010','111'],'2':['11110','00011','00011','01110','11000','11000','11111'],'3':['11110','00011','00011','01110','00011','00011','11110'],'4':['11011','11011','11011','11111','00011','00011','00011'],'5':['11111','11000','11000','11110','00011','00011','11110'],'6':['01111','11000','11000','11110','11011','11011','01110'],'7':['11111','00011','00011','00110','01100','01100','01100'],'8':['01110','11011','11011','01110','11011','11011','01110'],'9':['01110','11011','11011','01111','00011','00011','11110'],
+ '/':['00001','00011','00010','00100','01000','11000','10000'],'-':['000','000','000','111','000','000','000'],'!':['1','1','1','1','1','0','1'],':':['0','1','1','0','1','1','0'],'.':['0','0','0','0','0','1','1'],'+':['000','010','010','111','010','010','000'],'?':['1110','0001','0001','0110','0100','0000','0100'],' ':['000','000','000','000','000','000','000']
+};
+function rect(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));}
+function box(c,x,y,w,h,fill,edge='#15232e',cut=3){
+ rect(c,x+cut,y,w-cut*2,h,edge);rect(c,x,y+cut,w,h-cut*2,edge);
+ rect(c,x+2+cut,y+2,w-4-cut*2,h-4,fill);rect(c,x+2,y+2+cut,w-4,h-4-cut*2,fill);
+}
+function pixText(c,text,x,y,size=1,color='#f4ebce',align='left'){
+ text=String(text).toUpperCase();const width=[...text].reduce((n,a)=>n+((glyphs[a]||glyphs['?'])[0].length+1)*size,0)-size;
+ x=align==='center'?x-width/2:align==='right'?x-width:x;
+ for(const ch of text){const g=glyphs[ch]||glyphs['?'];for(let row=0;row<g.length;row++)for(let col=0;col<g[row].length;col++)if(g[row][col]==='1')rect(c,x+col*size,y+row*size,size,size,color);x+=(g[0].length+1)*size;}
+ return width;
+}
+const icons={
+ red:['00100','01100','01010','11011','11111','01110'],
+ blue:['00100','00100','01110','11111','11011','01110'],
+ gold:['00110','01100','11110','00100','01000','10000'],
+ green:['00111','01111','11101','11010','01100','10000']
+};
+function icon(c,color,x,y,s=1,fill){const pat=icons[color];for(let y1=0;y1<pat.length;y1++)for(let x1=0;x1<pat[y1].length;x1++)if(pat[y1][x1]==='1')rect(c,x+x1*s,y+y1*s,s,s,fill||P[color].light);}
+function arrow(c,dir,cx,cy,s=2,color='#fff2cb'){
+ const m=['0001000','0011100','0111110','1111111','0001000','0001000','0001000','0001000'];
+ for(let y=0;y<8;y++)for(let x=0;x<7;x++)if(m[y][x]==='1'){
+  let a=x-3,b=y-3.5;if(dir==='E')[a,b]=[-b,a];if(dir==='S')[a,b]=[-a,-b];if(dir==='W')[a,b]=[b,-a];
+  rect(c,cx+a*s-s/2,cy+b*s-s/2,s,s,color);
+ }
+}
+function diamond(c,x,y,r,color){for(let i=-r;i<=r;i++)rect(c,x-(r-Math.abs(i)),y+i,(r-Math.abs(i))*2+1,1,color);}
+function screw(c,x,y){rect(c,x,y,5,5,'#253237');rect(c,x,y,4,3,'#d3c398');rect(c,x+1,y+1,2,1,'#667773');}
+function crystal(c,color,cx,cy,size=39,options={}){
+ const p=P[color],k=size/40;c.save();c.translate(Math.round(cx),Math.round(cy));
+ if(options.scale)c.scale(options.scale,options.scale);if(options.squash)c.scale(1+options.squash,1-options.squash);
+ const a=-20*k,b=-20*k;
+ box(c,a+2,b+5,40*k,40*k,'#18272d','#101b24',3*k);
+ box(c,a,b,40*k,40*k,p.dark,p.ink,3*k);
+ rect(c,a+4*k,b+3*k,32*k,29*k,p.mid);rect(c,a+6*k,b+3*k,28*k,3*k,p.light);rect(c,a+3*k,b+6*k,3*k,23*k,p.light);
+ rect(c,a+6*k,b+32*k,28*k,4*k,p.dark);rect(c,a+33*k,b+8*k,3*k,24*k,p.dark);
+ rect(c,a+7*k,b+8*k,6*k,2*k,p.light);rect(c,a+9*k,b+10*k,2*k,2*k,p.light);
+ rect(c,a+7*k,b+29*k,2*k,2*k,p.dark);rect(c,a+30*k,b+29*k,2*k,2*k,p.light);
+ if(options.dir){arrow(c,options.dir,0,2*k,2.5*k,p.ink);arrow(c,options.dir,-1*k,0,2*k,'#fff1d6');icon(c,color,a+29*k,b+8*k,.85*k,p.ink);}
+ else{diamond(c,0,0,11*k,p.ink);icon(c,color,-5*k,-6*k,2*k,p.light);}
+ if(options.flash){c.globalAlpha=options.flash;box(c,a,b,40*k,40*k,'#fff7df','#fff7df',3*k);}
+ c.restore();
+}
+function slotRects(capacity){const size=60,gap=12,total=capacity*size+(capacity-1)*gap,start=(W-total)/2;return Array.from({length:capacity},(_,i)=>({x:start+i*(size+gap),y:477,w:size,h:size,cx:start+i*(size+gap)+size/2,cy:507}));}
+function center(b){return {x:BX+b.x*CELL+CELL/2,y:BY+b.y*CELL+CELL/2};}
+function exitPoint(b){const p=center(b);return b.dir==='N'?{x:p.x,y:59}:b.dir==='S'?{x:p.x,y:401}:b.dir==='W'?{x:69,y:p.y}:{x:411,y:p.y};}
+function targetPoint(side,index,total){const p=BX+(index+.5)*288/Math.max(1,total);return side==='N'?{x:p,y:59}:side==='S'?{x:p,y:401}:side==='W'?{x:69,y:BY+(index+.5)*288/Math.max(1,total)}:{x:411,y:BY+(index+.5)*288/Math.max(1,total)};}
+function gateRect(side){return side==='N'?{x:BX,y:46,w:288,h:26}:side==='S'?{x:BX,y:388,w:288,h:26}:side==='W'?{x:56,y:BY,w:26,h:288}:{x:398,y:BY,w:26,h:288};}
+function frame(c,time,reduced){
+ rect(c,0,0,W,H,'#17282f');
+ for(let y=0;y<H;y+=8)for(let x=0;x<W;x+=8)if((x*13+y*7)%40===0)rect(c,x,y,2,2,'#1b2e35');
+ box(c,24,16,432,420,'#253c40','#101d27',8);
+ rect(c,34,20,412,5,'#76877f');rect(c,29,25,5,398,'#516662');rect(c,34,425,412,6,'#101f29');rect(c,446,25,5,400,'#101f29');
+ box(c,88,76,304,304,'#15272d','#17282b',4);
+ for(let y=0;y<6;y++)for(let x=0;x<6;x++){
+  const px=BX+x*CELL,py=BY+y*CELL;
+  rect(c,px,py,47,47,'#294044');rect(c,px+1,py+1,45,43,(x+y)%2?'#344c4d':'#304749');
+  rect(c,px+3,py+1,39,1,'#435b57');rect(c,px+46,py+1,1,44,'#182e36');
+  rect(c,px+4,py+41,38,2,'#293f45');rect(c,px+22,py+21,3,5,'#3b5553');rect(c,px+21,py+22,5,2,'#3b5553');
+  if((x+2*y)%3===0){rect(c,px+7,py+8,5,1,'#3e5754');rect(c,px+11,py+9,1,2,'#3e5754');}
+ }
+ [[38,31],[430,31],[38,411],[430,411]].forEach(([x,y])=>{box(c,x,y,12,12,'#937a51','#152b32',2);screw(c,x+4,y+3);});
+ [[46,54],[434,54],[46,395],[434,395]].forEach(([x,y],i)=>{
+  rect(c,x-5,y+5,10,8,'#15282d');rect(c,x-3,y+6,6,3,'#968064');
+  const f=reduced?0:Math.floor(time*9+i)%3;
+  rect(c,x-3,y-6-f,6,11+f,'#ca8056');rect(c,x-2,y-5-f,4,8+f,'#efd49a');rect(c,x,y-2-f,2,5,'#fff3bf');
+ });
+ // Quiet engraved compass marks.
+ pixText(c,'N',240,31,1,'#afbfaf','center');pixText(c,'S',240,419,1,'#afbfaf','center');
+}
+function drawGate(c,side,level,visualState,holes,now,impact,logicalState){
+ const E=root.RuneEngine,g=gateRect(side),vertical=side==='W'||side==='E',front=E.gate(level,visualState,side);
+ box(c,g.x-3,g.y-3,g.w+6,g.h+6,'#12272f','#12212c',3);
+ if(!E.SIDES.includes(side)){
+  rect(c,g.x,g.y,g.w,g.h,'#1c3138');
+  const count=12;
+  for(let i=0;i<count;i++){
+   const x=vertical?g.x+4:g.x+i*24+3,y=vertical?g.y+i*24+3:g.y+4;
+   rect(c,x,y,vertical?18:16,vertical?16:18,'#2b4246');
+   rect(c,x+2,y+2,vertical?14:12,2,'#3a5553');
+   if(i%3===1)arrow(c,side,x+(vertical?9:8),y+(vertical?8:9),.9,'#7a9486');
+  }
+  if(side==='S'){box(c,199,392,82,17,'#172a32','#3a5553',2);pixText(c,'TO POUCH',240,397,1,'#a2b39a','center');}
+  return;
+ }
+ const layers=level.seals[side]||[],color=front.color;
+ if(!color){
+  rect(c,g.x,g.y,g.w,g.h,'#10252d');
+  for(let i=0;i<12;i++){const x=vertical?g.x+8:g.x+i*24+4,y=vertical?g.y+i*24+4:g.y+8;rect(c,x,y,vertical?8:13,vertical?13:8,'#28453f');}
+  const hx=side==='E'?438:240,hy=side==='N'?57:228;box(c,hx-13,hy-10,26,20,'#14262d','#6c967e',3);pixText(c,'OK',hx,hy-4,1,'#b6d4aa','center');return;
+ }
+ const p=P[color],total=front.max,visual=front.hp;
+ // Narrow visible edges behind the front wall preview future colored layers.
+ for(let j=layers.length-1;j>front.index;j--){const dep=j-front.index,cl=P[layers[j].color];
+  if(vertical){rect(c,g.x+g.w+2+(dep-1)*4,g.y+8,3,g.h-16,cl.dark);rect(c,g.x+g.w+2+(dep-1)*4,g.y+8,1,g.h-16,cl.mid);}
+  else{rect(c,g.x+8,g.y-3-dep*4,g.w-16,3,cl.dark);rect(c,g.x+8,g.y-3-dep*4,g.w-16,1,cl.mid);}
+ }
+ const cells=Math.max(8,Math.min(18,total*3)),seg=(vertical?g.h:g.w)/cells;
+ for(let i=0;i<cells;i++){
+  const group=Math.floor(i*total/cells),x=vertical?g.x:g.x+i*seg,y=vertical?g.y+i*seg:g.y,w=vertical?g.w:seg-2,h=vertical?seg-2:g.h;
+  const gone=(holes||[]).includes(group);
+  if(gone){rect(c,x+1,y+1,w-2,h-2,'#102129');rect(c,x+2,y+2,vertical?3:w-4,vertical?h-4:3,'#253f42');continue;}
+  rect(c,x,y,w,h,p.ink);rect(c,x+2,y+2,w-4,h-4,p.dark);rect(c,x+3,y+3,w-6,h-7,p.mid);
+  rect(c,x+3,y+3,w-6,2,p.light);rect(c,x+3,y+3,2,h-7,p.light);
+  const a=x+w/2,b=y+h/2;
+  if(seg>=18)icon(c,color,a-3,b-4,1,p.ink);else rect(c,a,b,2,5,p.ink);
+  if(visual<total){rect(c,x+w*.7,y+4,2,5,p.dark);rect(c,x+w*.7-2,y+9,2,4,p.ink);rect(c,x+w*.7,y+12,3,2,p.ink);}
+ }
+ for(const end of [0,1]){const x=vertical?g.x-1:g.x+end*g.w-3,y=vertical?g.y+end*g.h-3:g.y-1;rect(c,x,y,vertical?28:5,vertical?5:28,p.dark);}
+ const hx=side==='E'?438:240,hy=side==='N'?57:228;
+ box(c,hx-13,hy-10,26,20,'#14262d',p.dark,3);pixText(c,String(visual),hx,hy-4,1,p.light,'center');
+ if(impact&&now-impact.t<.2){c.globalAlpha=(1-(now-impact.t)/.2)*.38;rect(c,g.x,g.y,g.w,g.h,p.light);c.globalAlpha=1;}
+}
+function lock(c,x,y,color='#a3afa0'){
+ rect(c,x+2,y,5,2,color);rect(c,x,y+2,2,4,color);rect(c,x+7,y+2,2,4,color);rect(c,x-1,y+6,11,7,color);rect(c,x+3,y+8,2,3,'#25373b');
+}
+function drawSlots(c,level,state,time,pending,selected,flash){
+ box(c,24,450,432,108,'#2d373b','#0e2029',6);
+ rect(c,32,451,416,3,'#8d8c76');rect(c,32,551,416,3,'#14232b');
+ box(c,38,440,112,25,'#1a2c32','#0f1e26',3);
+ pixText(c,'RECAST',47,449,1,'#ebd8aa');
+ const filled=state.slots.filter(x=>x!==null).length;
+ const full=filled===level.capacity;
+ pixText(c,filled+'/'+level.capacity,437,449,1,full?'#ffb38f':'#d9dfc8','right');
+ const slots=slotRects(level.capacity);
+ for(let i=0;i<slots.length;i++){
+  const r=slots[i],id=state.slots[i],pulse=full&&(Math.sin(time*5)>.1);
+  box(c,r.x,r.y,r.w,r.h,id?'#243c41':'#202f35',pulse?'#b4745e':'#121f28',4);
+  rect(c,r.x+4,r.y+4,r.w-8,2,id?'#7d9586':'#485958');rect(c,r.x+4,r.y+5,2,r.h-10,'#455758');
+  if(id){
+   const b=root.RuneEngine.block(level,id);
+   if(!pending.has(id)){
+    if(selected===id)box(c,r.x+2,r.y+2,r.w-4,r.h-4,'#243c41','#f7d695',3);
+    const ready=!!root.RuneEngine.target(level,state,b.color),lift=ready?2*Math.sin(time*2+i):0;
+    if(!ready)c.globalAlpha=.57;
+    crystal(c,b.color,r.cx,r.cy+lift,38);c.globalAlpha=1;
+    if(ready){
+     pixText(c,'TAP',r.cx,r.y+49,1,P[b.color].light,'center');
+     if(Math.sin(time*4+i)>.4)diamond(c,r.x+49,r.y+9,2,P[b.color].light);
+    }else{
+     pixText(c,'WAIT',r.cx,r.y+49,1,'#b5bbac','center');
+     box(c,r.x+43,r.y+3,14,18,'#25373b','#15272e',2);lock(c,r.x+46,r.y+5);
+    }
+   }else{
+    pixText(c,'...',r.cx,r.cy-3,1,P[b.color].light,'center');
+    rect(c,r.x+9,r.y+r.h-9,(r.w-18)*(.25+.75*(.5+.5*Math.sin(time*8))),2,P[b.color].mid);
+   }
+  }else{
+   rect(c,r.cx-4,r.cy-1,8,2,'#536563');rect(c,r.cx-1,r.cy-4,2,8,'#536563');
+   pixText(c,String(i+1),r.x+7,r.y+47,1,'#77827a');
+  }
+ }
+ if(flash>0){c.globalAlpha=flash*.25;box(c,24,450,432,108,'#ef987a','#ef987a',6);c.globalAlpha=1;}
+ pixText(c,'PREPARE / OPEN / BURST',W/2,568,1,'#91a495','center');
+}
+function buildStatic(){const c=document.createElement('canvas');c.width=W;c.height=H;return c;}
+root.RuneArt={W,H,CELL,BX,BY,P,rect,box,pixText,icon,arrow,diamond,crystal,slotRects,center,exitPoint,targetPoint,gateRect,frame,drawGate,drawSlots,buildStatic};
+})(typeof window!=='undefined'?window:globalThis);
+</script><script>(function(root){
+'use strict';
+class RuneAudio{
+ constructor(){this.context=null;this.enabled=false;this.volume=.45;this.mutedUntil=0;}
+ unlock(){if(!this.enabled)return;try{if(!this.context){const A=window.AudioContext||window.webkitAudioContext;if(!A)return;this.context=new A();this.master=this.context.createGain();this.master.gain.value=this.volume*.42;const compressor=this.context.createDynamicsCompressor();compressor.threshold.value=-16;compressor.ratio.value=5;this.master.connect(compressor);compressor.connect(this.context.destination);}if(this.context.state==='suspended')this.context.resume().catch(()=>{});}catch(_){}}
+ set(enabled,volume){this.enabled=enabled;this.volume=volume;if(this.master)this.master.gain.value=enabled?volume*.42:0;if(enabled)this.unlock();}
+ tone(freq,end,duration,type='square',volume=.2,delay=0){
+  if(!this.enabled||!this.context)return;
+  const c=this.context,t=c.currentTime+delay,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(Math.max(20,end),t+duration);g.gain.setValueAtTime(.001,t);g.gain.linearRampToValueAtTime(volume,t+.004);g.gain.exponentialRampToValueAtTime(.001,t+duration);o.connect(g);g.connect(this.master);o.start(t);o.stop(t+duration+.02);o.onended=()=>{o.disconnect();g.disconnect();};
+ }
+ noise(duration,volume=.16,frequency=1000){
+  if(!this.enabled||!this.context)return;
+  const c=this.context,len=Math.floor(c.sampleRate*duration),buffer=c.createBuffer(1,len,c.sampleRate),a=buffer.getChannelData(0);
+  for(let i=0;i<len;i++)a[i]=(Math.random()*2-1)*(1-i/len);
+  const o=c.createBufferSource(),filter=c.createBiquadFilter(),g=c.createGain();o.buffer=buffer;filter.type='bandpass';filter.frequency.value=frequency;filter.Q.value=.6;g.gain.value=volume;o.connect(filter);filter.connect(g);g.connect(this.master);o.start();o.onended=()=>{o.disconnect();filter.disconnect();g.disconnect();};
+ }
+ play(kind,chain=1){
+  if(!this.enabled)return;this.unlock();
+  if(kind==='launch'){this.tone(260,660,.075,'triangle',.22);this.noise(.065,.06,1800);}
+  if(kind==='relaunch'){this.tone(350,1300,.11,'triangle',.24);this.tone(100,60,.07,'sine',.15);}
+  if(kind==='store'){this.tone(710,500,.055,'square',.11);this.tone(260,220,.07,'triangle',.14,.025);}
+  if(kind==='hit'){this.noise(.14,.38,1600);this.tone(155,45,.16,'sine',.75);this.tone(400+Math.min(chain,8)*70,240,.07,'square',.12);}
+  if(kind==='break'){this.noise(.33,.6,1250);this.tone(180,33,.3,'sine',.95);[680,920,1250].forEach((f,i)=>this.tone(f,f*.6,.14,'triangle',.2,i*.035));}
+  if(kind==='blocked'){this.tone(160,100,.06,'triangle',.27);}
+  if(kind==='loss'){[250,180,110].forEach((f,i)=>this.tone(f,f*.7,.22,'square',.15,i*.13));}
+  if(kind==='win'){[392,494,587,784].forEach((f,i)=>this.tone(f,f,.20,'triangle',.24,i*.10));}
+ }
+}
+root.RuneAudio=RuneAudio;
+})(window);
+</script><script>(function(){
+'use strict';
+const E=RuneEngine,A=RuneArt,levels=RuneLevels,$=id=>document.getElementById(id);
+const canvas=$('game'),ctx=canvas.getContext('2d',{alpha:false}),sound=new RuneAudio();
+ctx.imageSmoothingEnabled=false;
+const STORE='rune-break-layers-v02';
+let saved={};try{saved=JSON.parse(localStorage.getItem(STORE)||'{}');}catch(_){}
+let prefs={audio:false,volume:.45,reduced:window.matchMedia('(prefers-reduced-motion: reduce)').matches,paths:true,...saved.prefs};
+const clears=new Set(saved.clears||[]),sessions=new Map();
+let index=0,level=levels[0],state=E.initial(level),history=[],vState=null,holes={},impacts={},flights=[],pending=new Set(),particles=[],waves=[],labels=[],hover=null,pressed=null,hintMark=null,bump=null;
+let shake=0,storageFlash=0,time=performance.now()/1000,last=time,chain=0,bestChain=0,lastImpact=-100,lossAt=0,finishAt=0,shownResult=false,token=0,paused=false,blockedTaps=0;
+let counters={launch:0,store:0,relaunch:0,hit:0,break:0,overflow:0};
+const blockButtons=new Map();let slotButtons=[];
+function persist(){try{localStorage.setItem(STORE,JSON.stringify({prefs,clears:[...clears]}));}catch(_){} }
+function message(text,warn=false){$('message').textContent=text;$('messageBox').classList.toggle('warn',warn);}
+function pct(n,max){return (n/max*100)+'%';}
+function resetVisual(){
+ token++;flights=[];pending=new Set();particles=[];waves=[];labels=[];hover=null;pressed=null;hintMark=null;bump=null;shake=0;storageFlash=0;chain=0;lastImpact=-100;
+ vState=E.clone(state);holes={};impacts={};
+ for(const side of E.SIDES)holes[side]=Array.from({length:E.gate(level,state,side).damage},(_,i)=>i);
+ $('result').hidden=true;shownResult=false;finishAt=0;lossAt=state.phase==='lost'?time-.7:0;
+}
+function load(i,reset=false){
+ if(i<0||i>=levels.length)return;
+ if(!reset)sessions.set(index,{state:E.clone(state),history:E.clone(history),bestChain});
+ index=i;level=levels[i];const s=!reset?sessions.get(i):null;
+ state=s?E.clone(s.state):E.initial(level);history=s?E.clone(s.history):[];bestChain=s?s.bestChain:0;
+ if(reset)sessions.delete(i);
+ resetVisual();buildHits();buildSeals();updateUI();message(level.desc);
+ $('stageNo').textContent=String(i+1).padStart(2,'0');$('stageName').textContent=level.name;$('stageTag').textContent=level.tag+' · 보관 '+level.capacity+'칸';$('missionDesc').textContent=level.desc;$('stageTip').textContent=level.tip;
+ $('prevBtn').disabled=i===0;$('nextBtn').disabled=i===levels.length-1;
+ buildChapters();
+}
+function buildHits(){
+ const layer=$('hitlayer');layer.innerHTML='';blockButtons.clear();slotButtons=[];
+ for(const b of level.blocks){
+  const btn=document.createElement('button');btn.className='hit';btn.dataset.blockId=b.id;
+  Object.assign(btn.style,{left:pct(A.BX+b.x*A.CELL+2,A.W),top:pct(A.BY+b.y*A.CELL+2,A.H),width:pct(44,A.W),height:pct(44,A.H)});
+  btn.setAttribute('aria-label',`${A.P[b.color].name} 룬, ${E.DIRS[b.dir].name} 방향 발사`);
+  btn.addEventListener('pointerenter',ev=>{if(ev.pointerType==='mouse')hover={type:'board',id:b.id};});
+  btn.addEventListener('pointerleave',()=>{if(hover?.id===b.id)hover=null;pressed=null;});
+  btn.addEventListener('focus',()=>{hover={type:'board',id:b.id};});btn.addEventListener('blur',()=>{if(hover?.id===b.id)hover=null;});
+  btn.addEventListener('pointerdown',()=>{pressed=b.id;sound.unlock();});btn.addEventListener('pointercancel',()=>{pressed=null;});
+  btn.addEventListener('click',()=>{pressed=null;act({type:'board',id:b.id});});
+  layer.appendChild(btn);blockButtons.set(b.id,btn);
+ }
+ A.slotRects(level.capacity).forEach((r,i)=>{
+  const btn=document.createElement('button');btn.className='hit';btn.dataset.slot=String(i);
+  Object.assign(btn.style,{left:pct(r.x,A.W),top:pct(r.y,A.H),width:pct(r.w,A.W),height:pct(r.h,A.H)});
+  btn.addEventListener('pointerdown',()=>sound.unlock());
+  btn.addEventListener('pointerenter',ev=>{const id=state.slots[i];if(id&&ev.pointerType==='mouse')hover={type:'slot',id};});
+  btn.addEventListener('pointerleave',()=>hover=null);btn.addEventListener('focus',()=>{const id=state.slots[i];if(id)hover={type:'slot',id};});btn.addEventListener('blur',()=>hover=null);
+  btn.addEventListener('click',()=>{const id=state.slots[i];if(id)act({type:'slot',id});else message('빈 보관칸이에요. 다른 색 방향으로 나간 룬이 여기에 모여요.');});
+  layer.appendChild(btn);slotButtons.push(btn);
+ });
+}
+function buildChapters(){
+ $('chapters').innerHTML='';levels.forEach((l,i)=>{const btn=document.createElement('button');btn.className='chapter'+(i===index?' active':'');btn.dataset.stage=String(i);btn.setAttribute('aria-current',i===index?'true':'false');
+  const number=document.createElement('span');number.className='num';number.textContent=String(i+1).padStart(2,'0')+' / '+(i<2?'LEARN':i<4?'PLAN':'DEEP');
+  const name=document.createElement('span');name.className='name';name.textContent=l.name;btn.append(number,name);
+  if(clears.has(l.id)){const tick=document.createElement('span');tick.className='tick';tick.textContent='✓';btn.appendChild(tick);}
+  btn.onclick=()=>load(i);$('chapters').appendChild(btn);
+ });$('clearCount').textContent=clears.size+' CLEARED';
+}
+function updateUI(){
+ for(const [id,btn] of blockButtons){btn.hidden=!state.board.includes(id);btn.disabled=state.phase!=='play';}
+ slotButtons.forEach((btn,i)=>{
+  const id=state.slots[i],ready=id&&E.target(level,state,E.block(level,id).color);
+  btn.setAttribute('aria-label',id?`${i+1}번 보관칸, ${A.P[E.block(level,id).color].name} 룬 ${ready?'재발사 가능':'아직 봉인됨'}`:`${i+1}번 빈 보관칸`);
+  btn.setAttribute('aria-disabled',String(!id||!ready||pending.has(id)||state.phase!=='play'));btn.disabled=state.phase!=='play';
+ });
+ $('undoBtn').disabled=history.length===0;$('moveStat').textContent='TAPS '+String(state.taps).padStart(2,'0')+' · BOARD '+String(state.board.length).padStart(2,'0');$('comboStat').textContent='BEST CHAIN '+bestChain;
+ for(const side of E.SIDES){
+  const g=E.gate(level,vState,side),planned=E.gate(level,state,side),item=$('seal-'+side);if(!item)continue;
+  item.classList.toggle('complete',!g.color);
+  const hp=$('hp-'+side),caption=$('caption-'+side);hp.textContent=g.color?'HP '+g.hp+'/'+g.max:'CLEAR';
+  for(let i=0;i<level.seals[side].length;i++){
+   const chip=$('layer-'+side+'-'+i);chip.className='layer-chip '+(i<g.index?'past':i===g.index?'now':'future');
+   chip.querySelector('span').textContent=i<g.index?'✓':String(i===g.index?g.hp:level.seals[side][i].hp);
+   chip.title=(i+1)+'층 · '+A.P[level.seals[side][i].color].name+' · '+(i<g.index?'파괴 완료':i===g.index?g.hp:level.seals[side][i].hp)+'회';
+  }
+  const reserved=state.spent[side]-vState.spent[side];
+  caption.classList.toggle('reserved',reserved>0);
+  caption.textContent=reserved>0?(!planned.color?'최종 타격 예약 · 완전 파괴 중':planned.index>g.index?'돌파 예약 · 다음 층 재발사 가능':'타격 '+reserved+'발 예약됨'):!g.color?'모든 층을 파괴했어요.':(g.index+1)+'층 '+A.P[g.color].name+' 공격 중'+(g.next?' · 다음 '+A.P[g.next.color].name:' · 마지막 층');
+ }
+}
+function buildSeals(){
+ $('sealList').innerHTML='';for(const side of E.SIDES){
+  const item=document.createElement('div');item.className='seal-stat';item.id='seal-'+side;
+  const top=document.createElement('div');top.className='seal-top';top.innerHTML=`<span class="seal-title">${side==='N'?'↑ 위쪽 결계':'→ 오른쪽 결계'}</span><span class="seal-hp" id="hp-${side}"></span>`;item.appendChild(top);
+  const track=document.createElement('div');track.className='layer-track';
+  level.seals[side].forEach((l,i)=>{if(i){const arrow=document.createElement('span');arrow.className='layer-chevron';arrow.textContent='›';track.appendChild(arrow);}
+   const chip=document.createElement('div');chip.className='layer-chip';chip.id='layer-'+side+'-'+i;chip.style.setProperty('--rune-color',A.P[l.color].dark);
+   const icon=document.createElement('canvas');icon.width=10;icon.height=12;A.icon(icon.getContext('2d'),l.color,0,0,2,A.P[l.color].dark);const amount=document.createElement('span');amount.textContent=l.hp;chip.append(icon,amount);track.appendChild(chip);
+  });item.appendChild(track);const caption=document.createElement('div');caption.className='layer-caption';caption.id='caption-'+side;item.appendChild(caption);$('sealList').appendChild(item);
+ }
+}
+function sealedMessage(color){
+ const side=E.SIDES.find(k=>level.seals[k].some(l=>l.color===color)),g=E.gate(level,state,side),owner=side==='N'?'위쪽':'오른쪽';
+ return A.P[color].name+' 룬은 아직 봉인 중이에요. '+owner+'의 '+(g.color?A.P[g.color].name+' 층을 먼저 깨 주세요.':'다음 타격 연출을 확인해 주세요.');
+}
+function act(action){
+ if(paused||shownResult||state.phase!=='play')return false;
+ if(action.type==='slot'&&pending.has(action.id)){hintMark={...action,until:time+1};message('보관칸으로 도착 중이에요. 도착하면 바로 쏠 수 있어요.');return false;}
+ const before=E.clone(state),r=E.step(level,state,action);
+ if(!r.ok){
+  if(r.reason==='blocked'||r.reason==='wall'){
+   const b=E.block(level,action.id);bump={id:action.id,blocker:r.blocker,dir:b.dir,t:time};blockedTaps++;sound.play('blocked');
+   message('앞이 막혀 있어요. 가로막는 블록을 먼저 빼 주세요.',true);
+  }
+  if(r.reason==='sealed'){sound.play('blocked');hintMark={...action,until:time+1};message(sealedMessage(r.color),true);}
+  return false;
+ }
+ history.push(before);state=r.state;hover=null;hintMark=null;finishAt=0;
+ for(const event of r.events)animate(event);
+ if(state.phase==='lost'){lossAt=time;storageFlash=1;counters.overflow++;message('보관 한도 초과! 되돌려서 지금 공격할 수 있는 색의 길부터 열어 보세요.',true);sound.play('loss');}
+ updateUI();if(state.phase==='play'&&E.choices(level,state).length===0)message('지금은 안전하게 진행할 수 없어요. 먼저 보관한 색을 되돌려 빈칸을 확보해 보세요.',true);return true;
+}
+function routePoint(points,t){
+ const lengths=[];let total=0;for(let i=1;i<points.length;i++){const l=Math.hypot(points[i].x-points[i-1].x,points[i].y-points[i-1].y);lengths.push(l);total+=l;}
+ let dist=Math.max(0,Math.min(1,t))*total;
+ for(let i=0;i<lengths.length;i++){if(dist<=lengths[i]||i===lengths.length-1){const f=lengths[i]?Math.min(1,dist/lengths[i]):1;return {x:points[i].x+(points[i+1].x-points[i].x)*f,y:points[i].y+(points[i+1].y-points[i].y)*f};}dist-=lengths[i];}
+ return points[points.length-1];
+}
+function smoothRoute(points){
+ // Rounded corners use short quadratic segments; this is visual only.
+ if(points.length<3)return points;
+ const result=[points[0]];
+ for(let i=1;i<points.length-1;i++){
+  const a=points[i-1],b=points[i],d=points[i+1],la=Math.hypot(b.x-a.x,b.y-a.y),lb=Math.hypot(d.x-b.x,d.y-b.y),radius=Math.min(20,la*.3,lb*.3);
+  const q={x:b.x+(a.x-b.x)*radius/la,y:b.y+(a.y-b.y)*radius/la},r={x:b.x+(d.x-b.x)*radius/lb,y:b.y+(d.y-b.y)*radius/lb};result.push(q);
+  for(let j=1;j<=8;j++){const t=j/8;result.push({x:(1-t)**2*q.x+2*(1-t)*t*b.x+t*t*r.x,y:(1-t)**2*q.y+2*(1-t)*t*b.y+t*t*r.y});}
+ }
+ result.push(points[points.length-1]);return result;
+}
+function bezier(a,c1,c2,b,t){return{x:(1-t)**3*a.x+3*(1-t)**2*t*c1.x+3*(1-t)*t*t*c2.x+t**3*b.x,y:(1-t)**3*a.y+3*(1-t)**2*t*c1.y+3*(1-t)*t*t*c2.y+t**3*b.y};}
+function flightPos(f,at=time){
+ let p=Math.max(0,Math.min(1,(at-f.start)/f.duration));
+ if(f.type==='direct'){
+  const hold=.13;
+  if(p<hold)return{x:f.from.x-(f.to.x-f.from.x)*.012*Math.sin(p/hold*Math.PI),y:f.from.y-(f.to.y-f.from.y)*.012*Math.sin(p/hold*Math.PI)};
+  p=(p-hold)/(1-hold);p=p*p;
+  return{x:f.from.x+(f.to.x-f.from.x)*p,y:f.from.y+(f.to.y-f.from.y)*p};
+ }
+ if(f.type==='relaunch')return bezier(f.from,f.c1,f.c2,f.to,1-(1-p)**1.3);
+ return routePoint(f.route,p<.06?0:(p-.06)/.94);
+}
+function animate(event){
+ const b=E.block(level,event.id),from=A.center(b),edge=A.exitPoint(b),slots=A.slotRects(level.capacity);
+ const f={...event,color:b.color,dir:b.dir,from,start:time,token};
+ if(event.type==='direct'){
+  f.to=edge;f.duration=prefs.reduced?.16:.19+Math.hypot(edge.x-from.x,edge.y-from.y)/1450;
+  sound.play('launch');counters.launch++;message(A.P[b.color].name+' 룬 직격! 현재 겉층을 공격해요.');
+ }else if(event.type==='store'||event.type==='overflow'){
+  const end=event.type==='store'?{x:slots[event.slot].cx,y:slots[event.slot].cy}:{x:240,y:510};
+  const out=b.dir==='W'?18:b.dir==='E'?462:from.x<240?18:462;
+  let points=[from,edge];
+  if(b.dir==='N')points.push({x:edge.x,y:30},{x:out,y:30},{x:out,y:432});
+  else if(b.dir==='S')points.push({x:edge.x,y:436});
+  else points.push({x:out,y:edge.y},{x:out,y:432});
+  points.push(end);f.route=smoothRoute(points);f.to=end;f.duration=prefs.reduced?.22:(b.dir==='N'?.73:b.dir==='S'?.45:.56);
+  if(event.type==='store'){
+   pending.add(b.id);const ready=E.target(level,state,b.color);message((event.slot+1)+'번 칸에 '+A.P[b.color].name+' 보관. '+(ready?'아래에서 바로 재발사할 수 있어요.':'겉층이 열릴 때까지 기다려요.'));
+  }
+  sound.play('launch');counters.launch++;
+ }else if(event.type==='relaunch'){
+  f.from={x:slots[event.slot].cx,y:slots[event.slot].cy};f.to=A.targetPoint(event.side,event.damageIndex,event.max);
+  const bend=event.side==='E'?70:(f.from.x<240?-40:40);
+  f.c1={x:f.from.x+bend,y:f.from.y-130};f.c2={x:f.to.x+(event.side==='E'?-60:0),y:f.to.y+65};
+  f.duration=prefs.reduced?.19:.24+Math.hypot(f.to.x-f.from.x,f.to.y-f.from.y)/2300;
+  sound.play('relaunch');counters.relaunch++;message(A.P[b.color].name+' 겉층으로 재발사! 보관칸이 비었어요.');
+ }
+ if(event.type==='direct'||event.type==='relaunch'){
+  // Reserve presentation order independently for each seal; never discard a shot.
+  const previous=flights.filter(x=>(x.type==='direct'||x.type==='relaunch')&&x.side===event.side).at(-1);
+  if(previous)f.duration=Math.max(f.duration,previous.start+previous.duration+(previous.layer===f.layer?.055:.13)-time);
+ }
+ flights.push(f);
+}
+function emit(x,y,color,big=false){
+ const p=A.P[color],count=prefs.reduced?(big?10:5):(big?66:26);
+ for(let i=0;i<count;i++){
+  const a=Math.random()*Math.PI*2,s=(big?125:85)+Math.random()*(big?250:160),life=(big?.48:.3)+Math.random()*.48;
+  particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-70,life,age:0,size:Math.random()<.2?5:2+Math.floor(Math.random()*3),color:[p.light,p.mid,p.dark,'#f7ebc1'][i%4],gravity:340});
+ }
+ if(particles.length>650)particles.splice(0,particles.length-650);
+ waves.push({x,y,age:0,life:big?.40:.24,color:p.light,big});
+ if(!prefs.reduced)shake=Math.max(shake,big?5:2.4);
+}
+function impact(f){
+ const side=f.side,g=E.gate(level,vState,side),vertical=side==='E',coord=vertical?f.to.y-A.BY:f.to.x-A.BX;
+ const candidate=Math.max(0,Math.min(g.max-1,Math.floor(coord/288*g.max)));
+ let segment=-1,best=Infinity;for(let i=0;i<g.max;i++)if(!holes[side].includes(i)&&Math.abs(i-candidate)<best){segment=i;best=Math.abs(i-candidate);}
+ if(segment>=0)holes[side].push(segment);
+ vState.spent[side]=f.spent;vState.hp[side]=E.total(level,side)-f.spent;
+ const big=f.layerBreak;impacts[side]={t:time};
+ chain=time-lastImpact<1.15?chain+1:1;lastImpact=time;bestChain=Math.max(bestChain,chain);
+ emit(f.to.x,f.to.y,f.color,big);counters.hit++;if(big)counters.break++;
+ labels.push({text:big?(f.sealBreak?'SEAL BREAK!':'LAYER BREAK!'):chain>1?'HIT '+chain:'CRACK!',x:Math.min(352,Math.max(115,f.to.x)),y:Math.max(40,Math.min(415,f.to.y))-13,age:0,life:big?.78:.42,color:A.P[f.color].light,big});
+ sound.play(big?'break':'hit',chain);
+ if(big){
+  holes[side]=[];
+  if(f.nextColor){
+   const next=A.P[f.nextColor];labels.push({text:next.label+' OPEN',x:side==='N'?240:330,y:side==='N'?94:360,age:-.05,life:1.1,color:next.light,big:false});
+   if(state.phase==='play')message(A.P[f.color].name+' 층 파괴 → '+next.name+' 층 등장! 보관한 같은 색을 쏘세요.');
+   for(const id of state.slots)if(id&&E.block(level,id).color===f.nextColor){const i=state.slots.indexOf(id),r=A.slotRects(level.capacity)[i];waves.push({x:r.cx,y:r.cy,age:0,life:.4,color:next.light,big:true});}
+  }else if(state.phase==='play')message((side==='N'?'위쪽':'오른쪽')+' 결계 완전 파괴! 다른 결계도 열어 주세요.');
+ }
+ updateUI();
+}
+function completeFlight(f){
+ if(f.token!==token)return;
+ if(f.type==='direct'||f.type==='relaunch')impact(f);
+ if(f.type==='store'){pending.delete(f.id);counters.store++;sound.play('store');waves.push({x:f.to.x,y:f.to.y,age:0,life:.22,color:A.P[f.color].light,big:false});updateUI();}
+ if(f.type==='overflow'){emit(f.to.x,f.to.y,f.color,true);storageFlash=1;}
+}
+function undo(){
+ if(!history.length){message('아직 되돌릴 행동이 없어요.');return;}
+ state=history.pop();resetVisual();updateUI();message('한 번의 탭을 되돌렸어요. 결계와 보관칸도 함께 복원돼요.');
+ if(document.activeElement?.closest('#result'))$('undoBtn').focus();
+}
+function showHint(){
+ if(state.phase!=='play'){message('이 방은 끝났어요. 되돌리거나 다시 시작해 주세요.');return;}
+ const result=E.analyze(level,state,{maxNodes:250000});
+ if(result.status==='limit'){message('탐색 범위를 넘었어요. 지금 결과로는 막혔다고 단정할 수 없어요.',true);return;}
+ if(result.status==='dead'){hintMark=null;message('이 배치에서는 끝까지 풀 수 없어요. 일찍 보관한 색을 몇 수 되돌려 빈칸을 확보해 주세요.',true);return;}
+ const a=result.route[0];if(!a)return;
+ hintMark={...a,until:time+5};const b=E.block(level,a.id);
+ message(a.type==='slot'?`${state.slots.indexOf(a.id)+1}번 보관칸의 ${A.P[b.color].name} 룬을 쏘세요.${pending.has(a.id)?' 지금은 도착 중이에요.':''}`:`반짝이는 ${A.P[b.color].name} 룬부터 꺼내 보세요. 이 선택에서 완주하는 경로를 확인했어요.`);
+}
+function showResult(){
+ if(shownResult)return;shownResult=true;hover=null;
+ const won=state.phase==='won';$('result').hidden=false;$('resultTitle').textContent=won?'결계를 돌파했어요!':'보관칸이 넘쳤어요';
+ $('resultDesc').textContent=won?'미리 보관한 룬으로 모든 겹결계를 돌파했어요. 다음 방에서는 어떤 색을 준비할까요?':`보관 ${level.capacity}칸을 다 쓴 상태에서 추가 보관이 발생했어요. 아직 쏠 수 없는 색을 너무 일찍 보관하지 않았는지 확인해 보세요.`;
+ $('metricA').textContent=won?state.direct:level.capacity;$('metricALabel').textContent=won?'직접 타격':'보관 정원';$('metricB').textContent=won?state.relaunch:level.capacity+1;$('metricBLabel').textContent=won?'보관 후 재발사':'넘친 블록 수';
+ $('resultPrimary').textContent=won?(index<levels.length-1?'다음 방으로 →':'첫 방부터 다시'):'이 방 다시 시작';
+ const c=$('resultPixel').getContext('2d');c.clearRect(0,0,260,25);A.pixText(c,won?'SEAL BROKEN':'OVERFLOW',130,3,2,won?'#52775e':'#ad644d','center');
+ if(won){clears.add(level.id);persist();buildChapters();sound.play('win');}else sound.play('blocked');
+ $('resultPrimary').focus({preventScroll:true});
+}
+function drawHintAndPath(){
+ const marked=hintMark&&hintMark.until>time?hintMark:null;
+ const item=marked||((prefs.paths&&hover)?hover:null);if(!item||state.phase!=='play')return;
+ const b=E.block(level,item.id);if(!b)return;
+ if(item.type==='board'&&state.board.includes(b.id)){
+  const origin=A.center(b),p=E.probe(level,state,b.id),end=p.ok?A.exitPoint(b):{x:A.BX+p.x*A.CELL+24,y:A.BY+p.y*A.CELL+24};
+  ctx.save();ctx.globalAlpha=.45;ctx.strokeStyle=p.ok?(p.kind==='direct'?A.P[b.color].light:'#d6cf9d'):'#ec9273';ctx.lineWidth=2;ctx.setLineDash([3,5]);ctx.lineDashOffset=-time*20;ctx.beginPath();ctx.moveTo(origin.x,origin.y);ctx.lineTo(end.x,end.y);ctx.stroke();ctx.restore();
+  if(!p.ok){A.rect(ctx,end.x-5,end.y-2,10,4,'#e7a28a');}
+  else{A.diamond(ctx,end.x,end.y,5,A.P[b.color].light);}
+  const pulse=marked?(.45+.3*Math.sin(time*7)):.45;ctx.globalAlpha=pulse;A.box(ctx,origin.x-22,origin.y-23,44,47,A.P[b.color].light,A.P[b.color].light,3);ctx.globalAlpha=1;
+ }else if(item.type==='slot'){
+  const i=state.slots.indexOf(item.id);if(i<0)return;const r=A.slotRects(level.capacity)[i];
+  ctx.strokeStyle='#f8e4a8';ctx.lineWidth=2;ctx.setLineDash([3,3]);ctx.lineDashOffset=-time*10;ctx.strokeRect(r.x-2,r.y-2,r.w+4,r.h+4);ctx.setLineDash([]);
+ }
+}
+function drawFlights(){
+ for(const f of flights){
+  const p=flightPos(f);ctx.save();
+  if(!prefs.reduced)for(let j=6;j>=1;j--){const q=flightPos(f,time-j*.014);ctx.globalAlpha=(1-j/7)*.45;const sz=9-j;A.rect(ctx,q.x-sz,q.y-sz,sz*2,sz*2,A.P[f.color].mid);}
+  ctx.globalAlpha=1;
+  let size=f.type==='relaunch'?25:f.type==='direct'?36:Math.max(24,36-12*(time-f.start)/f.duration);
+  if(f.type==='direct'&&(time-f.start)/f.duration<.13)size*=.94;
+  A.crystal(ctx,f.color,p.x,p.y,size,{dir:f.type==='relaunch'?undefined:f.dir});ctx.restore();
+ }
+}
+function drawParticles(dt){
+ for(const p of particles){p.age+=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=p.gravity*dt;p.vx*=Math.pow(.97,dt*60);ctx.globalAlpha=Math.max(0,1-p.age/p.life);A.rect(ctx,p.x,p.y,p.size,p.size,p.color);}
+ ctx.globalAlpha=1;particles=particles.filter(p=>p.age<p.life);
+ for(const w of waves){w.age+=dt;const t=w.age/w.life,r=5+t*(w.big?42:23);ctx.globalAlpha=(1-t)*.8;ctx.strokeStyle=w.color;ctx.lineWidth=w.big?3:2;ctx.beginPath();ctx.moveTo(w.x,w.y-r);ctx.lineTo(w.x+r,w.y);ctx.lineTo(w.x,w.y+r);ctx.lineTo(w.x-r,w.y);ctx.closePath();ctx.stroke();}
+ ctx.globalAlpha=1;waves=waves.filter(w=>w.age<w.life);
+ for(const l of labels){l.age+=dt;const q=l.age/l.life;ctx.globalAlpha=Math.min(1,(1-q)*2);A.pixText(ctx,l.text,l.x+1,l.y-q*22+1,l.big?2:1,'#14252e','center');A.pixText(ctx,l.text,l.x,l.y-q*22,l.big?2:1,l.color,'center');}
+ ctx.globalAlpha=1;labels=labels.filter(l=>l.age<l.life);
+}
+function render(dt){
+ ctx.save();if(shake>0&&!prefs.reduced)ctx.translate(Math.round((Math.random()-.5)*shake*2),Math.round((Math.random()-.5)*shake*2));
+ A.frame(ctx,time,prefs.reduced);
+ for(const side of ['N','E','S','W'])A.drawGate(ctx,side,level,vState,holes[side]||[],time,impacts[side],state);
+ drawHintAndPath();
+ for(const id of state.board){
+  const b=E.block(level,id),p=A.center(b);let squash=pressed===id?.09:0;
+  if(bump&&(bump.id===id||bump.blocker===id)&&time-bump.t<.3){const t=(time-bump.t)/.3,v=E.DIRS[bump.dir];p.x+=v.x*Math.sin(t*Math.PI*3)*(1-t)*4;p.y+=v.y*Math.sin(t*Math.PI*3)*(1-t)*4;squash+=Math.sin(t*Math.PI)*(bump.id===id?.10:-.06);}
+  A.crystal(ctx,b.color,p.x,p.y,40,{dir:b.dir,squash});
+  if(hintMark?.type==='board'&&hintMark.id===id&&hintMark.until>time){const step=Math.floor(time*4)%3;A.diamond(ctx,p.x+16,p.y-19,3+step,'#fff0b6');}
+ }
+ A.drawSlots(ctx,level,state,time,pending,hover?.type==='slot'?hover.id:null,storageFlash);
+ drawFlights();drawParticles(dt);
+ if(chain>1&&time-lastImpact<.8){const alpha=Math.min(1,(.8-(time-lastImpact))*3);ctx.globalAlpha=alpha;A.box(ctx,176,20,128,24,'#14292f','#b99c6b',3);A.pixText(ctx,chain+' CHAIN!',240,28,1,'#f7dda2','center');ctx.globalAlpha=1;}
+ ctx.restore();
+}
+function tick(now){
+ const real=now/1000,dt=Math.min(.035,Math.max(0,real-last));last=real;
+ if(!paused){time+=dt;
+  const done=flights.filter(f=>time>=f.start+f.duration);flights=flights.filter(f=>time<f.start+f.duration);done.sort((a,b)=>(a.start+a.duration)-(b.start+b.duration));for(const f of done)completeFlight(f);
+  shake=Math.max(0,shake-dt*25);storageFlash=Math.max(0,storageFlash-dt*2);
+  render(dt);
+  if(state.phase==='lost'&&time-lossAt>.82)showResult();
+  if(state.phase==='won'&&flights.length===0){if(!finishAt)finishAt=time;if(time-finishAt>.48)showResult();}
+ }
+ requestAnimationFrame(tick);
+}
+function applyPrefs(){sound.set(prefs.audio,prefs.volume);$('soundBtn').classList.toggle('on',prefs.audio);$('soundBtn').setAttribute('aria-pressed',String(prefs.audio));$('soundLabel').textContent=prefs.audio?'소리 켬':'소리 끔';$('soundGlyph').textContent=prefs.audio?'♫':'♪';$('audioToggle').checked=prefs.audio;$('volume').value=Math.round(prefs.volume*100);$('reducedToggle').checked=prefs.reduced;$('pathToggle').checked=prefs.paths;persist();}
+function openSettings(){paused=true;$('settingsModal').hidden=false;$('closeSettings').focus();}
+function closeSettings(){paused=false;last=performance.now()/1000;$('settingsModal').hidden=true;$('settingsBtn').focus();}
+function decorativeArt(){
+ const c=$('brandIcon').getContext('2d');c.imageSmoothingEnabled=false;A.box(c,0,0,32,32,'#1a2e35','#26383e',4);A.diamond(c,16,15,11,'#c59d64');A.diamond(c,16,14,8,'#eedba8');A.icon(c,'gold',11,8,2,'#506964');
+ const w=$('wordmark').getContext('2d');A.pixText(w,'RUNE BREAK',1,0,3,'#263b41');
+ document.querySelectorAll('[data-legend]').forEach(el=>{const c=el.getContext('2d');const type=el.dataset.legend;
+  if(type==='arrow')A.crystal(c,'blue',15,14,24,{dir:'N'});
+  if(type==='storage'){A.box(c,2,3,28,26,'#778479','#344d51',3);A.box(c,6,7,20,18,'#243c41','#243c41',1);A.crystal(c,'gold',16,15,13);}
+  if(type==='burst'){A.diamond(c,16,15,13,'#b07960');A.diamond(c,16,15,9,'#e9c197');A.icon(c,'red',11,9,2,'#854e4a');}
+ });
+}
+$('undoBtn').onclick=undo;$('restartBtn').onclick=()=>load(index,true);$('hintBtn').onclick=showHint;$('prevBtn').onclick=()=>load(index-1);$('nextBtn').onclick=()=>load(index+1);
+$('resultPrimary').onclick=()=>state.phase==='won'?load((index+1)%levels.length,true):load(index,true);$('resultUndo').onclick=undo;
+$('soundBtn').onclick=()=>{prefs.audio=!prefs.audio;applyPrefs();if(prefs.audio)sound.play('store');};$('settingsBtn').onclick=openSettings;$('closeSettings').onclick=closeSettings;$('settingsDone').onclick=closeSettings;
+$('audioToggle').onchange=ev=>{prefs.audio=ev.target.checked;applyPrefs();};$('volume').oninput=ev=>{prefs.volume=+ev.target.value/100;applyPrefs();};$('reducedToggle').onchange=ev=>{prefs.reduced=ev.target.checked;applyPrefs();};$('pathToggle').onchange=ev=>{prefs.paths=ev.target.checked;applyPrefs();};
+$('settingsModal').addEventListener('click',ev=>{if(ev.target===$('settingsModal'))closeSettings();});
+window.addEventListener('keydown',ev=>{
+ if(ev.key==='Tab'&&(paused||shownResult)){
+  const box=paused?$('settingsModal'):$('result'),els=[...box.querySelectorAll('button,input')].filter(el=>!el.disabled),first=els[0],last=els.at(-1);
+  if(ev.shiftKey&&document.activeElement===first){ev.preventDefault();last.focus();}else if(!ev.shiftKey&&document.activeElement===last){ev.preventDefault();first.focus();}return;
+ }
+ if(paused){if(ev.key==='Escape')closeSettings();return;}
+ if(ev.ctrlKey||ev.metaKey||ev.altKey||ev.target.tagName==='INPUT')return;
+ if(ev.code==='KeyZ'){ev.preventDefault();undo();}else if(ev.code==='KeyR'){ev.preventDefault();load(index,true);}else if(ev.code==='KeyH'){ev.preventDefault();showHint();}else if(ev.code==='KeyM'){prefs.audio=!prefs.audio;applyPrefs();}
+});
+document.addEventListener('visibilitychange',()=>{last=performance.now()/1000;});
+window.RuneDebug={
+ get state(){return E.clone(state);},get level(){return level;},get index(){return index;},get flights(){return flights.length;},get pending(){return [...pending];},get visualHP(){return {...vState.hp};},get visualState(){return E.clone(vState);},get counters(){return {...counters};},get blockedTaps(){return blockedTaps;},get bestChain(){return bestChain;},get historyLength(){return history.length;},
+ load:(i,reset=true)=>load(i,reset),hint:()=>E.hint(level,state),analyze:()=>E.analyze(level,state),get paused(){return paused;},get phase(){return state.phase;},get renderingTime(){return time;}
+};
+for(const l of levels)E.validate(l);
+decorativeArt();applyPrefs();load(0,true);render(0);requestAnimationFrame(tick);
+})();
+</script></body></html>

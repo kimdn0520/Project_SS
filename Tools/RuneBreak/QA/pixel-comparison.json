@@ -1,0 +1,22 @@
+{
+  "board": {
+    "pixels": 82944,
+    "differentPixels": 0,
+    "maxChannelDelta": 0
+  },
+  "north": {
+    "pixels": 15600,
+    "differentPixels": 0,
+    "maxChannelDelta": 0
+  },
+  "east": {
+    "pixels": 18000,
+    "differentPixels": 0,
+    "maxChannelDelta": 0
+  },
+  "recast": {
+    "pixels": 37152,
+    "differentPixels": 0,
+    "maxChannelDelta": 0
+  }
+}

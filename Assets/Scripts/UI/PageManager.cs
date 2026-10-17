@@ -30,6 +30,7 @@ public class PageManager : SingletonMonoBehaviour<PageManager>
     [Header("[Hierarchy Roots]")]
     [SerializeField] private Transform pagesRoot;
     [SerializeField] private Transform popupRoot;
+    [SerializeField] private PopupManager popupManager;
 
     [Header("[Transition Settings]")]
     [SerializeField] private UIPageType initialPage = UIPageType.PlayPage;
@@ -104,56 +105,15 @@ public class PageManager : SingletonMonoBehaviour<PageManager>
     /// </summary>
     private void PreloadPages()
     {
-        // Baked scene references avoid hierarchy queries and runtime construction.
-        if (scenePages.Length > 0)
-        {
-            pages.Clear();
-            foreach (var registration in scenePages)
-            {
-                if (registration.instance == null) continue;
-                registration.instance.SetupRenderCamera(mainCamera);
-                registration.instance.Hide();
-                RegisterPage(registration.pageType, registration.instance);
-            }
-            return;
-        }
-
-        if (mainCamera == null)
-        {
-            mainCamera = Camera.main;
-        }
-
         pages.Clear();
-
-        // 1. MainPage
-        Transform mainChild = pagesRoot != null ? pagesRoot.Find("MainPage") : null;
-        SceneBase mainInstance = mainChild != null ? mainChild.GetComponent<SceneBase>() : null;
-        if (mainInstance == null && mainPagePrefab != null)
+        foreach (var registration in scenePages)
         {
-            mainInstance = Instantiate(mainPagePrefab, pagesRoot);
-            mainInstance.gameObject.name = "MainPage";
+            if (registration.instance == null) continue;
+            registration.instance.SetupRenderCamera(mainCamera);
+            registration.instance.Hide();
+            RegisterPage(registration.pageType, registration.instance);
         }
-        if (mainInstance != null)
-        {
-            mainInstance.SetupRenderCamera(mainCamera);
-            mainInstance.Hide();
-            RegisterPage(UIPageType.MainPage, mainInstance);
-        }
-
-        // 2. PlayPage (씬 내 인스턴스가 존재할 경우 우선 재사용하여 위지윅 에디터 편집 완벽 지원)
-        Transform playChild = pagesRoot != null ? pagesRoot.Find("PlayPage") : null;
-        SceneBase playInstance = playChild != null ? playChild.GetComponent<SceneBase>() : null;
-        if (playInstance == null && playPagePrefab != null)
-        {
-            playInstance = Instantiate(playPagePrefab, pagesRoot);
-            playInstance.gameObject.name = "PlayPage";
-        }
-        if (playInstance != null)
-        {
-            playInstance.SetupRenderCamera(mainCamera);
-            playInstance.Hide();
-            RegisterPage(UIPageType.PlayPage, playInstance);
-        }
+        if (pages.Count == 0) Debug.LogError("PageManager requires inspector-assigned scene page instances.", this);
     }
 
     #region Page Registry (Add / Remove / Get)
@@ -276,7 +236,7 @@ public class PageManager : SingletonMonoBehaviour<PageManager>
         // 이전 전환 작업 취소 및 새 CancellationToken 생성
         transitionCts?.Cancel();
         transitionCts?.Dispose();
-        transitionCts = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
+        transitionCts = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);
         CancellationToken ct = transitionCts.Token;
 
         IsChanging = true;
@@ -385,7 +345,7 @@ public class PageManager : SingletonMonoBehaviour<PageManager>
     private void HandleBackInput()
     {
         // 1. PopupManager에 열린 팝업이 있으면 팝업 먼저 닫기
-        if (PopupManager.IsOpenAny)
+        if (popupManager != null && popupManager.HasOpenPopups)
         {
             PopupManager.HandleBackInput();
             return;

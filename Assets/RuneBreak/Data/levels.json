@@ -1,0 +1,761 @@
+{
+  "levels": [
+    {
+      "id": "first-layer",
+      "name": "껍질 너머의 색",
+      "tag": "01 · 겹결계 배우기",
+      "desc": "파란 룬은 빨간 껍질 뒤의 결계가 열릴 때까지 기다려요.",
+      "tip": "오른쪽 빨간 층을 깨면, 보관한 파랑을 연달아 쏠 수 있어요.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 2
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b2",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b3",
+          "x": 0,
+          "y": 4,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b4",
+          "x": 1,
+          "y": 0,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "b5",
+          "x": 4,
+          "y": 0,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "b6",
+          "x": 1,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b7",
+          "x": 5,
+          "y": 5,
+          "dir": "S",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "save-and-burst",
+      "name": "준비한 세 발",
+      "tag": "02 · 보관 후 연속 발사",
+      "desc": "파랑 세 개를 미리 꺼내 두세요. 빨강을 깨면 세 발이 한꺼번에 준비돼요.",
+      "tip": "보관된 파랑은 대기 중. 현재 색과 다음 색을 구분해 보세요.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 4
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 3
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b2",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b3",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b4",
+          "x": 0,
+          "y": 4,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b5",
+          "x": 0,
+          "y": 5,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b6",
+          "x": 1,
+          "y": 0,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "b7",
+          "x": 4,
+          "y": 0,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "b8",
+          "x": 2,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b9",
+          "x": 3,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b10",
+          "x": 5,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b11",
+          "x": 5,
+          "y": 5,
+          "dir": "S",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "last-space",
+      "name": "빈칸을 남겨 줘",
+      "tag": "03 · 첫 번째 선택 퍼즐",
+      "desc": "나갈 수 있다고 전부 꺼내면 안 돼요. 초록을 꺼낼 보관칸을 남겨 주세요.",
+      "tip": "노랑부터 너무 많이 보관하면 막혀요. 파랑 뒤 초록이 위쪽 결계를 여는 열쇠예요.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 1
+          },
+          {
+            "color": "gold",
+            "hp": 4
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 1
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "green"
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b5",
+          "x": 0,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b6",
+          "x": 2,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b7",
+          "x": 4,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b8",
+          "x": 5,
+          "y": 5,
+          "dir": "S",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "red-again",
+      "name": "다시 만나는 빨강",
+      "tag": "04 · 세 겹의 결계",
+      "desc": "빨강을 한 번 깨도 끝이 아니에요. 파랑 뒤에는 빨강이 다시 기다려요.",
+      "tip": "두 줄을 무작정 섞어 빼면 주머니가 막혀요. 다음 층까지 생각해 보세요.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 1
+          },
+          {
+            "color": "gold",
+            "hp": 3
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 1
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          },
+          {
+            "color": "red",
+            "hp": 2
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 1,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 1,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 1,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 1,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 1,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b5",
+          "x": 5,
+          "y": 1,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b6",
+          "x": 0,
+          "y": 4,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b7",
+          "x": 1,
+          "y": 4,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b8",
+          "x": 2,
+          "y": 4,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b9",
+          "x": 3,
+          "y": 4,
+          "dir": "W",
+          "color": "green"
+        }
+      ]
+    },
+    {
+      "id": "two-turns",
+      "name": "두 결계의 저울",
+      "tag": "05 · 다섯 칸의 계획",
+      "desc": "두 길 모두 네 개의 미래 색에 가로막혔어요. 어느 쪽부터 열까요?",
+      "tip": "초록은 위쪽 결계로 재발사해야 해요. 초록을 잠깐 보관할 한 칸까지 계산하세요.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 4
+          },
+          {
+            "color": "green",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 4
+          },
+          {
+            "color": "red",
+            "hp": 2
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b5",
+          "x": 5,
+          "y": 2,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b6",
+          "x": 5,
+          "y": 1,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b7",
+          "x": 5,
+          "y": 0,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b8",
+          "x": 5,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b9",
+          "x": 4,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b10",
+          "x": 3,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b11",
+          "x": 2,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b12",
+          "x": 1,
+          "y": 3,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b13",
+          "x": 0,
+          "y": 3,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b14",
+          "x": 0,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b15",
+          "x": 0,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "woven-seals",
+      "name": "마지막 봉인실",
+      "tag": "06 · 두 수 앞의 공간",
+      "desc": "보관한 색을 해방하려면, 두 결계를 번갈아 열어야 해요.",
+      "tip": "층의 색과 방향을 함께 보세요. 바로 쏠 수 있는 룬도 다음 길에 어떤 영향을 주는지 확인하세요.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 7
+          },
+          {
+            "color": "green",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 7
+          },
+          {
+            "color": "red",
+            "hp": 2
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b5",
+          "x": 5,
+          "y": 2,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b6",
+          "x": 5,
+          "y": 1,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b7",
+          "x": 5,
+          "y": 0,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b8",
+          "x": 5,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b9",
+          "x": 4,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b10",
+          "x": 3,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b11",
+          "x": 2,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b12",
+          "x": 1,
+          "y": 3,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b13",
+          "x": 0,
+          "y": 3,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b14",
+          "x": 0,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b15",
+          "x": 0,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b16",
+          "x": 3,
+          "y": 4,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b17",
+          "x": 4,
+          "y": 1,
+          "dir": "W",
+          "color": "blue"
+        },
+        {
+          "id": "b18",
+          "x": 3,
+          "y": 5,
+          "dir": "W",
+          "color": "blue"
+        },
+        {
+          "id": "b19",
+          "x": 5,
+          "y": 5,
+          "dir": "N",
+          "color": "gold"
+        },
+        {
+          "id": "b20",
+          "x": 4,
+          "y": 4,
+          "dir": "N",
+          "color": "gold"
+        },
+        {
+          "id": "b21",
+          "x": 2,
+          "y": 4,
+          "dir": "N",
+          "color": "gold"
+        }
+      ]
+    }
+  ]
+}
