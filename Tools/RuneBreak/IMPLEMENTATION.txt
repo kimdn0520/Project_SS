@@ -23,11 +23,12 @@ Comfy Desktop window access was rejected by automatic approval review; it was no
 
 Regenerate assets: npm ci --prefix Tools/RuneBreak
 node Tools/RuneBreak/export-original.cjs [prototype.html] [optional-level-catalog.json]
+node Tools/RuneBreak/export-textless.cjs
 node Tools/RuneBreak/export-audio.cjs
 Then use Unity menu Rune Break / Rebuild pages and scenes. This explicitly replaces both page prefabs and scenes.
 An optional level catalog uses the same {levels:[...]} schema as Assets/RuneBreak/Data/levels.json.
 After changing layer counts/colors or adding levels, rerun export so matching gate art is baked.
-The current board supports size 6, capacity 5, at most 28 runes. Further board sizes need layout authoring.
+The current board supports size 6, capacity 5, at most 28 runes including buried layers, and eight baked mirror views. Further board sizes need layout authoring.
 
 Validation menu: Rune Break / Validate rules against HTML.
 QA/rules-report.json records all 130 original solution transitions and 3,600 additional input scenarios.
@@ -39,3 +40,58 @@ Undo and solver code remain as test/development helpers, not exposed gameplay co
 Previous game-specific scripts, editor generators and resource prefabs were moved out of Unity into Archive/LegacyGame.
 Its existing source/art, including the pre-existing modified Korean font asset, are preserved there.
 Purchased asset packs and shared utilities were retained. HealerPrototype was not modified.
+
+Three mechanic demos (October 18, 2026)
+------------------------------------
+Mechanic demos are levels 7, 8 and 9. The public Home demo selectors were removed in the lobby redesign.
+Editor preview remains available through MechanicPreview.cs / Chain, Mirror and Stack.
+They are separate from the six-level campaign; demo wins never update campaign progress.
+Each demo can be solved without boosters; failure offers 다시 체험, and a win advances to the next demo.
+
+Chain: RuneBlock.chainSide N/E plus zero-based chainLayer; the chain releases when that layer's final damage is reserved.
+The impact then snaps the visible tether, throws metal links, flashes the connection and plays a metallic cue.
+Rapidly tapped released runes reserve their move immediately; their flight can wait for the visible release.
+Mirror: fixed RuneMirror (x,y,slash). '/' and '\' reflect the grid ray by 90 degrees.
+Every blocker along the reflected path matters. Closed ray loops are rejected. The guide, flight and solver use the same cached route.
+Stack: multiple runes may share (x,y) with increasing depth. Only the lowest remaining depth is selectable/blocking as the top surface.
+All buried runes remain in rule inventory. Removing the top reveals the next immediately; its miniature shows both color and direction beforehand.
+The new rune rises from its preview position with a short spring, diamond wave, lifting sparks and a reveal cue.
+
+All objects are baked into PlayPage; 48 pooled flights and bounded particle/guide meshes are retained.
+The three original booster placeholders remain undecided.
+New art: Source/Mechanics.aseprite (four 48x48 tiles); exact palette pixels authored through Aseprite MCP.
+author-mechanic-pixels.cjs records the pixel recipe; export-mechanic-art.cjs slices the Aseprite PNG and checks a zero-difference round trip.
+Existing RuneBreak.aseprite, original HTML and 453 original PNG assets remain unchanged.
+ComfyUI was not needed for the exact-pixel additions.
+
+export-original.cjs appends demo-levels.json by default and uses mechanics-oracle.cjs for extended levels.
+The six original solution traces still come directly from the untouched HTML engine.
+Run node Tools/RuneBreak/test-mechanics.cjs before executing MechanicQA.cs / Rules in the Unity editor.
+Rules compares 3,440 independent object-based oracle cases, 40 paths and the nine solutions against C#.
+MechanicQA.cs / Runtime checks rapid unlocks, 6 live solves (normal + reduced), stack raycasts, settings pause, resets, baked hierarchy stability and demo navigation/progress isolation.
+MechanicPreview.cs / Film renders actual Unity frames at 20 fps; QA/Mechanics-demo.gif is a silent 15-second preview. In-game audio has three new cues.
+
+MainPage revision (October 18, 2026)
+-----------------------------------
+Keep the original dark teal background (#17282f), per user preference.
+The play button shows only Lv.N. Removed progress record, tagline, mechanic selectors and OriginalPixelBoard.
+Three placeholder shortcuts sit on each side; they report that their features are coming soon.
+The center contains only runes and breakable seal blocks: no board, platform or supporting frame.
+RuneLobbyShowcase loops six launches, advances green -> gold seals, emits pixel debris and restarts.
+Tapping it accelerates the volley. Audio plays only after interaction; settings pause the preview.
+Six prefab-baked flights use RuneLobbyFlightPool, a local PoolManager that does not claim the gameplay singleton.
+All runtime references are serialized; particles are bounded. No campaign data is changed by the showcase.
+RuneProjectBuilder.RebuildLobby rebuilds MainPage without re-exporting gameplay art or rebuilding PlayPage.
+LobbyPreview.cs validates bursts, reduced motion, modal pause, tab cancellation, progress isolation and layout.
+
+Galmuri typography (October 18, 2026)
+------------------------------------
+All shipped text uses TextMeshPro with Galmuri11 Regular/Bold copied from Project_SH/Assets/Font/Galmuri.
+Font sources and OFL license are in Assets/RuneBreak/Fonts/Galmuri; the source project is unchanged.
+RunePixelText and its glyph table/export were removed. Particle and icon geometry use RuneUiMesh, which contains no text rendering.
+RuneFontAuthoring bakes both font atlases at 12px RASTER_HINTED with point filtering and all 11,172 modern Hangul syllables.
+UI sizes are integer multiples of 12. Titles, play CTA and effect captions use the real Bold typeface.
+Effect text uses 24 prefab-authored caption pairs plus a chain label; runtime only changes text, position, color and visibility.
+export-textless.cjs makes 11 cabinet/wait variants without baked text, and verifies zero differences outside inscription regions.
+Original PNGs, HTML and Aseprite sources remain intact. Compass/recast/slot text is now authored as TMP components.
+FontQA.cs validates font coverage, prefab references, caption delay/lifetime/reuse, WAIT state, and settings layout.

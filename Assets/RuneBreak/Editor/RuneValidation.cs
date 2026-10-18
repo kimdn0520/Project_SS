@@ -123,7 +123,7 @@ namespace RuneBreak.Editor
             try
             {
                 RunePreferences.Reduced=false;p.settings.SetActive(false);
-                for(int level=0;level<p.catalog.levels.Length;level++)
+                for(int level=0;level<p.catalog.CampaignCount;level++)
                 {
                     p.LoadLevel(level);StartBlockedFeedback();p.Next();
                     RequireRestingBoard("Next from level "+(level+1));

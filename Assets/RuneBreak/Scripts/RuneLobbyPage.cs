@@ -17,20 +17,28 @@ namespace RuneBreak
         public PageManager pages;
         public RuneLevelCatalog catalog;
         public RuneLobbyTab[] tabs;
-        public TMP_Text playLabel,progressLabel;
+        public TMP_Text playLabel,comingSoon;
+        public RuneLobbyShowcase showcase;
         public GameObject settings;
         public int homeIndex=2;
         private int selected;
-        public override void OnWillEnter(object param){SelectTab(homeIndex);int next=Mathf.Min(PlayerPrefs.GetInt("RuneBreak.Next",0),catalog.levels.Length-1);playLabel.text=$"제 {next+1} 방  ·  플레이";int flags=PlayerPrefs.GetInt("RuneBreak.Clears",0),n=0;for(int i=0;i<catalog.levels.Length;i++)if((flags&(1<<i))!=0)n++;progressLabel.text=$"결계의 기록  {n} / {catalog.levels.Length}";}
+        private float noticeUntil;
+        public override void OnWillEnter(object param){SelectTab(homeIndex);int next=Mathf.Clamp(PlayerPrefs.GetInt("RuneBreak.Next",0),0,catalog.CampaignCount-1);playLabel.text=$"Lv.{next+1}";comingSoon.gameObject.SetActive(false);}
         public override void OnDidEnter(){}
         public override void OnWillLeave()=>settings.SetActive(false);
         public override void OnDidLeave(){}
         public void SelectTab(int index)
         {
             if(index<0||index>=tabs.Length)return;selected=index;
-            for(int i=0;i<tabs.Length;i++){tabs[i].content.SetActive(i==index);tabs[i].background.color=RuneArtLibrary.Hex(i==index?"5e7964":"253c40");tabs[i].label.color=RuneArtLibrary.Hex(i==index?"fff1af":"a8b8a8");}
+            for(int i=0;i<tabs.Length;i++){tabs[i].content.SetActive(i==index);tabs[i].background.color=RuneArtLibrary.Hex(i==index?"fff1af":"d4e7ac");tabs[i].label.color=RuneArtLibrary.Hex("253c40");}
         }
-        public void Play()=>pages.Change(UIPageType.PlayPage,Mathf.Min(PlayerPrefs.GetInt("RuneBreak.Next",0),catalog.levels.Length-1));
+        public void ShowComingSoon(){comingSoon.gameObject.SetActive(true);noticeUntil=Time.unscaledTime+1.7f;}
+        private void Update(){if(comingSoon.gameObject.activeSelf&&Time.unscaledTime>=noticeUntil)comingSoon.gameObject.SetActive(false);}
+        public void Play()=>pages.Change(UIPageType.PlayPage,Mathf.Min(PlayerPrefs.GetInt("RuneBreak.Next",0),catalog.CampaignCount-1));
+        public void PlayDemo(int index)
+        {
+            int found=0;for(int i=0;i<catalog.levels.Length;i++)if(catalog.levels[i].demo){if(found++==index){pages.Change(UIPageType.PlayPage,i);return;}}
+        }
         public void OpenSettings()=>settings.SetActive(true);
         public bool HandleBack(){if(settings.activeSelf){settings.SetActive(false);return true;}if(selected!=homeIndex){SelectTab(homeIndex);return true;}return false;}
     }

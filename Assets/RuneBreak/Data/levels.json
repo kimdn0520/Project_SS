@@ -756,6 +756,324 @@
           "color": "gold"
         }
       ]
+    },
+    {
+      "id": "demo-chain",
+      "name": "사슬의 연결",
+      "tag": "사슬",
+      "mechanic": "chain",
+      "demo": true,
+      "desc": "결계를 깨면 연결된 사슬이 풀려요.",
+      "tip": "빨간 결계와 초록 결계에 연결된 사슬을 찾아보세요.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "c0",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "c1",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "c2",
+          "x": 1,
+          "y": 4,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "c3",
+          "x": 4,
+          "y": 1,
+          "dir": "E",
+          "color": "blue",
+          "chainSide": "E",
+          "chainLayer": 0
+        },
+        {
+          "id": "c4",
+          "x": 4,
+          "y": 3,
+          "dir": "E",
+          "color": "blue",
+          "chainSide": "E",
+          "chainLayer": 0
+        },
+        {
+          "id": "c5",
+          "x": 0,
+          "y": 1,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "c6",
+          "x": 2,
+          "y": 1,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "c7",
+          "x": 0,
+          "y": 5,
+          "dir": "W",
+          "color": "gold",
+          "chainSide": "N",
+          "chainLayer": 0
+        },
+        {
+          "id": "c8",
+          "x": 3,
+          "y": 5,
+          "dir": "S",
+          "color": "gold",
+          "chainSide": "N",
+          "chainLayer": 0
+        }
+      ]
+    },
+    {
+      "id": "demo-mirror",
+      "name": "빛이 꺾이는 길",
+      "tag": "반사경",
+      "mechanic": "mirror",
+      "demo": true,
+      "desc": "반사경에서 룬의 진행 방향이 꺾여요.",
+      "tip": "점선을 따라가면 어느 결계에 닿을지 알 수 있어요.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 2
+          }
+        ]
+      },
+      "mirrors": [
+        {
+          "x": 1,
+          "y": 1,
+          "slash": true
+        },
+        {
+          "x": 3,
+          "y": 3,
+          "slash": true
+        },
+        {
+          "x": 0,
+          "y": 3,
+          "slash": false
+        }
+      ],
+      "blocks": [
+        {
+          "id": "m0",
+          "x": 1,
+          "y": 4,
+          "dir": "N",
+          "color": "red"
+        },
+        {
+          "id": "m1",
+          "x": 1,
+          "y": 5,
+          "dir": "N",
+          "color": "red"
+        },
+        {
+          "id": "m2",
+          "x": 3,
+          "y": 4,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "m3",
+          "x": 3,
+          "y": 5,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "m4",
+          "x": 0,
+          "y": 2,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "m5",
+          "x": 2,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "m6",
+          "x": 2,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "m7",
+          "x": 5,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "demo-stack",
+      "name": "겹쳐진 룬",
+      "tag": "겹룬",
+      "mechanic": "stack",
+      "demo": true,
+      "desc": "큰 룬을 빼면 작은 미리보기 룬이 올라와요.",
+      "tip": "작은 룬의 색과 화살표까지 보고 순서를 정해 보세요.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "s0",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "red",
+          "depth": 0
+        },
+        {
+          "id": "s1",
+          "x": 1,
+          "y": 2,
+          "dir": "N",
+          "color": "blue",
+          "depth": 1
+        },
+        {
+          "id": "s2",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "blue",
+          "depth": 0
+        },
+        {
+          "id": "s3",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "red",
+          "depth": 1
+        },
+        {
+          "id": "s4",
+          "x": 4,
+          "y": 4,
+          "dir": "N",
+          "color": "green",
+          "depth": 0
+        },
+        {
+          "id": "s5",
+          "x": 4,
+          "y": 4,
+          "dir": "S",
+          "color": "gold",
+          "depth": 1
+        },
+        {
+          "id": "s6",
+          "x": 0,
+          "y": 1,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "s7",
+          "x": 0,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "s8",
+          "x": 5,
+          "y": 3,
+          "dir": "E",
+          "color": "blue"
+        }
+      ]
     }
   ]
 }

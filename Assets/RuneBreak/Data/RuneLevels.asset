@@ -39,41 +39,68 @@ MonoBehaviour:
       color: red
       x: 0
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b1
       dir: E
       color: blue
       x: 2
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b2
       dir: E
       color: blue
       x: 4
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b3
       dir: E
       color: red
       x: 0
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b4
       dir: N
       color: green
       x: 1
       y: 0
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b5
       dir: N
       color: green
       x: 4
       y: 0
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b6
       dir: W
       color: gold
       x: 1
       y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b7
       dir: S
       color: gold
       x: 5
       y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    mirrors: []
+    mechanic: 
+    demo: 0
   - id: save-and-burst
     name: "\uC900\uBE44\uD55C \uC138 \uBC1C"
     tag: "02 \xB7 \uBCF4\uAD00 \uD6C4 \uC5F0\uC18D \uBC1C\uC0AC"
@@ -101,61 +128,100 @@ MonoBehaviour:
       color: red
       x: 0
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b1
       dir: E
       color: blue
       x: 2
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b2
       dir: E
       color: blue
       x: 3
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b3
       dir: E
       color: blue
       x: 4
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b4
       dir: E
       color: red
       x: 0
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b5
       dir: E
       color: red
       x: 0
       y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b6
       dir: N
       color: green
       x: 1
       y: 0
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b7
       dir: N
       color: green
       x: 4
       y: 0
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b8
       dir: S
       color: gold
       x: 2
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b9
       dir: S
       color: gold
       x: 3
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b10
       dir: S
       color: gold
       x: 5
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b11
       dir: S
       color: gold
       x: 5
       y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    mirrors: []
+    mechanic: 
+    demo: 0
   - id: last-space
     name: "\uBE48\uCE78\uC744 \uB0A8\uACA8 \uC918"
     tag: "03 \xB7 \uCCAB \uBC88\uC9F8 \uC120\uD0DD \uD37C\uC990"
@@ -184,46 +250,76 @@ MonoBehaviour:
       color: red
       x: 0
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b1
       dir: E
       color: green
       x: 1
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b2
       dir: E
       color: blue
       x: 2
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b3
       dir: E
       color: blue
       x: 3
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b4
       dir: E
       color: blue
       x: 4
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b5
       dir: S
       color: gold
       x: 0
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b6
       dir: S
       color: gold
       x: 2
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b7
       dir: S
       color: gold
       x: 4
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b8
       dir: S
       color: gold
       x: 5
       y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    mirrors: []
+    mechanic: 
+    demo: 0
   - id: red-again
     name: "\uB2E4\uC2DC \uB9CC\uB098\uB294 \uBE68\uAC15"
     tag: "04 \xB7 \uC138 \uACB9\uC758 \uACB0\uACC4"
@@ -252,51 +348,84 @@ MonoBehaviour:
       color: red
       x: 0
       y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b1
       dir: E
       color: red
       x: 1
       y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b2
       dir: E
       color: red
       x: 2
       y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b3
       dir: E
       color: blue
       x: 3
       y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b4
       dir: E
       color: blue
       x: 4
       y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b5
       dir: E
       color: blue
       x: 5
       y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b6
       dir: W
       color: gold
       x: 0
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b7
       dir: W
       color: gold
       x: 1
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b8
       dir: W
       color: gold
       x: 2
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b9
       dir: W
       color: green
       x: 3
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    mirrors: []
+    mechanic: 
+    demo: 0
   - id: two-turns
     name: "\uB450 \uACB0\uACC4\uC758 \uC800\uC6B8"
     tag: "05 \xB7 \uB2E4\uC12F \uCE78\uC758 \uACC4\uD68D"
@@ -328,81 +457,132 @@ MonoBehaviour:
       color: red
       x: 0
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b1
       dir: E
       color: red
       x: 1
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b2
       dir: E
       color: red
       x: 2
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b3
       dir: E
       color: red
       x: 3
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b4
       dir: E
       color: blue
       x: 4
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b5
       dir: N
       color: blue
       x: 5
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b6
       dir: N
       color: blue
       x: 5
       y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b7
       dir: E
       color: blue
       x: 5
       y: 0
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b8
       dir: W
       color: green
       x: 5
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b9
       dir: W
       color: green
       x: 4
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b10
       dir: W
       color: green
       x: 3
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b11
       dir: W
       color: green
       x: 2
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b12
       dir: W
       color: gold
       x: 1
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b13
       dir: S
       color: gold
       x: 0
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b14
       dir: S
       color: gold
       x: 0
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b15
       dir: W
       color: gold
       x: 0
       y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    mirrors: []
+    mechanic: 
+    demo: 0
   - id: woven-seals
     name: "\uB9C8\uC9C0\uB9C9 \uBD09\uC778\uC2E4"
     tag: "06 \xB7 \uB450 \uC218 \uC55E\uC758 \uACF5\uAC04"
@@ -434,108 +614,466 @@ MonoBehaviour:
       color: red
       x: 0
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b1
       dir: E
       color: red
       x: 1
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b2
       dir: E
       color: red
       x: 2
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b3
       dir: E
       color: red
       x: 3
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b4
       dir: E
       color: blue
       x: 4
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b5
       dir: N
       color: blue
       x: 5
       y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b6
       dir: N
       color: blue
       x: 5
       y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b7
       dir: E
       color: blue
       x: 5
       y: 0
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b8
       dir: W
       color: green
       x: 5
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b9
       dir: W
       color: green
       x: 4
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b10
       dir: W
       color: green
       x: 3
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b11
       dir: W
       color: green
       x: 2
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b12
       dir: W
       color: gold
       x: 1
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b13
       dir: S
       color: gold
       x: 0
       y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b14
       dir: S
       color: gold
       x: 0
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b15
       dir: W
       color: gold
       x: 0
       y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b16
       dir: N
       color: blue
       x: 3
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b17
       dir: W
       color: blue
       x: 4
       y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b18
       dir: W
       color: blue
       x: 3
       y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b19
       dir: N
       color: gold
       x: 5
       y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b20
       dir: N
       color: gold
       x: 4
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
     - id: b21
       dir: N
       color: gold
       x: 2
       y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    mirrors: []
+    mechanic: 
+    demo: 0
+  - id: demo-chain
+    name: "\uC0AC\uC2AC\uC758 \uC5F0\uACB0"
+    tag: "\uC0AC\uC2AC"
+    desc: "\uACB0\uACC4\uB97C \uAE68\uBA74 \uC5F0\uACB0\uB41C \uC0AC\uC2AC\uC774
+      \uD480\uB824\uC694."
+    tip: "\uBE68\uAC04 \uACB0\uACC4\uC640 \uCD08\uB85D \uACB0\uACC4\uC5D0 \uC5F0\uACB0\uB41C
+      \uC0AC\uC2AC\uC744 \uCC3E\uC544\uBCF4\uC138\uC694."
+    size: 6
+    capacity: 5
+    seals:
+      N:
+      - color: green
+        hp: 2
+      - color: gold
+        hp: 2
+      E:
+      - color: red
+        hp: 2
+      - color: blue
+        hp: 3
+    blocks:
+    - id: c0
+      dir: E
+      color: red
+      x: 1
+      y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: c1
+      dir: E
+      color: blue
+      x: 3
+      y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: c2
+      dir: E
+      color: red
+      x: 1
+      y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: c3
+      dir: E
+      color: blue
+      x: 4
+      y: 1
+      depth: 0
+      chainSide: E
+      chainLayer: 0
+    - id: c4
+      dir: E
+      color: blue
+      x: 4
+      y: 3
+      depth: 0
+      chainSide: E
+      chainLayer: 0
+    - id: c5
+      dir: N
+      color: green
+      x: 0
+      y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: c6
+      dir: N
+      color: green
+      x: 2
+      y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: c7
+      dir: W
+      color: gold
+      x: 0
+      y: 5
+      depth: 0
+      chainSide: N
+      chainLayer: 0
+    - id: c8
+      dir: S
+      color: gold
+      x: 3
+      y: 5
+      depth: 0
+      chainSide: N
+      chainLayer: 0
+    mirrors: []
+    mechanic: chain
+    demo: 1
+  - id: demo-mirror
+    name: "\uBE5B\uC774 \uAEBE\uC774\uB294 \uAE38"
+    tag: "\uBC18\uC0AC\uACBD"
+    desc: "\uBC18\uC0AC\uACBD\uC5D0\uC11C \uB8EC\uC758 \uC9C4\uD589 \uBC29\uD5A5\uC774
+      \uAEBE\uC5EC\uC694."
+    tip: "\uC810\uC120\uC744 \uB530\uB77C\uAC00\uBA74 \uC5B4\uB290 \uACB0\uACC4\uC5D0
+      \uB2FF\uC744\uC9C0 \uC54C \uC218 \uC788\uC5B4\uC694."
+    size: 6
+    capacity: 5
+    seals:
+      N:
+      - color: green
+        hp: 2
+      - color: gold
+        hp: 2
+      E:
+      - color: red
+        hp: 2
+      - color: blue
+        hp: 2
+    blocks:
+    - id: m0
+      dir: N
+      color: red
+      x: 1
+      y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: m1
+      dir: N
+      color: red
+      x: 1
+      y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: m2
+      dir: N
+      color: blue
+      x: 3
+      y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: m3
+      dir: N
+      color: blue
+      x: 3
+      y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: m4
+      dir: N
+      color: green
+      x: 0
+      y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: m5
+      dir: W
+      color: green
+      x: 2
+      y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: m6
+      dir: W
+      color: gold
+      x: 2
+      y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: m7
+      dir: S
+      color: gold
+      x: 5
+      y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    mirrors:
+    - x: 1
+      y: 1
+      slash: 1
+    - x: 3
+      y: 3
+      slash: 1
+    - x: 0
+      y: 3
+      slash: 0
+    mechanic: mirror
+    demo: 1
+  - id: demo-stack
+    name: "\uACB9\uCCD0\uC9C4 \uB8EC"
+    tag: "\uACB9\uB8EC"
+    desc: "\uD070 \uB8EC\uC744 \uBE7C\uBA74 \uC791\uC740 \uBBF8\uB9AC\uBCF4\uAE30
+      \uB8EC\uC774 \uC62C\uB77C\uC640\uC694."
+    tip: "\uC791\uC740 \uB8EC\uC758 \uC0C9\uACFC \uD654\uC0B4\uD45C\uAE4C\uC9C0 \uBCF4\uACE0
+      \uC21C\uC11C\uB97C \uC815\uD574 \uBCF4\uC138\uC694."
+    size: 6
+    capacity: 5
+    seals:
+      N:
+      - color: green
+        hp: 2
+      - color: gold
+        hp: 2
+      E:
+      - color: red
+        hp: 2
+      - color: blue
+        hp: 3
+    blocks:
+    - id: s0
+      dir: E
+      color: red
+      x: 1
+      y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: s1
+      dir: N
+      color: blue
+      x: 1
+      y: 2
+      depth: 1
+      chainSide: 
+      chainLayer: 0
+    - id: s2
+      dir: E
+      color: blue
+      x: 3
+      y: 2
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: s3
+      dir: E
+      color: red
+      x: 3
+      y: 2
+      depth: 1
+      chainSide: 
+      chainLayer: 0
+    - id: s4
+      dir: N
+      color: green
+      x: 4
+      y: 4
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: s5
+      dir: S
+      color: gold
+      x: 4
+      y: 4
+      depth: 1
+      chainSide: 
+      chainLayer: 0
+    - id: s6
+      dir: N
+      color: green
+      x: 0
+      y: 1
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: s7
+      dir: W
+      color: gold
+      x: 0
+      y: 5
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    - id: s8
+      dir: E
+      color: blue
+      x: 5
+      y: 3
+      depth: 0
+      chainSide: 
+      chainLayer: 0
+    mirrors: []
+    mechanic: stack
+    demo: 1

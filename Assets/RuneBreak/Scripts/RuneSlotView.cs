@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace RuneBreak
 {
@@ -7,7 +8,7 @@ namespace RuneBreak
     {
         public Image panel, gem, locked, sparkle, loading;
         public RectTransform gemRect,loadingRect;
-        public RunePixelText label;
+        public TMP_Text label;
         public Button button;
         private bool occupied, ready, pending, full;
         private int index,colorIndex;
@@ -15,14 +16,14 @@ namespace RuneBreak
         public void Render(RuneArtLibrary art,RuneRules rules,RuneState s,int slot,bool pending)
         {
             index=slot;int id=s.slots[slot];occupied=id>=0;this.pending=pending;full=s.Filled==5;library=art;
-            panel.enabled=occupied;gem.enabled=occupied&&!pending;locked.enabled=false;label.enabled=occupied;
+            panel.enabled=occupied;gem.enabled=occupied&&!pending;locked.enabled=false;label.enabled=true;
             sparkle.enabled=false;loading.enabled=occupied&&pending;
-            if(!occupied)return;
+            if(!occupied){label.text=(slot+1).ToString();label.color=RuneArtLibrary.Hex("77827a");return;}
             var b=rules.Level.blocks[id];ready=rules.Target(s,b.color)>=0;
             colorIndex=RuneArtLibrary.ColorIndex(b.color);gem.sprite=art.storedRunes[colorIndex];gem.color=Color.white;sparkle.color=RuneArtLibrary.Light(b.color);loading.color=RuneArtLibrary.Mid(b.color);
             // WAIT is baked by the original per-rectangle alpha compositor, not a whole-sprite fade.
-            bool waiting=!ready&&!pending;gem.enabled=occupied&&!pending&&!waiting;locked.enabled=false;label.enabled=occupied&&!waiting;
-            label.Text=pending?"...":"TAP";label.color=RuneArtLibrary.Light(b.color);
+            bool waiting=!ready&&!pending;gem.enabled=occupied&&!pending&&!waiting;locked.enabled=false;
+            label.text=pending?"...":waiting?"WAIT":"TAP";label.color=waiting?RuneArtLibrary.Hex("b5bbac"):RuneArtLibrary.Light(b.color);
         }
         public void Tick(float time,bool reduced)
         {

@@ -2,34 +2,190 @@
   "unity": "6000.3.2f1",
   "compileErrors": 0,
   "entryFlow": "Splash -> Play -> MainPage -> PlayPage",
-  "levelCount": 6,
+  "levelCount": 9,
   "originalStateTransitionsCompared": 130,
-  "additionalRuleScenarios": 3600,
+  "additionalRuleScenarios": 5400,
   "level5And6RequireFiveStorageSlots": true,
   "rapidLaunchAndPoolCancellation": "passed; six simultaneous launches; hierarchy unchanged",
   "levelTransitionReset": "passed; six transitions with blocked-tap feedback, immediate resting transforms, restart/undo/page reentry, 50 interrupted launches and all 48 baked flights reused; hierarchy unchanged",
-  "liveLevel6Solve": { "taps": 39, "peakStorage": 5, "result": "won" },
+  "liveLevel6Solve": {
+    "taps": 39,
+    "peakStorage": 5,
+    "result": "won"
+  },
   "uiInteraction": "passed: rune raycast/click, settings listeners, modal blocking, five lobby tabs",
-  "layoutsChecked": ["540x960", "540x1200", "768x1024"],
-  "removedPrototypeUI": ["chapter title", "north/east text panels", "undo/restart/hint buttons", "Z/R/H shortcuts", "debug stats"],
+  "layoutsChecked": [
+    "540x960",
+    "540x1200",
+    "768x1024"
+  ],
+  "removedPrototypeUI": [
+    "chapter title",
+    "north/east text panels",
+    "undo/restart/hint buttons",
+    "Z/R/H shortcuts",
+    "debug stats"
+  ],
   "pixelComparisons": {
-    "board": { "pixels": 82944, "differences": 0 },
-    "northSeal": { "pixels": 15600, "differences": 0 },
-    "eastSeal": { "pixels": 18000, "differences": 0 },
-    "emptyRecastPanel": { "pixels": 37152, "differences": 0 },
-    "twoWaitingSlots": { "pixels": 7920, "differences": 0 },
-    "asepriteRoundTrip": { "differentChannels": 0 }
+    "board": {
+      "pixels": 82944,
+      "differences": 0
+    },
+    "northSeal": {
+      "pixels": 15600,
+      "differences": 0
+    },
+    "eastSeal": {
+      "pixels": 18000,
+      "differences": 0
+    },
+    "emptyRecastPanel": {
+      "pixels": 37152,
+      "differences": 0
+    },
+    "twoWaitingSlots": {
+      "pixels": 7920,
+      "differences": 0
+    },
+    "asepriteRoundTrip": {
+      "differentChannels": 0
+    }
   },
   "pixelComparisonBaseline": "Original art before gate UI simplification; the latest gate presentation is covered by the screenshots below.",
   "gatePresentation": {
     "remainingHealth": "Live three-hit gate rendered as three blocks; a completed hit selected gate_1_E_0_2 with two remaining blocks.",
-    "removed": ["numeric gate badges", "OK completion badge", "TO POUCH plaque"],
-    "screenshots": ["Gate-3-blocks.png", "Gate-2-blocks.png", "Gate-completed.png"],
+    "removed": [
+      "numeric gate badges",
+      "OK completion badge",
+      "TO POUCH plaque"
+    ],
+    "screenshots": [
+      "Gate-3-blocks.png",
+      "Gate-2-blocks.png",
+      "Gate-completed.png"
+    ],
     "compileErrors": 0
   },
   "artWorkflow": "Original HTML drawing functions + presentation.cjs UI overrides -> PNG -> Unity point-filtered atlas; original rune sheet also preserved and round-trip verified in Aseprite",
   "comfyDesktop": "Window access rejected by automatic approval review; app was not used to generate art.",
   "audio": "Original synthesis recipes rendered offline; not a bit-identical Web Audio/compressor implementation.",
   "legacyGame": "Archived outside Unity Assets at Archive/LegacyGame",
-  "progressAfterQA": "Reset RuneBreak.Clears and RuneBreak.Next to 0"
+  "progressAfterQA": "Campaign progress preserved; mechanic demos do not write campaign progress.",
+  "campaignLevelCount": 6,
+  "demoLevelCount": 3,
+  "mechanics": {
+    "entry": "Editor previews: MechanicPreview.cs / Chain, Mirror, Stack. Public lobby demo selectors removed.",
+    "levels": [
+      7,
+      8,
+      9
+    ],
+    "oracle": {
+      "originalRuleComparisons": 3000,
+      "mechanicCases": 3440,
+      "geometryRoutes": 40,
+      "unlockEvents": 266,
+      "revealEvents": 199,
+      "reflectedShots": 370,
+      "originalArtFiles": 453,
+      "changedOriginalArt": []
+    },
+    "csharp": {
+      "oracleCases": 3440,
+      "geometryRoutes": 40,
+      "circularChain": "dead",
+      "result": "passed"
+    },
+    "runtime": {
+      "solves": 6,
+      "peakPooledFlights": 7,
+      "stableHierarchyObjects": 629,
+      "rapidUnlock": true,
+      "stackRaycast": true,
+      "settingsPause": true,
+      "demoNavigation": true,
+      "campaignUnchanged": true
+    },
+    "art": {
+      "source": "Source/Mechanics.aseprite",
+      "tiles": [
+        "chain_wrap",
+        "mirror_slash",
+        "mirror_backslash",
+        "stack_mount"
+      ],
+      "differentChannels": 0
+    },
+    "layouts": [
+      "540x960",
+      "540x1200",
+      "768x1024"
+    ],
+    "boot": "Splash -> Play -> Home passed",
+    "preview": {
+      "file": "Mechanics-demo.gif",
+      "durationSeconds": 15,
+      "audio": false
+    },
+    "newInGameAudio": [
+      "chain.wav",
+      "reflect.wav",
+      "reveal.wav"
+    ],
+    "compileErrors": 0
+  },
+  "lobby": {
+    "background": "original #17282f dark teal",
+    "playButton": "Lv.N",
+    "sidebars": "3 placeholder icons on each side",
+    "removed": [
+      "progress record",
+      "subtitle",
+      "mechanic demo section",
+      "OriginalPixelBoard",
+      "central board and platform"
+    ],
+    "showcase": "floating runes and breakable seal blocks; automatic loop, tap to burst, pixel debris",
+    "bakedFlights": 6,
+    "gameplayPoolUnchanged": true,
+    "campaignProgressUnchanged": true,
+    "validation": "Eight burst loops, reduced motion, modal pause, tab reentry, constant hierarchy, play navigation, 540x960 / 540x1200 / 768x1024 layout checks passed",
+    "preview": "Lobby-preview.gif",
+    "screenshot": "Lobby-dark-teal.png",
+    "compileErrors": 0
+  },
+  "typography": {
+    "font": "Galmuri11 Regular and Bold",
+    "source": "Project_SH/Assets/Font/Galmuri",
+    "allShippedText": "TextMeshPro; 130 prefab labels plus Splash labels",
+    "removed": [
+      "RunePixelText.cs",
+      "custom glyph table",
+      "runtime mesh text renderer",
+      "baked cabinet and WAIT inscriptions"
+    ],
+    "fontAtlases": "12 px RASTER_HINTED, static, point-filtered, all 11,172 modern Hangul syllables in each typeface",
+    "textlessArt": {
+      "variants": 11,
+      "nonTextPixelDifferences": 0,
+      "originalArtPreserved": true
+    },
+    "validation": [
+      "font coverage and cached prefab references",
+      "Splash entry",
+      "WAIT state",
+      "delayed effect captions",
+      "100 caption reuses and cleanup",
+      "constant hierarchy",
+      "settings text overflow",
+      "six live mechanic solves"
+    ],
+    "compileErrors": 0,
+    "screenshots": [
+      "Lobby-dark-teal.png",
+      "Galmuri-play.png",
+      "Galmuri-settings.png",
+      "Galmuri-effects.png"
+    ]
+  }
 }

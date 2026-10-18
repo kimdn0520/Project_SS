@@ -7,9 +7,10 @@ const html=fs.readFileSync(source,'utf8');
 const scripts=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(x=>x[1]);
 scripts[2]=require('./presentation.cjs')(scripts[2]);
 for(const i of [0,1,2])vm.runInThisContext(scripts[i]);
-const A=RuneArt,E=RuneEngine,levels=RuneLevels;
+const A=RuneArt,E=require('./mechanics-oracle.cjs')(RuneEngine),levels=RuneLevels;
 // Optional external catalog supports adding levels without changing rule/view code.
 if(process.argv[3])levels.splice(0,levels.length,...JSON.parse(fs.readFileSync(process.argv[3],'utf8')).levels);
+else levels.push(...JSON.parse(fs.readFileSync(path.join(__dirname,'demo-levels.json'),'utf8')).levels);
 const art=path.join(root,'Assets/RuneBreak/Art'),data=path.join(root,'Assets/RuneBreak/Data');
 fs.mkdirSync(art,{recursive:true});fs.mkdirSync(data,{recursive:true});
 fs.mkdirSync(path.join(__dirname,'Source'),{recursive:true});
@@ -30,12 +31,9 @@ png('slot',60,60,c=>{A.box(c,0,0,60,60,'#243c41','#121f28',4);A.rect(c,4,4,52,2,
 const gates=[];
 levels.forEach((l,li)=>{for(const side of E.SIDES){let spent=0;for(let layer=0;layer<l.seals[side].length;layer++){const max=l.seals[side][layer].hp;for(let mask=0;mask<(1<<max)-1;mask++){const holes=Array.from({length:max},(_,i)=>i).filter(i=>mask&(1<<i));const s=E.initial(l);s.spent[side]=spent+holes.length;const name=`gate_${li}_${side}_${layer}_${mask}`;const r=side==='N'?{x:90,y:24,w:300,h:52}:{x:394,y:78,w:60,h:300};png(name,r.w,r.h,c=>{c.translate(-r.x,-r.y);A.drawGate(c,side,l,s,holes,0,null,s);});gates.push({name,level:li,side,layer,mask});}spent+=max;}const s=E.initial(l);s.spent[side]=E.total(l,side);const r=side==='N'?{x:90,y:24,w:300,h:52}:{x:394,y:78,w:60,h:300};const name=`gate_${li}_${side}_done`;png(name,r.w,r.h,c=>{c.translate(-r.x,-r.y);A.drawGate(c,side,l,s,[],0,null,s);});gates.push({name,level:li,side,layer:l.seals[side].length,mask:0});}});
 fs.writeFileSync(path.join(data,'gates.json'),JSON.stringify({gates}));
-// Pixel glyph definitions drive the Unity mesh text; no font approximation in the cabinet.
-const glyphMatch=scripts[2].match(/const glyphs=(\{[\s\S]*?\n\});/);
-const glyphs=vm.runInNewContext('('+glyphMatch[1]+')');
-fs.writeFileSync(path.join(data,'glyphs.json'),JSON.stringify({glyphs:Object.entries(glyphs).map(([key,rows])=>({key,rows}))}));
+// Shipped UI text uses Galmuri font assets. No custom glyph table is exported.
 const refs=[];levels.forEach((l,i)=>{let s=E.initial(l);const c=png('reference_'+i,480,584,c=>{A.frame(c,0,false);for(const side of ['N','E','S','W'])A.drawGate(c,side,l,s,[],0,null,s);for(const b of l.blocks){const p=A.center(b);A.crystal(c,b.color,p.x,p.y,40,{dir:b.dir});}A.drawSlots(c,l,s,0,new Set(),null,0);});refs.push(c);});
-const report=levels.map(l=>{E.validate(l);const route=E.solve(l);let state=E.initial(l);const traces=[];for(const a of route){const out=E.step(l,state,a);state=out.state;traces.push({action:a,state});}return {id:l.id,route,traces,capacity4:E.analyze(l,E.initial(l),{capacity:4}).status};});
+const report=levels.map(l=>{const extended=(l.mirrors||[]).length||l.blocks.some(b=>b.chainSide||b.depth>0);const X=extended?E:RuneEngine;X.validate(l);const route=X.solve(l);let state=X.initial(l);const traces=[];for(const a of route){const out=X.step(l,state,a);state=out.state;traces.push({action:a,state});}return {id:l.id,route,traces,capacity4:X.analyze(l,X.initial(l),{capacity:4}).status};});
 fs.writeFileSync(path.join(data,'oracle.json'),JSON.stringify({reports:report}));
 const sheet=createCanvas(240,192),ctx=sheet.getContext('2d');let k=0;for(const col of E.COLORS)for(const d of ['N','E','S','W','gem']){A.crystal(ctx,col,(k%5)*48+24,Math.floor(k/5)*48+22,40,d==='gem'?{}:{dir:d});k++;}
 fs.writeFileSync(path.join(__dirname,'Source/runes.png'),sheet.toBuffer('image/png'));

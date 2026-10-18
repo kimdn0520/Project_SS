@@ -1,13 +1,16 @@
 {
-    "oracleTransitions": 130,
-    "solvedLevels": 6,
-    "scenarios": 3600,
+    "oracleTransitions": 165,
+    "solvedLevels": 9,
+    "scenarios": 5400,
     "details": [
         "Level 1: 12 original transitions match; solver 12 moves/13 nodes; capacity4=Solved.",
         "Level 2: 19 original transitions match; solver 19 moves/20 nodes; capacity4=Solved.",
         "Level 3: 17 original transitions match; solver 17 moves/18 nodes; capacity4=Solved.",
         "Level 4: 17 original transitions match; solver 17 moves/18 nodes; capacity4=Solved.",
         "Level 5: 28 original transitions match; solver 28 moves/29 nodes; capacity4=Dead.",
-        "Level 6: 37 original transitions match; solver 39 moves/93 nodes; capacity4=Dead."
+        "Level 6: 37 original transitions match; solver 39 moves/93 nodes; capacity4=Dead.",
+        "Level 7: 12 original transitions match; solver 12 moves/13 nodes; capacity4=Solved.",
+        "Level 8: 10 original transitions match; solver 10 moves/11 nodes; capacity4=Solved.",
+        "Level 9: 13 original transitions match; solver 13 moves/14 nodes; capacity4=Solved."
     ]
 }

@@ -1,0 +1,59 @@
+{
+  "sprites": [
+    {
+      "name": "cabinet_0",
+      "removedTextPixels": 711,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "cabinet_1",
+      "removedTextPixels": 711,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "cabinet_2",
+      "removedTextPixels": 711,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "wait_red",
+      "removedTextPixels": 73,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "wait_red_full",
+      "removedTextPixels": 73,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "wait_blue",
+      "removedTextPixels": 73,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "wait_blue_full",
+      "removedTextPixels": 73,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "wait_gold",
+      "removedTextPixels": 73,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "wait_gold_full",
+      "removedTextPixels": 73,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "wait_green",
+      "removedTextPixels": 73,
+      "nonTextDifferences": 0
+    },
+    {
+      "name": "wait_green_full",
+      "removedTextPixels": 73,
+      "nonTextDifferences": 0
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "width": 192,
+  "height": 48,
+  "tiles": [
+    "chain_wrap",
+    "mirror_slash",
+    "mirror_backslash",
+    "stack_mount"
+  ]
+}

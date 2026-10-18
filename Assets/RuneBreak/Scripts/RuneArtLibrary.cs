@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace RuneBreak
 {
-    [Serializable] public class RuneGlyph { public string key; public string[] rows; }
-    [Serializable] public class RuneGlyphJson { public RuneGlyph[] glyphs; }
     [Serializable] public class RuneGateSprite { public string name, side; public int level, layer, mask; public Sprite sprite; }
     [Serializable] public class RuneGateJson { public RuneGateSprite[] gates; }
     [CreateAssetMenu(menuName="Rune Break/Art Library")]
@@ -13,10 +11,9 @@ namespace RuneBreak
     {
         public Sprite[] cabinets, runes, storedRunes,waitSlots,fullWaitSlots;
         public Sprite white, slot, fullSlot, locked, sparkle;
+        public Sprite chainWrap,mirrorSlash,mirrorBackslash,stackMount;
         public RuneGateSprite[] gates;
-        public RuneGlyph[] glyphs;
         private Dictionary<string,Sprite> gateCache;
-        private Dictionary<char,string[]> glyphCache;
         public Sprite Rune(string color,string dir="gem") => runes[ColorIndex(color)*5+DirectionIndex(dir)];
         public static int ColorIndex(string c) => c=="red"?0:c=="blue"?1:c=="gold"?2:3;
         public static int DirectionIndex(string d) => d=="N"?0:d=="E"?1:d=="S"?2:d=="W"?3:4;
@@ -31,11 +28,6 @@ namespace RuneBreak
         {
             if(gateCache==null){gateCache=new Dictionary<string,Sprite>();foreach(var g in gates)gateCache[$"{g.level}_{g.side}_{g.layer}_{g.mask}"]=g.sprite;}
             gateCache.TryGetValue($"{level}_{(side==0?"N":"E")}_{layer}_{mask}",out var sprite);return sprite;
-        }
-        public string[] Glyph(char ch)
-        {
-            if(glyphCache==null){glyphCache=new Dictionary<char,string[]>();foreach(var g in glyphs)glyphCache[g.key[0]]=g.rows;}
-            return glyphCache.TryGetValue(char.ToUpperInvariant(ch),out var rows)?rows:glyphCache['?'];
         }
     }
 }
