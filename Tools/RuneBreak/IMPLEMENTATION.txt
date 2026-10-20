@@ -2,7 +2,7 @@ RUNE BREAK — Unity replacement
 
 Open Assets/Scenes/Splash.unity and press Play. Splash loads Play; MainPage is the initial page.
 MainPage and PlayPage are saved at Assets/Resources/Prefabs and are preplaced in Play.unity.
-MainPage tabs use stable IDs: shop, leaderboard, home, team, cards. Only Home is implemented.
+MainPage tabs use stable IDs: shop, leaderboard, home, team, modes. Modes uses a pixel gamepad icon. Only Home is implemented.
 PlayPage has the puzzle, five recast slots, top-right settings, and three bottom ready-booster placeholders.
 The HTML chapter names, north/east text panels, debug stats, undo/restart/hint controls and Z/R/H shortcuts are intentionally absent.
 
@@ -90,8 +90,39 @@ All shipped text uses TextMeshPro with Galmuri11 Regular/Bold copied from Projec
 Font sources and OFL license are in Assets/RuneBreak/Fonts/Galmuri; the source project is unchanged.
 RunePixelText and its glyph table/export were removed. Particle and icon geometry use RuneUiMesh, which contains no text rendering.
 RuneFontAuthoring bakes both font atlases at 12px RASTER_HINTED with point filtering and all 11,172 modern Hangul syllables.
-UI sizes are integer multiples of 12. Titles, play CTA and effect captions use the real Bold typeface.
+UI sizes are integer multiples of 12. All shipped UI text uses the real Bold typeface.
 Effect text uses 24 prefab-authored caption pairs plus a chain label; runtime only changes text, position, color and visibility.
 export-textless.cjs makes 11 cabinet/wait variants without baked text, and verifies zero differences outside inscription regions.
 Original PNGs, HTML and Aseprite sources remain intact. Compass/recast/slot text is now authored as TMP components.
 FontQA.cs validates font coverage, prefab references, caption delay/lifetime/reuse, WAIT state, and settings layout.
+
+MainPage depth and bold text (October 20, 2026)
+----------------------------------------------
+MainPage now uses stepped corners, directional bevels and thick lower edges, inspired by popup_bg and btn1/2/3.
+The supplied reference PNGs and original gameplay/HTML/Aseprite art are preserved.
+RuneLobbySkinAuthoring.cs holds the editable pixel geometry and original palette recipes for seven 32x32 skins.
+Art/Lobby sprites use 7px borders, 50 PPU, point filtering, Full Rect, no mipmaps or compression, and the existing RuneBreak atlas registry.
+All surfaces use Image.Type.Sliced. RuneRaisedButton moves its cached face (including labels/icons) down four UI units on press.
+The selected data-driven tab uses a gold skin and marker; shortcut placeholders and the bounded attract animation keep their existing behavior.
+MainPage settings use the same panel skin. PlayPage visual changes are limited to Bold labels and the height needed by the stage/capacity text.
+RuneFontAuthoring.Style now consistently selects Galmuri11BoldUI, including future page builds and Splash.
+Rebuild lobby with RuneProjectBuilder.RebuildLobby; this also regenerates/registers the seven UI skins.
+LobbyDepthQA.cs validates tab styles, press/release/reset, sliced surfaces, text overflow, cached hierarchy and three screen sizes.
+Preview: QA/Lobby-depth.png; before: QA/Lobby-before-depth.png; settings: QA/Lobby-depth-settings.png.
+
+Managed settings popup (October 20, 2026)
+----------------------------------------
+MainPage and PlayPage open the shared Resources/Prefabs/Popups/RuneSettingsPopup.prefab through the existing PopupManager.
+The Play scene authors PopupManager/PopupParent, the render camera and the prefab registration; PageManager owns Escape routing.
+The manager caches the prefab asset and creates a complete instance under PopupParent on open. Close destroys the instance after its animation.
+Canvas, CanvasGroup, controls, animation panel and full-screen transition input blocker are all prefab-authored and serialized.
+BasePopupHandler no longer discovers components or constructs an input blocker. PopupManager uses its already-existing singleton and assigned camera.
+Only the panel scales during transitions; the curtain and transition blocker continue to cover the full screen.
+Opening/closing/queued requests block board input and pause presentation. Page exit cancels pending requests and removes live instances.
+Default popup frame: sliced pixel panel with a centered gold title plaque overlapping its top edge; author future popups with the shared PopupPanel helper in RunePopupAuthoring.
+Settings has the title 설정, separate 배경음/효과음 toggles and a bottom 닫기 button, identically in lobby and gameplay. All close paths save preferences.
+Music uses the existing SoundManager Sound_BgmOn preference and applies to an already-present manager; Rune Break currently has no assigned background music track. SFX keeps the existing RuneBreak.Audio path.
+Reduced motion, path preview and volume retain their stored preferences but are no longer shown in settings. The result overlay is still owned by PlayPage.
+Rebuild the visual prefab with Rune Break / Rebuild settings popup only; use Rebuild settings popup and wire manager when authoring scene connections.
+QA: PopupQA.cs; popup-runtime-report.json covers title plaque, audio controls, repeated opens, prefab hierarchy, destruction, settings persistence, pause, back, page exit and queue.
+Screenshots: QA/SettingsPopup-lobby.png and QA/SettingsPopup-play.png.

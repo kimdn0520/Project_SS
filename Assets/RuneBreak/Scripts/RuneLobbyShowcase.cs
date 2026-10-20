@@ -13,7 +13,7 @@ namespace RuneBreak
         public Image[] runes;
         public RectTransform[] runeRects;
         public RectTransform stage;
-        public GameObject settings;
+        public RuneLobbyPage page;
         public AudioSource audioSource;
         public AudioClip launchSound,breakSound;
         private readonly RuneBlock[] blocks=new RuneBlock[6];
@@ -41,7 +41,7 @@ namespace RuneBreak
         }
         public void Interact()
         {
-            if(settings.activeSelf)return;
+            if(page.IsModalBlocked)return;
             if(landed==6){RestartPreview();}
             touchUntil=clock+2.4f;nextLaunch=Mathf.Min(nextLaunch,clock+.04f);
             effects.AddWave(new Vector2(240,312),"gold",true);
@@ -50,7 +50,7 @@ namespace RuneBreak
         private void Update()=>AdvancePresentation(Mathf.Min(.05f,Time.unscaledDeltaTime));
         public void AdvancePresentation(float dt)
         {
-            if(!ready||settings.activeSelf)return;
+            if(!ready||page.IsModalBlocked)return;
             clock+=dt;bool reduced=RunePreferences.Reduced;
             // Wait for the green layer to visibly clear before launching the gold layer.
             if(launched<6&&clock>=nextLaunch&&(launched<2||landed>=2))Launch(reduced);

@@ -345,7 +345,7 @@ public class PageManager : SingletonMonoBehaviour<PageManager>
     private void HandleBackInput()
     {
         // 1. PopupManager에 열린 팝업이 있으면 팝업 먼저 닫기
-        if (popupManager != null && popupManager.HasOpenPopups)
+        if (popupManager != null && popupManager.IsBlockingInput)
         {
             PopupManager.HandleBackInput();
             return;

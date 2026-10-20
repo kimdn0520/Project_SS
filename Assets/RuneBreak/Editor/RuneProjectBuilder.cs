@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 namespace RuneBreak.Editor
 {
-    public static class RuneProjectBuilder
+    public static partial class RuneProjectBuilder
     {
         private const string Root="Assets/RuneBreak/";
         private static RuneArtLibrary art;
@@ -40,6 +40,7 @@ namespace RuneBreak.Editor
             play=((GameObject)PrefabUtility.InstantiatePrefab(playAsset)).GetComponent<RunePlayPage>();
             lobby=((GameObject)PrefabUtility.InstantiatePrefab(mainAsset)).GetComponent<RuneLobbyPage>();
             play.pages=manager;lobby.pages=manager;play.SetupRenderCamera(cam);lobby.SetupRenderCamera(cam);
+            BuildSettingsPopupPrefab();ConfigurePopupManager(manager,cam);
             PrefabUtility.RecordPrefabInstancePropertyModifications(play);PrefabUtility.RecordPrefabInstancePropertyModifications(lobby);
             PrefabUtility.RecordPrefabInstancePropertyModifications(play.Canvas);PrefabUtility.RecordPrefabInstancePropertyModifications(lobby.Canvas);
             var so=new SerializedObject(manager);var list=so.FindProperty("scenePages");list.arraySize=2;
@@ -101,7 +102,7 @@ namespace RuneBreak.Editor
         private static RunePlayPage BuildPlay()
         {
             var pair=Page<RunePlayPage>("PlayPage");var p=pair.page;var root=pair.content;p.art=art;p.catalog=levels;
-            p.stageNumber=CenteredText("StageNumber",root,150,66,240,25,"STAGE 01",24,Paper);
+            p.stageNumber=CenteredText("StageNumber",root,150,60,240,36,"STAGE 01",24,Paper);
             p.mechanicHint=Text("MechanicHint",root,42,112,456,42,"",16,Muted);p.mechanicHint.alignment=TextAlignmentOptions.Center;
             var settings=Button("Settings",root,452,44,58,52,"설정");UnityEventTools.AddPersistentListener(settings.onClick,p.OpenSettings);
             p.cabinet=Rect("Cabinet_Original480x584",root,30,165,480,584);
@@ -144,7 +145,7 @@ namespace RuneBreak.Editor
                 s.sparkle=Image("ReadySparkle",rt,47,7,5,5,art.sparkle,Color.white);s.loading=Image("ArrivalProgress",rt,9,51,42,2,null,Color.white);s.loadingRect=(RectTransform)s.loading.transform;
                 p.slots[i]=s;s.panel.enabled=s.gem.enabled=s.label.enabled=s.locked.enabled=s.sparkle.enabled=s.loading.enabled=false;
             }
-            Image("CountBacking",p.cabinet,404,447,37,12,null,RuneArtLibrary.Hex("2d373b"));p.occupancy=CenteredText("Capacity",p.cabinet,400,446,37,12,"0/5",12,Paper,TextAnchor.MiddleRight);
+            Image("CountBacking",p.cabinet,404,447,37,12,null,RuneArtLibrary.Hex("2d373b"));p.occupancy=CenteredText("Capacity",p.cabinet,400,444,37,16,"0/5",12,Paper,TextAnchor.MiddleRight);
             var flightRoot=Rect("BakedFlights",p.cabinet,0,0,480,584);p.pool=flightRoot.gameObject.AddComponent<PoolManager>();Set(p.pool,"persistAcrossScenes",false);Set(p.pool,"useBakedPools",true);
             var instances=new PoolObject[48];
             for(int i=0;i<instances.Length;i++)
@@ -159,57 +160,79 @@ namespace RuneBreak.Editor
             ConfigurePins(p,root);
             p.audioSource=p.gameObject.AddComponent<AudioSource>();p.audioSource.playOnAwake=false;p.audioSource.spatialBlend=0;
             p.sounds=new[]{"launch","relaunch","store","hit","break","blocked","loss","win","chain","reflect","reveal"}.Select(s=>AssetDatabase.LoadAssetAtPath<AudioClip>(Root+"Audio/"+s+".wav")).ToArray();
-            p.settings=Settings(root);var leave=Button("LeaveLevel",p.settings.transform,64,724,412,46,"홈으로");UnityEventTools.AddPersistentListener(leave.onClick,p.Home);p.result=Result(root,p);
+            p.result=Result(root,p);
             p.LoadLevel(0);return p;
         }
         private static RuneLobbyPage BuildLobby()
         {
+            RuneLobbySkinAuthoring.EnsureSkins();
             var pair=Page<RuneLobbyPage>("MainPage");var p=pair.page;var root=pair.content;p.catalog=levels;
             var scenery=Rect("PixelTealScenery",root,0,0,540,960).gameObject.AddComponent<RuneLobbyScenery>();scenery.raycastTarget=false;
-            LobbyPanel("Profile",root,24,24,52,52,"f2eddf");CenteredText("ProfileGlyph",root,25,25,50,50,"R",24,Ink);
-            LobbyPanel("Coins",root,88,30,155,40,"f2eddf");Text("Currency",root,102,34,130,30,"코인  0",17,Ink);
-            LobbyPanel("Lives",root,255,30,157,40,"f2eddf");Text("Energy",root,270,34,132,30,"하트  5",17,Ink);
-            var settings=LobbyButton("Settings",root,428,24,88,52,"설정","f2eddf");UnityEventTools.AddPersistentListener(settings.onClick,p.OpenSettings);
-            p.tabs=new RuneLobbyTab[5];string[] ids={"shop","leaderboard","home","team","cards"},names={"상점","리더보드","홈","팀","카드"},glyphs={"S","1","H","T","C"};
+            LobbyPanel("Profile",root,24,24,56,56,"teal");CenteredText("ProfileGlyph",root,25,23,54,50,"R",24,RuneArtLibrary.Hex("fff1af"));
+            LobbyPanel("Coins",root,90,26,154,52,"inset");LobbyIcon(root,100,37,24,24,"coin",RuneArtLibrary.Hex("e2b860"));
+            CenteredText("Currency",root,132,33,100,32,"코인 0",24,Paper);
+            LobbyPanel("Lives",root,254,26,154,52,"inset");LobbyIcon(root,264,37,24,24,"heart",RuneArtLibrary.Hex("d86d75"));
+            CenteredText("Energy",root,296,33,100,32,"하트 5",24,Paper);
+            var settings=LobbyButton("Settings",root,420,24,96,56,"설정","teal");UnityEventTools.AddPersistentListener(settings.onClick,p.OpenSettings);
+            LobbyPanel("NavigationDock",root,12,832,516,116,"panel");
+            p.idleTabSkin=RuneLobbySkinAuthoring.Skin("teal");p.selectedTabSkin=RuneLobbySkinAuthoring.Skin("gold");
+            p.tabs=new RuneLobbyTab[5];string[] ids={"shop","leaderboard","home","team","modes"},names={"상점","리더보드","홈","팀","모드"};
             for(int i=0;i<5;i++)
             {
                 var content=Rect("Tab_"+ids[i],root,24,110,492,728);p.tabs[i]=new RuneLobbyTab{id=ids[i],content=content.gameObject};
                 if(i==2)
                 {
-                    CenteredText("TitleShadow",content,2,26,492,56,"RUNE BREAK",48,Ink);CenteredText("Title",content,0,22,492,56,"RUNE BREAK",48,RuneArtLibrary.Hex("fff1af"));
+                    CenteredText("TitleShadow",content,0,28,492,56,"RUNE BREAK",48,RuneArtLibrary.Hex("513d29"));CenteredText("Title",content,0,22,492,56,"RUNE BREAK",48,RuneArtLibrary.Hex("fff1af"));
+                    Image("TitleRuleLeft",content,138,100,92,2,null,RuneArtLibrary.Hex("516662"));
+                    Image("TitleRuleRight",content,262,100,92,2,null,RuneArtLibrary.Hex("516662"));
+                    Image("TitleRune",content,242,97,8,8,art.sparkle,RuneArtLibrary.Hex("e2b860"));
                     p.showcase=BuildLobbyShowcase(content);
                     string[] marks={"flag","gift","scroll","calendar","mail","star"},labels={"이벤트","보상","미션","출석","우편","소식"};
                     for(int j=0;j<6;j++){
-                        float x=j<3?0:434,y=180+(j%3)*100;
-                        var side=LobbyButton((j<3?"LeftShortcut_":"RightShortcut_")+(j%3),content,x,y,58,58,"","f2eddf");
-                        LobbyIcon(side.transform,0,7,58,42,marks[j],RuneArtLibrary.Hex(j<3?"436b57":"355875"));
-                        Text("Caption",side.transform,-7,62,72,22,labels[j],12,Paper).alignment=TextAlignmentOptions.Center;
+                        float x=j<3?0:428,y=180+(j%3)*104;
+                        var side=LobbyButton((j<3?"LeftShortcut_":"RightShortcut_")+(j%3),content,x,y,64,66,"",j<3?"teal":"blue");
+                        LobbyIcon(side.face,0,6,64,42,marks[j],RuneArtLibrary.Hex(j<3?"d4e7ac":"c0e4e5"));
+                        Text("Caption",side.face,-4,70,72,22,labels[j],12,Paper).alignment=TextAlignmentOptions.Center;
                         UnityEventTools.AddPersistentListener(side.onClick,p.ShowComingSoon);
                     }
-                    var play=LobbyButton("Play",content,84,626,324,78,"Lv.1","e2b860");p.playLabel=play.GetComponentInChildren<TMP_Text>();p.playLabel.fontSize=36;RuneFontAuthoring.Style(p.playLabel,true);UnityEventTools.AddPersistentListener(play.onClick,p.Play);
+                    var play=LobbyButton("Play",content,84,622,324,88,"Lv.1","gold");p.playLabel=play.GetComponentInChildren<TMP_Text>();p.playLabel.fontSize=36;UnityEventTools.AddPersistentListener(play.onClick,p.Play);
+                    Image("LeftRune",play.face,28,34,12,12,art.sparkle,RuneArtLibrary.Hex("fff1af"));
+                    Image("RightRune",play.face,284,34,12,12,art.sparkle,RuneArtLibrary.Hex("fff1af"));
                 }
-                else {CenteredText("TabGlyph",content,0,205,492,90,glyphs[i],72,Paper);Text("Title",content,0,320,492,55,names[i],29,Paper).alignment=TextAlignmentOptions.Center;Text("Placeholder",content,35,390,422,80,"준비 중이에요.\n새로운 소식을 기다려 주세요.",18,Muted).alignment=TextAlignmentOptions.Center;}
-                var button=LobbyButton("Nav_"+ids[i],root,24+i*100,864,92,78,"","d4e7ac");p.tabs[i].background=button.image;
-                LobbyIcon(button.transform,0,9,92,32,ids[i],Ink);p.tabs[i].label=Text("Label",button.transform,0,46,92,25,names[i],13,Ink);p.tabs[i].label.alignment=TextAlignmentOptions.Center;
+                else
+                {
+                    var panel=LobbyPanel("ComingSoonPanel",content,30,210,432,306,"panel");
+                    LobbyIcon(panel.transform,180,35,72,64,ids[i],RuneArtLibrary.Hex("e2b860"),5);
+                    CenteredText("Title",panel.transform,20,120,392,48,names[i],36,Paper);
+                    CenteredText("Placeholder",panel.transform,20,190,392,64,"준비 중이에요.\n새로운 소식을 기다려 주세요.",24,Muted);
+                }
+                var button=LobbyButton("Nav_"+ids[i],root,24+i*100,844,92,92,"","teal");p.tabs[i].background=button.image;
+                p.tabs[i].icon=LobbyIcon(button.face,0,12,92,36,ids[i],Muted);
+                p.tabs[i].label=CenteredText("Label",button.face,0,50,92,26,names[i],12,Paper);
+                p.tabs[i].selectedMarker=Image("SelectedMarker",button.face,34,76,24,2,null,RuneArtLibrary.Hex("fff1af")).gameObject;
                 UnityEventTools.AddIntPersistentListener(button.onClick,p.SelectTab,i);
             }
             p.comingSoon=Text("ComingSoonNotice",root,115,692,310,30,"준비 중이에요",16,Paper);p.comingSoon.alignment=TextAlignmentOptions.Center;p.comingSoon.gameObject.SetActive(false);
-            p.settings=Settings(root);p.showcase.settings=p.settings;p.SelectTab(2);return p;
+            p.showcase.page=p;p.SelectTab(2);return p;
         }
-        private static Image LobbyPanel(string name,Transform parent,float x,float y,float w,float h,string color)
+        private static Image LobbyPanel(string name,Transform parent,float x,float y,float w,float h,string skin)
         {
-            var img=Image(name,parent,x,y,w,h,null,RuneArtLibrary.Hex(color));
-            Image("LightBevel",img.transform,2,0,w-4,3,null,RuneArtLibrary.Hex("fff1af"));Image("ShadowBevel",img.transform,2,h-4,w-4,4,null,RuneArtLibrary.Hex("5e7964"));
-            Image("LeftBevel",img.transform,0,3,2,h-7,null,RuneArtLibrary.Hex("a3afa0"));Image("RightBevel",img.transform,w-2,3,2,h-7,null,RuneArtLibrary.Hex("5e7964"));return img;
+            var img=Image(name,parent,x,y,w,h,RuneLobbySkinAuthoring.Skin(skin),Color.white);
+            img.type=UnityEngine.UI.Image.Type.Sliced;return img;
         }
-        private static void LobbyIcon(Transform parent,float x,float y,float w,float h,string kind,Color color)
+        private static RuneLobbyIcon LobbyIcon(Transform parent,float x,float y,float w,float h,string kind,Color color,int pixels=3)
         {
-            var icon=Rect("Icon",parent,x,y,w,h).gameObject.AddComponent<RuneLobbyIcon>();icon.kind=kind;icon.color=color;icon.raycastTarget=false;
+            var shadow=Rect("IconShadow",parent,x,y+2,w,h).gameObject.AddComponent<RuneLobbyIcon>();shadow.kind=kind;shadow.pixelSize=pixels;shadow.color=RuneArtLibrary.Hex("101f29");shadow.raycastTarget=false;
+            var icon=Rect("Icon",parent,x,y,w,h).gameObject.AddComponent<RuneLobbyIcon>();icon.kind=kind;icon.pixelSize=pixels;icon.color=color;icon.raycastTarget=false;return icon;
         }
-        private static Button LobbyButton(string name,Transform parent,float x,float y,float w,float h,string label,string color)
+        private static RuneRaisedButton LobbyButton(string name,Transform parent,float x,float y,float w,float h,string label,string skin)
         {
-            var img=LobbyPanel(name,parent,x,y,w,h,color);img.raycastTarget=true;var b=img.gameObject.AddComponent<Button>();b.targetGraphic=img;
-            Text("Label",img.transform,4,2,w-8,h-4,label,16,Ink).alignment=TextAlignmentOptions.Center;return b;
+            var body=LobbyPanel(name,parent,x,y,w,h,"base");body.raycastTarget=true;
+            var face=LobbyPanel("Face",body.transform,0,0,w,h-4,skin);
+            var b=body.gameObject.AddComponent<RuneRaisedButton>();b.targetGraphic=face;b.face=face.rectTransform;b.restingPosition=Vector2.zero;
+            var colors=b.colors;colors.highlightedColor=Color.white;colors.pressedColor=new Color(.9f,.9f,.9f);colors.fadeDuration=0;b.colors=colors;
+            if(!string.IsNullOrEmpty(label))CenteredText("Label",face.transform,12,0,w-24,h-8,label,24,RuneArtLibrary.Hex(skin=="gold"?"513d29":skin=="green"?"293f36":"ebd8aa"));
+            return b;
         }
         private static RuneLobbyShowcase BuildLobbyShowcase(Transform parent)
         {
@@ -239,6 +262,7 @@ namespace RuneBreak.Editor
             var lobby=BuildLobby();var prefab=PrefabUtility.SaveAsPrefabAsset(lobby.gameObject,"Assets/Resources/Prefabs/MainPage.prefab");UnityEngine.Object.DestroyImmediate(lobby.gameObject);
             lobby=((GameObject)PrefabUtility.InstantiatePrefab(prefab)).GetComponent<RuneLobbyPage>();lobby.pages=manager;lobby.SetupRenderCamera(cam);PrefabUtility.RecordPrefabInstancePropertyModifications(lobby);PrefabUtility.RecordPrefabInstancePropertyModifications(lobby.Canvas);
             var so=new SerializedObject(manager);var pages=so.FindProperty("scenePages");for(int i=0;i<pages.arraySize;i++){var entry=pages.GetArrayElementAtIndex(i);if(entry.FindPropertyRelative("pageType").enumValueIndex==(int)UIPageType.MainPage)entry.FindPropertyRelative("instance").objectReferenceValue=lobby;}so.ApplyModifiedPropertiesWithoutUndo();
+            BuildSettingsPopupPrefab();ConfigurePopupManager(manager,cam);
             EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();Debug.Log("RUNE LOBBY REBUILT: original dark teal backdrop, two sidebars, interactive baked showcase, Lv. play button.");
         }
         public static void ConfigurePins(RunePlayPage p,Transform root)
@@ -256,24 +280,6 @@ namespace RuneBreak.Editor
                 pinList.Add(new RuneSafeLayout.Pin{target=slot,position=slot.anchoredPosition,bottom=true});
             }
             p.GetComponent<RuneSafeLayout>().pins=pinList.ToArray();
-        }
-        private static GameObject Settings(Transform root)
-        {
-            var overlay=Image("SettingsModal",root,0,0,540,960,null,new Color(.04f,.09f,.12f,.9f));overlay.raycastTarget=true;
-            var panel=Panel("Panel",overlay.transform,40,230,460,482);var s=overlay.gameObject.AddComponent<RuneSettingsPanel>();
-            Text("Title",panel.transform,24,25,412,45,"플레이 설정",25,Paper);
-            s.audioToggle=Toggle(panel.transform,"효과음",95);s.reducedToggle=Toggle(panel.transform,"움직임 줄이기",205);s.pathToggle=Toggle(panel.transform,"마우스 경로 미리보기",261);
-            Text("VolumeLabel",panel.transform,24,151,110,36,"음량",17,Muted);
-            var sliderRoot=Rect("Volume",panel.transform,140,159,285,22);var slider=sliderRoot.gameObject.AddComponent<Slider>();var bg=Image("Track",sliderRoot,0,0,285,22,null,Ink);bg.raycastTarget=true;
-            var fill=Image("Fill",sliderRoot,0,0,285,22,null,RuneArtLibrary.Hex("83ae83"));var fillRect=(RectTransform)fill.transform;fillRect.anchorMin=Vector2.zero;fillRect.anchorMax=Vector2.one;fillRect.offsetMin=fillRect.offsetMax=Vector2.zero;fill.type=UnityEngine.UI.Image.Type.Filled;fill.fillMethod=UnityEngine.UI.Image.FillMethod.Horizontal;slider.fillRect=fillRect;slider.targetGraphic=bg;slider.minValue=0;slider.maxValue=1;slider.value=.45f;s.volume=slider;
-            UnityEventTools.AddPersistentListener(s.audioToggle.onValueChanged,s.SetAudio);UnityEventTools.AddPersistentListener(s.reducedToggle.onValueChanged,s.SetReduced);UnityEventTools.AddPersistentListener(s.pathToggle.onValueChanged,s.SetPaths);UnityEventTools.AddPersistentListener(slider.onValueChanged,s.SetVolume);
-            Text("Rules",panel.transform,24,324,410,67,"보관은 다섯 칸까지 안전해요.\n겉층 색이 열린 룬만 재발사할 수 있어요.\n시간제한이나 재발사 대기시간은 없어요.",14,Muted);
-            var close=Button("Continue",panel.transform,24,411,412,47,"계속 플레이");UnityEventTools.AddPersistentListener(close.onClick,s.Close);overlay.gameObject.SetActive(false);return overlay.gameObject;
-        }
-        private static Toggle Toggle(Transform parent,string label,float y)
-        {
-            var rt=Rect(label,parent,24,y,412,38);var t=rt.gameObject.AddComponent<Toggle>();var bg=Image("Box",rt,376,5,30,30,null,Ink);bg.raycastTarget=true;var mark=Image("Check",rt,382,11,18,18,null,RuneArtLibrary.Hex("83ae83"));t.targetGraphic=bg;t.graphic=mark;
-            Text("Label",rt,0,2,350,35,label,18,Paper);return t;
         }
         private static GameObject Result(Transform root,RunePlayPage p)
         {
@@ -309,7 +315,7 @@ namespace RuneBreak.Editor
         }
         private static TMP_Text Text(string name,Transform parent,float x,float y,float w,float h,string text,float size,Color color)
         {
-            var rt=Rect(name,parent,x,y,w,h);var t=rt.gameObject.AddComponent<TextMeshProUGUI>();RuneFontAuthoring.Style(t,name.Contains("Title")||name=="Wordmark"||name=="Banner");t.text=text;t.fontSize=size<=14?12:size<=25?24:Mathf.Round(size/12)*12;t.color=color;t.alignment=TextAlignmentOptions.MidlineLeft;t.textWrappingMode=TextWrappingModes.Normal;return t;
+            var rt=Rect(name,parent,x,y,w,h);var t=rt.gameObject.AddComponent<TextMeshProUGUI>();RuneFontAuthoring.Style(t);t.text=text;t.fontSize=size<=14?12:size<=25?24:Mathf.Round(size/12)*12;t.color=color;t.alignment=TextAlignmentOptions.MidlineLeft;t.textWrappingMode=TextWrappingModes.Normal;return t;
         }
         private static TMP_Text CenteredText(string name,Transform parent,float x,float y,float w,float h,string text,int size,Color color,TextAnchor align=TextAnchor.MiddleCenter)
         {
@@ -322,7 +328,7 @@ namespace RuneBreak.Editor
             {
                 var rt=Rect("Caption_"+i,parent,0,0,300,36);CenterPivot(rt);fx.captionRects[i]=rt;
                 fx.captionShadows[i]=CenteredText("Shadow",rt,1,1,300,36,"",12,Ink);fx.captionLabels[i]=CenteredText("Label",rt,0,0,300,36,"",12,Paper);
-                RuneFontAuthoring.Style(fx.captionShadows[i],true);RuneFontAuthoring.Style(fx.captionLabels[i],true);
+                RuneFontAuthoring.Style(fx.captionShadows[i]);RuneFontAuthoring.Style(fx.captionLabels[i]);
                 fx.captionShadows[i].enabled=fx.captionLabels[i].enabled=false;
             }
             fx.chainLabel=CenteredText("ChainLabel",parent,176,20,128,24,"",12,RuneArtLibrary.Hex("f7dda2"));fx.chainLabel.enabled=false;

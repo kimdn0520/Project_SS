@@ -82,7 +82,7 @@ public static class MechanicQA
             }
             RunePreferences.Reduced=false;p.LoadLevel(8);Check(!p.blocks[3].gameObject.activeSelf&&p.stackPreviews[2].enabled,"Covered rune must be preview-only");
             p.Tap(2,false);Check(p.blocks[3].gameObject.activeSelf&&!p.stackPreviews[2].enabled,"Lower rune not revealed immediately");
-            p.OpenSettings();int taps=p.State.taps;var positions=p.blockRects.Select(r=>r.anchoredPosition).ToArray();p.Tap(3,false);p.AdvancePresentation(2);Check(p.State.taps==taps&&p.blockRects.Select(r=>r.anchoredPosition).SequenceEqual(positions),"Settings did not pause input/presentation");p.settings.SetActive(false);
+            p.OpenSettings();int taps=p.State.taps;var positions=p.blockRects.Select(r=>r.anchoredPosition).ToArray();p.Tap(3,false);p.AdvancePresentation(2);Check(p.State.taps==taps&&p.blockRects.Select(r=>r.anchoredPosition).SequenceEqual(positions),"Settings did not pause input/presentation");PopupManager.Clear();
             p.LoadLevel(7);p.Tap(0,false);p.AdvancePresentation(.1f);p.LoadLevel(6);Check(p.ActiveFlights==0&&p.mirrorGlints.All(g=>g.color.a==0),"Mirror flight/flash leaked between demos");
             Check(p.chainWraps[3].enabled&&p.chainWraps[4].enabled,"Chains not restored on reload");
             p.LoadLevel(8);Canvas.ForceUpdateCanvases();p.Canvas.worldCamera.Render();

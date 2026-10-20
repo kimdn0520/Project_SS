@@ -9,12 +9,18 @@ using Cysharp.Threading.Tasks;
 /// IPopupHandler 다형성과 IPopupAnimation 전략 패턴을 적용하였으며,
 /// UniTaskCompletionSource를 통해 팝업 닫힘 및 결과값(Result) 반환을 비동기로 완벽 지원합니다.
 /// </summary>
+[DefaultExecutionOrder(-200)]
 public class PopupManager : SingletonMonoBehaviour<PopupManager>
 {
+    public new static PopupManager Instance => ExistingInstance;
     [Header("[Hierarchy Root]")]
     [SerializeField] private Transform popupRoot;
     [SerializeField] private Camera renderCamera;
-    public Camera RenderCamera => renderCamera != null ? renderCamera : (renderCamera = Camera.main);
+    [SerializeField] private bool handleBackInput = true;
+    [SerializeField] private BasePopupHandler[] popupPrefabs = Array.Empty<BasePopupHandler>();
+    private readonly Dictionary<string, BasePopupHandler> prefabCache = new Dictionary<string, BasePopupHandler>(StringComparer.OrdinalIgnoreCase);
+    public Camera RenderCamera => renderCamera;
+    public Transform PopupParent => popupRoot;
 
     public void SetRenderCamera(Camera camera)
     {
@@ -34,12 +40,13 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     [SerializeField] private int baseSortingOrder = 1000;
     [SerializeField] private int sortingOrderStep = 10;
 
-    // Only live instances are retained. Prefabs are loaded on demand, never cached.
+    // Prefab assets are inspector-cached; each open/close owns one temporary live instance.
     private readonly Dictionary<string, IPopupHandler> popups = new Dictionary<string, IPopupHandler>(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, UniTaskCompletionSource<object>> pendingShows = new Dictionary<string, UniTaskCompletionSource<object>>(StringComparer.OrdinalIgnoreCase);
     private int generation;
     public int LiveInstanceCount => popups.Count;
     public bool HasOpenPopups => popupStack.Count > 0;
+    public bool IsBlockingInput => popupStack.Count > 0 || isChanging || pendingShows.Count > 0;
     public int QueuedCount => popupQueue.Count;
     // 열려있는 팝업 스택 (최상단 팝업이 Last)
     private readonly List<PopupItem> popupStack = new List<PopupItem>();
@@ -86,15 +93,14 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         }
         base.Awake();
 
-        if (popupRoot == null)
-            popupRoot = transform;
-
+        foreach(var prefab in popupPrefabs)if(prefab!=null)prefabCache[prefab.PopupName]=prefab;
+        if(popupRoot==null||renderCamera==null)Debug.LogError("PopupManager requires a scene-authored PopupParent and render camera.",this);
     }
 
     private void Update()
     {
         // 안드로이드 / PC Escape(뒤로가기) 입력 처리
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (handleBackInput && Input.GetKeyDown(KeyCode.Escape))
         {
             HandleBackInput();
         }
@@ -102,6 +108,8 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     public static bool HandleBackInput()
     {
+        if(Instance==null)return false;
+        if(Instance.isChanging||Instance.pendingShows.Count>0&&Instance.popupStack.Count==0)return true;
         if (CurrentPopup != null)
         {
             CurrentPopup.OnEscape();
@@ -132,10 +140,16 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     private async UniTask<IPopupHandler> GetOrCreatePopupAsync(string popupName, int expectedGeneration)
     {
-        ResourceRequest request = Resources.LoadAsync<BasePopupHandler>($"Prefabs/Popups/{popupName}");
-        await request;
+        if(!prefabCache.TryGetValue(popupName,out var prefab))
+        {
+            // Compatibility for legacy callers; Rune Break uses the serialized cache.
+            ResourceRequest request = Resources.LoadAsync<BasePopupHandler>($"Prefabs/Popups/{popupName}");
+            await request;
+            prefab=request.asset as BasePopupHandler;
+            if(prefab!=null)prefabCache[popupName]=prefab;
+        }
         if(this == null || generation != expectedGeneration) return null;
-        if(request.asset is BasePopupHandler prefab)
+        if(prefab!=null)
         {
             var handler=Instantiate(prefab,popupRoot);handler.name=popupName;handler.Hide();
             popups[popupName]=handler;
@@ -150,6 +164,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
     public static async UniTask ReleaseUnusedAssetsAsync()
     {
         var manager=Instance;
+        if(manager==null)return;
         if(manager.isChanging || manager.popupStack.Count>0 || manager.popupQueue.Count>0 || manager.pendingShows.Count>0)return;
         await Resources.UnloadUnusedAssets();
     }
@@ -187,7 +202,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         int expected=manager.generation;
         try
         {
-            await UniTask.WaitUntil(()=>manager==null||manager.generation!=expected||!manager.isChanging);
+            if(manager.isChanging)await UniTask.WaitUntil(()=>manager==null||manager.generation!=expected||!manager.isChanging);
             if(manager==null||manager.generation!=expected)return null;
             manager.isChanging=true;
             var handler=await manager.GetOrCreatePopupAsync(popupName,expected);
@@ -237,9 +252,10 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
             return;
         }
 
+        int expectedGeneration=generation;
         transitionCts?.Cancel();
         transitionCts?.Dispose();
-        transitionCts = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
+        transitionCts = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);
         CancellationToken ct = transitionCts.Token;
 
         isChanging = true;
@@ -272,7 +288,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         }
         finally
         {
-            isChanging = false;
+            if(this!=null&&generation==expectedGeneration)isChanging = false;
         }
     }
 
@@ -370,11 +386,13 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     private static async UniTask CloseByItemAsync(PopupItem item, object result)
     {
-        if (Instance == null || item == null || !Instance.popupStack.Contains(item) || !Instance.closing.Add(item.Handler)) return;
+        var manager=Instance;
+        if (manager == null || item == null || !manager.popupStack.Contains(item) || !manager.closing.Add(item.Handler)) return;
+        int expectedGeneration=manager.generation;
 
         Instance.transitionCts?.Cancel();
         Instance.transitionCts?.Dispose();
-        Instance.transitionCts = CancellationTokenSource.CreateLinkedTokenSource(Instance.GetCancellationTokenOnDestroy());
+        Instance.transitionCts = CancellationTokenSource.CreateLinkedTokenSource(Instance.destroyCancellationToken);
         CancellationToken ct = Instance.transitionCts.Token;
 
         Instance.isChanging = true;
@@ -404,9 +422,12 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         }
         finally
         {
-            Instance.closing.Remove(item.Handler);
-            Instance.isChanging = false;
-            Instance.CheckNextQueuedPopup();
+            if(manager!=null&&manager.generation==expectedGeneration)
+            {
+                manager.closing.Remove(item.Handler);
+                manager.isChanging = false;
+                manager.CheckNextQueuedPopup();
+            }
         }
     }
 
@@ -450,6 +471,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         }
 
         Instance.popupStack.Clear();
+        Instance.closing.Clear();
         while (Instance.popupQueue.Count > 0)
         {
             var pending = Instance.popupQueue.Dequeue();
@@ -467,7 +489,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         foreach(var pending in new List<UniTaskCompletionSource<object>>(pendingShows.Values))pending.TrySetResult(null);
         foreach(var item in popupStack)item.Complete(null);
         foreach(var item in popupQueue)item.Complete(null);
-        pendingShows.Clear();popupStack.Clear();popupQueue.Clear();popups.Clear();
+        pendingShows.Clear();popupStack.Clear();popupQueue.Clear();popups.Clear();prefabCache.Clear();
         transitionCts?.Cancel();
         transitionCts?.Dispose();
     }

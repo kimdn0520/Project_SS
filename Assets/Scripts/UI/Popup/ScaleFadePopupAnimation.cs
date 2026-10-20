@@ -19,7 +19,7 @@ public class ScaleFadePopupAnimation : IPopupAnimation
     {
         if (popup is not Component comp || duration <= 0f) return;
 
-        Transform t = comp.transform;
+        Transform t = popup is BasePopupHandler handler ? handler.AnimationTarget : comp.transform;
         CanvasGroup group = popup.CanvasGroup;
 
         float elapsed = 0f;
@@ -51,7 +51,7 @@ public class ScaleFadePopupAnimation : IPopupAnimation
     {
         if (popup is not Component comp || duration <= 0f) return;
 
-        Transform t = comp.transform;
+        Transform t = popup is BasePopupHandler handler ? handler.AnimationTarget : comp.transform;
         CanvasGroup group = popup.CanvasGroup;
 
         float elapsed = 0f;

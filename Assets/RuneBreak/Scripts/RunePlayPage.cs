@@ -26,7 +26,9 @@ namespace RuneBreak
         public RectTransform highlightRect,pathRect;
         public Image highlight,pathImage;
         public TMP_Text resultTitle,resultDescription,resultAction;
-        public GameObject settings,result,resultHome;
+        public GameObject result,resultHome;
+        public PopupManager popups;
+        public bool IsModalBlocked=>popups!=null&&popups.IsBlockingInput;
         public AudioSource audioSource;
         public AudioClip[] sounds;
         public RuneState State {get;private set;}
@@ -47,11 +49,11 @@ namespace RuneBreak
 
         public override void OnWillEnter(object param){LoadLevel(param is int i?i:Mathf.Min(PlayerPrefs.GetInt("RuneBreak.Next",0),catalog.CampaignCount-1));}
         public override void OnDidEnter(){}
-        public override void OnWillLeave(){settings.SetActive(false);CancelFlights();effects.Clear();}
+        public override void OnWillLeave(){PopupManager.Clear();CancelFlights();effects.Clear();}
         public override void OnDidLeave(){}
-        public bool HandleBack(){if(settings.activeSelf){settings.SetActive(false);return true;}Home();return true;}
+        public bool HandleBack(){if(IsModalBlocked)return PopupManager.HandleBackInput();Home();return true;}
         public void Home()=>pages.Change(UIPageType.MainPage);
-        public void OpenSettings()=>settings.SetActive(true);
+        public void OpenSettings()=>PopupManager.Show(RuneSettingsPanel.PrefabName);
         public void Restart()=>LoadLevel(LevelIndex);
         public void Previous()=>LoadLevel(Mathf.Max(0,LevelIndex-1));
         public void Next()=>LoadLevel(Rules.Level.demo?(LevelIndex+1<catalog.levels.Length?LevelIndex+1:catalog.CampaignCount):(LevelIndex+1)%catalog.CampaignCount);
@@ -89,7 +91,7 @@ namespace RuneBreak
         }
         public void Tap(int index,bool slot)
         {
-            if(State==null||settings.activeSelf||shownResult)return;
+            if(State==null||IsModalBlocked||shownResult)return;
             int id=slot?State.slots[index]:index;if(id<0)return;
             if(slot&&pending[id])return;
             var move=new RuneMove(slot?RuneMoveKind.Slot:RuneMoveKind.Board,id);
@@ -197,7 +199,7 @@ namespace RuneBreak
         public void AdvancePresentation(float dt)
         {
             if(State==null)return;
-            if(settings.activeSelf)return;
+            if(IsModalBlocked)return;
             clock+=dt;bool reduced=RunePreferences.Reduced;
             foreach(var f in flights)while(f.TakeMirrorImpact(clock,out var point))
             {

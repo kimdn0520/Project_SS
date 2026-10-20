@@ -37,13 +37,13 @@ public static class LobbyPreview
                 demo.Interact();demo.AdvancePresentation(.1f);p.SelectTab(0);p.SelectTab(2);
                 if(demo.Launched!=0||demo.Landed!=0)throw new Exception("Preview did not reset on tab reentry.");
             }
-            demo.RestartPreview();p.settings.SetActive(true);demo.Interact();for(int i=0;i<120;i++)demo.AdvancePresentation(.02f);
-            if(demo.Launched!=0)throw new Exception("Modal did not pause preview.");p.settings.SetActive(false);
+            demo.RestartPreview();p.OpenSettings();demo.Interact();for(int i=0;i<120;i++)demo.AdvancePresentation(.02f);
+            if(demo.Launched!=0)throw new Exception("Modal did not pause preview.");PopupManager.Clear();
             for(int i=0;i<5;i++){p.SelectTab(i);if(p.tabs.Count(t=>t.content.activeSelf)!=1)throw new Exception("Tab visibility");}p.SelectTab(2);
             if(count!=p.GetComponentsInChildren<Transform>(true).Length)throw new Exception("Hierarchy changed.");
             if(next!=PlayerPrefs.GetInt("RuneBreak.Next",0)||clears!=PlayerPrefs.GetInt("RuneBreak.Clears",0))throw new Exception("Preview changed progress.");
             Debug.Log("LOBBY QA PASS: both sidebars, removed content, Lv. label, eight burst loops, reduced motion, modal pause, tab cancellation, constant hierarchy, unchanged campaign progress.");
-        }finally{RunePreferences.Reduced=reduced;p.settings.SetActive(false);p.SelectTab(2);demo.RestartPreview();}
+        }finally{RunePreferences.Reduced=reduced;PopupManager.Clear();p.SelectTab(2);demo.RestartPreview();}
         Capture(p,"Lobby-dark-teal.png");
     }
     public static void PlayButton()

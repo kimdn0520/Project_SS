@@ -42,9 +42,9 @@ namespace RuneBreak.Editor
             font.name=assetName;AssetDatabase.CreateAsset(font,path);font.material.name=assetName+" Material";AssetDatabase.AddObjectToAsset(font.material,font);
             foreach(var atlas in font.atlasTextures){atlas.name=assetName+" Atlas";atlas.filterMode=FilterMode.Point;AssetDatabase.AddObjectToAsset(atlas,font);}
         }
-        public static void Style(TMP_Text text,bool bold=false)
+        public static void Style(TMP_Text text)
         {
-            text.font=bold?Bold:Regular;text.fontSharedMaterial=text.font.material;text.fontStyle=FontStyles.Normal;text.fontWeight=FontWeight.Regular;
+            text.font=Bold;text.fontSharedMaterial=text.font.material;text.fontStyle=FontStyles.Normal;text.fontWeight=FontWeight.Regular;
             text.enableAutoSizing=false;text.extraPadding=false;text.margin=Vector4.zero;text.raycastTarget=false;
         }
     }

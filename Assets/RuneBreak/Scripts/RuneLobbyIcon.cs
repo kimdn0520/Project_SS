@@ -12,6 +12,9 @@ namespace RuneBreak
         {
             vh.Clear();string rows;
             switch(kind){
+                case "check":rows="00000000/00000001/00000011/01000110/11101100/01111000/00110000/00000000";break;
+                case "coin":rows="00111100/01111110/11011011/11010011/11001011/11011011/01111110/00111100";break;
+                case "heart":rows="00000000/01100110/11111111/11111111/01111110/00111100/00011000/00000000";break;
                 case "gift":rows="00100100/00111100/11111111/10011001/11111111/01011010/01011010/01111110";break;
                 case "flag":rows="01000000/01111110/01011010/01111110/01000000/01000000/01000000/11100000";break;
                 case "scroll":rows="00111110/01000001/11011101/01000010/01011110/01000010/01111110/00000000";break;
@@ -22,10 +25,12 @@ namespace RuneBreak
                 case "leaderboard":rows="01111110/11011011/11011011/01111110/00111100/00011000/00111100/01111110";break;
                 case "home":rows="00011000/00111100/01111110/11111111/01000010/01011010/01011010/01111110";break;
                 case "team":rows="00111100/00111100/00000000/01111110/11011011/11011011/01011010/00000000";break;
+                case "modes":rows="000000010000/000001110000/000001000000/001111111100/010000000010/100100001001/101110010101/100100001001/100001100001/011110011110";break;
                 default:rows="11111000/10001110/10101011/10001001/11111001/00100001/00111111/00000000";break;
             }
-            var lines=rows.Split('/');var r=rectTransform.rect;float left=r.center.x-4*pixelSize,top=r.center.y+4*pixelSize;
-            for(int y=0;y<8;y++)for(int x=0;x<8;x++)if(lines[y][x]=='1')RuneUiMesh.Quad(vh,left+x*pixelSize,top-y*pixelSize,pixelSize,pixelSize,color);
+            var lines=rows.Split('/');int height=lines.Length,width=lines[0].Length;
+            var r=rectTransform.rect;float left=r.center.x-width*pixelSize*.5f,top=r.center.y+height*pixelSize*.5f;
+            for(int y=0;y<height;y++)for(int x=0;x<width;x++)if(lines[y][x]=='1')RuneUiMesh.Quad(vh,left+x*pixelSize,top-y*pixelSize,pixelSize,pixelSize,color);
         }
     }
 }

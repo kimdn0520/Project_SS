@@ -13,6 +13,8 @@ public abstract class BasePopupHandler : MonoBehaviour, IPopupHandler
     [Header("[Canvas & Group]")]
     [SerializeField] private Canvas canvas;
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private Transform animationRoot;
+    [SerializeField] private GameObject transitionInputBlocker;
 
     [Header("[Buttons]")]
     [Tooltip("배경 반투명 딤드(커튼) 영역 버튼. 클릭 시 OnClickCurtain()을 통해 팝업이 닫힙니다.")]
@@ -27,22 +29,12 @@ public abstract class BasePopupHandler : MonoBehaviour, IPopupHandler
 
     public virtual string PopupName => string.IsNullOrEmpty(gameObject.name) ? GetType().Name : gameObject.name;
     public bool IsOpen { get; private set; }
-    private GameObject transitionInputBlocker;
+    public Transform AnimationTarget => animationRoot != null ? animationRoot : transform;
 
     private void SetTransitionInputBlocked(bool blocked)
     {
         // CanvasGroup.interactable changes every descendant Selectable's tint.
         // Absorb pointer input without changing the buttons' visual states.
-        if (blocked && transitionInputBlocker == null && Canvas != null)
-        {
-            transitionInputBlocker = new GameObject("TransitionInputBlocker", typeof(RectTransform), typeof(Image));
-            var rect = (RectTransform)transitionInputBlocker.transform;
-            rect.SetParent(Canvas.transform, false);
-            rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one;
-            rect.offsetMin = rect.offsetMax = Vector2.zero;
-            var image = transitionInputBlocker.GetComponent<Image>();
-            image.color = Color.clear; image.raycastTarget = true;
-        }
         if (transitionInputBlocker != null)
         {
             transitionInputBlocker.transform.SetAsLastSibling();
@@ -56,29 +48,8 @@ public abstract class BasePopupHandler : MonoBehaviour, IPopupHandler
     /// </summary>
     public virtual IPopupAnimation Animation => null;
 
-    public Canvas Canvas
-    {
-        get
-        {
-            if (canvas == null)
-            {
-                canvas = GetComponent<Canvas>() ?? GetComponentInChildren<Canvas>(true);
-            }
-            return canvas;
-        }
-    }
-
-    public CanvasGroup CanvasGroup
-    {
-        get
-        {
-            if (canvasGroup == null)
-            {
-                canvasGroup = GetComponent<CanvasGroup>() ?? GetComponentInChildren<CanvasGroup>(true);
-            }
-            return canvasGroup;
-        }
-    }
+    public Canvas Canvas => canvas;
+    public CanvasGroup CanvasGroup => canvasGroup;
 
     /// <summary>
     /// 딤드 터치 또는 백버튼으로 닫힐 때 반환할 기본 파라미터
@@ -87,6 +58,8 @@ public abstract class BasePopupHandler : MonoBehaviour, IPopupHandler
 
     protected virtual void Awake()
     {
+        if (canvas == null || canvasGroup == null || transitionInputBlocker == null)
+            Debug.LogError("Popup prefab requires cached Canvas, CanvasGroup and TransitionInputBlocker references.", this);
         if (curtainButton != null)
             curtainButton.onClick.AddListener(OnClickCurtain);
 
@@ -111,7 +84,7 @@ public abstract class BasePopupHandler : MonoBehaviour, IPopupHandler
         if (Canvas != null)
         {
             Canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            if(Canvas.worldCamera == null)Canvas.worldCamera = PopupManager.Instance != null ? PopupManager.Instance.RenderCamera : Camera.main;
+            if(Canvas.worldCamera == null && PopupManager.Instance != null)Canvas.worldCamera = PopupManager.Instance.RenderCamera;
             Canvas.planeDistance = 10f;
         }
 

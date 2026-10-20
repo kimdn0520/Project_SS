@@ -159,8 +159,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: OPENING THE CHAMBER
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cc305e9905d9038468f7cc23bc3f55f2, type: 2}
-  m_sharedMaterial: {fileID: -2692281457542758001, guid: cc305e9905d9038468f7cc23bc3f55f2,
+  m_fontAsset: {fileID: 11400000, guid: 75373af574af0b34a8c93c75dc5bcc24, type: 2}
+  m_sharedMaterial: {fileID: -757461176286887271, guid: 75373af574af0b34a8c93c75dc5bcc24,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -623,8 +623,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uACB0\uACC4 \uB3CC\uD30C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cc305e9905d9038468f7cc23bc3f55f2, type: 2}
-  m_sharedMaterial: {fileID: -2692281457542758001, guid: cc305e9905d9038468f7cc23bc3f55f2,
+  m_fontAsset: {fileID: 11400000, guid: 75373af574af0b34a8c93c75dc5bcc24, type: 2}
+  m_sharedMaterial: {fileID: -757461176286887271, guid: 75373af574af0b34a8c93c75dc5bcc24,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

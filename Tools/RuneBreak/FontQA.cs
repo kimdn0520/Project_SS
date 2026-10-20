@@ -46,9 +46,15 @@ public static class FontQA
         Check(fx.captionLabels.All(t=>!t.enabled)&&!fx.chainLabel.enabled,"Expired captions not hidden");
         for(int i=0;i<100;i++){fx.Label("HIT "+i,new Vector2(240,170),"red",false,.4f);fx.Tick(.01f);}fx.Clear();
         Check(count==p.GetComponentsInChildren<Transform>(true).Length,"Effects created hierarchy objects");
-        p.OpenSettings();Capture(p.Canvas.worldCamera,"Galmuri-settings.png");
-        foreach(var text in p.settings.GetComponentsInChildren<TMP_Text>(true)){text.ForceMeshUpdate();Check(!text.isTextOverflowing,"Settings overflow: "+text.name);}
-        p.settings.SetActive(false);p.LoadLevel(0);m.ChangeImmediate(UIPageType.MainPage);var lobby=m.GetPage<RuneLobbyPage>(UIPageType.MainPage);lobby.CanvasGroup.alpha=1;
+        var animation=PopupManager.Instance.GlobalAnimation;PopupManager.Instance.GlobalAnimation=null;
+        try
+        {
+            p.OpenSettings();Capture(p.Canvas.worldCamera,"Galmuri-settings.png");
+            var popup=(RuneSettingsPanel)PopupManager.CurrentPopup;
+            foreach(var text in popup.GetComponentsInChildren<TMP_Text>(true)){text.ForceMeshUpdate();Check(!text.isTextOverflowing,"Settings overflow: "+text.name);}
+        }
+        finally{PopupManager.Clear();PopupManager.Instance.GlobalAnimation=animation;}
+        p.LoadLevel(0);m.ChangeImmediate(UIPageType.MainPage);var lobby=m.GetPage<RuneLobbyPage>(UIPageType.MainPage);lobby.CanvasGroup.alpha=1;
         foreach(var text in lobby.GetComponentsInChildren<TMP_Text>(true))ValidateText(text);
         Debug.Log("GALMURI RUNTIME PASS: board/WAIT, delayed captions, chain label, 100 caption reuses, cleanup, constant hierarchy, settings overflow check.");
     }

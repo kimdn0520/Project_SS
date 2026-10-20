@@ -5,6 +5,8 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
     [SerializeField] protected bool persistAcrossScenes = true;
     private static T instance;
     private static readonly object lockObj = new object();
+    // Scene-authored consumers bypass legacy lazy creation.
+    public static T ExistingInstance => instance;
 
     // 인스턴스에 접근할 수 있는 프로퍼티
     public static T Instance

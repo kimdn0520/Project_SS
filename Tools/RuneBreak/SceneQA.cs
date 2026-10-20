@@ -32,7 +32,7 @@ public static class RuneSceneQA
     }
     public static void PrepareInteraction()
     {
-        var p=UnityEngine.Object.FindFirstObjectByType<RunePlayPage>();p.settings.SetActive(false);p.Restart();
+        var p=UnityEngine.Object.FindFirstObjectByType<RunePlayPage>();PopupManager.Clear();p.Restart();
     }
     public static void Interaction()
     {
@@ -44,16 +44,16 @@ public static class RuneSceneQA
         var pointer=new PointerEventData(EventSystem.current){position=point,button=PointerEventData.InputButton.Left};var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(pointer,hits);
         Check(hits.Count>0,"No rune raycast");var button=hits[0].gameObject.GetComponent<Button>();Check(button!=null&&button.gameObject==p.blocks[id].gameObject,"Rune touch blocked by "+hits[0].gameObject.name);
         ExecuteEvents.Execute(button.gameObject,pointer,ExecuteEvents.pointerClickHandler);Check(p.State.taps==1,"Serialized rune button not wired");
-        var settings=p.GetComponentsInChildren<Button>(true).First(b=>b.name=="Settings");settings.onClick.Invoke();Check(p.settings.activeSelf,"Settings listener missing");
-        double deadline=EditorApplication.timeSinceStartup+.15;
+        var settings=p.GetComponentsInChildren<Button>(true).First(b=>b.name=="Settings");settings.onClick.Invoke();Check(p.IsModalBlocked,"Settings listener missing");
+        double deadline=EditorApplication.timeSinceStartup+.25;
         void AfterModalRender()
         {
         if(EditorApplication.timeSinceStartup<deadline)return;EditorApplication.update-=AfterModalRender;
         Canvas.ForceUpdateCanvases();hits.Clear();EventSystem.current.RaycastAll(pointer,hits);Check(hits.Count>0&&hits[0].gameObject!=button.gameObject,"Modal failed to block board");
-        var panel=p.settings.GetComponent<RuneSettingsPanel>();bool audio=RunePreferences.Audio,reduced=RunePreferences.Reduced,paths=RunePreferences.Paths;float volume=RunePreferences.Volume;
-        panel.audioToggle.isOn=!audio;panel.reducedToggle.isOn=!reduced;panel.pathToggle.isOn=!paths;panel.volume.value=.25f;
-        Check(RunePreferences.Audio==!audio&&RunePreferences.Reduced==!reduced&&RunePreferences.Paths==!paths&&Mathf.Approximately(RunePreferences.Volume,.25f),"Setting event binding");
-        panel.audioToggle.isOn=audio;panel.reducedToggle.isOn=reduced;panel.pathToggle.isOn=paths;panel.volume.value=volume;panel.Close();p.Restart();
+        var panel=(RuneSettingsPanel)PopupManager.CurrentPopup;bool music=RunePreferences.Music,audio=RunePreferences.Audio;
+        panel.musicToggle.isOn=!music;panel.audioToggle.isOn=!audio;
+        Check(RunePreferences.Music==!music&&RunePreferences.Audio==!audio,"Setting event binding");
+        panel.musicToggle.isOn=music;panel.audioToggle.isOn=audio;panel.Close();p.Restart();
         Check(p.GetComponentsInChildren<Transform>(true).Count(t=>t.name.StartsWith("ReadyBoosterSlot_"))==3,"Booster count");Debug.Log("RUNE INTERACTION PASS: actual UI raycast/click, settings, modal input block, three boosters, prototype controls absent.");
         }
         EditorApplication.update+=AfterModalRender;
@@ -61,6 +61,7 @@ public static class RuneSceneQA
     public static void Portrait(){SetSize(540,960);}
     public static void Tall(){SetSize(540,1200);}
     public static void Tablet(){SetSize(768,1024);}
+    public static void Landscape(){SetSize(1280,720);}
     public static void Capture()
     {
         var p=UnityEngine.Object.FindFirstObjectByType<RunePlayPage>();Check(p!=null,"Play missing");
