@@ -1,0 +1,54 @@
+{
+  "coin": [
+    {
+      "label": "Shadow",
+      "file": "coin-0.png"
+    },
+    {
+      "label": "Gold edge",
+      "file": "coin-1.png"
+    },
+    {
+      "label": "Bevel",
+      "file": "coin-2.png"
+    },
+    {
+      "label": "Inset face",
+      "file": "coin-3.png"
+    },
+    {
+      "label": "Embossed star",
+      "file": "coin-4.png"
+    },
+    {
+      "label": "Highlights",
+      "file": "coin-5.png"
+    }
+  ],
+  "heart": [
+    {
+      "label": "Shadow",
+      "file": "heart-0.png"
+    },
+    {
+      "label": "Ruby edge",
+      "file": "heart-1.png"
+    },
+    {
+      "label": "Bevel",
+      "file": "heart-2.png"
+    },
+    {
+      "label": "Puffy face",
+      "file": "heart-3.png"
+    },
+    {
+      "label": "Soft reflection",
+      "file": "heart-4.png"
+    },
+    {
+      "label": "Highlights",
+      "file": "heart-5.png"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "endpoint": "http://127.0.0.1:8188",
+  "comfyVersion": "0.42.1",
+  "device": "cuda:0 NVIDIA GeForce RTX 4060 : cudaMallocAsync",
+  "promptId": "9bb45629-159e-4310-bf80-7d5143e016b1",
+  "status": "success",
+  "width": 168,
+  "height": 168,
+  "changedChannels": 63196,
+  "maxChannelDifference": 128,
+  "output": "C:\\Users\\kimdn\\Project_SS\\Tools\\RuneBreak\\QA\\ComfyUI-connection-block.png"
+}

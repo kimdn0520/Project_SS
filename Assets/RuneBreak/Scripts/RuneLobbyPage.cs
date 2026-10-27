@@ -24,10 +24,12 @@ namespace RuneBreak
         public PopupManager popups;
         public bool IsModalBlocked=>popups!=null&&popups.IsBlockingInput;
         public Sprite idleTabSkin,selectedTabSkin;
+        public bool punchStyle;
+        public Color activeTabText=new Color(.318f,.239f,.161f),idleTabText=new Color(.922f,.847f,.667f),activeTabIcon=new Color(.318f,.239f,.161f),idleTabIcon=new Color(.612f,.686f,.612f);
         public int homeIndex=2;
         private int selected;
         private float noticeUntil;
-        public override void OnWillEnter(object param){SelectTab(homeIndex);int next=Mathf.Clamp(PlayerPrefs.GetInt("RuneBreak.Next",0),0,catalog.CampaignCount-1);playLabel.text=$"Lv.{next+1}";comingSoon.gameObject.SetActive(false);}
+        public override void OnWillEnter(object param){SelectTab(homeIndex);int next=Mathf.Clamp(PlayerPrefs.GetInt("RuneBreak.Next",0),0,catalog.CampaignCount-1);playLabel.text=$"Lv. {next+1}";comingSoon.gameObject.SetActive(false);}
         public override void OnDidEnter(){}
         public override void OnWillLeave()=>PopupManager.Clear();
         public override void OnDidLeave(){}
@@ -38,8 +40,8 @@ namespace RuneBreak
             {
                 bool active=i==index;var tab=tabs[i];tab.content.SetActive(active);
                 tab.background.sprite=active?selectedTabSkin:idleTabSkin;tab.background.color=Color.white;
-                tab.label.color=RuneArtLibrary.Hex(active?"513d29":"ebd8aa");
-                tab.icon.color=RuneArtLibrary.Hex(active?"513d29":"9caf9c");
+                tab.label.color=active?activeTabText:idleTabText;
+                tab.icon.color=active?activeTabIcon:idleTabIcon;
                 tab.selectedMarker.SetActive(active);
             }
         }

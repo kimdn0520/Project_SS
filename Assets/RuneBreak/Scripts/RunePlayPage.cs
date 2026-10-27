@@ -15,6 +15,8 @@ namespace RuneBreak
         public RectTransform cabinet;
         public Image background;
         public Image[] gates,blocks,gateFlashes;
+        public TMP_Text[] gateCounts;
+        public Image[] gatePreviews;
         public RectTransform[] blockRects;
         public RuneSlotView[] slots;
         public RuneFxGraphic effects;
@@ -26,6 +28,7 @@ namespace RuneBreak
         public RectTransform highlightRect,pathRect;
         public Image highlight,pathImage;
         public TMP_Text resultTitle,resultDescription,resultAction;
+        public Image resultEmblem;
         public GameObject result,resultHome;
         public PopupManager popups;
         public bool IsModalBlocked=>popups!=null&&popups.IsBlockingInput;
@@ -53,7 +56,7 @@ namespace RuneBreak
         public override void OnDidLeave(){}
         public bool HandleBack(){if(IsModalBlocked)return PopupManager.HandleBackInput();Home();return true;}
         public void Home()=>pages.Change(UIPageType.MainPage);
-        public void OpenSettings()=>PopupManager.Show(RuneSettingsPanel.PrefabName);
+        public void OpenSettings()=>PopupManager.Show(RuneSettingsPanel.PrefabName,this,result=>{if(result is string action&&action==RuneSettingsPanel.HomeResult)Home();});
         public void Restart()=>LoadLevel(LevelIndex);
         public void Previous()=>LoadLevel(Mathf.Max(0,LevelIndex-1));
         public void Next()=>LoadLevel(Rules.Level.demo?(LevelIndex+1<catalog.levels.Length?LevelIndex+1:catalog.CampaignCount):(LevelIndex+1)%catalog.CampaignCount);
@@ -162,10 +165,26 @@ namespace RuneBreak
             }
             if(mechanicLines!=null)mechanicLines.Render(Rules,State,visual,clock,hoverSlot?-1:hoverId);
         }
-        private void RenderGates(){for(int i=0;i<2;i++){var g=Rules.Gate(visual,i);gates[i].sprite=art.Gate(LevelIndex,i,g.layer,holes[i]);}}
+        private void RenderGates()
+        {
+            for(int i=0;i<2;i++)
+            {
+                var g=Rules.Gate(visual,i);
+                if(!art.punchStyle){gates[i].sprite=art.Gate(LevelIndex,i,g.layer,holes[i]);continue;}
+                gates[i].enabled=g.color!=null;
+                if(g.color!=null)gates[i].sprite=art.longGates[RuneArtLibrary.ColorIndex(g.color)*2+i];
+                gateCounts[i].enabled=g.color!=null;gateCounts[i].text=g.hp.ToString();
+                var layers=Rules.Level.Layers(i);int count=gatePreviews.Length/2;
+                for(int j=0;j<count;j++)
+                {
+                    var preview=gatePreviews[i*count+j];int layer=g.layer+j+1;preview.enabled=layer<layers.Length;
+                    if(preview.enabled)preview.color=art.MidTone(layers[layer].color);
+                }
+            }
+        }
         private void Complete(RuneFlight f)
         {
-            var s=f.shot;if(s.store){pending[s.id]=false;effects.AddWave(f.to,f.color,false);Sound(2);Refresh();return;}
+            var s=f.shot;if(s.store){pending[s.id]=false;effects.AddWave(f.to,f.color,false);Sound(art.punchStyle?13:2);Refresh();if(art.punchStyle)slots[s.slot].Land();return;}
             if(s.overflow){effects.Emit(f.to,f.color,true,RunePreferences.Reduced);effects.Overflow();Sound(6);return;}
             var gate=Rules.Gate(visual,s.side);float coord=s.side==0?f.to.x-96:f.to.y-84;int candidate=Mathf.Clamp(Mathf.FloorToInt(coord/288*gate.max),0,gate.max-1),segment=-1,distance=int.MaxValue;
             for(int i=0;i<gate.max;i++)if((holes[s.side]&(1<<i))==0&&Mathf.Abs(i-candidate)<distance){segment=i;distance=Mathf.Abs(i-candidate);}if(segment>=0)holes[s.side]|=1<<segment;
@@ -201,6 +220,11 @@ namespace RuneBreak
             if(State==null)return;
             if(IsModalBlocked)return;
             clock+=dt;bool reduced=RunePreferences.Reduced;
+            foreach(var f in flights)
+            {
+                if(f.TakeReboundImpact(clock,out var contact)){effects.Rebound(contact,f.ReboundDirection,f.color,reduced);Sound(11);shake=Mathf.Max(shake,reduced?0:3.2f);}
+                if(f.TakeReboundRelease(clock))Sound(12);
+            }
             foreach(var f in flights)while(f.TakeMirrorImpact(clock,out var point))
             {
                 effects.Reflect(point,f.color,reduced);Sound(9);shake=Mathf.Max(shake,1.5f);
@@ -241,7 +265,7 @@ namespace RuneBreak
         }
         private void ShowResult()
         {
-            shownResult=true;bool won=State.phase==RunePhase.Won;result.SetActive(true);resultTitle.text=won?"결계를 돌파했어요!":"보관칸이 넘쳤어요";resultDescription.text=won?$"직접 타격 {State.direct}  ·  재발사 {State.relaunch}\n최고 연속 타격 {bestChain}":"다섯 칸을 채운 상태에서\n추가 보관이 발생했어요.";resultAction.text=won?"다음 방으로":"홈으로";
+            shownResult=true;bool won=State.phase==RunePhase.Won;result.SetActive(true);if(resultEmblem!=null)resultEmblem.sprite=art.Rune(won?"green":"red",won?"N":"S");resultTitle.text=won?"결계를 돌파했어요!":"보관칸이 넘쳤어요";resultDescription.text=won?$"직접 타격 {State.direct}  ·  재발사 {State.relaunch}\n최고 연속 타격 {bestChain}":"다섯 칸을 채운 상태에서\n추가 보관이 발생했어요.";resultAction.text=won?"다음 방으로":"홈으로";
             resultHome.SetActive(won);
             if(Rules.Level.demo)resultAction.text=won?(LevelIndex+1<catalog.levels.Length?"다음 기믹 체험":"홈으로"):"다시 체험";
             else if(won&&LevelIndex+1>=catalog.CampaignCount)resultAction.text="홈으로";

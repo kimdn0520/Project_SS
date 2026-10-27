@@ -1,0 +1,247 @@
+{
+  "popup_row": {
+    "w": 404,
+    "h": 76,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Inset edge",
+        "file": "popup_row-0.png"
+      },
+      {
+        "label": "Inset face",
+        "file": "popup_row-1.png"
+      }
+    ]
+  },
+  "toggle_on": {
+    "w": 48,
+    "h": 48,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Thickness",
+        "file": "toggle_on-0.png"
+      },
+      {
+        "label": "Beveled switch",
+        "file": "toggle_on-1.png"
+      },
+      {
+        "label": "Raised symbol",
+        "file": "toggle_on-2.png"
+      }
+    ]
+  },
+  "toggle_off": {
+    "w": 48,
+    "h": 48,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Thickness",
+        "file": "toggle_off-0.png"
+      },
+      {
+        "label": "Beveled switch",
+        "file": "toggle_off-1.png"
+      },
+      {
+        "label": "Raised symbol",
+        "file": "toggle_off-2.png"
+      }
+    ]
+  },
+  "molded_gold_372_88": {
+    "w": 372,
+    "h": 88,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_gold_372_88-0.png"
+      }
+    ]
+  },
+  "foundation_gold_372_88": {
+    "w": 372,
+    "h": 100,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Cast block thickness",
+        "file": "foundation_gold_372_88-0.png"
+      }
+    ]
+  },
+  "molded_gold_260_60": {
+    "w": 260,
+    "h": 60,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_gold_260_60-0.png"
+      }
+    ]
+  },
+  "foundation_gold_260_60": {
+    "w": 260,
+    "h": 72,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Cast block thickness",
+        "file": "foundation_gold_260_60-0.png"
+      }
+    ]
+  },
+  "molded_gold_194_60": {
+    "w": 194,
+    "h": 60,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_gold_194_60-0.png"
+      }
+    ]
+  },
+  "foundation_gold_194_60": {
+    "w": 194,
+    "h": 72,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Cast block thickness",
+        "file": "foundation_gold_194_60-0.png"
+      }
+    ]
+  },
+  "molded_gold_400_64": {
+    "w": 400,
+    "h": 64,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_gold_400_64-0.png"
+      }
+    ]
+  },
+  "foundation_gold_400_64": {
+    "w": 400,
+    "h": 76,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Cast block thickness",
+        "file": "foundation_gold_400_64-0.png"
+      }
+    ]
+  },
+  "molded_violet_194_60": {
+    "w": 194,
+    "h": 60,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_violet_194_60-0.png"
+      }
+    ]
+  },
+  "foundation_violet_194_60": {
+    "w": 194,
+    "h": 72,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Cast block thickness",
+        "file": "foundation_violet_194_60-0.png"
+      }
+    ]
+  },
+  "molded_violet_280_54": {
+    "w": 280,
+    "h": 54,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_violet_280_54-0.png"
+      }
+    ]
+  },
+  "foundation_violet_280_54": {
+    "w": 280,
+    "h": 66,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Cast block thickness",
+        "file": "foundation_violet_280_54-0.png"
+      }
+    ]
+  },
+  "molded_violet_252_68": {
+    "w": 252,
+    "h": 68,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_violet_252_68-0.png"
+      }
+    ]
+  },
+  "foundation_violet_252_68": {
+    "w": 252,
+    "h": 80,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Cast block thickness",
+        "file": "foundation_violet_252_68-0.png"
+      }
+    ]
+  },
+  "molded_panel_400": {
+    "w": 460,
+    "h": 400,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original beveled block frame",
+        "file": "molded_panel_400-0.png"
+      },
+      {
+        "label": "Recessed interior",
+        "file": "molded_panel_400-1.png"
+      },
+      {
+        "label": "Four original round studs",
+        "file": "molded_panel_400-2.png"
+      }
+    ]
+  },
+  "molded_panel_468": {
+    "w": 460,
+    "h": 468,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original beveled block frame",
+        "file": "molded_panel_468-0.png"
+      },
+      {
+        "label": "Recessed interior",
+        "file": "molded_panel_468-1.png"
+      },
+      {
+        "label": "Four original round studs",
+        "file": "molded_panel_468-2.png"
+      }
+    ]
+  }
+}

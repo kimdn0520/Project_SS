@@ -834,7 +834,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RUNE BREAK
+  m_text: BLOCK CRASH
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 75373af574af0b34a8c93c75dc5bcc24, type: 2}
   m_sharedMaterial: {fileID: -757461176286887271, guid: 75373af574af0b34a8c93c75dc5bcc24,

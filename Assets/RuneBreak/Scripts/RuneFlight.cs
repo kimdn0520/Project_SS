@@ -9,6 +9,10 @@ namespace RuneBreak
         public Image image;
         public RectTransform[] trails;
         public Image[] trailImages;
+        public Image shadow;
+        public Image[] afterImages;
+        public RuneRibbonGraphic ribbon;
+        public string ReboundDirection=>reboundMotion.dir;
         public RuneShot shot;
         public Vector2 from,to,c1,c2;
         public float start,duration;
@@ -22,6 +26,16 @@ namespace RuneBreak
         private bool reflected;
         private RuneArtLibrary art;
         private int routeCount;
+        private bool rebound,bounced,swooshed;
+        private RuneReboundMotion reboundMotion;
+        private float reboundOffset;
+        public bool HasRebound=>rebound;
+        public float ReboundContactTime=>start+reboundOffset+reboundMotion.launch;
+        public bool TakeReboundImpact(float time,out Vector2 point)
+        {
+            point=reboundMotion.surface;if(!rebound||bounced||time<ReboundContactTime)return false;bounced=true;return true;
+        }
+        public bool TakeReboundRelease(float time){if(!rebound||swooshed||time<start+reboundOffset+reboundMotion.Release)return false;swooshed=true;return true;}
         public static Vector2 Center(RuneBlock b)=>new Vector2(120+b.x*48,108+b.y*48);
         public static Vector2 Exit(RuneBlock b){var p=Center(b);return b.dir=="N"?new Vector2(p.x,59):b.dir=="S"?new Vector2(p.x,401):b.dir=="W"?new Vector2(69,p.y):new Vector2(411,p.y);}
         public static Vector2 Slot(int index)=>new Vector2(96+index*72,507);
@@ -31,6 +45,7 @@ namespace RuneBreak
         {
             this.art=art;this.shot=shot;start=time;color=b.color;dir=b.dir;from=Center(b);to=path==null?Exit(b):RouteExit(path);
             reflected=!shot.relaunch&&path!=null&&path.turns.Length>0;mirrorCount=nextMirror=0;routeCount=0;routeLength=0;
+            rebound=art.punchStyle&&!shot.relaunch&&(shot.store||shot.overflow);bounced=swooshed=false;reboundOffset=0;
             body.localRotation=Quaternion.identity;body.localScale=Vector3.one;
             image.sprite=art.Rune(b.color,shot.relaunch?"gem":b.dir);image.color=Color.white;
             if(shot.relaunch)
@@ -38,6 +53,18 @@ namespace RuneBreak
                 from=Slot(shot.slot);float p=96+(shot.damageIndex+.5f)*288/shot.max;to=shot.side==0?new Vector2(p,59):new Vector2(411,p);
                 float bend=shot.side==1?70:from.x<240?-40:40;c1=from+new Vector2(bend,-130);c2=to+new Vector2(shot.side==1?-60:0,65);
                 duration=reduced?.19f:.24f+Vector2.Distance(from,to)/2300;
+            }
+            else if(rebound)
+            {
+                var edge=to;to=shot.store?Slot(shot.slot)-new Vector2(0,5):new Vector2(240,510);
+                string exit=path==null?b.dir:path.exitDir;var approach=from;
+                if(reflected)
+                {
+                    route[routeCount++]=from;
+                    foreach(var cell in path.turns){var point=Turn(cell);routeLength+=Vector2.Distance(route[routeCount-1],point);route[routeCount++]=point;mirrorPoints[mirrorCount]=point;mirrorDistances[mirrorCount++]=routeLength;}
+                    approach=route[routeCount-1];reboundOffset=(reduced?.04f:.07f)+routeLength/(reduced?2400:1050);
+                }
+                reboundMotion=RuneReboundMotion.Create(approach,edge,to,exit,reduced);duration=reboundOffset+reboundMotion.Duration;
             }
             else if(shot.store||shot.overflow)
             {
@@ -52,7 +79,7 @@ namespace RuneBreak
                 corners[n++]=to;if(reflected){routeCount=n;System.Array.Copy(corners,route,n);}else Smooth(n);duration=reduced?.22f:exit=="N"?.73f:exit=="S"?.45f:.56f;
             }
             else duration=reduced?.16f:.19f+Vector2.Distance(from,to)/1450;
-            if(reflected)
+            if(reflected&&!rebound)
             {
                 if(!shot.store&&!shot.overflow){routeCount=0;route[routeCount++]=from;foreach(var cell in path.turns)route[routeCount++]=Turn(cell);route[routeCount++]=to;}
                 for(int i=1;i<routeCount;i++){routeLength+=Vector2.Distance(route[i-1],route[i]);if(i<=path.turns.Length){mirrorPoints[mirrorCount]=route[i];mirrorDistances[mirrorCount++]=routeLength;}}
@@ -73,6 +100,14 @@ namespace RuneBreak
         public Vector2 Position(float time)
         {
             float p=Mathf.Clamp01((time-start)/duration);
+            if(rebound)
+            {
+                float elapsed=time-start;
+                if(elapsed>=reboundOffset)return reboundMotion.Sample(elapsed-reboundOffset);
+                float travel=Mathf.Clamp01(elapsed/reboundOffset)*routeLength;
+                for(int i=1;i<routeCount;i++){float length=Vector2.Distance(route[i-1],route[i]);if(travel<=length||i==routeCount-1)return Vector2.Lerp(route[i-1],route[i],length==0?1:travel/length);travel-=length;}
+                return from;
+            }
             if(reflected)
             {
                 float reflectedTravel=ReflectedDistance(time);
@@ -84,7 +119,7 @@ namespace RuneBreak
             p=p<.06f?0:(p-.06f)/.94f;float total=0;for(int i=1;i<routeCount;i++)total+=Vector2.Distance(route[i-1],route[i]);float distance=p*total;
             for(int i=1;i<routeCount;i++){float length=Vector2.Distance(route[i-1],route[i]);if(distance<=length||i==routeCount-1)return Vector2.Lerp(route[i-1],route[i],length==0?1:distance/length);distance-=length;}return to;
         }
-        private float ReflectedDistance(float time)=>Mathf.Clamp01(((time-start)/duration-.1f)/.9f)*routeLength;
+        private float ReflectedDistance(float time)=>rebound?Mathf.Clamp01((time-start)/reboundOffset)*routeLength:Mathf.Clamp01(((time-start)/duration-.1f)/.9f)*routeLength;
         public bool TakeMirrorImpact(float time,out Vector2 point)
         {
             point=default;if(!reflected||nextMirror>=mirrorCount||ReflectedDistance(time)<mirrorDistances[nextMirror])return false;
@@ -93,6 +128,24 @@ namespace RuneBreak
         public void Render(float time,bool reduced)
         {
             var p=Position(time);body.anchoredPosition=new Vector2(Mathf.Round(p.x),-Mathf.Round(p.y));
+            if(ribbon!=null)ribbon.Render(this,time,start+reboundOffset+reboundMotion.Release,art.MidTone(color),art.LightTone(color),reduced);
+            if(shadow!=null)shadow.enabled=false;
+            if(afterImages!=null)foreach(var ghost in afterImages)ghost.enabled=false;
+            if(rebound&&time>=start+reboundOffset)
+            {
+                float age=time-start-reboundOffset;var pose=reboundMotion.GetPose(age);
+                image.sprite=art.Rune(color,reboundMotion.dir);image.color=Color.Lerp(Color.white,new Color(1,.96f,.82f),pose.flash);
+                body.anchoredPosition=new Vector2(p.x,-p.y-pose.size/20);body.sizeDelta=Vector2.one*(pose.size*1.2f);body.localScale=new Vector3(pose.sx,pose.sy,1);body.localRotation=Quaternion.Euler(0,0,-pose.angle*Mathf.Rad2Deg);
+                if(shadow!=null){shadow.enabled=pose.airborne&&!reduced;shadow.rectTransform.anchoredPosition=new Vector2(p.x,-p.y-17-pose.lift);shadow.rectTransform.sizeDelta=new Vector2(Mathf.Max(10,28-pose.lift*.4f),8);}
+                if(afterImages!=null)for(int i=0;i<afterImages.Length;i++)
+                {
+                    var ghost=afterImages[i];ghost.enabled=!reduced&&pose.airborne&&pose.hop<.8f;if(!ghost.enabled)continue;
+                    float tm=Mathf.Max(reboundMotion.Release,age-(i+1)*.016f);var q=reboundMotion.Sample(tm);var pr=reboundMotion.GetPose(tm);
+                    ghost.sprite=image.sprite;ghost.color=new Color(1,1,1,.12f/(i+1));var rt=ghost.rectTransform;rt.anchoredPosition=new Vector2(q.x,-q.y);rt.sizeDelta=Vector2.one*(pr.size*1.2f);rt.localScale=new Vector3(pr.sx,pr.sy,1);rt.localRotation=Quaternion.Euler(0,0,-pr.angle*Mathf.Rad2Deg);
+                }
+                for(int i=0;i<trails.Length;i++)trailImages[i].enabled=false;
+                return;
+            }
             if(reflected&&time>=start)
             {
                 var delta=Position(time+.002f)-p;string facing=Mathf.Abs(delta.x)>Mathf.Abs(delta.y)?(delta.x>0?"E":"W"):(delta.y>0?"S":"N");

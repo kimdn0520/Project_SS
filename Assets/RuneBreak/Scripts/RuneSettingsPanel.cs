@@ -27,15 +27,21 @@ namespace RuneBreak
         public override string PopupName=>PrefabName;
         public Toggle musicToggle,audioToggle;
         public RectTransform panel;
+        public GameObject lobbyActions,playActions;
+        public const string HomeResult="Home";
         public override void OnWillEnter(object param)
         {
             base.OnWillEnter(param);
             musicToggle.SetIsOnWithoutNotify(RunePreferences.Music);
             audioToggle.SetIsOnWithoutNotify(RunePreferences.Audio);
+            bool playing=param is RunePlayPage;
+            lobbyActions.SetActive(!playing);
+            playActions.SetActive(playing);
         }
         public void SetMusic(bool v)=>RunePreferences.Music=v;
         public void SetAudio(bool v)=>RunePreferences.Audio=v;
         public void Dismiss()=>OnEscape();
+        public void GoHome(){if(CanEscape())Close(HomeResult);}
         public override void OnWillLeave(){PlayerPrefs.Save();base.OnWillLeave();}
     }
 }

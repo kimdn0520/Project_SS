@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpriteAtlasSO
   atlases:
   - {fileID: 4343727234628468602, guid: d3bd215c6824fc34ea0b9ff425f86c8a, type: 2}
+  - {fileID: 4343727234628468602, guid: 077e72444a3674844bd2e88aa8e2806d, type: 2}

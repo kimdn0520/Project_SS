@@ -93,8 +93,17 @@ namespace RuneBreak.Editor
                 UnityEventTools.AddPersistentListener(popup.audioToggle.onValueChanged,popup.SetAudio);
                 var dismiss=LobbyButton("Close",panel.transform,100,278,260,64,"닫기","gold");
                 Set(popup,"closeButton",dismiss);
+                popup.lobbyActions=dismiss.gameObject;
+                var playActions=Rect("PlayActions",panel.transform,0,278,460,64);
+                popup.playActions=playActions.gameObject;
+                var home=LobbyButton("Home",playActions,28,0,194,64,"홈으로","gold");
+                var resume=LobbyButton("Resume",playActions,238,0,194,64,"계속하기","gold");
+                UnityEventTools.AddPersistentListener(home.onClick,popup.GoHome);
+                UnityEventTools.AddPersistentListener(resume.onClick,popup.Dismiss);
+                playActions.gameObject.SetActive(false);
                 var blocker=Image("TransitionInputBlocker",go.transform,0,0,540,960,null,Color.clear);
                 Stretch(blocker.rectTransform);blocker.raycastTarget=true;Set(popup,"transitionInputBlocker",blocker.gameObject);blocker.gameObject.SetActive(false);
+                RuneBlockUiAuthoring.ConfigureSettings(popup);
                 Directory.CreateDirectory(Path.GetDirectoryName(SettingsPopupPath));go.SetActive(false);
                 PrefabUtility.SaveAsPrefabAsset(go,SettingsPopupPath);
             }
@@ -110,6 +119,7 @@ namespace RuneBreak.Editor
             var plate=LobbyPanel("TitlePlate",panel.transform,(width-220)*.5f,-28,220,64,"gold");
             plate.raycastTarget=true;
             CenteredText("Title",plate.transform,12,4,196,52,title,24,RuneArtLibrary.Hex("513d29"));
+            RuneBlockUiAuthoring.ConfigureFrame(panel,title,width,height);
             return panel;
         }
 

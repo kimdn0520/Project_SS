@@ -1,0 +1,14 @@
+{
+  "coin": {
+    "width": 144,
+    "height": 144,
+    "layers": 6,
+    "channelDifferences": 0
+  },
+  "heart": {
+    "width": 144,
+    "height": 144,
+    "layers": 6,
+    "channelDifferences": 0
+  }
+}

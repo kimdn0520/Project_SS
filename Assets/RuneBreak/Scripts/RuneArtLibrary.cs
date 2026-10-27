@@ -12,6 +12,13 @@ namespace RuneBreak
         public Sprite[] cabinets, runes, storedRunes,waitSlots,fullWaitSlots;
         public Sprite white, slot, fullSlot, locked, sparkle;
         public Sprite chainWrap,mirrorSlash,mirrorBackslash,stackMount;
+        public bool punchStyle;
+        public Sprite[] longGates;
+        public Sprite flightShadow;
+        private static readonly Color[] punchMid={Hex("ff2446"),Hex("00aafa"),Hex("ffc900"),Hex("46d50a")};
+        public Color MidTone(string c)=>punchStyle?punchMid[ColorIndex(c)]:Mid(c);
+        public Color LightTone(string c)=>punchStyle?Color.Lerp(MidTone(c),Color.white,.65f):Light(c);
+        public Color DarkTone(string c)=>punchStyle?Color.Lerp(MidTone(c),Hex("070c21"),.55f):Dark(c);
         public RuneGateSprite[] gates;
         private Dictionary<string,Sprite> gateCache;
         public Sprite Rune(string color,string dir="gem") => runes[ColorIndex(color)*5+DirectionIndex(dir)];
