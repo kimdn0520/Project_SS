@@ -10,8 +10,8 @@ namespace RuneBreak.Editor
 {
     public static class RuneLobbyPunchAuthoring
     {
-        private static TMP_FontAsset Korean=>AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Fonts/MalgunGothic SDF.asset");
-        private static TMP_FontAsset Rounded=>AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Fonts/Arial Rounded Bold SDF.asset");
+        private static TMP_FontAsset BodyFont=>RuneEnglishAuthoring.Medium;
+        private static TMP_FontAsset TitleFont=>RuneEnglishAuthoring.Bold;
         [MenuItem("Rune Break/Apply Block Punch to MainPage")]
         public static void Apply()
         {
@@ -56,7 +56,7 @@ namespace RuneBreak.Editor
                 string old=img.sprite.name;string skin=old.Contains("gold")?"gold":old.Contains("blue")?"blue":old.Contains("green")?"green":old.Contains("base")?"base":old.Contains("inset")?"inset":old.Contains("panel")?"panel":"violet";
                 img.sprite=RuneLobbySkinAuthoring.PunchSkin(skin);img.color=Color.white;img.pixelsPerUnitMultiplier=1;
             }
-            foreach(var text in root.GetComponentsInChildren<TMP_Text>(true))Font(text,Korean,text.fontSize,RuneArtLibrary.Hex("eeeafd"));
+            foreach(var text in root.GetComponentsInChildren<TMP_Text>(true))Font(text,BodyFont,text.fontSize,RuneArtLibrary.Hex("eeeafd"));
             foreach(var icon in root.GetComponentsInChildren<RuneLobbyIcon>(true)){icon.smooth=true;icon.color=RuneArtLibrary.Hex(icon.name=="IconShadow"?"13152f":icon.kind=="coin"?"ffd952":icon.kind=="heart"?"ff7499":"d4cfff");icon.SetVerticesDirty();}
             foreach(var icon in root.GetComponentsInChildren<RuneLobbyIcon>(true).Where(i=>i.transform.parent==root&&(i.kind=="coin"||i.kind=="heart")).ToArray())UnityEngine.Object.DestroyImmediate(icon.gameObject);
             CurrencyIcon(root,"CoinArtwork","coin",95);CurrencyIcon(root,"HeartArtwork","heart",259);
@@ -64,11 +64,11 @@ namespace RuneBreak.Editor
             {
                 button.pressDepth=3;var c=button.colors;c.normalColor=c.highlightedColor=Color.white;c.pressedColor=new Color(.87f,.87f,.94f);c.fadeDuration=.06f;button.colors=c;
             }
-            Font(root.Find("ProfileGlyph").GetComponent<TMP_Text>(),Rounded,25,Color.white);
-            var currency=root.Find("Currency").GetComponent<TMP_Text>();Font(currency,Korean,18,RuneArtLibrary.Hex("fff1ae"));
-            var energy=root.Find("Energy").GetComponent<TMP_Text>();Font(energy,Korean,18,RuneArtLibrary.Hex("ffd1df"));
-            var title=home.Find("Title").GetComponent<TMP_Text>();title.text="BLOCK <color=#FFD84D>CRASH</color>";Font(title,Rounded,48,Color.white);Rect(title.rectTransform,0,10,492,60);
-            var shadow=home.Find("TitleShadow").GetComponent<TMP_Text>();shadow.text="BLOCK CRASH";Font(shadow,Rounded,48,RuneArtLibrary.Hex("080c22"));Rect(shadow.rectTransform,0,14,492,60);
+            Font(root.Find("ProfileGlyph").GetComponent<TMP_Text>(),TitleFont,25,Color.white);
+            var currency=root.Find("Currency").GetComponent<TMP_Text>();page.coinBalance=currency;Font(currency,BodyFont,18,RuneArtLibrary.Hex("fff1ae"));
+            var energy=root.Find("Energy").GetComponent<TMP_Text>();Font(energy,BodyFont,18,RuneArtLibrary.Hex("ffd1df"));
+            var title=home.Find("Title").GetComponent<TMP_Text>();title.text="BLOCK <color=#FFD84D>CRASH</color>";Font(title,TitleFont,48,Color.white);Rect(title.rectTransform,0,10,492,60);
+            var shadow=home.Find("TitleShadow").GetComponent<TMP_Text>();shadow.text="BLOCK CRASH";Font(shadow,TitleFont,48,RuneArtLibrary.Hex("080c22"));Rect(shadow.rectTransform,0,14,492,60);
             foreach(string name in new[]{"TitleRuleLeft","TitleRuleRight","TitleRune"}){var t=home.Find(name);if(t!=null)t.gameObject.SetActive(false);}
             foreach(string name in new[]{"PunchSubtitle","PunchPreviewFrame","PunchPreviewTitle","PunchPreviewHint"})Remove(home,name);
             Deco("PunchRedDecoration",home,39,113,49,art.Rune("red","E"),-12);Deco("PunchBlueDecoration",home,454,111,44,art.Rune("blue","W"),13);
@@ -78,6 +78,7 @@ namespace RuneBreak.Editor
             preview.layerPreviews=new Image[2];
             for(int i=0;i<2;i++){var strip=Panel("PunchNextLayer_"+i,preview.stage,102,43-i*4,276,3,"blue");strip.type=Image.Type.Simple;strip.sprite=art.white;strip.color=art.MidTone(i==0?"blue":"red");strip.transform.SetSiblingIndex(0);preview.layerPreviews[i]=strip;}
             preview.gateCount=Label("PunchGateCount",preview.stage,218,43,44,32,"2",22,"fff7df",true);
+            RuneGateNumberAuthoring.Style(preview.gateCount);
             for(int i=0;i<6;i++)
             {
                 float x=120+(i%2==0?1:4)*48,y=108+(1+i/2*2)*48;Remove(preview.stage,"PunchCell_"+i);
@@ -91,7 +92,7 @@ namespace RuneBreak.Editor
                 var button=t.GetComponent<RuneRaisedButton>();Rect((RectTransform)t,i<3?0:436,188+i%3*108,56,62);Rect(button.face,0,0,56,58);
                 button.image.sprite=RuneLobbySkinAuthoring.PunchSkin(i<3?"violet":"blue");
                 foreach(var icon in button.face.GetComponentsInChildren<RuneLobbyIcon>())Rect(icon.rectTransform,9,9+(icon.name=="IconShadow"?2:0),38,36);
-                var caption=button.face.Find("Caption").GetComponent<TMP_Text>();Rect(caption.rectTransform,-8,64,72,22);Font(caption,Korean,12,RuneArtLibrary.Hex("c8c3e5"));
+                var caption=button.face.Find("Caption").GetComponent<TMP_Text>();Rect(caption.rectTransform,-8,64,72,22);Font(caption,BodyFont,12,RuneArtLibrary.Hex("c8c3e5"));
             }
             var play=home.Find("Play").GetComponent<RuneRaisedButton>();Rect((RectTransform)play.transform,60,600,372,100);
             Remove(play.face,"PunchStage");RuneBlockUiAuthoring.ConfigurePlayButton(page);
@@ -99,12 +100,12 @@ namespace RuneBreak.Editor
             foreach(var tab in page.tabs)
             {
                 var button=tab.background.GetComponentInParent<RuneRaisedButton>();button.GetComponent<Image>().sprite=RuneLobbySkinAuthoring.PunchSkin("base");
-                Font(tab.label,Korean,12,Color.white);tab.icon.smooth=true;
+                Font(tab.label,BodyFont,12,Color.white);tab.icon.smooth=true;
                 tab.selectedMarker.GetComponent<Image>().color=RuneArtLibrary.Hex("ffe68a");
             }
-            var settings=root.Find("Settings").GetComponent<RuneRaisedButton>();Font(settings.GetComponentInChildren<TMP_Text>(),Korean,18,Color.white);
-            Font(page.comingSoon,Korean,16,RuneArtLibrary.Hex("fff1ae"));Rect(page.comingSoon.rectTransform,115,673,310,28);
-            var pins=root.Cast<Transform>().OfType<RectTransform>().Where(t=>t.name!="PixelTealScenery"&&(t.anchoredPosition.y>-100||t.name=="NavigationDock"||t.name.StartsWith("Nav_"))).Select(t=>new RuneSafeLayout.Pin{target=t,position=t.anchoredPosition,top=t.anchoredPosition.y>-100,bottom=t.anchoredPosition.y<=-100}).ToList();
+            var settings=root.Find("Settings").GetComponent<RuneRaisedButton>();RuneSurfaceAuthoring.ConfigureSettingsButton(settings,24);
+            Font(page.comingSoon,BodyFont,16,RuneArtLibrary.Hex("fff1ae"));Rect(page.comingSoon.rectTransform,115,673,310,28);
+            var pins=root.Cast<Transform>().OfType<RectTransform>().Where(t=>t.name!="PixelTealScenery"&&(t.anchoredPosition.y>-100||t.name=="NavigationDock"||t.name.StartsWith("Nav_"))).Select(t=>new RuneSafeLayout.Pin{target=t,position=t.anchoredPosition,top=t.anchoredPosition.y>-100,bottom=t.anchoredPosition.y<=-100,right=t.name=="Settings"}).ToList();
             pins.Add(new RuneSafeLayout.Pin{target=(RectTransform)play.transform,position=((RectTransform)play.transform).anchoredPosition,bottom=true});page.GetComponent<RuneSafeLayout>().pins=pins.ToArray();
             page.SelectTab(page.homeIndex);
         }
@@ -121,7 +122,7 @@ namespace RuneBreak.Editor
         }
         private static TMP_Text Label(string name,Transform parent,float x,float y,float w,float h,string text,float size,string color,bool rounded=false)
         {
-            var t=parent.Find(name);var go=t!=null?t.gameObject:new GameObject(name,typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(parent,false);var label=go.GetComponent<TMP_Text>();Font(label,rounded?Rounded:Korean,size,RuneArtLibrary.Hex(color));label.text=text;label.alignment=TextAlignmentOptions.Center;label.textWrappingMode=TextWrappingModes.NoWrap;Rect(label.rectTransform,x,y,w,h);return label;
+            var t=parent.Find(name);var go=t!=null?t.gameObject:new GameObject(name,typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(parent,false);var label=go.GetComponent<TMP_Text>();Font(label,rounded?TitleFont:BodyFont,size,RuneArtLibrary.Hex(color));label.text=text;label.alignment=TextAlignmentOptions.Center;label.textWrappingMode=TextWrappingModes.NoWrap;Rect(label.rectTransform,x,y,w,h);return label;
         }
         private static void Deco(string name,Transform parent,float x,float y,float size,Sprite sprite,float rotation)
         {

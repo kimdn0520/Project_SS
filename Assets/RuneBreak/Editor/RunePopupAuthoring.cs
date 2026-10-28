@@ -10,14 +10,14 @@ namespace RuneBreak.Editor
 {
     public static partial class RuneProjectBuilder
     {
-        public const string SettingsPopupPath="Assets/Resources/Prefabs/Popups/RuneSettingsPopup.prefab";
+        public const string SettingsPopupPath="Assets/Resources/Prefabs/Popups/SettingsPopup.prefab";
 
         [MenuItem("Rune Break/Rebuild settings popup only")]
         public static void RebuildSettingsPopupOnly()
         {
             if(EditorApplication.isPlaying)throw new InvalidOperationException("Exit Play mode before rebuilding.");
             art=AssetDatabase.LoadAssetAtPath<RuneArtLibrary>(Root+"Data/RuneArt.asset");
-            RuneFontAuthoring.EnsureFonts();
+            RuneEnglishAuthoring.EnsureFonts();
             BuildSettingsPopupPrefab();
             AssetDatabase.SaveAssets();
         }
@@ -27,7 +27,7 @@ namespace RuneBreak.Editor
         {
             if(EditorApplication.isPlaying)throw new InvalidOperationException("Exit Play mode before rebuilding.");
             art=AssetDatabase.LoadAssetAtPath<RuneArtLibrary>(Root+"Data/RuneArt.asset");
-            RuneFontAuthoring.EnsureFonts();RuneLobbySkinAuthoring.EnsureSkins();
+            RuneEnglishAuthoring.EnsureFonts();RuneLobbySkinAuthoring.EnsureSkins();
             var scene=EditorSceneManager.OpenScene("Assets/Scenes/Play.unity");
             BuildSettingsPopupPrefab();
             MigrateSettingsPage("Assets/Resources/Prefabs/MainPage.prefab");
@@ -59,10 +59,14 @@ namespace RuneBreak.Editor
             Set(manager,"popupRoot",root);Set(manager,"renderCamera",camera);
             Set(manager,"persistAcrossScenes",false);Set(manager,"handleBackInput",false);
             var so=new SerializedObject(manager);var prefabs=so.FindProperty("popupPrefabs");
-            var prefab=AssetDatabase.LoadAssetAtPath<RuneSettingsPanel>(SettingsPopupPath);int index=-1;
-            for(int i=0;i<prefabs.arraySize;i++)if(prefabs.GetArrayElementAtIndex(i).objectReferenceValue==prefab)index=i;
-            if(index<0){index=prefabs.arraySize;prefabs.arraySize++;}
-            prefabs.GetArrayElementAtIndex(index).objectReferenceValue=prefab;so.ApplyModifiedPropertiesWithoutUndo();
+            foreach(string path in new[]{SettingsPopupPath,ResultPopupPath})
+            {
+                var prefab=AssetDatabase.LoadAssetAtPath<BasePopupHandler>(path);if(prefab==null)continue;int index=-1;
+                for(int i=0;i<prefabs.arraySize;i++)if(prefabs.GetArrayElementAtIndex(i).objectReferenceValue==prefab)index=i;
+                if(index<0){index=prefabs.arraySize;prefabs.arraySize++;}
+                prefabs.GetArrayElementAtIndex(index).objectReferenceValue=prefab;
+            }
+            so.ApplyModifiedPropertiesWithoutUndo();
             Set(pages,"popupRoot",root);Set(pages,"popupManager",manager);
             foreach(var page in UnityEngine.Object.FindObjectsByType<RuneLobbyPage>(FindObjectsInactive.Include,FindObjectsSortMode.None))
             {page.popups=manager;PrefabUtility.RecordPrefabInstancePropertyModifications(page);}
@@ -85,32 +89,32 @@ namespace RuneBreak.Editor
                 var content=Rect("SafeContent",go.transform,0,0,540,960);
                 content.anchorMin=content.anchorMax=content.pivot=new Vector2(.5f,.5f);content.anchoredPosition=Vector2.zero;
                 var layout=go.AddComponent<RuneSafeLayout>();layout.canvasRect=(RectTransform)go.transform;layout.content=content;
-                var panel=PopupPanel(content,"설정",460,376);
+                var panel=PopupPanel(content,"Settings",460,376);
                 popup.panel=panel.rectTransform;Set(popup,"animationRoot",panel.transform);
-                popup.musicToggle=AudioToggle(panel.transform,"Music","배경음",74);
-                popup.audioToggle=AudioToggle(panel.transform,"SoundEffects","효과음",160);
+                popup.musicToggle=AudioToggle(panel.transform,"Music","Music",74);
+                popup.audioToggle=AudioToggle(panel.transform,"SoundEffects","Sound Effects",160);
                 UnityEventTools.AddPersistentListener(popup.musicToggle.onValueChanged,popup.SetMusic);
                 UnityEventTools.AddPersistentListener(popup.audioToggle.onValueChanged,popup.SetAudio);
-                var dismiss=LobbyButton("Close",panel.transform,100,278,260,64,"닫기","gold");
+                var dismiss=LobbyButton("Close",panel.transform,100,278,260,64,"Close","gold");
                 Set(popup,"closeButton",dismiss);
                 popup.lobbyActions=dismiss.gameObject;
                 var playActions=Rect("PlayActions",panel.transform,0,278,460,64);
                 popup.playActions=playActions.gameObject;
-                var home=LobbyButton("Home",playActions,28,0,194,64,"홈으로","gold");
-                var resume=LobbyButton("Resume",playActions,238,0,194,64,"계속하기","gold");
+                var home=LobbyButton("Home",playActions,28,0,194,64,"Home","gold");
+                var resume=LobbyButton("Resume",playActions,238,0,194,64,"Resume","gold");
                 UnityEventTools.AddPersistentListener(home.onClick,popup.GoHome);
                 UnityEventTools.AddPersistentListener(resume.onClick,popup.Dismiss);
                 playActions.gameObject.SetActive(false);
                 var blocker=Image("TransitionInputBlocker",go.transform,0,0,540,960,null,Color.clear);
                 Stretch(blocker.rectTransform);blocker.raycastTarget=true;Set(popup,"transitionInputBlocker",blocker.gameObject);blocker.gameObject.SetActive(false);
-                RuneBlockUiAuthoring.ConfigureSettings(popup);
+                RuneBlockUiAuthoring.ConfigureSettings(popup);RuneEnglishAuthoring.StyleTree(go);
                 Directory.CreateDirectory(Path.GetDirectoryName(SettingsPopupPath));go.SetActive(false);
                 PrefabUtility.SaveAsPrefabAsset(go,SettingsPopupPath);
             }
             finally{UnityEngine.Object.DestroyImmediate(go);}
         }
 
-        // Shared default popup frame: title plate straddles the top edge.
+        // Shared popup frame; the selected material authoring controls title placement.
         private static Image PopupPanel(Transform parent,string title,float width,float height)
         {
             var panel=LobbyPanel("Panel",parent,270,480,width,height,"panel");

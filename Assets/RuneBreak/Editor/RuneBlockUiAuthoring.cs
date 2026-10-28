@@ -12,15 +12,15 @@ namespace RuneBreak.Editor
     {
         private const string Folder=RuneLobbySkinAuthoring.PunchFolder+"Blocks/";
         private static Sprite Art(string name)=>AssetDatabase.LoadAssetAtPath<Sprite>(Folder+name+".png");
-        private static TMP_FontAsset Korean=>AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Fonts/MalgunGothic SDF.asset");
-        private static TMP_FontAsset Rounded=>AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Fonts/Arial Rounded Bold SDF.asset");
+        private static TMP_FontAsset BodyFont=>RuneEnglishAuthoring.Medium;
+        private static TMP_FontAsset TitleFont=>RuneEnglishAuthoring.Bold;
         [MenuItem("Rune Break/Apply Block Crash buttons and popups")]
         public static void Apply()
         {
             if(Application.isPlaying)throw new InvalidOperationException("Stop Play mode before authoring.");
             RuneLobbyPunchAuthoring.Apply();
             Edit(RuneProjectBuilder.SettingsPopupPath,root=>ConfigureSettings(root.GetComponent<RuneSettingsPanel>()));
-            Edit("Assets/Resources/Prefabs/PlayPage.prefab",root=>ConfigureResult(root.GetComponent<RunePlayPage>()));
+            RuneProjectBuilder.RebuildResultPopup();RuneEnglishAuthoring.Apply();
             AssetDatabase.SaveAssets();Debug.Log("BLOCK CRASH UI: level button, settings and both result states share authored block art.");
         }
         private static void Edit(string path,Action<GameObject> configure)
@@ -38,6 +38,7 @@ namespace RuneBreak.Editor
         }
         public static void ConfigureFrame(Image panel,string title,float width,float height)
         {
+            if(RuneSurfaceAuthoring.Available){RuneSurfaceAuthoring.ConfigureFrame(panel,title,width,height);return;}
             if(Art("molded_panel_400")==null)return;
             RemoveEdges(panel.transform);
             panel.sprite=Art("molded_panel_"+(height>440?468:400));panel.type=Image.Type.Simple;panel.color=Color.white;panel.raycastTarget=true;panel.rectTransform.sizeDelta=new Vector2(width,height);
@@ -47,9 +48,10 @@ namespace RuneBreak.Editor
         }
         public static void ConfigureSettings(RuneSettingsPanel popup)
         {
+            if(RuneSurfaceAuthoring.Available){RuneSurfaceAuthoring.ConfigureSettings(popup);return;}
             if(Art("molded_panel_400")==null)return;
             popup.transform.Find("Curtain").GetComponent<Image>().color=new Color(.025f,.035f,.085f,.85f);
-            ConfigureFrame(popup.panel.GetComponent<Image>(),"설정",460,400);
+            ConfigureFrame(popup.panel.GetComponent<Image>(),"Settings",460,400);
             ToggleArt(popup.musicToggle,"music",76);ToggleArt(popup.audioToggle,"sound",170);
             var close=popup.lobbyActions.GetComponent<RuneRaisedButton>();Rect((RectTransform)close.transform,100,286,260,72);ButtonArt(close,"gold",260,72,24);
             Rect((RectTransform)popup.playActions.transform,0,286,460,72);
@@ -66,18 +68,6 @@ namespace RuneBreak.Editor
             var label=toggle.transform.Find("Label").GetComponent<TMP_Text>();TextStyle(label,false,22,"eae8ff");label.alignment=TextAlignmentOptions.MidlineLeft;Rect(label.rectTransform,74,17,248,40);
             var t=toggle.transform.Find("AudioIcon");var go=t!=null?t.gameObject:new GameObject("AudioIcon",typeof(RectTransform),typeof(CanvasRenderer),typeof(RuneLobbyIcon));go.transform.SetParent(toggle.transform,false);
             var icon=go.GetComponent<RuneLobbyIcon>();icon.smooth=true;icon.kind=iconKind;icon.color=RuneArtLibrary.Hex("a9bfff");icon.raycastTarget=false;Rect(icon.rectTransform,24,22,32,32);
-        }
-        public static void ConfigureResult(RunePlayPage page)
-        {
-            if(Art("molded_panel_400")==null||page.result==null)return;
-            var overlay=page.result.GetComponent<Image>();overlay.color=new Color(.025f,.035f,.085f,.86f);
-            var panel=page.result.transform.Find("Panel").GetComponent<Image>();Rect(panel.rectTransform,40,246,460,468);ConfigureFrame(panel,"BLOCK CRASH",460,468);
-            var banner=panel.transform.Find("Banner");if(banner!=null)banner.gameObject.SetActive(false);
-            page.resultEmblem=MakeImage("ResultBlock",panel.transform);page.resultEmblem.sprite=page.art.Rune("green","N");page.resultEmblem.type=Image.Type.Simple;page.resultEmblem.raycastTarget=false;Rect(page.resultEmblem.rectTransform,196,51,68,68);
-            TextStyle(page.resultTitle,false,26,"fff0b6");Rect(page.resultTitle.rectTransform,28,127,404,45);
-            TextStyle(page.resultDescription,false,19,"c8c5e4");page.resultDescription.textWrappingMode=TextWrappingModes.Normal;page.resultDescription.lineSpacing=10;Rect(page.resultDescription.rectTransform,30,179,400,88);
-            var primary=panel.transform.Find("NextOrRetry").GetComponent<Button>();Rect((RectTransform)primary.transform,30,291,400,76);ButtonArt(primary,"gold",400,76,24);
-            var home=page.resultHome.GetComponent<Button>();Rect((RectTransform)home.transform,90,379,280,66);ButtonArt(home,"violet",280,66,21);
         }
         private static void ButtonArt(Button button,string skin,float width,float height,float fontSize)
         {
@@ -96,7 +86,7 @@ namespace RuneBreak.Editor
         private static void RemoveStuds(Transform parent){for(int i=0;i<4;i++){var stud=parent.Find("BlockStud_"+i);if(stud!=null)UnityEngine.Object.DestroyImmediate(stud.gameObject);}}
         private static void TextStyle(TMP_Text text,bool rounded,float size,string color)
         {
-            text.font=rounded?Rounded:Korean;text.fontSharedMaterial=text.font.material;text.fontSize=size;text.fontStyle=FontStyles.Bold;text.fontWeight=FontWeight.Bold;text.color=RuneArtLibrary.Hex(color);text.enableAutoSizing=false;text.characterSpacing=0;text.margin=Vector4.zero;text.alignment=TextAlignmentOptions.Center;text.textWrappingMode=TextWrappingModes.NoWrap;text.raycastTarget=false;
+            text.font=rounded?TitleFont:BodyFont;text.fontSharedMaterial=text.font.material;text.fontSize=size;text.fontStyle=FontStyles.Bold;text.fontWeight=FontWeight.Bold;text.color=RuneArtLibrary.Hex(color);text.enableAutoSizing=false;text.characterSpacing=0;text.margin=Vector4.zero;text.alignment=TextAlignmentOptions.Center;text.textWrappingMode=TextWrappingModes.NoWrap;text.raycastTarget=false;
         }
         private static TMP_Text Label(string name,Transform parent,string value,float size,bool rounded)
         {

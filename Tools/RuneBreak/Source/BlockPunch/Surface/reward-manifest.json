@@ -1,0 +1,78 @@
+{
+  "cabinet_clean": {
+    "w": 480,
+    "h": 652,
+    "layers": [
+      {
+        "label": "Original chassis without gate grooves",
+        "file": "cabinet_clean-layer-0.png"
+      },
+      {
+        "label": "Existing recessed storage",
+        "file": "cabinet_clean-layer-1.png"
+      }
+    ]
+  },
+  "reward_coins": {
+    "w": 320,
+    "h": 250,
+    "layers": [
+      {
+        "label": "Soft contact shadow",
+        "file": "reward_coins-layer-0.png"
+      },
+      {
+        "label": "Coin stack 1",
+        "file": "reward_coins-layer-1.png"
+      },
+      {
+        "label": "Coin stack 2",
+        "file": "reward_coins-layer-2.png"
+      },
+      {
+        "label": "Coin stack 3",
+        "file": "reward_coins-layer-3.png"
+      },
+      {
+        "label": "Coin stack 4",
+        "file": "reward_coins-layer-4.png"
+      },
+      {
+        "label": "Coin stack 5",
+        "file": "reward_coins-layer-5.png"
+      },
+      {
+        "label": "Coin stack 6",
+        "file": "reward_coins-layer-6.png"
+      },
+      {
+        "label": "Coin stack 7",
+        "file": "reward_coins-layer-7.png"
+      },
+      {
+        "label": "Leaning foreground coins",
+        "file": "reward_coins-layer-8.png"
+      }
+    ]
+  },
+  "reward_rays": {
+    "w": 440,
+    "h": 440,
+    "layers": [
+      {
+        "label": "Soft golden rays",
+        "file": "reward_rays-layer-0.png"
+      }
+    ]
+  },
+  "reward_wallet": {
+    "w": 160,
+    "h": 56,
+    "layers": [
+      {
+        "label": "Glossy navy currency bar",
+        "file": "reward_wallet-layer-0.png"
+      }
+    ]
+  }
+}

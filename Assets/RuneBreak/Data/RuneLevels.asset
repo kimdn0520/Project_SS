@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RuneBreak.RuneLevelCatalog
   levels:
   - id: first-layer
-    name: "\uAECD\uC9C8 \uB108\uBA38\uC758 \uC0C9"
-    tag: "01 \xB7 \uACB9\uACB0\uACC4 \uBC30\uC6B0\uAE30"
-    desc: "\uD30C\uB780 \uB8EC\uC740 \uBE68\uAC04 \uAECD\uC9C8 \uB4A4\uC758 \uACB0\uACC4\uAC00
-      \uC5F4\uB9B4 \uB54C\uAE4C\uC9C0 \uAE30\uB2E4\uB824\uC694."
-    tip: "\uC624\uB978\uCABD \uBE68\uAC04 \uCE35\uC744 \uAE68\uBA74, \uBCF4\uAD00\uD55C
-      \uD30C\uB791\uC744 \uC5F0\uB2EC\uC544 \uC3E0 \uC218 \uC788\uC5B4\uC694."
+    name: Colors Beneath
+    tag: 01 - Layered Gates
+    desc: Blue blocks wait until the red gate reveals a blue layer.
+    tip: Break the red layer on the right to launch your stored blue blocks.
     size: 6
     capacity: 5
     seals:
@@ -102,13 +100,10 @@ MonoBehaviour:
     mechanic: 
     demo: 0
   - id: save-and-burst
-    name: "\uC900\uBE44\uD55C \uC138 \uBC1C"
-    tag: "02 \xB7 \uBCF4\uAD00 \uD6C4 \uC5F0\uC18D \uBC1C\uC0AC"
-    desc: "\uD30C\uB791 \uC138 \uAC1C\uB97C \uBBF8\uB9AC \uAEBC\uB0B4 \uB450\uC138\uC694.
-      \uBE68\uAC15\uC744 \uAE68\uBA74 \uC138 \uBC1C\uC774 \uD55C\uAEBC\uBC88\uC5D0
-      \uC900\uBE44\uB3FC\uC694."
-    tip: "\uBCF4\uAD00\uB41C \uD30C\uB791\uC740 \uB300\uAE30 \uC911. \uD604\uC7AC
-      \uC0C9\uACFC \uB2E4\uC74C \uC0C9\uC744 \uAD6C\uBD84\uD574 \uBCF4\uC138\uC694."
+    name: Three Ready Shots
+    tag: 02 - Store and Launch
+    desc: Store three blue blocks. Break the red layer to send them flying.
+    tip: Watch the current gate color and the next layer before you tap.
     size: 6
     capacity: 5
     seals:
@@ -223,14 +218,11 @@ MonoBehaviour:
     mechanic: 
     demo: 0
   - id: last-space
-    name: "\uBE48\uCE78\uC744 \uB0A8\uACA8 \uC918"
-    tag: "03 \xB7 \uCCAB \uBC88\uC9F8 \uC120\uD0DD \uD37C\uC990"
-    desc: "\uB098\uAC08 \uC218 \uC788\uB2E4\uACE0 \uC804\uBD80 \uAEBC\uB0B4\uBA74
-      \uC548 \uB3FC\uC694. \uCD08\uB85D\uC744 \uAEBC\uB0BC \uBCF4\uAD00\uCE78\uC744
-      \uB0A8\uACA8 \uC8FC\uC138\uC694."
-    tip: "\uB178\uB791\uBD80\uD130 \uB108\uBB34 \uB9CE\uC774 \uBCF4\uAD00\uD558\uBA74
-      \uB9C9\uD600\uC694. \uD30C\uB791 \uB4A4 \uCD08\uB85D\uC774 \uC704\uCABD \uACB0\uACC4\uB97C
-      \uC5EC\uB294 \uC5F4\uC1E0\uC608\uC694."
+    name: Leave Some Space
+    tag: 03 - Choose Your Path
+    desc: Keep a storage slot open for green blocks.
+    tip: Storing too many yellow blocks can fill the tray. Green opens the top gate
+      after blue.
     size: 6
     capacity: 5
     seals:
@@ -321,12 +313,10 @@ MonoBehaviour:
     mechanic: 
     demo: 0
   - id: red-again
-    name: "\uB2E4\uC2DC \uB9CC\uB098\uB294 \uBE68\uAC15"
-    tag: "04 \xB7 \uC138 \uACB9\uC758 \uACB0\uACC4"
-    desc: "\uBE68\uAC15\uC744 \uD55C \uBC88 \uAE68\uB3C4 \uB05D\uC774 \uC544\uB2C8\uC5D0\uC694.
-      \uD30C\uB791 \uB4A4\uC5D0\uB294 \uBE68\uAC15\uC774 \uB2E4\uC2DC \uAE30\uB2E4\uB824\uC694."
-    tip: "\uB450 \uC904\uC744 \uBB34\uC791\uC815 \uC11E\uC5B4 \uBE7C\uBA74 \uC8FC\uBA38\uB2C8\uAC00
-      \uB9C9\uD600\uC694. \uB2E4\uC74C \uCE35\uAE4C\uC9C0 \uC0DD\uAC01\uD574 \uBCF4\uC138\uC694."
+    name: Red Returns
+    tag: 04 - Three Layers
+    desc: Two layers on each gate. Store unmatched colors, then break through.
+    tip: Watch the next color behind each gate before choosing your block.
     size: 6
     capacity: 5
     seals:
@@ -337,11 +327,9 @@ MonoBehaviour:
         hp: 3
       E:
       - color: red
-        hp: 1
+        hp: 3
       - color: blue
         hp: 3
-      - color: red
-        hp: 2
     blocks:
     - id: b0
       dir: E
@@ -427,30 +415,23 @@ MonoBehaviour:
     mechanic: 
     demo: 0
   - id: two-turns
-    name: "\uB450 \uACB0\uACC4\uC758 \uC800\uC6B8"
-    tag: "05 \xB7 \uB2E4\uC12F \uCE78\uC758 \uACC4\uD68D"
-    desc: "\uB450 \uAE38 \uBAA8\uB450 \uB124 \uAC1C\uC758 \uBBF8\uB798 \uC0C9\uC5D0
-      \uAC00\uB85C\uB9C9\uD614\uC5B4\uC694. \uC5B4\uB290 \uCABD\uBD80\uD130 \uC5F4\uAE4C\uC694?"
-    tip: "\uCD08\uB85D\uC740 \uC704\uCABD \uACB0\uACC4\uB85C \uC7AC\uBC1C\uC0AC\uD574\uC57C
-      \uD574\uC694. \uCD08\uB85D\uC744 \uC7A0\uAE50 \uBCF4\uAD00\uD560 \uD55C \uCE78\uAE4C\uC9C0
-      \uACC4\uC0B0\uD558\uC138\uC694."
+    name: Two Gates
+    tag: 05 - Plan Five Slots
+    desc: Two layers on each gate. Store unmatched colors, then break through.
+    tip: Watch the next color behind each gate before choosing your block.
     size: 6
     capacity: 5
     seals:
       N:
       - color: green
-        hp: 2
+        hp: 4
       - color: gold
         hp: 4
-      - color: green
-        hp: 2
       E:
       - color: red
-        hp: 2
+        hp: 4
       - color: blue
         hp: 4
-      - color: red
-        hp: 2
     blocks:
     - id: b0
       dir: E
@@ -584,30 +565,23 @@ MonoBehaviour:
     mechanic: 
     demo: 0
   - id: woven-seals
-    name: "\uB9C8\uC9C0\uB9C9 \uBD09\uC778\uC2E4"
-    tag: "06 \xB7 \uB450 \uC218 \uC55E\uC758 \uACF5\uAC04"
-    desc: "\uBCF4\uAD00\uD55C \uC0C9\uC744 \uD574\uBC29\uD558\uB824\uBA74, \uB450
-      \uACB0\uACC4\uB97C \uBC88\uAC08\uC544 \uC5F4\uC5B4\uC57C \uD574\uC694."
-    tip: "\uCE35\uC758 \uC0C9\uACFC \uBC29\uD5A5\uC744 \uD568\uAED8 \uBCF4\uC138\uC694.
-      \uBC14\uB85C \uC3E0 \uC218 \uC788\uB294 \uB8EC\uB3C4 \uB2E4\uC74C \uAE38\uC5D0
-      \uC5B4\uB5A4 \uC601\uD5A5\uC744 \uC8FC\uB294\uC9C0 \uD655\uC778\uD558\uC138\uC694."
+    name: The Final Chamber
+    tag: 06 - Think Ahead
+    desc: Two layers on each gate. Store unmatched colors, then break through.
+    tip: Watch the next color behind each gate before choosing your block.
     size: 6
     capacity: 5
     seals:
       N:
       - color: green
-        hp: 2
+        hp: 4
       - color: gold
         hp: 7
-      - color: green
-        hp: 2
       E:
       - color: red
-        hp: 2
+        hp: 4
       - color: blue
         hp: 7
-      - color: red
-        hp: 2
     blocks:
     - id: b0
       dir: E
@@ -789,12 +763,10 @@ MonoBehaviour:
     mechanic: 
     demo: 0
   - id: demo-chain
-    name: "\uC0AC\uC2AC\uC758 \uC5F0\uACB0"
-    tag: "\uC0AC\uC2AC"
-    desc: "\uACB0\uACC4\uB97C \uAE68\uBA74 \uC5F0\uACB0\uB41C \uC0AC\uC2AC\uC774
-      \uD480\uB824\uC694."
-    tip: "\uBE68\uAC04 \uACB0\uACC4\uC640 \uCD08\uB85D \uACB0\uACC4\uC5D0 \uC5F0\uACB0\uB41C
-      \uC0AC\uC2AC\uC744 \uCC3E\uC544\uBCF4\uC138\uC694."
+    name: Chain Reaction
+    tag: Chains
+    desc: Break a gate layer to release its linked chains.
+    tip: Look for chains connected to the red and green gates.
     size: 6
     capacity: 5
     seals:
@@ -885,12 +857,10 @@ MonoBehaviour:
     mechanic: chain
     demo: 1
   - id: demo-mirror
-    name: "\uBE5B\uC774 \uAEBE\uC774\uB294 \uAE38"
-    tag: "\uBC18\uC0AC\uACBD"
-    desc: "\uBC18\uC0AC\uACBD\uC5D0\uC11C \uB8EC\uC758 \uC9C4\uD589 \uBC29\uD5A5\uC774
-      \uAEBE\uC5EC\uC694."
-    tip: "\uC810\uC120\uC744 \uB530\uB77C\uAC00\uBA74 \uC5B4\uB290 \uACB0\uACC4\uC5D0
-      \uB2FF\uC744\uC9C0 \uC54C \uC218 \uC788\uC5B4\uC694."
+    name: Reflected Paths
+    tag: Mirrors
+    desc: Mirrors change the direction of a flying block.
+    tip: Follow the dotted path to see which gate the block will hit.
     size: 6
     capacity: 5
     seals:
@@ -982,12 +952,10 @@ MonoBehaviour:
     mechanic: mirror
     demo: 1
   - id: demo-stack
-    name: "\uACB9\uCCD0\uC9C4 \uB8EC"
-    tag: "\uACB9\uB8EC"
-    desc: "\uD070 \uB8EC\uC744 \uBE7C\uBA74 \uC791\uC740 \uBBF8\uB9AC\uBCF4\uAE30
-      \uB8EC\uC774 \uC62C\uB77C\uC640\uC694."
-    tip: "\uC791\uC740 \uB8EC\uC758 \uC0C9\uACFC \uD654\uC0B4\uD45C\uAE4C\uC9C0 \uBCF4\uACE0
-      \uC21C\uC11C\uB97C \uC815\uD574 \uBCF4\uC138\uC694."
+    name: Hidden Blocks
+    tag: Layers
+    desc: Remove the top block to reveal the block beneath it.
+    tip: Check the preview color and arrow before choosing your next move.
     size: 6
     capacity: 5
     seals:

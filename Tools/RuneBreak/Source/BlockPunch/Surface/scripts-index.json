@@ -1,0 +1,58 @@
+[
+  {
+    "i": 0,
+    "start": "window.PlayTheme=\"ivory\";"
+  },
+  {
+    "i": 1,
+    "start": "/* RUNE BREAK 0.2 — layered seals. Pure, deterministic rules.\n   Input order reserves damage. Flight timing NEVER changes the outcome.\n   Solve searches board o"
+  },
+  {
+    "i": 2,
+    "start": "(function(root){\n'use strict';\nconst levels=[\n  {\n    \"id\": \"first-layer\",\n    \"name\": \"껍질 너머의 색\",\n    \"tag\": \"01 · 겹결계 배우기\",\n    \"desc\": \"파란 룬은 빨간 껍질 뒤의 결계가 열릴"
+  },
+  {
+    "i": 3,
+    "start": "/* Automatic storage resolution. No animation/time dependencies.\n   Used by level validation/tests. The live scheduler additionally waits for\n   physical arriva"
+  },
+  {
+    "i": 4,
+    "start": "window.MaterialAssetData={\"gate-bar-blue-E\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH4AAAOQCAYAAAD/hcXnAABAlklEQVR4nO2dWazsyHnf/0Wyl7Pcs917Z+aO7ow00owgy"
+  },
+  {
+    "i": 5,
+    "start": "/* Original, code-drawn pixel art. No external images, fonts, or network requests. */\n(function(root){\n'use strict';\nconst W=480,H=584,CELL=48,BX=96,BY=84;\ncons"
+  },
+  {
+    "i": 6,
+    "start": "window.StorageLayout={\n  \"count\": 5,\n  \"size\": 58,\n  \"gap\": 8,\n  \"y\": 551,\n  \"pieceSize\": 46,\n  \"offsetY\": -3,\n  \"outer\": [\n    59,\n    535,\n    362,\n    94,\n  "
+  },
+  {
+    "i": 7,
+    "start": "/* Production-style play presentation. Reuses the approved engraved sprites.\n   Board layout and material controls are deliberately not exposed in the UI. */\n(f"
+  },
+  {
+    "i": 8,
+    "start": "/* Block Design Lab — presentation only. Original engine + levels are byte-identical. */\n(function(root){\n'use strict';\nconst A=root.RuneArt,E=root.RuneEngine,I"
+  },
+  {
+    "i": 9,
+    "start": "/* PUNCH REBOUND / render-only motion, in the existing 480 × 584 canvas.\n   Straight accelerating approach → 62ms LOCAL impact hold → fast inward recoil\n   → on"
+  },
+  {
+    "i": 10,
+    "start": "(function(root){\n'use strict';\nclass RuneAudio{\n constructor(){this.context=null;this.enabled=false;this.volume=.45;this.mutedUntil=0;this.active=new Set();}\n u"
+  },
+  {
+    "i": 11,
+    "start": "/* Depth pass: original tray materials and rotating solid fragments.\n   No reference-image pixels. Presentation only, no interaction or physics rules change. */"
+  },
+  {
+    "i": 12,
+    "start": "/* Deterministic, self-contained completion presentation. No external media,\n   fabricated reward currency, ads or rating mechanic are attached to the popup. */"
+  },
+  {
+    "i": 13,
+    "start": "/* Clean play runtime. Manual input exists only on board blocks.\n   Slots reserve capacity at departure, become eligible after landing, then\n   launch automatic"
+  }
+]

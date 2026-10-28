@@ -1,0 +1,261 @@
+{
+  "status": "passed",
+  "aseprite": [
+    {
+      "name": "cabinet",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_red_N",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_red_E",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_red_S",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_red_W",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "stored_red",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "gate_red_N",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "gate_red_E",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_blue_N",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_blue_E",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_blue_S",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_blue_W",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "stored_blue",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "gate_blue_N",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "gate_blue_E",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_gold_N",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_gold_E",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_gold_S",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_gold_W",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "stored_gold",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "gate_gold_N",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "gate_gold_E",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_green_N",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_green_E",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_green_S",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "rune_green_W",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "stored_green",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "gate_green_N",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "gate_green_E",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "settings",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "result",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "close",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "next",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "home",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "retry",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "button_plum",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "button_blue",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "button_aqua",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "row",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "switch_off",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "switch_on",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "backdrop",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "gear",
+      "rawChannelDifferences": 0
+    },
+    {
+      "name": "slot",
+      "rawChannelDifferences": 0
+    }
+  ],
+  "comfy": [
+    {
+      "name": "cabinet",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "settings",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "result",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "close",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "next",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "home",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "retry",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "button_plum",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "button_blue",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "button_aqua",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "row",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "switch_off",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "switch_on",
+      "rgbMaximumDifference": 0,
+      "alphaMaximumDifference": 1,
+      "shipped": "exact Aseprite composite"
+    }
+  ]
+}

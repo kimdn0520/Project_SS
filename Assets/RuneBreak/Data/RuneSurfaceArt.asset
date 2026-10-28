@@ -1,0 +1,2818 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f41cf0959fa07a489dc7cf1ff7c9b78, type: 3}
+  m_Name: RuneSurfaceArt
+  m_EditorClassIdentifier: Assembly-CSharp::RuneBreak.RuneArtLibrary
+  cabinets:
+  - {fileID: 21300000, guid: d47a0d925025c53418617d199ae94312, type: 3}
+  - {fileID: 21300000, guid: d47a0d925025c53418617d199ae94312, type: 3}
+  - {fileID: 21300000, guid: d47a0d925025c53418617d199ae94312, type: 3}
+  runes:
+  - {fileID: 21300000, guid: e2c5bdd1650e69f409c1d5f2d9390a9a, type: 3}
+  - {fileID: 21300000, guid: c6c83b98fe898f34fa515d25ac7a1669, type: 3}
+  - {fileID: 21300000, guid: 3554dccef43743943a56b7789d18bac1, type: 3}
+  - {fileID: 21300000, guid: 37655212e2d149b448eb51cb36a005f0, type: 3}
+  - {fileID: 21300000, guid: 1a444d1bec0f17045ba4b99942bf861e, type: 3}
+  - {fileID: 21300000, guid: 97158f472b94c864e8420a2053a61743, type: 3}
+  - {fileID: 21300000, guid: 969a541d233b4a9428c9989495784247, type: 3}
+  - {fileID: 21300000, guid: 2fcea4911d8a0fa4bbb10c3cc849dfb4, type: 3}
+  - {fileID: 21300000, guid: 69601099ed43e1648ab329536d970a8d, type: 3}
+  - {fileID: 21300000, guid: d2db01a60cbe6ae4dae0506be6d793d5, type: 3}
+  - {fileID: 21300000, guid: 7f9dca3d42dddf54fb8ea168b078a1b2, type: 3}
+  - {fileID: 21300000, guid: 372e39e76061d9146a67de85d8c88320, type: 3}
+  - {fileID: 21300000, guid: 8b96709b67bee5e41866e6421bee5d0e, type: 3}
+  - {fileID: 21300000, guid: f5cf652a6ae70e8469c57f32eaaf8de1, type: 3}
+  - {fileID: 21300000, guid: 5fb774e213a10e94ca0fb265a137ea0c, type: 3}
+  - {fileID: 21300000, guid: a506f76f2e725f043bf6f81c3390b9c9, type: 3}
+  - {fileID: 21300000, guid: 34c8a99c556091d468ca188628216920, type: 3}
+  - {fileID: 21300000, guid: ffe3af906f5096741a203c500cdf7881, type: 3}
+  - {fileID: 21300000, guid: 583566c842a4b154cb4558a4c7fe903a, type: 3}
+  - {fileID: 21300000, guid: b169aa1198a07e34ea19f3840d01dff9, type: 3}
+  storedRunes:
+  - {fileID: 21300000, guid: 1a444d1bec0f17045ba4b99942bf861e, type: 3}
+  - {fileID: 21300000, guid: d2db01a60cbe6ae4dae0506be6d793d5, type: 3}
+  - {fileID: 21300000, guid: 5fb774e213a10e94ca0fb265a137ea0c, type: 3}
+  - {fileID: 21300000, guid: b169aa1198a07e34ea19f3840d01dff9, type: 3}
+  waitSlots:
+  - {fileID: 21300000, guid: 44077378fc1ddb14ca1121c1921a333e, type: 3}
+  - {fileID: 21300000, guid: 4d9b1002fbbc0944e902f527731e9d71, type: 3}
+  - {fileID: 21300000, guid: 3fe254412d9fc9b4496a0125b3b1a6d8, type: 3}
+  - {fileID: 21300000, guid: 9a265a32d58b1394baebc02343540ef8, type: 3}
+  fullWaitSlots:
+  - {fileID: 21300000, guid: ad11fcb6d8557de4dbd0011d4ef75dd1, type: 3}
+  - {fileID: 21300000, guid: 403fe5f0b986a4f4eb7a51e8ee19a3d6, type: 3}
+  - {fileID: 21300000, guid: 8f255bc5df2a2764d9cb50ff7261707e, type: 3}
+  - {fileID: 21300000, guid: 0dca78fbbee15194f8ca5625cb62a530, type: 3}
+  white: {fileID: 21300000, guid: 43c20013bc1c28e49b16bcee267b14f9, type: 3}
+  slot: {fileID: 21300000, guid: bde62a530c0d0814f889b009633f39d4, type: 3}
+  fullSlot: {fileID: 21300000, guid: bde62a530c0d0814f889b009633f39d4, type: 3}
+  locked: {fileID: 21300000, guid: 633aeadafcbf8e84f832739d812e1404, type: 3}
+  sparkle: {fileID: 21300000, guid: 7a30051b9d9d62a49b267a5570bb57a5, type: 3}
+  chainWrap: {fileID: 21300000, guid: 14359fdd4f3318640b935f9b99458f57, type: 3}
+  mirrorSlash: {fileID: 21300000, guid: bc04aedd55c71ea4c8b9ba501d450238, type: 3}
+  mirrorBackslash: {fileID: 21300000, guid: 0694b3ea01c5e254da803ac99215e6ad, type: 3}
+  stackMount: {fileID: 21300000, guid: c8b0515999c007f49b825748863fb0b1, type: 3}
+  punchStyle: 1
+  surfaceStyle: 1
+  longGates:
+  - {fileID: 21300000, guid: bd7f783a84f484247935b97ed8d481e4, type: 3}
+  - {fileID: 21300000, guid: 9700dfbcf01ade144a5504b60505ec0d, type: 3}
+  - {fileID: 21300000, guid: f548f0bcb1eb4d34499eb77478fd17bc, type: 3}
+  - {fileID: 21300000, guid: e20a02e510b487f4a9280627ccf11e94, type: 3}
+  - {fileID: 21300000, guid: 91c6f8c1ea9ac6849a31da063e78a7eb, type: 3}
+  - {fileID: 21300000, guid: da8ffa68a5797ab4bab9589742406c8e, type: 3}
+  - {fileID: 21300000, guid: c76c537d801663a4daed8c2a4f49a88e, type: 3}
+  - {fileID: 21300000, guid: cbeaa84ba36b87f48ba8b2abe4ef5de8, type: 3}
+  flightShadow: {fileID: 21300000, guid: 1e08b68bbf75e5c4b8bb08fc83171930, type: 3}
+  gates:
+  - name: gate_0_N_0_0
+    side: N
+    level: 0
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 45f44597e1e37774f8b759948bba41cd, type: 3}
+  - name: gate_0_N_0_1
+    side: N
+    level: 0
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: 4f94654761b4bef42b85ee2c59b895ee, type: 3}
+  - name: gate_0_N_0_2
+    side: N
+    level: 0
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 57d9d31bbe106894181f920ebebd8283, type: 3}
+  - name: gate_0_N_1_0
+    side: N
+    level: 0
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: 8d2e0bfec1809af429a917a546def45a, type: 3}
+  - name: gate_0_N_1_1
+    side: N
+    level: 0
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 25fa69d56959343478c69e07e2f64445, type: 3}
+  - name: gate_0_N_1_2
+    side: N
+    level: 0
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 272247b0d370ef949854ea8da3a540d1, type: 3}
+  - name: gate_0_N_done
+    side: N
+    level: 0
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: c4333a12d7f6b7848af829f866875b62, type: 3}
+  - name: gate_0_E_0_0
+    side: E
+    level: 0
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: e3c5f11a84e773d4f9fe09a8869b68cb, type: 3}
+  - name: gate_0_E_0_1
+    side: E
+    level: 0
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: 11c6030fbf0f6db43a318c8e08d00023, type: 3}
+  - name: gate_0_E_0_2
+    side: E
+    level: 0
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 6f207468c2829be4db19ed2c785b6f4e, type: 3}
+  - name: gate_0_E_1_0
+    side: E
+    level: 0
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: 46f80e7d0c3ae4040bdd917c5a4a53bb, type: 3}
+  - name: gate_0_E_1_1
+    side: E
+    level: 0
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 4bf7591c434c5d84bb2b4f15c90f7910, type: 3}
+  - name: gate_0_E_1_2
+    side: E
+    level: 0
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 0ba50f74d677fc34bab18fc217e61d6a, type: 3}
+  - name: gate_0_E_done
+    side: E
+    level: 0
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: f5bbd81eca7e6ec45b17b28f285ac580, type: 3}
+  - name: gate_1_N_0_0
+    side: N
+    level: 1
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 724c8ad3945c22e479f818cd371af5ae, type: 3}
+  - name: gate_1_N_0_1
+    side: N
+    level: 1
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: ff9624b0ed37725458c379859bb75ed5, type: 3}
+  - name: gate_1_N_0_2
+    side: N
+    level: 1
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 9fa6b48835b9914409989d00fdf12de6, type: 3}
+  - name: gate_1_N_1_0
+    side: N
+    level: 1
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: b0fab0f3fc145c54d959cf4bcd75eb1b, type: 3}
+  - name: gate_1_N_1_1
+    side: N
+    level: 1
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 43d52c1ee7ab3c942b8252a8d8e6d038, type: 3}
+  - name: gate_1_N_1_2
+    side: N
+    level: 1
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 1fd702291ecbbc34d9230f809dd63c51, type: 3}
+  - name: gate_1_N_1_3
+    side: N
+    level: 1
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: 6f7ccba82bb20864c8a4dc8acfccd63b, type: 3}
+  - name: gate_1_N_1_4
+    side: N
+    level: 1
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: 789a1f0d5fbac914abe1f10010f4f6f0, type: 3}
+  - name: gate_1_N_1_5
+    side: N
+    level: 1
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: 6696d347c5b640a40a3e131d6cab46a0, type: 3}
+  - name: gate_1_N_1_6
+    side: N
+    level: 1
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: a2ed3524812cd3d47b966ad52d85f2c7, type: 3}
+  - name: gate_1_N_1_7
+    side: N
+    level: 1
+    layer: 1
+    mask: 7
+    sprite: {fileID: 21300000, guid: 2d679750d343f13439c3cf520adb52cd, type: 3}
+  - name: gate_1_N_1_8
+    side: N
+    level: 1
+    layer: 1
+    mask: 8
+    sprite: {fileID: 21300000, guid: 004dcf0694daef94c8ad776a5a0e52f2, type: 3}
+  - name: gate_1_N_1_9
+    side: N
+    level: 1
+    layer: 1
+    mask: 9
+    sprite: {fileID: 21300000, guid: 8d591036a9b64554db223b1168c47e57, type: 3}
+  - name: gate_1_N_1_10
+    side: N
+    level: 1
+    layer: 1
+    mask: 10
+    sprite: {fileID: 21300000, guid: 380c42fd046a0cc49afeb96c5a442919, type: 3}
+  - name: gate_1_N_1_11
+    side: N
+    level: 1
+    layer: 1
+    mask: 11
+    sprite: {fileID: 21300000, guid: e3d05103bdceabc45af1897d8b933396, type: 3}
+  - name: gate_1_N_1_12
+    side: N
+    level: 1
+    layer: 1
+    mask: 12
+    sprite: {fileID: 21300000, guid: 67dde6f4dfd44054287f0bcdb80db020, type: 3}
+  - name: gate_1_N_1_13
+    side: N
+    level: 1
+    layer: 1
+    mask: 13
+    sprite: {fileID: 21300000, guid: 3ad0da0333f270541a8f50298eb276f8, type: 3}
+  - name: gate_1_N_1_14
+    side: N
+    level: 1
+    layer: 1
+    mask: 14
+    sprite: {fileID: 21300000, guid: 2d74682d5fe1e81498eac3011c9e0ab4, type: 3}
+  - name: gate_1_N_done
+    side: N
+    level: 1
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 1b23df44be9801c48800aad19366b047, type: 3}
+  - name: gate_1_E_0_0
+    side: E
+    level: 1
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 35dd13281e9411c4ca73f792df8b4985, type: 3}
+  - name: gate_1_E_0_1
+    side: E
+    level: 1
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: a2d5134415756ce47a7a0fbb2803e0c8, type: 3}
+  - name: gate_1_E_0_2
+    side: E
+    level: 1
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: e647862fe1890ce42a66227ab7437242, type: 3}
+  - name: gate_1_E_0_3
+    side: E
+    level: 1
+    layer: 0
+    mask: 3
+    sprite: {fileID: 21300000, guid: 2d5893066ae593140810e50bd38a4c11, type: 3}
+  - name: gate_1_E_0_4
+    side: E
+    level: 1
+    layer: 0
+    mask: 4
+    sprite: {fileID: 21300000, guid: b6567b588ed223445abc6df4af483f5d, type: 3}
+  - name: gate_1_E_0_5
+    side: E
+    level: 1
+    layer: 0
+    mask: 5
+    sprite: {fileID: 21300000, guid: e57b0df14a6e6b743bad32f856467905, type: 3}
+  - name: gate_1_E_0_6
+    side: E
+    level: 1
+    layer: 0
+    mask: 6
+    sprite: {fileID: 21300000, guid: 17c4162e9255373478fafc24c75570aa, type: 3}
+  - name: gate_1_E_1_0
+    side: E
+    level: 1
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: b7c4f4fe3a43c924fa0cb7f69bb45464, type: 3}
+  - name: gate_1_E_1_1
+    side: E
+    level: 1
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 671f0d17d18d4bb4eae9b67085e7148e, type: 3}
+  - name: gate_1_E_1_2
+    side: E
+    level: 1
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 4d3be76691074af43b94b242a5af5246, type: 3}
+  - name: gate_1_E_1_3
+    side: E
+    level: 1
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: caae6b33f21e2414c832ac6049ffad24, type: 3}
+  - name: gate_1_E_1_4
+    side: E
+    level: 1
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: 936b15edcee351042a422c822f16b0f8, type: 3}
+  - name: gate_1_E_1_5
+    side: E
+    level: 1
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: 449256f7266a0314896b172e9819e5bf, type: 3}
+  - name: gate_1_E_1_6
+    side: E
+    level: 1
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: 5d5804e4f2955ce428074619e4b42609, type: 3}
+  - name: gate_1_E_done
+    side: E
+    level: 1
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: ee7ffab96f64bb244b43e5525b9a22fc, type: 3}
+  - name: gate_2_N_0_0
+    side: N
+    level: 2
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: bac5caa792d8e394a823dcac9737df45, type: 3}
+  - name: gate_2_N_1_0
+    side: N
+    level: 2
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: 4fbf9b0054373b543aba3773842438ec, type: 3}
+  - name: gate_2_N_1_1
+    side: N
+    level: 2
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 57c104e477e46ee44ab6573665f9299a, type: 3}
+  - name: gate_2_N_1_2
+    side: N
+    level: 2
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 91cc063438eeb3e49821b3f6d47ab5c4, type: 3}
+  - name: gate_2_N_1_3
+    side: N
+    level: 2
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: 06daa68010d2b20499d83d9f8d7c3bb1, type: 3}
+  - name: gate_2_N_1_4
+    side: N
+    level: 2
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: 8e1dbe98868d107448a0898cfa4c3447, type: 3}
+  - name: gate_2_N_1_5
+    side: N
+    level: 2
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: 4504365af4c686d409f8832943809602, type: 3}
+  - name: gate_2_N_1_6
+    side: N
+    level: 2
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: 9822674f0d3dc434c90416cf39970062, type: 3}
+  - name: gate_2_N_1_7
+    side: N
+    level: 2
+    layer: 1
+    mask: 7
+    sprite: {fileID: 21300000, guid: fb90bf924297f76448ec1d009e2fe279, type: 3}
+  - name: gate_2_N_1_8
+    side: N
+    level: 2
+    layer: 1
+    mask: 8
+    sprite: {fileID: 21300000, guid: 28d0a62ccc52e024092becc7b4c25a5d, type: 3}
+  - name: gate_2_N_1_9
+    side: N
+    level: 2
+    layer: 1
+    mask: 9
+    sprite: {fileID: 21300000, guid: 255bab60afd653e41857e81e4adcbc6e, type: 3}
+  - name: gate_2_N_1_10
+    side: N
+    level: 2
+    layer: 1
+    mask: 10
+    sprite: {fileID: 21300000, guid: a495515f1ccdee3418a42733592235ab, type: 3}
+  - name: gate_2_N_1_11
+    side: N
+    level: 2
+    layer: 1
+    mask: 11
+    sprite: {fileID: 21300000, guid: 1d82a05ebe2a01b4f9b7f9cd516f7ef8, type: 3}
+  - name: gate_2_N_1_12
+    side: N
+    level: 2
+    layer: 1
+    mask: 12
+    sprite: {fileID: 21300000, guid: de027fd7ea3acbc47a3ac654047cb3b6, type: 3}
+  - name: gate_2_N_1_13
+    side: N
+    level: 2
+    layer: 1
+    mask: 13
+    sprite: {fileID: 21300000, guid: b8df66128fdbb2b45ac243a3ed6896df, type: 3}
+  - name: gate_2_N_1_14
+    side: N
+    level: 2
+    layer: 1
+    mask: 14
+    sprite: {fileID: 21300000, guid: 7c385beab18ec4f40b1bafbe466e8a82, type: 3}
+  - name: gate_2_N_done
+    side: N
+    level: 2
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 171714fe7cec26e41b3c58c6ad48a1bd, type: 3}
+  - name: gate_2_E_0_0
+    side: E
+    level: 2
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: e01d0588a0189184384e5e3baf37f5cb, type: 3}
+  - name: gate_2_E_1_0
+    side: E
+    level: 2
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: fd7277c1270112a459f7d33718e85990, type: 3}
+  - name: gate_2_E_1_1
+    side: E
+    level: 2
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: becaae1a8896daf40b3c77330a2c8c8f, type: 3}
+  - name: gate_2_E_1_2
+    side: E
+    level: 2
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 26a29281884bc91488dda32bef87e253, type: 3}
+  - name: gate_2_E_1_3
+    side: E
+    level: 2
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: 2a7cc082d80b21e40b2e0c6ae2f98ad3, type: 3}
+  - name: gate_2_E_1_4
+    side: E
+    level: 2
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: aca80f3d62dac3949a34a73ba0043ea3, type: 3}
+  - name: gate_2_E_1_5
+    side: E
+    level: 2
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: e9636afdfabae1d45adf54cfefb49f8d, type: 3}
+  - name: gate_2_E_1_6
+    side: E
+    level: 2
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: 53dd2ffe271c9d14f8d15b5c117e7dda, type: 3}
+  - name: gate_2_E_done
+    side: E
+    level: 2
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 571c2ad2bb45d3a4f966804133d4fb3c, type: 3}
+  - name: gate_3_N_0_0
+    side: N
+    level: 3
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: d015a63532a6121448b4c9756594a970, type: 3}
+  - name: gate_3_N_1_0
+    side: N
+    level: 3
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: f5748892483bd734a8616d543a735878, type: 3}
+  - name: gate_3_N_1_1
+    side: N
+    level: 3
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: f5d6fddcf0e30f544a41648297a3fd0f, type: 3}
+  - name: gate_3_N_1_2
+    side: N
+    level: 3
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: a5ce5ee85edb5c04992a18fbe59b6c19, type: 3}
+  - name: gate_3_N_1_3
+    side: N
+    level: 3
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: 052c805a1ee4c754c9875a06ec994bbd, type: 3}
+  - name: gate_3_N_1_4
+    side: N
+    level: 3
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: 9f98e625677b2644e8d2e4765545b585, type: 3}
+  - name: gate_3_N_1_5
+    side: N
+    level: 3
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: f8b7100d34a83af4b901eff66b595aae, type: 3}
+  - name: gate_3_N_1_6
+    side: N
+    level: 3
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: e95b878a487170848af5de92ff7f031c, type: 3}
+  - name: gate_3_N_done
+    side: N
+    level: 3
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 7b286ffbae3379942aa4a0cb4bde7b35, type: 3}
+  - name: gate_3_E_0_0
+    side: E
+    level: 3
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 9daef496e39e04b43a86174b5c9e5f6b, type: 3}
+  - name: gate_3_E_1_0
+    side: E
+    level: 3
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: 7fa70a1876fad364184bdf2455c50ce1, type: 3}
+  - name: gate_3_E_1_1
+    side: E
+    level: 3
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 90ae9efa49342cf47a5e44cb662b5fba, type: 3}
+  - name: gate_3_E_1_2
+    side: E
+    level: 3
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 5ca491459a70fd4479659738ec71c024, type: 3}
+  - name: gate_3_E_1_3
+    side: E
+    level: 3
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: e2ae035f7df5a2a4aa4a1eddd7d5e136, type: 3}
+  - name: gate_3_E_1_4
+    side: E
+    level: 3
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: dd3471380218427498977ce036aafdd2, type: 3}
+  - name: gate_3_E_1_5
+    side: E
+    level: 3
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: fc7a51dab509cba4d8b648ffc80fd673, type: 3}
+  - name: gate_3_E_1_6
+    side: E
+    level: 3
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: 3981240db5e0dbb4bb7e878c2c28e04e, type: 3}
+  - name: gate_3_E_2_0
+    side: E
+    level: 3
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: ab9b299b4a901684e81baff722396d3f, type: 3}
+  - name: gate_3_E_2_1
+    side: E
+    level: 3
+    layer: 2
+    mask: 1
+    sprite: {fileID: 21300000, guid: 36b2c419fc574f546810422be1eac7ac, type: 3}
+  - name: gate_3_E_2_2
+    side: E
+    level: 3
+    layer: 2
+    mask: 2
+    sprite: {fileID: 21300000, guid: 1fe0c74823a466c499786bcd00abf526, type: 3}
+  - name: gate_3_E_done
+    side: E
+    level: 3
+    layer: 3
+    mask: 0
+    sprite: {fileID: 21300000, guid: a4d26a2bee7a2f94b8007019d77cf430, type: 3}
+  - name: gate_4_N_0_0
+    side: N
+    level: 4
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: d7e793489f1bbc74994a197510aa8a2b, type: 3}
+  - name: gate_4_N_0_1
+    side: N
+    level: 4
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: 1157acf96c089cd4db36cdcc884b3738, type: 3}
+  - name: gate_4_N_0_2
+    side: N
+    level: 4
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 9c663d61bb0039b4b96d8c5f15ca8f47, type: 3}
+  - name: gate_4_N_1_0
+    side: N
+    level: 4
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: db2561ce7c0714346a463d8dcfc4980f, type: 3}
+  - name: gate_4_N_1_1
+    side: N
+    level: 4
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 034463a319779cf418bab5fe40c6349b, type: 3}
+  - name: gate_4_N_1_2
+    side: N
+    level: 4
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: c637cc5394bcccf418774e9b51fbf625, type: 3}
+  - name: gate_4_N_1_3
+    side: N
+    level: 4
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: d87f66f72d89e7b49b1c94e9945083cb, type: 3}
+  - name: gate_4_N_1_4
+    side: N
+    level: 4
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: 3a9f426a3726ee94d9d5f936fb79dc02, type: 3}
+  - name: gate_4_N_1_5
+    side: N
+    level: 4
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: f61d84a2851281b4395b6cd3b62b55f1, type: 3}
+  - name: gate_4_N_1_6
+    side: N
+    level: 4
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: c3e9e5340b7f734429f4e4a8ceda5719, type: 3}
+  - name: gate_4_N_1_7
+    side: N
+    level: 4
+    layer: 1
+    mask: 7
+    sprite: {fileID: 21300000, guid: b9863790cec72454f8454221285170ab, type: 3}
+  - name: gate_4_N_1_8
+    side: N
+    level: 4
+    layer: 1
+    mask: 8
+    sprite: {fileID: 21300000, guid: e6d9186b8ea0f0847a202ec6db00b1bd, type: 3}
+  - name: gate_4_N_1_9
+    side: N
+    level: 4
+    layer: 1
+    mask: 9
+    sprite: {fileID: 21300000, guid: b326ebef849e688428d838ae079e4c12, type: 3}
+  - name: gate_4_N_1_10
+    side: N
+    level: 4
+    layer: 1
+    mask: 10
+    sprite: {fileID: 21300000, guid: 14e19be2616a5674798f549be4e98770, type: 3}
+  - name: gate_4_N_1_11
+    side: N
+    level: 4
+    layer: 1
+    mask: 11
+    sprite: {fileID: 21300000, guid: 7c29988a97468094ea87847ac9ac407d, type: 3}
+  - name: gate_4_N_1_12
+    side: N
+    level: 4
+    layer: 1
+    mask: 12
+    sprite: {fileID: 21300000, guid: fb60488766fadba4e8bded087869fcb2, type: 3}
+  - name: gate_4_N_1_13
+    side: N
+    level: 4
+    layer: 1
+    mask: 13
+    sprite: {fileID: 21300000, guid: 2a761e6bb6294474aa1d0b23f138207d, type: 3}
+  - name: gate_4_N_1_14
+    side: N
+    level: 4
+    layer: 1
+    mask: 14
+    sprite: {fileID: 21300000, guid: 1ea2cbbc517c0ed4dacb8748e1503e93, type: 3}
+  - name: gate_4_N_2_0
+    side: N
+    level: 4
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 48ddc21af1c972a45b0b4d6fa3c30b5e, type: 3}
+  - name: gate_4_N_2_1
+    side: N
+    level: 4
+    layer: 2
+    mask: 1
+    sprite: {fileID: 21300000, guid: b02e0e24a89efaf439221831c71ea145, type: 3}
+  - name: gate_4_N_2_2
+    side: N
+    level: 4
+    layer: 2
+    mask: 2
+    sprite: {fileID: 21300000, guid: 5cf5d163044da634c84c7121f1880b21, type: 3}
+  - name: gate_4_N_done
+    side: N
+    level: 4
+    layer: 3
+    mask: 0
+    sprite: {fileID: 21300000, guid: e90628048ddff22479cf31dc35583058, type: 3}
+  - name: gate_4_E_0_0
+    side: E
+    level: 4
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: d25211cf110ebfa4994399c3716d4ded, type: 3}
+  - name: gate_4_E_0_1
+    side: E
+    level: 4
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: 821b1b2a2aba0884c85ee9e3d9a63dd1, type: 3}
+  - name: gate_4_E_0_2
+    side: E
+    level: 4
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 69a98aaa3b463b14c9fb73d1628fa4a9, type: 3}
+  - name: gate_4_E_1_0
+    side: E
+    level: 4
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: bf3dc8a00d1a29e4bbc41856b880a36e, type: 3}
+  - name: gate_4_E_1_1
+    side: E
+    level: 4
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 79359027e3c88bb47af33d6f500e1dbc, type: 3}
+  - name: gate_4_E_1_2
+    side: E
+    level: 4
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: d9990590262bc3f40ad0dfd7eb4ca426, type: 3}
+  - name: gate_4_E_1_3
+    side: E
+    level: 4
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: a47eeb91ed695cb43aa27afd996341d0, type: 3}
+  - name: gate_4_E_1_4
+    side: E
+    level: 4
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: dc6e4440e6b87e34ea62f55b55179f65, type: 3}
+  - name: gate_4_E_1_5
+    side: E
+    level: 4
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: c6afe161000456244a04b8371fbee621, type: 3}
+  - name: gate_4_E_1_6
+    side: E
+    level: 4
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: 4aaafa9dfbe688d47a5af255119ef14f, type: 3}
+  - name: gate_4_E_1_7
+    side: E
+    level: 4
+    layer: 1
+    mask: 7
+    sprite: {fileID: 21300000, guid: 7d417f4e75ee66441b5abfda538acb31, type: 3}
+  - name: gate_4_E_1_8
+    side: E
+    level: 4
+    layer: 1
+    mask: 8
+    sprite: {fileID: 21300000, guid: 5019355246708be4e87e5ab3866fb727, type: 3}
+  - name: gate_4_E_1_9
+    side: E
+    level: 4
+    layer: 1
+    mask: 9
+    sprite: {fileID: 21300000, guid: 5d6fc893780577547a10fea13814057d, type: 3}
+  - name: gate_4_E_1_10
+    side: E
+    level: 4
+    layer: 1
+    mask: 10
+    sprite: {fileID: 21300000, guid: da16f50eacf3cd14da7335f221c54dbc, type: 3}
+  - name: gate_4_E_1_11
+    side: E
+    level: 4
+    layer: 1
+    mask: 11
+    sprite: {fileID: 21300000, guid: 1ae04891ec5b22c42bd1889015de8633, type: 3}
+  - name: gate_4_E_1_12
+    side: E
+    level: 4
+    layer: 1
+    mask: 12
+    sprite: {fileID: 21300000, guid: c9ecf1388b0f42040a1207a3eac59451, type: 3}
+  - name: gate_4_E_1_13
+    side: E
+    level: 4
+    layer: 1
+    mask: 13
+    sprite: {fileID: 21300000, guid: 3707d70c0af8a994eb292d0412d1c218, type: 3}
+  - name: gate_4_E_1_14
+    side: E
+    level: 4
+    layer: 1
+    mask: 14
+    sprite: {fileID: 21300000, guid: 40899b116a51cda4699a19d4e82ee2f8, type: 3}
+  - name: gate_4_E_2_0
+    side: E
+    level: 4
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 2780c64a3840b534b9849f2354fba09e, type: 3}
+  - name: gate_4_E_2_1
+    side: E
+    level: 4
+    layer: 2
+    mask: 1
+    sprite: {fileID: 21300000, guid: 0d7f1bfd0ab296f46860853a5d3237a2, type: 3}
+  - name: gate_4_E_2_2
+    side: E
+    level: 4
+    layer: 2
+    mask: 2
+    sprite: {fileID: 21300000, guid: 8ebc81af91556c147a775aa0e3c6e49f, type: 3}
+  - name: gate_4_E_done
+    side: E
+    level: 4
+    layer: 3
+    mask: 0
+    sprite: {fileID: 21300000, guid: deff5fe710e886b43bd6e159514e9fce, type: 3}
+  - name: gate_5_N_0_0
+    side: N
+    level: 5
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: c4bfe4839ea49394e8321081fde9da36, type: 3}
+  - name: gate_5_N_0_1
+    side: N
+    level: 5
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: f8116b505cc0fc44896d358e75993457, type: 3}
+  - name: gate_5_N_0_2
+    side: N
+    level: 5
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 303d2a5eb20a97948bbc2f816a281452, type: 3}
+  - name: gate_5_N_1_0
+    side: N
+    level: 5
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: 5114bee13a2d34045bbd18f31a392e68, type: 3}
+  - name: gate_5_N_1_1
+    side: N
+    level: 5
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 07672a9decb2996448fbd5a79eed5be6, type: 3}
+  - name: gate_5_N_1_2
+    side: N
+    level: 5
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 9d6bbfffcbae55d4d933fbea0eb2f318, type: 3}
+  - name: gate_5_N_1_3
+    side: N
+    level: 5
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: 647bf5718ae1e7a41a479334301fbec6, type: 3}
+  - name: gate_5_N_1_4
+    side: N
+    level: 5
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: ed2b071000aca824c9004ad1d0609238, type: 3}
+  - name: gate_5_N_1_5
+    side: N
+    level: 5
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: ab21131d29f88e54c89da760e78c3492, type: 3}
+  - name: gate_5_N_1_6
+    side: N
+    level: 5
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: 53c82f8b7e5c0b641b203cfc72264ddd, type: 3}
+  - name: gate_5_N_1_7
+    side: N
+    level: 5
+    layer: 1
+    mask: 7
+    sprite: {fileID: 21300000, guid: 3744351adb9bf624080f49a1f68b5a07, type: 3}
+  - name: gate_5_N_1_8
+    side: N
+    level: 5
+    layer: 1
+    mask: 8
+    sprite: {fileID: 21300000, guid: 13c296b00a00a5544a34f833e1ebb60b, type: 3}
+  - name: gate_5_N_1_9
+    side: N
+    level: 5
+    layer: 1
+    mask: 9
+    sprite: {fileID: 21300000, guid: 317b47a8f23a65a43aac5d8367a632b5, type: 3}
+  - name: gate_5_N_1_10
+    side: N
+    level: 5
+    layer: 1
+    mask: 10
+    sprite: {fileID: 21300000, guid: d28aff47f12b116439398c381b6bffe7, type: 3}
+  - name: gate_5_N_1_11
+    side: N
+    level: 5
+    layer: 1
+    mask: 11
+    sprite: {fileID: 21300000, guid: 53b23d81c52559f4cbaec49295e80a94, type: 3}
+  - name: gate_5_N_1_12
+    side: N
+    level: 5
+    layer: 1
+    mask: 12
+    sprite: {fileID: 21300000, guid: a404dac4f3954424c87741baec7cbfd8, type: 3}
+  - name: gate_5_N_1_13
+    side: N
+    level: 5
+    layer: 1
+    mask: 13
+    sprite: {fileID: 21300000, guid: 39af5879d818a23468815f2bfd1a24bb, type: 3}
+  - name: gate_5_N_1_14
+    side: N
+    level: 5
+    layer: 1
+    mask: 14
+    sprite: {fileID: 21300000, guid: a733550dc569f7749920d0df0de8a6fc, type: 3}
+  - name: gate_5_N_1_15
+    side: N
+    level: 5
+    layer: 1
+    mask: 15
+    sprite: {fileID: 21300000, guid: 30e93f3357228c245a483a651bdde0fd, type: 3}
+  - name: gate_5_N_1_16
+    side: N
+    level: 5
+    layer: 1
+    mask: 16
+    sprite: {fileID: 21300000, guid: 755787b2d6c8fb84bb512d05c5d72fa4, type: 3}
+  - name: gate_5_N_1_17
+    side: N
+    level: 5
+    layer: 1
+    mask: 17
+    sprite: {fileID: 21300000, guid: 9e1ad32cd939c454cba5f98d561db87c, type: 3}
+  - name: gate_5_N_1_18
+    side: N
+    level: 5
+    layer: 1
+    mask: 18
+    sprite: {fileID: 21300000, guid: ad8d72a00c5092748956fe6607ab73a2, type: 3}
+  - name: gate_5_N_1_19
+    side: N
+    level: 5
+    layer: 1
+    mask: 19
+    sprite: {fileID: 21300000, guid: 52625fd02fa90e242a029453dd66bc8b, type: 3}
+  - name: gate_5_N_1_20
+    side: N
+    level: 5
+    layer: 1
+    mask: 20
+    sprite: {fileID: 21300000, guid: 2c63ce6f451289c4c8fa41bf512f2560, type: 3}
+  - name: gate_5_N_1_21
+    side: N
+    level: 5
+    layer: 1
+    mask: 21
+    sprite: {fileID: 21300000, guid: 5d6351c83eab1b5478e4b18b59863e6f, type: 3}
+  - name: gate_5_N_1_22
+    side: N
+    level: 5
+    layer: 1
+    mask: 22
+    sprite: {fileID: 21300000, guid: 0bc21a34f6cb8f148b6a5764f3d23842, type: 3}
+  - name: gate_5_N_1_23
+    side: N
+    level: 5
+    layer: 1
+    mask: 23
+    sprite: {fileID: 21300000, guid: ef630e302514e434e86ee3945a4f2601, type: 3}
+  - name: gate_5_N_1_24
+    side: N
+    level: 5
+    layer: 1
+    mask: 24
+    sprite: {fileID: 21300000, guid: 3c79e91390f4d8e4c8bdaa1aeb2b6e03, type: 3}
+  - name: gate_5_N_1_25
+    side: N
+    level: 5
+    layer: 1
+    mask: 25
+    sprite: {fileID: 21300000, guid: 7f64acd688323604a93b9fa60068d9ba, type: 3}
+  - name: gate_5_N_1_26
+    side: N
+    level: 5
+    layer: 1
+    mask: 26
+    sprite: {fileID: 21300000, guid: 6638fd476095d2f42b16d46541efd433, type: 3}
+  - name: gate_5_N_1_27
+    side: N
+    level: 5
+    layer: 1
+    mask: 27
+    sprite: {fileID: 21300000, guid: ad827c77bbd5c944abd2c531a1bdc8eb, type: 3}
+  - name: gate_5_N_1_28
+    side: N
+    level: 5
+    layer: 1
+    mask: 28
+    sprite: {fileID: 21300000, guid: bd790e2c12891b447ba9cdd29d725d2e, type: 3}
+  - name: gate_5_N_1_29
+    side: N
+    level: 5
+    layer: 1
+    mask: 29
+    sprite: {fileID: 21300000, guid: d3bd72f9a7850d04ca1250109b255e49, type: 3}
+  - name: gate_5_N_1_30
+    side: N
+    level: 5
+    layer: 1
+    mask: 30
+    sprite: {fileID: 21300000, guid: 34b652eb0e7b9d64690097e1c9b6d770, type: 3}
+  - name: gate_5_N_1_31
+    side: N
+    level: 5
+    layer: 1
+    mask: 31
+    sprite: {fileID: 21300000, guid: e9950acd7b829844b8b1cdc5f8f1c1a6, type: 3}
+  - name: gate_5_N_1_32
+    side: N
+    level: 5
+    layer: 1
+    mask: 32
+    sprite: {fileID: 21300000, guid: 8edf7733dc9d4244c8bd74c85eeb0315, type: 3}
+  - name: gate_5_N_1_33
+    side: N
+    level: 5
+    layer: 1
+    mask: 33
+    sprite: {fileID: 21300000, guid: 8b4b5a1d8ca3c1443a7fcb2480880c25, type: 3}
+  - name: gate_5_N_1_34
+    side: N
+    level: 5
+    layer: 1
+    mask: 34
+    sprite: {fileID: 21300000, guid: 6cc2cb3e98e970746a55784848276ff7, type: 3}
+  - name: gate_5_N_1_35
+    side: N
+    level: 5
+    layer: 1
+    mask: 35
+    sprite: {fileID: 21300000, guid: 68bd11f477df9e846bcf9fc458d9abde, type: 3}
+  - name: gate_5_N_1_36
+    side: N
+    level: 5
+    layer: 1
+    mask: 36
+    sprite: {fileID: 21300000, guid: 0c29ca54aed0a0748b9599b5f4060425, type: 3}
+  - name: gate_5_N_1_37
+    side: N
+    level: 5
+    layer: 1
+    mask: 37
+    sprite: {fileID: 21300000, guid: 00e41982a115bde4095260222ab15c31, type: 3}
+  - name: gate_5_N_1_38
+    side: N
+    level: 5
+    layer: 1
+    mask: 38
+    sprite: {fileID: 21300000, guid: 3a3b149dc0274ec429d02119146333f9, type: 3}
+  - name: gate_5_N_1_39
+    side: N
+    level: 5
+    layer: 1
+    mask: 39
+    sprite: {fileID: 21300000, guid: 7dfe128f9249b8b4fa6a6d4a4f1ef7bd, type: 3}
+  - name: gate_5_N_1_40
+    side: N
+    level: 5
+    layer: 1
+    mask: 40
+    sprite: {fileID: 21300000, guid: ed0e63ce14ffd0042860b6b3d440ab5c, type: 3}
+  - name: gate_5_N_1_41
+    side: N
+    level: 5
+    layer: 1
+    mask: 41
+    sprite: {fileID: 21300000, guid: f14cb5af0d8283b4e99287c54dcc9c78, type: 3}
+  - name: gate_5_N_1_42
+    side: N
+    level: 5
+    layer: 1
+    mask: 42
+    sprite: {fileID: 21300000, guid: 1b61d501f18eaed4eb7442b097100de8, type: 3}
+  - name: gate_5_N_1_43
+    side: N
+    level: 5
+    layer: 1
+    mask: 43
+    sprite: {fileID: 21300000, guid: 649646ebda350b84283aa3244534ef64, type: 3}
+  - name: gate_5_N_1_44
+    side: N
+    level: 5
+    layer: 1
+    mask: 44
+    sprite: {fileID: 21300000, guid: 0eaf7d0199877764fafb12dd4ad55639, type: 3}
+  - name: gate_5_N_1_45
+    side: N
+    level: 5
+    layer: 1
+    mask: 45
+    sprite: {fileID: 21300000, guid: b9e454139d21633459e3b0f2bfb6e4cb, type: 3}
+  - name: gate_5_N_1_46
+    side: N
+    level: 5
+    layer: 1
+    mask: 46
+    sprite: {fileID: 21300000, guid: db88064153f147141a7d8829f6319c7b, type: 3}
+  - name: gate_5_N_1_47
+    side: N
+    level: 5
+    layer: 1
+    mask: 47
+    sprite: {fileID: 21300000, guid: 875f93a013745404b8ece8a2a49e12e6, type: 3}
+  - name: gate_5_N_1_48
+    side: N
+    level: 5
+    layer: 1
+    mask: 48
+    sprite: {fileID: 21300000, guid: ce11b7cf56550a2458339bfb5205bc12, type: 3}
+  - name: gate_5_N_1_49
+    side: N
+    level: 5
+    layer: 1
+    mask: 49
+    sprite: {fileID: 21300000, guid: 031b52a8fc8e1aa48aeedf39ac8dd412, type: 3}
+  - name: gate_5_N_1_50
+    side: N
+    level: 5
+    layer: 1
+    mask: 50
+    sprite: {fileID: 21300000, guid: a2ad1c62d99750745acabb1169e1b9aa, type: 3}
+  - name: gate_5_N_1_51
+    side: N
+    level: 5
+    layer: 1
+    mask: 51
+    sprite: {fileID: 21300000, guid: 4312a8332cdd1e44e80f7ec963fd14b7, type: 3}
+  - name: gate_5_N_1_52
+    side: N
+    level: 5
+    layer: 1
+    mask: 52
+    sprite: {fileID: 21300000, guid: fd9ef64e2f36ceb4da23a45819669675, type: 3}
+  - name: gate_5_N_1_53
+    side: N
+    level: 5
+    layer: 1
+    mask: 53
+    sprite: {fileID: 21300000, guid: a04c6756cdb87df4586d393e8933aab5, type: 3}
+  - name: gate_5_N_1_54
+    side: N
+    level: 5
+    layer: 1
+    mask: 54
+    sprite: {fileID: 21300000, guid: c7a547ce76088614ca79735936cc4d9d, type: 3}
+  - name: gate_5_N_1_55
+    side: N
+    level: 5
+    layer: 1
+    mask: 55
+    sprite: {fileID: 21300000, guid: 66b2fbc5b7bdf4c4296f8846d3276c50, type: 3}
+  - name: gate_5_N_1_56
+    side: N
+    level: 5
+    layer: 1
+    mask: 56
+    sprite: {fileID: 21300000, guid: 89e075f7bdb82a14fb30a6dd170a9b8a, type: 3}
+  - name: gate_5_N_1_57
+    side: N
+    level: 5
+    layer: 1
+    mask: 57
+    sprite: {fileID: 21300000, guid: 309c71ce8c941f241a2a578787ffe623, type: 3}
+  - name: gate_5_N_1_58
+    side: N
+    level: 5
+    layer: 1
+    mask: 58
+    sprite: {fileID: 21300000, guid: 2d85dabd4407e6a41b1dc233d6ab7d3e, type: 3}
+  - name: gate_5_N_1_59
+    side: N
+    level: 5
+    layer: 1
+    mask: 59
+    sprite: {fileID: 21300000, guid: 785de8439ed6fec40adaa5203a5570f0, type: 3}
+  - name: gate_5_N_1_60
+    side: N
+    level: 5
+    layer: 1
+    mask: 60
+    sprite: {fileID: 21300000, guid: 5cfa9640d6de2a843afc3dc6ccc97cfc, type: 3}
+  - name: gate_5_N_1_61
+    side: N
+    level: 5
+    layer: 1
+    mask: 61
+    sprite: {fileID: 21300000, guid: d3a0f87295a41af418746c1ea2b19fb6, type: 3}
+  - name: gate_5_N_1_62
+    side: N
+    level: 5
+    layer: 1
+    mask: 62
+    sprite: {fileID: 21300000, guid: f29e38d8a878d44499fc0417fca7e033, type: 3}
+  - name: gate_5_N_1_63
+    side: N
+    level: 5
+    layer: 1
+    mask: 63
+    sprite: {fileID: 21300000, guid: c7aeb41b6b30a6a4d8c16574f46fac10, type: 3}
+  - name: gate_5_N_1_64
+    side: N
+    level: 5
+    layer: 1
+    mask: 64
+    sprite: {fileID: 21300000, guid: 2d5787343ed81dc4e8fe5339676ce645, type: 3}
+  - name: gate_5_N_1_65
+    side: N
+    level: 5
+    layer: 1
+    mask: 65
+    sprite: {fileID: 21300000, guid: a902c129c29e3e54fb8d5dfae9af37f5, type: 3}
+  - name: gate_5_N_1_66
+    side: N
+    level: 5
+    layer: 1
+    mask: 66
+    sprite: {fileID: 21300000, guid: 3e557947a56f97b49bc4fd1f06ef90bd, type: 3}
+  - name: gate_5_N_1_67
+    side: N
+    level: 5
+    layer: 1
+    mask: 67
+    sprite: {fileID: 21300000, guid: 93ced7dbaa32fb544a23ea42b7eb5cf1, type: 3}
+  - name: gate_5_N_1_68
+    side: N
+    level: 5
+    layer: 1
+    mask: 68
+    sprite: {fileID: 21300000, guid: d6fdf9b68599cde419006b019fec37ce, type: 3}
+  - name: gate_5_N_1_69
+    side: N
+    level: 5
+    layer: 1
+    mask: 69
+    sprite: {fileID: 21300000, guid: 85068881055902b4c98681a64849b318, type: 3}
+  - name: gate_5_N_1_70
+    side: N
+    level: 5
+    layer: 1
+    mask: 70
+    sprite: {fileID: 21300000, guid: 4e220a180480cd14b8dad3018aff7df6, type: 3}
+  - name: gate_5_N_1_71
+    side: N
+    level: 5
+    layer: 1
+    mask: 71
+    sprite: {fileID: 21300000, guid: 13c59a82b7155c347b65ac1645d1b707, type: 3}
+  - name: gate_5_N_1_72
+    side: N
+    level: 5
+    layer: 1
+    mask: 72
+    sprite: {fileID: 21300000, guid: 99c500a02d4ac324d80bff8a1d18187e, type: 3}
+  - name: gate_5_N_1_73
+    side: N
+    level: 5
+    layer: 1
+    mask: 73
+    sprite: {fileID: 21300000, guid: 134d88cc69f7f20438ccc3a72d7ee92b, type: 3}
+  - name: gate_5_N_1_74
+    side: N
+    level: 5
+    layer: 1
+    mask: 74
+    sprite: {fileID: 21300000, guid: 99bfbdc43ca14a344895fb29ce7f5239, type: 3}
+  - name: gate_5_N_1_75
+    side: N
+    level: 5
+    layer: 1
+    mask: 75
+    sprite: {fileID: 21300000, guid: 308996704cb64d24baa2bb2705577333, type: 3}
+  - name: gate_5_N_1_76
+    side: N
+    level: 5
+    layer: 1
+    mask: 76
+    sprite: {fileID: 21300000, guid: 0286c5d8fa5488f4f9f26580a8a716f8, type: 3}
+  - name: gate_5_N_1_77
+    side: N
+    level: 5
+    layer: 1
+    mask: 77
+    sprite: {fileID: 21300000, guid: 1251da0b74f0a9c4290b4b46a56c611a, type: 3}
+  - name: gate_5_N_1_78
+    side: N
+    level: 5
+    layer: 1
+    mask: 78
+    sprite: {fileID: 21300000, guid: 82db4d726f7330f40bc6162384e02c19, type: 3}
+  - name: gate_5_N_1_79
+    side: N
+    level: 5
+    layer: 1
+    mask: 79
+    sprite: {fileID: 21300000, guid: 4f93f98cb75336744b5d071a99b035e2, type: 3}
+  - name: gate_5_N_1_80
+    side: N
+    level: 5
+    layer: 1
+    mask: 80
+    sprite: {fileID: 21300000, guid: e71075b726c9f5148a825517f3fa8922, type: 3}
+  - name: gate_5_N_1_81
+    side: N
+    level: 5
+    layer: 1
+    mask: 81
+    sprite: {fileID: 21300000, guid: c57c90edc6fd3f4499ea44d860425c59, type: 3}
+  - name: gate_5_N_1_82
+    side: N
+    level: 5
+    layer: 1
+    mask: 82
+    sprite: {fileID: 21300000, guid: 994983846c22e2e4d941605ffa718c29, type: 3}
+  - name: gate_5_N_1_83
+    side: N
+    level: 5
+    layer: 1
+    mask: 83
+    sprite: {fileID: 21300000, guid: 5e636fb6f681a8042b1c04d76e56df32, type: 3}
+  - name: gate_5_N_1_84
+    side: N
+    level: 5
+    layer: 1
+    mask: 84
+    sprite: {fileID: 21300000, guid: 77a7e4b1ce8b57747a8bcd5e306a1b2f, type: 3}
+  - name: gate_5_N_1_85
+    side: N
+    level: 5
+    layer: 1
+    mask: 85
+    sprite: {fileID: 21300000, guid: 87e7b4ab1c3bc2b4a9a786323f09ece3, type: 3}
+  - name: gate_5_N_1_86
+    side: N
+    level: 5
+    layer: 1
+    mask: 86
+    sprite: {fileID: 21300000, guid: e263f3e0206f69240b356f58df7ac555, type: 3}
+  - name: gate_5_N_1_87
+    side: N
+    level: 5
+    layer: 1
+    mask: 87
+    sprite: {fileID: 21300000, guid: 89b03829b73eb15428fe32d79d26d4cb, type: 3}
+  - name: gate_5_N_1_88
+    side: N
+    level: 5
+    layer: 1
+    mask: 88
+    sprite: {fileID: 21300000, guid: 84a1879282e42944da5cfd7f5b0bb653, type: 3}
+  - name: gate_5_N_1_89
+    side: N
+    level: 5
+    layer: 1
+    mask: 89
+    sprite: {fileID: 21300000, guid: 97e9a6d9789c12242a498fdf963c1f8d, type: 3}
+  - name: gate_5_N_1_90
+    side: N
+    level: 5
+    layer: 1
+    mask: 90
+    sprite: {fileID: 21300000, guid: efc6c728c6e9a7a4c90a12b120308941, type: 3}
+  - name: gate_5_N_1_91
+    side: N
+    level: 5
+    layer: 1
+    mask: 91
+    sprite: {fileID: 21300000, guid: 669369777712eef40a6937a1704a2c24, type: 3}
+  - name: gate_5_N_1_92
+    side: N
+    level: 5
+    layer: 1
+    mask: 92
+    sprite: {fileID: 21300000, guid: adcbaaa6d99108e44a7cb2d14dd53925, type: 3}
+  - name: gate_5_N_1_93
+    side: N
+    level: 5
+    layer: 1
+    mask: 93
+    sprite: {fileID: 21300000, guid: 7511735409828724cbe7f1a41c93b25d, type: 3}
+  - name: gate_5_N_1_94
+    side: N
+    level: 5
+    layer: 1
+    mask: 94
+    sprite: {fileID: 21300000, guid: acbd3dde2deea9f46bd444f537f3256c, type: 3}
+  - name: gate_5_N_1_95
+    side: N
+    level: 5
+    layer: 1
+    mask: 95
+    sprite: {fileID: 21300000, guid: d5cea9d029e48664fab5af28531169b0, type: 3}
+  - name: gate_5_N_1_96
+    side: N
+    level: 5
+    layer: 1
+    mask: 96
+    sprite: {fileID: 21300000, guid: 51b3db81adbdf8b469334e780d6851c3, type: 3}
+  - name: gate_5_N_1_97
+    side: N
+    level: 5
+    layer: 1
+    mask: 97
+    sprite: {fileID: 21300000, guid: 521d8c941352f4941a7583d0f0bf451d, type: 3}
+  - name: gate_5_N_1_98
+    side: N
+    level: 5
+    layer: 1
+    mask: 98
+    sprite: {fileID: 21300000, guid: f6a47e58e5ba63543884fba447c1400b, type: 3}
+  - name: gate_5_N_1_99
+    side: N
+    level: 5
+    layer: 1
+    mask: 99
+    sprite: {fileID: 21300000, guid: c86dbbdbfa78e7a4782605a79b877f8d, type: 3}
+  - name: gate_5_N_1_100
+    side: N
+    level: 5
+    layer: 1
+    mask: 100
+    sprite: {fileID: 21300000, guid: 66c74b364b7922a418647c8e51cc538d, type: 3}
+  - name: gate_5_N_1_101
+    side: N
+    level: 5
+    layer: 1
+    mask: 101
+    sprite: {fileID: 21300000, guid: f75ca06d5a7bb8e428d52a436c1c79ce, type: 3}
+  - name: gate_5_N_1_102
+    side: N
+    level: 5
+    layer: 1
+    mask: 102
+    sprite: {fileID: 21300000, guid: 7d2423170fadece488ff7e5ae86ebbc0, type: 3}
+  - name: gate_5_N_1_103
+    side: N
+    level: 5
+    layer: 1
+    mask: 103
+    sprite: {fileID: 21300000, guid: 2993f240e61973d4dba3e220696d0bf6, type: 3}
+  - name: gate_5_N_1_104
+    side: N
+    level: 5
+    layer: 1
+    mask: 104
+    sprite: {fileID: 21300000, guid: ce6ffb148288bb14aaa999320499bbcd, type: 3}
+  - name: gate_5_N_1_105
+    side: N
+    level: 5
+    layer: 1
+    mask: 105
+    sprite: {fileID: 21300000, guid: eaf81bc57f342e44b9d4361c07359395, type: 3}
+  - name: gate_5_N_1_106
+    side: N
+    level: 5
+    layer: 1
+    mask: 106
+    sprite: {fileID: 21300000, guid: 5080ab0127ce3d5478f683546ac0b4c4, type: 3}
+  - name: gate_5_N_1_107
+    side: N
+    level: 5
+    layer: 1
+    mask: 107
+    sprite: {fileID: 21300000, guid: a68d5b0e9107842488ae94675978b485, type: 3}
+  - name: gate_5_N_1_108
+    side: N
+    level: 5
+    layer: 1
+    mask: 108
+    sprite: {fileID: 21300000, guid: 959b388333c7673479fe02c37a0bf04f, type: 3}
+  - name: gate_5_N_1_109
+    side: N
+    level: 5
+    layer: 1
+    mask: 109
+    sprite: {fileID: 21300000, guid: 2965cbf8fc676f447921bb456629d5b2, type: 3}
+  - name: gate_5_N_1_110
+    side: N
+    level: 5
+    layer: 1
+    mask: 110
+    sprite: {fileID: 21300000, guid: 811b12e6840245a4c996c51ab9413396, type: 3}
+  - name: gate_5_N_1_111
+    side: N
+    level: 5
+    layer: 1
+    mask: 111
+    sprite: {fileID: 21300000, guid: 51bc92ede219dc14fa0f38733f759405, type: 3}
+  - name: gate_5_N_1_112
+    side: N
+    level: 5
+    layer: 1
+    mask: 112
+    sprite: {fileID: 21300000, guid: 5620b020bc7f2e04793b2cc2d106aa0b, type: 3}
+  - name: gate_5_N_1_113
+    side: N
+    level: 5
+    layer: 1
+    mask: 113
+    sprite: {fileID: 21300000, guid: 4d8296b6ac6f23945977f668057d63e0, type: 3}
+  - name: gate_5_N_1_114
+    side: N
+    level: 5
+    layer: 1
+    mask: 114
+    sprite: {fileID: 21300000, guid: 04b2065cf2108dd468a980199bd5c164, type: 3}
+  - name: gate_5_N_1_115
+    side: N
+    level: 5
+    layer: 1
+    mask: 115
+    sprite: {fileID: 21300000, guid: dfef524b6c7c6fe4cb11e6a027e22fb6, type: 3}
+  - name: gate_5_N_1_116
+    side: N
+    level: 5
+    layer: 1
+    mask: 116
+    sprite: {fileID: 21300000, guid: 2d9f047d9d15dee45a2685a60a653cd4, type: 3}
+  - name: gate_5_N_1_117
+    side: N
+    level: 5
+    layer: 1
+    mask: 117
+    sprite: {fileID: 21300000, guid: c4b50dfc53ab0624c9d569858dfaf4af, type: 3}
+  - name: gate_5_N_1_118
+    side: N
+    level: 5
+    layer: 1
+    mask: 118
+    sprite: {fileID: 21300000, guid: 93b0bcaf30ae8f74b836e02cf6d7a5e4, type: 3}
+  - name: gate_5_N_1_119
+    side: N
+    level: 5
+    layer: 1
+    mask: 119
+    sprite: {fileID: 21300000, guid: d2c42f4aa0ab06544ad8d1ebf352243c, type: 3}
+  - name: gate_5_N_1_120
+    side: N
+    level: 5
+    layer: 1
+    mask: 120
+    sprite: {fileID: 21300000, guid: ab9e280df6bfaf244b81e06d43bfa600, type: 3}
+  - name: gate_5_N_1_121
+    side: N
+    level: 5
+    layer: 1
+    mask: 121
+    sprite: {fileID: 21300000, guid: 4d366f2959c2a754b85cdc1edad6dc68, type: 3}
+  - name: gate_5_N_1_122
+    side: N
+    level: 5
+    layer: 1
+    mask: 122
+    sprite: {fileID: 21300000, guid: c00ec7781776e5247a4751a6dfd364e4, type: 3}
+  - name: gate_5_N_1_123
+    side: N
+    level: 5
+    layer: 1
+    mask: 123
+    sprite: {fileID: 21300000, guid: a637ad583ec9304498c244782eb868b8, type: 3}
+  - name: gate_5_N_1_124
+    side: N
+    level: 5
+    layer: 1
+    mask: 124
+    sprite: {fileID: 21300000, guid: f8ddbe261f529f9458499861e1e8676f, type: 3}
+  - name: gate_5_N_1_125
+    side: N
+    level: 5
+    layer: 1
+    mask: 125
+    sprite: {fileID: 21300000, guid: 264925ed2350e2e4ead9527db06b3a03, type: 3}
+  - name: gate_5_N_1_126
+    side: N
+    level: 5
+    layer: 1
+    mask: 126
+    sprite: {fileID: 21300000, guid: 4d3fdcefaa28673458afab9862081847, type: 3}
+  - name: gate_5_N_2_0
+    side: N
+    level: 5
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 72110e7ebb245484ea1e7b44ad2bfa05, type: 3}
+  - name: gate_5_N_2_1
+    side: N
+    level: 5
+    layer: 2
+    mask: 1
+    sprite: {fileID: 21300000, guid: 74dccd0240a5879449af486fd5cd16d8, type: 3}
+  - name: gate_5_N_2_2
+    side: N
+    level: 5
+    layer: 2
+    mask: 2
+    sprite: {fileID: 21300000, guid: f13ef42f1ce045a49a46cd19746a7b8e, type: 3}
+  - name: gate_5_N_done
+    side: N
+    level: 5
+    layer: 3
+    mask: 0
+    sprite: {fileID: 21300000, guid: 091e4ff7a0a7ace4ea6367c4c44086f3, type: 3}
+  - name: gate_5_E_0_0
+    side: E
+    level: 5
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 5a149793c395e1540bc6fef5fdf2dc79, type: 3}
+  - name: gate_5_E_0_1
+    side: E
+    level: 5
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: ede74305bc369ab4aa2f581c3452bc02, type: 3}
+  - name: gate_5_E_0_2
+    side: E
+    level: 5
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: a8d3dffa520fbda42bfaa112d5774a1c, type: 3}
+  - name: gate_5_E_1_0
+    side: E
+    level: 5
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: 94d7932f78099614896639721fd98b08, type: 3}
+  - name: gate_5_E_1_1
+    side: E
+    level: 5
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 5db3e99ba11249f44a535c45bd10f81f, type: 3}
+  - name: gate_5_E_1_2
+    side: E
+    level: 5
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 35f5a25382d692347a62c3b723945a09, type: 3}
+  - name: gate_5_E_1_3
+    side: E
+    level: 5
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: 35ece6a40a23313478daadd803e30f17, type: 3}
+  - name: gate_5_E_1_4
+    side: E
+    level: 5
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: 27445056d47cb80419bb97ae0f1538a7, type: 3}
+  - name: gate_5_E_1_5
+    side: E
+    level: 5
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: 69c34feef51d3d946a3c61b5cb44197d, type: 3}
+  - name: gate_5_E_1_6
+    side: E
+    level: 5
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: c0d6fe1c0eda89c4b931e23cca9451fe, type: 3}
+  - name: gate_5_E_1_7
+    side: E
+    level: 5
+    layer: 1
+    mask: 7
+    sprite: {fileID: 21300000, guid: a4b4ff30b7749664db8a7b13f8b117d3, type: 3}
+  - name: gate_5_E_1_8
+    side: E
+    level: 5
+    layer: 1
+    mask: 8
+    sprite: {fileID: 21300000, guid: e2593ea2a59f89d43be020dfbf44a0c0, type: 3}
+  - name: gate_5_E_1_9
+    side: E
+    level: 5
+    layer: 1
+    mask: 9
+    sprite: {fileID: 21300000, guid: c40258d3922d53e4e8aa927a61555c41, type: 3}
+  - name: gate_5_E_1_10
+    side: E
+    level: 5
+    layer: 1
+    mask: 10
+    sprite: {fileID: 21300000, guid: 798bac636a391dc448f9e5b9e74ac17d, type: 3}
+  - name: gate_5_E_1_11
+    side: E
+    level: 5
+    layer: 1
+    mask: 11
+    sprite: {fileID: 21300000, guid: 3ceae11179e6126488c5ee79d2582ef4, type: 3}
+  - name: gate_5_E_1_12
+    side: E
+    level: 5
+    layer: 1
+    mask: 12
+    sprite: {fileID: 21300000, guid: 210c426e2a0f6db4eb40aad0e9d09efc, type: 3}
+  - name: gate_5_E_1_13
+    side: E
+    level: 5
+    layer: 1
+    mask: 13
+    sprite: {fileID: 21300000, guid: bd0abd972ffe4e14daf1263af8038727, type: 3}
+  - name: gate_5_E_1_14
+    side: E
+    level: 5
+    layer: 1
+    mask: 14
+    sprite: {fileID: 21300000, guid: ba52ba40e7dacd54288ab447830735db, type: 3}
+  - name: gate_5_E_1_15
+    side: E
+    level: 5
+    layer: 1
+    mask: 15
+    sprite: {fileID: 21300000, guid: b84a194f22bed1c40961dd59c93ce6f5, type: 3}
+  - name: gate_5_E_1_16
+    side: E
+    level: 5
+    layer: 1
+    mask: 16
+    sprite: {fileID: 21300000, guid: fdb2eacc0b3b16948ab8211e0a75c77f, type: 3}
+  - name: gate_5_E_1_17
+    side: E
+    level: 5
+    layer: 1
+    mask: 17
+    sprite: {fileID: 21300000, guid: b27fd74ee76447440926625f9e46b60c, type: 3}
+  - name: gate_5_E_1_18
+    side: E
+    level: 5
+    layer: 1
+    mask: 18
+    sprite: {fileID: 21300000, guid: b585b6f020c6d3e47a6f89f709de320f, type: 3}
+  - name: gate_5_E_1_19
+    side: E
+    level: 5
+    layer: 1
+    mask: 19
+    sprite: {fileID: 21300000, guid: d264736c041fe4b41943b9cc9e6a3791, type: 3}
+  - name: gate_5_E_1_20
+    side: E
+    level: 5
+    layer: 1
+    mask: 20
+    sprite: {fileID: 21300000, guid: fc9525acb9281024fbba71cf2e03567f, type: 3}
+  - name: gate_5_E_1_21
+    side: E
+    level: 5
+    layer: 1
+    mask: 21
+    sprite: {fileID: 21300000, guid: fa20c8d427316de4cbe3082a301bf7ea, type: 3}
+  - name: gate_5_E_1_22
+    side: E
+    level: 5
+    layer: 1
+    mask: 22
+    sprite: {fileID: 21300000, guid: 4380dabea380cb74ab00c50b74702d58, type: 3}
+  - name: gate_5_E_1_23
+    side: E
+    level: 5
+    layer: 1
+    mask: 23
+    sprite: {fileID: 21300000, guid: 93cdea3edf3e0634b8b390250f9f5480, type: 3}
+  - name: gate_5_E_1_24
+    side: E
+    level: 5
+    layer: 1
+    mask: 24
+    sprite: {fileID: 21300000, guid: 0490c9971731e35488c70b75e4bd0e8b, type: 3}
+  - name: gate_5_E_1_25
+    side: E
+    level: 5
+    layer: 1
+    mask: 25
+    sprite: {fileID: 21300000, guid: 87573e82faeebbc49b18b754223c8138, type: 3}
+  - name: gate_5_E_1_26
+    side: E
+    level: 5
+    layer: 1
+    mask: 26
+    sprite: {fileID: 21300000, guid: 21154599571b1b544bbc2efcff5c75c5, type: 3}
+  - name: gate_5_E_1_27
+    side: E
+    level: 5
+    layer: 1
+    mask: 27
+    sprite: {fileID: 21300000, guid: 137768068a5abe3438dc4979fb11bd83, type: 3}
+  - name: gate_5_E_1_28
+    side: E
+    level: 5
+    layer: 1
+    mask: 28
+    sprite: {fileID: 21300000, guid: 041994550344b1c449f5714a60700b22, type: 3}
+  - name: gate_5_E_1_29
+    side: E
+    level: 5
+    layer: 1
+    mask: 29
+    sprite: {fileID: 21300000, guid: 84556c9c41295e2448c7307257238e18, type: 3}
+  - name: gate_5_E_1_30
+    side: E
+    level: 5
+    layer: 1
+    mask: 30
+    sprite: {fileID: 21300000, guid: a3e1ac9ec344b7e4a8378c6063b2bca2, type: 3}
+  - name: gate_5_E_1_31
+    side: E
+    level: 5
+    layer: 1
+    mask: 31
+    sprite: {fileID: 21300000, guid: e7b3bdd3cad6e4240ab43c34c9f6f52c, type: 3}
+  - name: gate_5_E_1_32
+    side: E
+    level: 5
+    layer: 1
+    mask: 32
+    sprite: {fileID: 21300000, guid: 422322dc48babc34cb7b577a0a829489, type: 3}
+  - name: gate_5_E_1_33
+    side: E
+    level: 5
+    layer: 1
+    mask: 33
+    sprite: {fileID: 21300000, guid: 1f90e5e29b468024db8cebb4b9873807, type: 3}
+  - name: gate_5_E_1_34
+    side: E
+    level: 5
+    layer: 1
+    mask: 34
+    sprite: {fileID: 21300000, guid: a938caccd615d964ab97602ddf723bb1, type: 3}
+  - name: gate_5_E_1_35
+    side: E
+    level: 5
+    layer: 1
+    mask: 35
+    sprite: {fileID: 21300000, guid: 02801cc6eff728848b22bdd3669de1e7, type: 3}
+  - name: gate_5_E_1_36
+    side: E
+    level: 5
+    layer: 1
+    mask: 36
+    sprite: {fileID: 21300000, guid: f449ec5797aa1004089413618e384a01, type: 3}
+  - name: gate_5_E_1_37
+    side: E
+    level: 5
+    layer: 1
+    mask: 37
+    sprite: {fileID: 21300000, guid: 427fca01b44d9fb42b59da0b2001083d, type: 3}
+  - name: gate_5_E_1_38
+    side: E
+    level: 5
+    layer: 1
+    mask: 38
+    sprite: {fileID: 21300000, guid: cc31466655bd1be4a8f300948ae96d46, type: 3}
+  - name: gate_5_E_1_39
+    side: E
+    level: 5
+    layer: 1
+    mask: 39
+    sprite: {fileID: 21300000, guid: 3162809d68da3734abb105fc69491c87, type: 3}
+  - name: gate_5_E_1_40
+    side: E
+    level: 5
+    layer: 1
+    mask: 40
+    sprite: {fileID: 21300000, guid: 84a654956dc526f4696c9955d17f2de9, type: 3}
+  - name: gate_5_E_1_41
+    side: E
+    level: 5
+    layer: 1
+    mask: 41
+    sprite: {fileID: 21300000, guid: 7f865b68d2bd2a544a81e08637bc6564, type: 3}
+  - name: gate_5_E_1_42
+    side: E
+    level: 5
+    layer: 1
+    mask: 42
+    sprite: {fileID: 21300000, guid: bdf072a4fbed8a84b918c2ba5230d959, type: 3}
+  - name: gate_5_E_1_43
+    side: E
+    level: 5
+    layer: 1
+    mask: 43
+    sprite: {fileID: 21300000, guid: 990fd9f38a7e244459aa98f0ee21d6da, type: 3}
+  - name: gate_5_E_1_44
+    side: E
+    level: 5
+    layer: 1
+    mask: 44
+    sprite: {fileID: 21300000, guid: 2070eae161f387247bf32d875d748bea, type: 3}
+  - name: gate_5_E_1_45
+    side: E
+    level: 5
+    layer: 1
+    mask: 45
+    sprite: {fileID: 21300000, guid: 48568d2b3db0dce45982283bfdd0725f, type: 3}
+  - name: gate_5_E_1_46
+    side: E
+    level: 5
+    layer: 1
+    mask: 46
+    sprite: {fileID: 21300000, guid: e87b65f404f36994387019bfc07512f7, type: 3}
+  - name: gate_5_E_1_47
+    side: E
+    level: 5
+    layer: 1
+    mask: 47
+    sprite: {fileID: 21300000, guid: 2208d788341b605429fdef0adcaba0eb, type: 3}
+  - name: gate_5_E_1_48
+    side: E
+    level: 5
+    layer: 1
+    mask: 48
+    sprite: {fileID: 21300000, guid: f495938918604e24abdd7f3e174eabb6, type: 3}
+  - name: gate_5_E_1_49
+    side: E
+    level: 5
+    layer: 1
+    mask: 49
+    sprite: {fileID: 21300000, guid: 4a4b33d2ce5eb594ea8654210dfacf34, type: 3}
+  - name: gate_5_E_1_50
+    side: E
+    level: 5
+    layer: 1
+    mask: 50
+    sprite: {fileID: 21300000, guid: 60d871281ec207e49b8fa7e83bcf6a93, type: 3}
+  - name: gate_5_E_1_51
+    side: E
+    level: 5
+    layer: 1
+    mask: 51
+    sprite: {fileID: 21300000, guid: 6d74dce037a7a0143829cd4ef4a58dec, type: 3}
+  - name: gate_5_E_1_52
+    side: E
+    level: 5
+    layer: 1
+    mask: 52
+    sprite: {fileID: 21300000, guid: 20c86143281d64743bf93bba1fcba96e, type: 3}
+  - name: gate_5_E_1_53
+    side: E
+    level: 5
+    layer: 1
+    mask: 53
+    sprite: {fileID: 21300000, guid: 61f0f27d96adf4140bf469d1b976da28, type: 3}
+  - name: gate_5_E_1_54
+    side: E
+    level: 5
+    layer: 1
+    mask: 54
+    sprite: {fileID: 21300000, guid: 680326f8b5905cb4d8a30208cac74252, type: 3}
+  - name: gate_5_E_1_55
+    side: E
+    level: 5
+    layer: 1
+    mask: 55
+    sprite: {fileID: 21300000, guid: 3cb3af8e23c3255449bce7f5a79dabd4, type: 3}
+  - name: gate_5_E_1_56
+    side: E
+    level: 5
+    layer: 1
+    mask: 56
+    sprite: {fileID: 21300000, guid: 7e362381c4da9b24197c9b129b6e3f21, type: 3}
+  - name: gate_5_E_1_57
+    side: E
+    level: 5
+    layer: 1
+    mask: 57
+    sprite: {fileID: 21300000, guid: c44da8a25bc22364e8a9fd4b9a24e57a, type: 3}
+  - name: gate_5_E_1_58
+    side: E
+    level: 5
+    layer: 1
+    mask: 58
+    sprite: {fileID: 21300000, guid: 90bedcb5b223cf34c9861308642634f8, type: 3}
+  - name: gate_5_E_1_59
+    side: E
+    level: 5
+    layer: 1
+    mask: 59
+    sprite: {fileID: 21300000, guid: 32946e33e52682041a77c1f51a0858be, type: 3}
+  - name: gate_5_E_1_60
+    side: E
+    level: 5
+    layer: 1
+    mask: 60
+    sprite: {fileID: 21300000, guid: 5144dc4d6ad203143b6dac07ea5c0e89, type: 3}
+  - name: gate_5_E_1_61
+    side: E
+    level: 5
+    layer: 1
+    mask: 61
+    sprite: {fileID: 21300000, guid: 3ef606ebd8acb2040beb202377ee8071, type: 3}
+  - name: gate_5_E_1_62
+    side: E
+    level: 5
+    layer: 1
+    mask: 62
+    sprite: {fileID: 21300000, guid: 6910c5d894b34b047a420b85890746ed, type: 3}
+  - name: gate_5_E_1_63
+    side: E
+    level: 5
+    layer: 1
+    mask: 63
+    sprite: {fileID: 21300000, guid: daad12f8829656c4ca30256cffdf0b28, type: 3}
+  - name: gate_5_E_1_64
+    side: E
+    level: 5
+    layer: 1
+    mask: 64
+    sprite: {fileID: 21300000, guid: 04a040cba8b542a4b96cf2276d743cfd, type: 3}
+  - name: gate_5_E_1_65
+    side: E
+    level: 5
+    layer: 1
+    mask: 65
+    sprite: {fileID: 21300000, guid: 646c098b53af7c24ea43eba1ce8549df, type: 3}
+  - name: gate_5_E_1_66
+    side: E
+    level: 5
+    layer: 1
+    mask: 66
+    sprite: {fileID: 21300000, guid: 80b0f14871e30cb499fb144b2d8e555a, type: 3}
+  - name: gate_5_E_1_67
+    side: E
+    level: 5
+    layer: 1
+    mask: 67
+    sprite: {fileID: 21300000, guid: 1650592d50a3ab247a85984bccde8ed0, type: 3}
+  - name: gate_5_E_1_68
+    side: E
+    level: 5
+    layer: 1
+    mask: 68
+    sprite: {fileID: 21300000, guid: 0717fcf162cc69547a80219a1a470cd3, type: 3}
+  - name: gate_5_E_1_69
+    side: E
+    level: 5
+    layer: 1
+    mask: 69
+    sprite: {fileID: 21300000, guid: 38614ceff46669f4387300b8c6a53def, type: 3}
+  - name: gate_5_E_1_70
+    side: E
+    level: 5
+    layer: 1
+    mask: 70
+    sprite: {fileID: 21300000, guid: 93d881e37119926419e6701f780f82a4, type: 3}
+  - name: gate_5_E_1_71
+    side: E
+    level: 5
+    layer: 1
+    mask: 71
+    sprite: {fileID: 21300000, guid: c39ac5261680f2f4091566477b80b9cc, type: 3}
+  - name: gate_5_E_1_72
+    side: E
+    level: 5
+    layer: 1
+    mask: 72
+    sprite: {fileID: 21300000, guid: 0ed37e8e03ca6ed4598beabbb451308e, type: 3}
+  - name: gate_5_E_1_73
+    side: E
+    level: 5
+    layer: 1
+    mask: 73
+    sprite: {fileID: 21300000, guid: 00d91c91bf47a364ea4d92dbf8b3bb06, type: 3}
+  - name: gate_5_E_1_74
+    side: E
+    level: 5
+    layer: 1
+    mask: 74
+    sprite: {fileID: 21300000, guid: 32cd238ba44d17d45aec167ca4f796cd, type: 3}
+  - name: gate_5_E_1_75
+    side: E
+    level: 5
+    layer: 1
+    mask: 75
+    sprite: {fileID: 21300000, guid: 2ef493364a460e849ad945e2885b59d9, type: 3}
+  - name: gate_5_E_1_76
+    side: E
+    level: 5
+    layer: 1
+    mask: 76
+    sprite: {fileID: 21300000, guid: 8d8e33204f4f216448e8c7431a072210, type: 3}
+  - name: gate_5_E_1_77
+    side: E
+    level: 5
+    layer: 1
+    mask: 77
+    sprite: {fileID: 21300000, guid: 34f12217ffc214442bac0fb4964d6fa1, type: 3}
+  - name: gate_5_E_1_78
+    side: E
+    level: 5
+    layer: 1
+    mask: 78
+    sprite: {fileID: 21300000, guid: 85b95e7381899e449aceb40614849765, type: 3}
+  - name: gate_5_E_1_79
+    side: E
+    level: 5
+    layer: 1
+    mask: 79
+    sprite: {fileID: 21300000, guid: f28faabe912dc904b91a83c7c1675d70, type: 3}
+  - name: gate_5_E_1_80
+    side: E
+    level: 5
+    layer: 1
+    mask: 80
+    sprite: {fileID: 21300000, guid: d214f12e1692fc64e9c61c96a1980a05, type: 3}
+  - name: gate_5_E_1_81
+    side: E
+    level: 5
+    layer: 1
+    mask: 81
+    sprite: {fileID: 21300000, guid: 754433df9f1446b429c54bb6054118c3, type: 3}
+  - name: gate_5_E_1_82
+    side: E
+    level: 5
+    layer: 1
+    mask: 82
+    sprite: {fileID: 21300000, guid: c31a8cd22e65b8e468dd6a1e725c3cde, type: 3}
+  - name: gate_5_E_1_83
+    side: E
+    level: 5
+    layer: 1
+    mask: 83
+    sprite: {fileID: 21300000, guid: 54992081152468447bac98565f2c3f62, type: 3}
+  - name: gate_5_E_1_84
+    side: E
+    level: 5
+    layer: 1
+    mask: 84
+    sprite: {fileID: 21300000, guid: cd5b403f01c003f4e93b2b4b886fcd01, type: 3}
+  - name: gate_5_E_1_85
+    side: E
+    level: 5
+    layer: 1
+    mask: 85
+    sprite: {fileID: 21300000, guid: a7a44e44fc585ed4b88cc5d1a55effca, type: 3}
+  - name: gate_5_E_1_86
+    side: E
+    level: 5
+    layer: 1
+    mask: 86
+    sprite: {fileID: 21300000, guid: d8a27334b41c70241a36028b3a392bd4, type: 3}
+  - name: gate_5_E_1_87
+    side: E
+    level: 5
+    layer: 1
+    mask: 87
+    sprite: {fileID: 21300000, guid: ab6c40d75ddc3e840b5a6549a3cfe1f4, type: 3}
+  - name: gate_5_E_1_88
+    side: E
+    level: 5
+    layer: 1
+    mask: 88
+    sprite: {fileID: 21300000, guid: ea29b4c3b7486ee428e853212aba1307, type: 3}
+  - name: gate_5_E_1_89
+    side: E
+    level: 5
+    layer: 1
+    mask: 89
+    sprite: {fileID: 21300000, guid: 8f64bf752aa944e478ab861963114a93, type: 3}
+  - name: gate_5_E_1_90
+    side: E
+    level: 5
+    layer: 1
+    mask: 90
+    sprite: {fileID: 21300000, guid: 3130322323ff82b48bf899797b2fa366, type: 3}
+  - name: gate_5_E_1_91
+    side: E
+    level: 5
+    layer: 1
+    mask: 91
+    sprite: {fileID: 21300000, guid: 205d203185f6f0446a222fcb73476d64, type: 3}
+  - name: gate_5_E_1_92
+    side: E
+    level: 5
+    layer: 1
+    mask: 92
+    sprite: {fileID: 21300000, guid: 4cbea72cbb3b8f6489cd155e435e23a9, type: 3}
+  - name: gate_5_E_1_93
+    side: E
+    level: 5
+    layer: 1
+    mask: 93
+    sprite: {fileID: 21300000, guid: 6795dc278dca0584ab3932e998cbf08f, type: 3}
+  - name: gate_5_E_1_94
+    side: E
+    level: 5
+    layer: 1
+    mask: 94
+    sprite: {fileID: 21300000, guid: fa4f5dbe616ecda4182e1ebd55a1d804, type: 3}
+  - name: gate_5_E_1_95
+    side: E
+    level: 5
+    layer: 1
+    mask: 95
+    sprite: {fileID: 21300000, guid: e769e3a405b60004b9a76cdf3b0837f2, type: 3}
+  - name: gate_5_E_1_96
+    side: E
+    level: 5
+    layer: 1
+    mask: 96
+    sprite: {fileID: 21300000, guid: 5b4ea3b082a61514e8a4b91eeae075b2, type: 3}
+  - name: gate_5_E_1_97
+    side: E
+    level: 5
+    layer: 1
+    mask: 97
+    sprite: {fileID: 21300000, guid: ac30632dfc2c7f44888bce27377e83ec, type: 3}
+  - name: gate_5_E_1_98
+    side: E
+    level: 5
+    layer: 1
+    mask: 98
+    sprite: {fileID: 21300000, guid: 1106dd27d68f60f44983930b260cb0fb, type: 3}
+  - name: gate_5_E_1_99
+    side: E
+    level: 5
+    layer: 1
+    mask: 99
+    sprite: {fileID: 21300000, guid: af083c7fa08492e468087c1aa18496a6, type: 3}
+  - name: gate_5_E_1_100
+    side: E
+    level: 5
+    layer: 1
+    mask: 100
+    sprite: {fileID: 21300000, guid: af259ddd0c7a3dd4fafe51a8ab938243, type: 3}
+  - name: gate_5_E_1_101
+    side: E
+    level: 5
+    layer: 1
+    mask: 101
+    sprite: {fileID: 21300000, guid: 93f7c8edb727cc24f979018d11f2dc61, type: 3}
+  - name: gate_5_E_1_102
+    side: E
+    level: 5
+    layer: 1
+    mask: 102
+    sprite: {fileID: 21300000, guid: 5e5abd31146b00d4fa18b83fee3c0b73, type: 3}
+  - name: gate_5_E_1_103
+    side: E
+    level: 5
+    layer: 1
+    mask: 103
+    sprite: {fileID: 21300000, guid: 2066f5bbba8222648b2a9f671f2f0a13, type: 3}
+  - name: gate_5_E_1_104
+    side: E
+    level: 5
+    layer: 1
+    mask: 104
+    sprite: {fileID: 21300000, guid: c1d102b6eb6701244ab64b61efb7fb26, type: 3}
+  - name: gate_5_E_1_105
+    side: E
+    level: 5
+    layer: 1
+    mask: 105
+    sprite: {fileID: 21300000, guid: 371e1337e852a4543ba5cb43a57e8dd0, type: 3}
+  - name: gate_5_E_1_106
+    side: E
+    level: 5
+    layer: 1
+    mask: 106
+    sprite: {fileID: 21300000, guid: e95f08b72fe5d2e408c2228cb3874aa7, type: 3}
+  - name: gate_5_E_1_107
+    side: E
+    level: 5
+    layer: 1
+    mask: 107
+    sprite: {fileID: 21300000, guid: 73d48028220e34746bc47ce062c5f27c, type: 3}
+  - name: gate_5_E_1_108
+    side: E
+    level: 5
+    layer: 1
+    mask: 108
+    sprite: {fileID: 21300000, guid: eb14a523b2d8e044b941f4047d416381, type: 3}
+  - name: gate_5_E_1_109
+    side: E
+    level: 5
+    layer: 1
+    mask: 109
+    sprite: {fileID: 21300000, guid: 296aa9f4ab2cf82459c09aeaa0c14ea7, type: 3}
+  - name: gate_5_E_1_110
+    side: E
+    level: 5
+    layer: 1
+    mask: 110
+    sprite: {fileID: 21300000, guid: bf99789f864a856449252eae41a7abcd, type: 3}
+  - name: gate_5_E_1_111
+    side: E
+    level: 5
+    layer: 1
+    mask: 111
+    sprite: {fileID: 21300000, guid: 52167e56ed85b6949b9be683d700057a, type: 3}
+  - name: gate_5_E_1_112
+    side: E
+    level: 5
+    layer: 1
+    mask: 112
+    sprite: {fileID: 21300000, guid: 92c47e9af4e82e4449d7e43fb88c6942, type: 3}
+  - name: gate_5_E_1_113
+    side: E
+    level: 5
+    layer: 1
+    mask: 113
+    sprite: {fileID: 21300000, guid: c19a690cdb5d94346b25a089d026752a, type: 3}
+  - name: gate_5_E_1_114
+    side: E
+    level: 5
+    layer: 1
+    mask: 114
+    sprite: {fileID: 21300000, guid: ec576b65bd37c724a827e3bb480a15c6, type: 3}
+  - name: gate_5_E_1_115
+    side: E
+    level: 5
+    layer: 1
+    mask: 115
+    sprite: {fileID: 21300000, guid: b6cffe89f91a4804b9b0531a42d7125d, type: 3}
+  - name: gate_5_E_1_116
+    side: E
+    level: 5
+    layer: 1
+    mask: 116
+    sprite: {fileID: 21300000, guid: bcd04abf88ab43e429772a52856d9d24, type: 3}
+  - name: gate_5_E_1_117
+    side: E
+    level: 5
+    layer: 1
+    mask: 117
+    sprite: {fileID: 21300000, guid: 20060f7c75d7fc740b94506a96f073e4, type: 3}
+  - name: gate_5_E_1_118
+    side: E
+    level: 5
+    layer: 1
+    mask: 118
+    sprite: {fileID: 21300000, guid: 0ea390f1971051749a46366aa09c96f2, type: 3}
+  - name: gate_5_E_1_119
+    side: E
+    level: 5
+    layer: 1
+    mask: 119
+    sprite: {fileID: 21300000, guid: 63ffe91cf18d42f45a10d53056d30833, type: 3}
+  - name: gate_5_E_1_120
+    side: E
+    level: 5
+    layer: 1
+    mask: 120
+    sprite: {fileID: 21300000, guid: 08dd5a34a2d24e74f8d2d2f54127f102, type: 3}
+  - name: gate_5_E_1_121
+    side: E
+    level: 5
+    layer: 1
+    mask: 121
+    sprite: {fileID: 21300000, guid: abe8c022e8b621b498d719f930c110d0, type: 3}
+  - name: gate_5_E_1_122
+    side: E
+    level: 5
+    layer: 1
+    mask: 122
+    sprite: {fileID: 21300000, guid: 31b6a8e17b36fc945ae041552e5b9985, type: 3}
+  - name: gate_5_E_1_123
+    side: E
+    level: 5
+    layer: 1
+    mask: 123
+    sprite: {fileID: 21300000, guid: 37bd987253fce754681930ca96ca7a1f, type: 3}
+  - name: gate_5_E_1_124
+    side: E
+    level: 5
+    layer: 1
+    mask: 124
+    sprite: {fileID: 21300000, guid: 4ae8168e0e952d44bb5f703109f7d30c, type: 3}
+  - name: gate_5_E_1_125
+    side: E
+    level: 5
+    layer: 1
+    mask: 125
+    sprite: {fileID: 21300000, guid: 4d7be00559619554db8092490b237836, type: 3}
+  - name: gate_5_E_1_126
+    side: E
+    level: 5
+    layer: 1
+    mask: 126
+    sprite: {fileID: 21300000, guid: 054cee4ae6373864fa7a729075517d05, type: 3}
+  - name: gate_5_E_2_0
+    side: E
+    level: 5
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: fdfb9d8144f560f46b2a81c55083b8f6, type: 3}
+  - name: gate_5_E_2_1
+    side: E
+    level: 5
+    layer: 2
+    mask: 1
+    sprite: {fileID: 21300000, guid: 32428f881a98b464abdd4232d6c83edb, type: 3}
+  - name: gate_5_E_2_2
+    side: E
+    level: 5
+    layer: 2
+    mask: 2
+    sprite: {fileID: 21300000, guid: a63a27d7d6c0c43448773e7984e77366, type: 3}
+  - name: gate_5_E_done
+    side: E
+    level: 5
+    layer: 3
+    mask: 0
+    sprite: {fileID: 21300000, guid: f1a5b05c0614a4f42b9ef848ec9e3531, type: 3}
+  - name: gate_6_N_0_0
+    side: N
+    level: 6
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 15f1dc2a6b590aa41a24d86f20252c3b, type: 3}
+  - name: gate_6_N_0_1
+    side: N
+    level: 6
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: 4edc49fc8d9959d4e8e4bc4e86c8444f, type: 3}
+  - name: gate_6_N_0_2
+    side: N
+    level: 6
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: a01730da6046b624d83051156c5a2534, type: 3}
+  - name: gate_6_N_1_0
+    side: N
+    level: 6
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: b45026b64ae12b944a4ef7eed18a9dc4, type: 3}
+  - name: gate_6_N_1_1
+    side: N
+    level: 6
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: fbe8ddd8de5cc8a49945b21e1060fc97, type: 3}
+  - name: gate_6_N_1_2
+    side: N
+    level: 6
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 3285a674788e07e47b07650b37e358ec, type: 3}
+  - name: gate_6_N_done
+    side: N
+    level: 6
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 48b27fcabc4128d4a8e1a966cd340e91, type: 3}
+  - name: gate_6_E_0_0
+    side: E
+    level: 6
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 41858c860a1fa084e839de79635aa3c7, type: 3}
+  - name: gate_6_E_0_1
+    side: E
+    level: 6
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: e3aa60bd1a95ae143a3ae83d43b1d8b1, type: 3}
+  - name: gate_6_E_0_2
+    side: E
+    level: 6
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: c355b1f6f6a8fdc458c51fa78b16b12f, type: 3}
+  - name: gate_6_E_1_0
+    side: E
+    level: 6
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: b97d06daaffe6d64099abc0a262dcccd, type: 3}
+  - name: gate_6_E_1_1
+    side: E
+    level: 6
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: f026cbdc3abffec4fa5565b3e5ad083f, type: 3}
+  - name: gate_6_E_1_2
+    side: E
+    level: 6
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 659316fc2516be1409d9e26b5550e621, type: 3}
+  - name: gate_6_E_1_3
+    side: E
+    level: 6
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: f035e69dd89db3b478a246cbc351f53e, type: 3}
+  - name: gate_6_E_1_4
+    side: E
+    level: 6
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: b31757aed4d78284f8d3e8c7dc017180, type: 3}
+  - name: gate_6_E_1_5
+    side: E
+    level: 6
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: 56f85cb87bda74a4db33d44828db8553, type: 3}
+  - name: gate_6_E_1_6
+    side: E
+    level: 6
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: a2038587478c8114e93ece071b8dc192, type: 3}
+  - name: gate_6_E_done
+    side: E
+    level: 6
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 973e3552b7bb64d4992a54f144ac3623, type: 3}
+  - name: gate_7_N_0_0
+    side: N
+    level: 7
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 99d28f310134f4b4e88b0d7b032733f9, type: 3}
+  - name: gate_7_N_0_1
+    side: N
+    level: 7
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: 72cf42888a248d749872bf7674efd22a, type: 3}
+  - name: gate_7_N_0_2
+    side: N
+    level: 7
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 43f721ce3eea20b449aecb57d1bcf8c5, type: 3}
+  - name: gate_7_N_1_0
+    side: N
+    level: 7
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: cb9c3d86cd8d88440a7a12187ea4853e, type: 3}
+  - name: gate_7_N_1_1
+    side: N
+    level: 7
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 433091b6e03f70c4d966b77dff35516a, type: 3}
+  - name: gate_7_N_1_2
+    side: N
+    level: 7
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: bbe4dd5a0b6b49b4f939827c08e99100, type: 3}
+  - name: gate_7_N_done
+    side: N
+    level: 7
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: cde9f3f07226662409326f2794570734, type: 3}
+  - name: gate_7_E_0_0
+    side: E
+    level: 7
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 38fa3d5a7c3a3ab4684b06de86fae28e, type: 3}
+  - name: gate_7_E_0_1
+    side: E
+    level: 7
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: e891f4c8ad63a4b47a028c6d192d6503, type: 3}
+  - name: gate_7_E_0_2
+    side: E
+    level: 7
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 89beb2f0b308ce446abd5c94397d080b, type: 3}
+  - name: gate_7_E_1_0
+    side: E
+    level: 7
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: 4165c7942f9375648bae973c2d25f7f0, type: 3}
+  - name: gate_7_E_1_1
+    side: E
+    level: 7
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 255854b9a13aba1499a88cbab6d8bb86, type: 3}
+  - name: gate_7_E_1_2
+    side: E
+    level: 7
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 615d54613d27b924c9bc603878c37ddc, type: 3}
+  - name: gate_7_E_done
+    side: E
+    level: 7
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 0e6f23accf80d8e4991f6e55ccf01fcb, type: 3}
+  - name: gate_8_N_0_0
+    side: N
+    level: 8
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: a0fa18301dff0654b8870d18d247455f, type: 3}
+  - name: gate_8_N_0_1
+    side: N
+    level: 8
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: 37e9cff55ced42447889c9b44f8acaa4, type: 3}
+  - name: gate_8_N_0_2
+    side: N
+    level: 8
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 47fcd2b94b1d5dc49b40906d7ef49f33, type: 3}
+  - name: gate_8_N_1_0
+    side: N
+    level: 8
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: 069312cdf51b386478506b6794a01c49, type: 3}
+  - name: gate_8_N_1_1
+    side: N
+    level: 8
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 7d44a8936295f5848842edd4892b67a6, type: 3}
+  - name: gate_8_N_1_2
+    side: N
+    level: 8
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 825a62dd794a2d64bb6bfb84c37c97f4, type: 3}
+  - name: gate_8_N_done
+    side: N
+    level: 8
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: 58c159217bcffca4ba9197b38ac784ff, type: 3}
+  - name: gate_8_E_0_0
+    side: E
+    level: 8
+    layer: 0
+    mask: 0
+    sprite: {fileID: 21300000, guid: 4947a2a37470483499eaea7be6b944ab, type: 3}
+  - name: gate_8_E_0_1
+    side: E
+    level: 8
+    layer: 0
+    mask: 1
+    sprite: {fileID: 21300000, guid: 4a271269dcb4fce4896bd4a6d0fa1ffe, type: 3}
+  - name: gate_8_E_0_2
+    side: E
+    level: 8
+    layer: 0
+    mask: 2
+    sprite: {fileID: 21300000, guid: 84e186fe35fab384c921094496a9649a, type: 3}
+  - name: gate_8_E_1_0
+    side: E
+    level: 8
+    layer: 1
+    mask: 0
+    sprite: {fileID: 21300000, guid: ef79d17a4fb472f4c98e748d8af9a8b9, type: 3}
+  - name: gate_8_E_1_1
+    side: E
+    level: 8
+    layer: 1
+    mask: 1
+    sprite: {fileID: 21300000, guid: 112bf4b9bcb9c9248a323396794f6b82, type: 3}
+  - name: gate_8_E_1_2
+    side: E
+    level: 8
+    layer: 1
+    mask: 2
+    sprite: {fileID: 21300000, guid: 6bab6c7195a21d740ace08a5331524bf, type: 3}
+  - name: gate_8_E_1_3
+    side: E
+    level: 8
+    layer: 1
+    mask: 3
+    sprite: {fileID: 21300000, guid: d381229438d91e5408d22ce048b3b292, type: 3}
+  - name: gate_8_E_1_4
+    side: E
+    level: 8
+    layer: 1
+    mask: 4
+    sprite: {fileID: 21300000, guid: 363b15f4bb6c6d54d82fdf6bb817c0ea, type: 3}
+  - name: gate_8_E_1_5
+    side: E
+    level: 8
+    layer: 1
+    mask: 5
+    sprite: {fileID: 21300000, guid: d9c2f6c8f25de974196c6b1df66a2cec, type: 3}
+  - name: gate_8_E_1_6
+    side: E
+    level: 8
+    layer: 1
+    mask: 6
+    sprite: {fileID: 21300000, guid: c1edc7ead1143724eaade7d4b1cd31c7, type: 3}
+  - name: gate_8_E_done
+    side: E
+    level: 8
+    layer: 2
+    mask: 0
+    sprite: {fileID: 21300000, guid: b3c43ab8c6f7da04b8a5064d0edc46b1, type: 3}

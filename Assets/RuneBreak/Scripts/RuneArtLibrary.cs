@@ -13,12 +13,14 @@ namespace RuneBreak
         public Sprite white, slot, fullSlot, locked, sparkle;
         public Sprite chainWrap,mirrorSlash,mirrorBackslash,stackMount;
         public bool punchStyle;
+        public bool surfaceStyle;
         public Sprite[] longGates;
         public Sprite flightShadow;
         private static readonly Color[] punchMid={Hex("ff2446"),Hex("00aafa"),Hex("ffc900"),Hex("46d50a")};
-        public Color MidTone(string c)=>punchStyle?punchMid[ColorIndex(c)]:Mid(c);
-        public Color LightTone(string c)=>punchStyle?Color.Lerp(MidTone(c),Color.white,.65f):Light(c);
-        public Color DarkTone(string c)=>punchStyle?Color.Lerp(MidTone(c),Hex("070c21"),.55f):Dark(c);
+        private static readonly Color[] surfaceMid={Hex("f53552"),Hex("03a7f5"),Hex("ffca0d"),Hex("58cf17")};
+        public Color MidTone(string c)=>surfaceStyle?surfaceMid[ColorIndex(c)]:punchStyle?punchMid[ColorIndex(c)]:Mid(c);
+        public Color LightTone(string c)=>punchStyle?Color.Lerp(MidTone(c),Color.white,surfaceStyle?.66f:.65f):Light(c);
+        public Color DarkTone(string c)=>punchStyle?Color.Lerp(MidTone(c),Hex(surfaceStyle?"070d28":"070c21"),surfaceStyle?.42f:.55f):Dark(c);
         public RuneGateSprite[] gates;
         private Dictionary<string,Sprite> gateCache;
         public Sprite Rune(string color,string dir="gem") => runes[ColorIndex(color)*5+DirectionIndex(dir)];

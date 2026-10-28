@@ -1,0 +1,1079 @@
+{
+  "levels": [
+    {
+      "id": "first-layer",
+      "name": "Colors Beneath",
+      "tag": "01 - Layered Gates",
+      "desc": "Blue blocks wait until the red gate reveals a blue layer.",
+      "tip": "Break the red layer on the right to launch your stored blue blocks.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 2
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b2",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b3",
+          "x": 0,
+          "y": 4,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b4",
+          "x": 1,
+          "y": 0,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "b5",
+          "x": 4,
+          "y": 0,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "b6",
+          "x": 1,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b7",
+          "x": 5,
+          "y": 5,
+          "dir": "S",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "save-and-burst",
+      "name": "Three Ready Shots",
+      "tag": "02 - Store and Launch",
+      "desc": "Store three blue blocks. Break the red layer to send them flying.",
+      "tip": "Watch the current gate color and the next layer before you tap.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 4
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 3
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b2",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b3",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b4",
+          "x": 0,
+          "y": 4,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b5",
+          "x": 0,
+          "y": 5,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b6",
+          "x": 1,
+          "y": 0,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "b7",
+          "x": 4,
+          "y": 0,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "b8",
+          "x": 2,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b9",
+          "x": 3,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b10",
+          "x": 5,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b11",
+          "x": 5,
+          "y": 5,
+          "dir": "S",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "last-space",
+      "name": "Leave Some Space",
+      "tag": "03 - Choose Your Path",
+      "desc": "Keep a storage slot open for green blocks.",
+      "tip": "Storing too many yellow blocks can fill the tray. Green opens the top gate after blue.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 1
+          },
+          {
+            "color": "gold",
+            "hp": 4
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 1
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "green"
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b5",
+          "x": 0,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b6",
+          "x": 2,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b7",
+          "x": 4,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b8",
+          "x": 5,
+          "y": 5,
+          "dir": "S",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "red-again",
+      "name": "Red Returns",
+      "tag": "04 - Three Layers",
+      "desc": "A second red layer waits behind the blue one.",
+      "tip": "Plan for the next layer before filling storage.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 1
+          },
+          {
+            "color": "gold",
+            "hp": 3
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 1
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          },
+          {
+            "color": "red",
+            "hp": 2
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 1,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 1,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 1,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 1,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 1,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b5",
+          "x": 5,
+          "y": 1,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b6",
+          "x": 0,
+          "y": 4,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b7",
+          "x": 1,
+          "y": 4,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b8",
+          "x": 2,
+          "y": 4,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b9",
+          "x": 3,
+          "y": 4,
+          "dir": "W",
+          "color": "green"
+        }
+      ]
+    },
+    {
+      "id": "two-turns",
+      "name": "Two Gates",
+      "tag": "05 - Plan Five Slots",
+      "desc": "Both paths hide future colors. Choose which gate to open first.",
+      "tip": "Leave one slot for green blocks so they can launch at the top gate.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 4
+          },
+          {
+            "color": "green",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 4
+          },
+          {
+            "color": "red",
+            "hp": 2
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b5",
+          "x": 5,
+          "y": 2,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b6",
+          "x": 5,
+          "y": 1,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b7",
+          "x": 5,
+          "y": 0,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b8",
+          "x": 5,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b9",
+          "x": 4,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b10",
+          "x": 3,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b11",
+          "x": 2,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b12",
+          "x": 1,
+          "y": 3,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b13",
+          "x": 0,
+          "y": 3,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b14",
+          "x": 0,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b15",
+          "x": 0,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "woven-seals",
+      "name": "The Final Chamber",
+      "tag": "06 - Think Ahead",
+      "desc": "Alternate between the gates to release your stored colors.",
+      "tip": "Check each layer and arrow. Every shot changes the paths available.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 7
+          },
+          {
+            "color": "green",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 7
+          },
+          {
+            "color": "red",
+            "hp": 2
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "b0",
+          "x": 0,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b1",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b2",
+          "x": 2,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b3",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "b4",
+          "x": 4,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b5",
+          "x": 5,
+          "y": 2,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b6",
+          "x": 5,
+          "y": 1,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b7",
+          "x": 5,
+          "y": 0,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "b8",
+          "x": 5,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b9",
+          "x": 4,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b10",
+          "x": 3,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b11",
+          "x": 2,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "b12",
+          "x": 1,
+          "y": 3,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b13",
+          "x": 0,
+          "y": 3,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b14",
+          "x": 0,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        },
+        {
+          "id": "b15",
+          "x": 0,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "b16",
+          "x": 3,
+          "y": 4,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "b17",
+          "x": 4,
+          "y": 1,
+          "dir": "W",
+          "color": "blue"
+        },
+        {
+          "id": "b18",
+          "x": 3,
+          "y": 5,
+          "dir": "W",
+          "color": "blue"
+        },
+        {
+          "id": "b19",
+          "x": 5,
+          "y": 5,
+          "dir": "N",
+          "color": "gold"
+        },
+        {
+          "id": "b20",
+          "x": 4,
+          "y": 4,
+          "dir": "N",
+          "color": "gold"
+        },
+        {
+          "id": "b21",
+          "x": 2,
+          "y": 4,
+          "dir": "N",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "demo-chain",
+      "name": "Chain Reaction",
+      "tag": "Chains",
+      "mechanic": "chain",
+      "demo": true,
+      "desc": "Break a gate layer to release its linked chains.",
+      "tip": "Look for chains connected to the red and green gates.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "c0",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "c1",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "blue"
+        },
+        {
+          "id": "c2",
+          "x": 1,
+          "y": 4,
+          "dir": "E",
+          "color": "red"
+        },
+        {
+          "id": "c3",
+          "x": 4,
+          "y": 1,
+          "dir": "E",
+          "color": "blue",
+          "chainSide": "E",
+          "chainLayer": 0
+        },
+        {
+          "id": "c4",
+          "x": 4,
+          "y": 3,
+          "dir": "E",
+          "color": "blue",
+          "chainSide": "E",
+          "chainLayer": 0
+        },
+        {
+          "id": "c5",
+          "x": 0,
+          "y": 1,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "c6",
+          "x": 2,
+          "y": 1,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "c7",
+          "x": 0,
+          "y": 5,
+          "dir": "W",
+          "color": "gold",
+          "chainSide": "N",
+          "chainLayer": 0
+        },
+        {
+          "id": "c8",
+          "x": 3,
+          "y": 5,
+          "dir": "S",
+          "color": "gold",
+          "chainSide": "N",
+          "chainLayer": 0
+        }
+      ]
+    },
+    {
+      "id": "demo-mirror",
+      "name": "Reflected Paths",
+      "tag": "Mirrors",
+      "mechanic": "mirror",
+      "demo": true,
+      "desc": "Mirrors change the direction of a flying block.",
+      "tip": "Follow the dotted path to see which gate the block will hit.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 2
+          }
+        ]
+      },
+      "mirrors": [
+        {
+          "x": 1,
+          "y": 1,
+          "slash": true
+        },
+        {
+          "x": 3,
+          "y": 3,
+          "slash": true
+        },
+        {
+          "x": 0,
+          "y": 3,
+          "slash": false
+        }
+      ],
+      "blocks": [
+        {
+          "id": "m0",
+          "x": 1,
+          "y": 4,
+          "dir": "N",
+          "color": "red"
+        },
+        {
+          "id": "m1",
+          "x": 1,
+          "y": 5,
+          "dir": "N",
+          "color": "red"
+        },
+        {
+          "id": "m2",
+          "x": 3,
+          "y": 4,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "m3",
+          "x": 3,
+          "y": 5,
+          "dir": "N",
+          "color": "blue"
+        },
+        {
+          "id": "m4",
+          "x": 0,
+          "y": 2,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "m5",
+          "x": 2,
+          "y": 3,
+          "dir": "W",
+          "color": "green"
+        },
+        {
+          "id": "m6",
+          "x": 2,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "m7",
+          "x": 5,
+          "y": 4,
+          "dir": "S",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "id": "demo-stack",
+      "name": "Hidden Blocks",
+      "tag": "Layers",
+      "mechanic": "stack",
+      "demo": true,
+      "desc": "Remove the top block to reveal the block beneath it.",
+      "tip": "Check the preview color and arrow before choosing your next move.",
+      "size": 6,
+      "capacity": 5,
+      "seals": {
+        "N": [
+          {
+            "color": "green",
+            "hp": 2
+          },
+          {
+            "color": "gold",
+            "hp": 2
+          }
+        ],
+        "E": [
+          {
+            "color": "red",
+            "hp": 2
+          },
+          {
+            "color": "blue",
+            "hp": 3
+          }
+        ]
+      },
+      "blocks": [
+        {
+          "id": "s0",
+          "x": 1,
+          "y": 2,
+          "dir": "E",
+          "color": "red",
+          "depth": 0
+        },
+        {
+          "id": "s1",
+          "x": 1,
+          "y": 2,
+          "dir": "N",
+          "color": "blue",
+          "depth": 1
+        },
+        {
+          "id": "s2",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "blue",
+          "depth": 0
+        },
+        {
+          "id": "s3",
+          "x": 3,
+          "y": 2,
+          "dir": "E",
+          "color": "red",
+          "depth": 1
+        },
+        {
+          "id": "s4",
+          "x": 4,
+          "y": 4,
+          "dir": "N",
+          "color": "green",
+          "depth": 0
+        },
+        {
+          "id": "s5",
+          "x": 4,
+          "y": 4,
+          "dir": "S",
+          "color": "gold",
+          "depth": 1
+        },
+        {
+          "id": "s6",
+          "x": 0,
+          "y": 1,
+          "dir": "N",
+          "color": "green"
+        },
+        {
+          "id": "s7",
+          "x": 0,
+          "y": 5,
+          "dir": "W",
+          "color": "gold"
+        },
+        {
+          "id": "s8",
+          "x": 5,
+          "y": 3,
+          "dir": "E",
+          "color": "blue"
+        }
+      ]
+    }
+  ]
+}

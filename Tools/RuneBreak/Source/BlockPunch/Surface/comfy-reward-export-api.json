@@ -1,0 +1,118 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/cabinet_clean.png"
+    }
+  },
+  "2": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "alpha": [
+        "1",
+        1
+      ]
+    }
+  },
+  "3": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "2",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/cabinet_clean"
+    }
+  },
+  "4": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/reward_coins.png"
+    }
+  },
+  "5": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "4",
+        0
+      ],
+      "alpha": [
+        "4",
+        1
+      ]
+    }
+  },
+  "6": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "5",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/reward_coins"
+    }
+  },
+  "7": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/reward_rays.png"
+    }
+  },
+  "8": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "7",
+        0
+      ],
+      "alpha": [
+        "7",
+        1
+      ]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "8",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/reward_rays"
+    }
+  },
+  "10": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/reward_wallet.png"
+    }
+  },
+  "11": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "10",
+        0
+      ],
+      "alpha": [
+        "10",
+        1
+      ]
+    }
+  },
+  "12": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "11",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/reward_wallet"
+    }
+  }
+}

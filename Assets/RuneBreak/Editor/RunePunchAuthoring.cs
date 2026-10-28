@@ -63,7 +63,7 @@ namespace RuneBreak.Editor
             p.art=art;p.background.sprite=art.cabinets[0];p.effects.art=art;
             p.transform.Find("FullScreenBackdrop").GetComponent<Image>().color=RuneArtLibrary.Hex("15162b");
             foreach(string name in new[]{"NorthCompass","SouthCompass","RecastFooter","CountBacking"}){var t=p.cabinet.Find(name);if(t!=null)t.gameObject.SetActive(false);}
-            var title=p.cabinet.Find("RecastTitle");if(title!=null)title.GetComponent<TMP_Text>().text="보관함";
+            var title=p.cabinet.Find("RecastTitle");if(title!=null)title.GetComponent<TMP_Text>().text="STORAGE";
             var font=AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Fonts/Arial Rounded Bold SDF.asset");
             p.gateCounts=new TMP_Text[2];int previews=p.catalog.levels.Max(l=>Math.Max(l.seals.N.Length,l.seals.E.Length));p.gatePreviews=new Image[previews*2];
             for(int side=0;side<2;side++)
@@ -89,8 +89,9 @@ namespace RuneBreak.Editor
             foreach(var s in p.slots){s.gem.sprite=art.storedRunes[0];s.panel.sprite=art.slot;}
             if(p.sounds.Length<14)Array.Resize(ref p.sounds,14);
             p.sounds[11]=AssetDatabase.LoadAssetAtPath<AudioClip>(Root+"Audio/rebound.wav");p.sounds[12]=AssetDatabase.LoadAssetAtPath<AudioClip>(Root+"Audio/swoosh.wav");p.sounds[13]=AssetDatabase.LoadAssetAtPath<AudioClip>(Root+"Audio/catch.wav");
-            RuneBlockUiAuthoring.ConfigureResult(p);
+
             p.LoadLevel(0);
+            RuneSurfaceAuthoring.ConfigureIfAvailable(p);
         }
         private static Image Image(string name,Transform parent)
         {

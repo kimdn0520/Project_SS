@@ -7,7 +7,7 @@ namespace RuneBreak
     {
         public Vector2 from,contact,kick,to,c1,c2,direction,surface;
         public float launch,press,back,hop;
-        public bool reduced;
+        public bool reduced,enhanced;
         public string dir;
         public float Release=>launch+press;
         public float Depart=>Release+back;
@@ -25,12 +25,20 @@ namespace RuneBreak
                 c2=new Vector2(to.x-delta.x*.12f,to.y-(reduced?16:Mathf.Min(102,hopDistance*.19f+36))),surface=contact+d*15
             };
         }
+        public static RuneReboundMotion CreateSurface(Vector2 from,Vector2 edge,Vector2 to,string dir,bool reduced)
+        {
+            var m=Create(from,edge,to,dir,reduced);m.enhanced=true;m.contact=edge-m.direction*21;m.surface=edge;
+            m.kick=m.contact-m.direction*(reduced?9:61);var delta=to-m.kick;float distance=delta.magnitude;
+            m.launch=reduced?.10f:.075f+Mathf.Min(.13f,Vector2.Distance(from,m.contact)/1800);m.press=reduced?.025f:.07f;m.back=reduced?.035f:.045f;m.hop=reduced?.16f:.20f+Mathf.Min(.11f,distance/3500);
+            m.c1=new Vector2(Mathf.Clamp(m.kick.x+delta.x*.12f-m.direction.x*(reduced?3:40),45,435),m.kick.y+delta.y*.08f-m.direction.y*(reduced?3:45)-(reduced?0:14));
+            m.c2=new Vector2(to.x-delta.x*.13f,to.y-(reduced?16:Mathf.Min(118,distance*.20f+40)));return m;
+        }
         public Vector2 Sample(float elapsed)
         {
             float t=Mathf.Max(0,elapsed);if(t>=Duration)return to;
             if(t<launch){float p=t/launch;if(p<.12f)return from-direction*2.4f*Mathf.Sin(p/.12f*Mathf.PI);return Vector2.LerpUnclamped(from,contact,Mathf.Pow((p-.12f)/.88f,2.25f));}
             if(t<Release)return contact;
-            if(t<Depart)return Vector2.LerpUnclamped(contact,kick,Ease((t-Release)/back));
+            if(t<Depart)return Vector2.LerpUnclamped(contact,kick,enhanced?1-Mathf.Pow(1-(t-Release)/back,2.7f):Ease((t-Release)/back));
             float q=Ease(Mathf.Clamp01((t-Depart)/hop)),u=1-q;
             return u*u*u*kick+3*u*u*q*c1+3*u*q*q*c2+q*q*q*to;
         }
@@ -43,16 +51,16 @@ namespace RuneBreak
             float pressStart=launch-.018f;
             if(t>=pressStart&&t<Release)
             {
-                float rise=Mathf.Clamp01((t-pressStart)/.027f),squeeze=(reduced?.07f:.43f)*Mathf.Sin(rise*Mathf.PI/2);
+                float rise=Mathf.Clamp01((t-pressStart)/.027f),squeeze=(reduced?.07f:enhanced?.48f:.43f)*Mathf.Sin(rise*Mathf.PI/2);
                 p.sx=vertical?1+squeeze*.62f:1-squeeze;p.sy=vertical?1-squeeze:1+squeeze*.62f;
                 p.flash=reduced?0:Mathf.Max(0,1-(t-launch)/.055f)*.42f;
             }
             else if(p.airborne)
             {
-                float q=Mathf.Clamp01((t-Release)/(Duration-Release)),pop=reduced?0:Mathf.Sin(Mathf.Min(1,q/.42f)*Mathf.PI)*.20f;
+                float q=Mathf.Clamp01((t-Release)/(Duration-Release)),pop=reduced?0:Mathf.Sin(Mathf.Min(1,q/.42f)*Mathf.PI)*(enhanced?.30f:.20f);
                 p.size=36-3*q+(reduced?0:5.5f*Mathf.Sin(q*Mathf.PI));
                 float spin=dir=="E"?-.48f:dir=="W"?.48f:to.x>=from.x?.36f:-.36f;
-                p.angle=reduced?0:Mathf.Sin(q*Mathf.PI)*spin;p.lift=reduced?0:Mathf.Sin(q*Mathf.PI)*22;
+                p.angle=reduced?0:Mathf.Sin(q*Mathf.PI)*spin*(enhanced?1.4f:1);p.lift=reduced?0:Mathf.Sin(q*Mathf.PI)*(enhanced?32:22);
                 p.sx=vertical?1-pop*.55f:1+pop;p.sy=vertical?1+pop:1-pop*.55f;
             }
             else if(t>=Duration)p.size=33;

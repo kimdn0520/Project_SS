@@ -159,8 +159,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: OPENING THE CHAMBER
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 75373af574af0b34a8c93c75dc5bcc24, type: 2}
-  m_sharedMaterial: {fileID: -757461176286887271, guid: 75373af574af0b34a8c93c75dc5bcc24,
+  m_fontAsset: {fileID: 11400000, guid: 0c9bfab10f60e314bb567cae4980dcac, type: 2}
+  m_sharedMaterial: {fileID: 4974169192995200653, guid: 0c9bfab10f60e314bb567cae4980dcac,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -621,10 +621,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uACB0\uACC4 \uB3CC\uD30C"
+  m_text: BREAK THROUGH
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 75373af574af0b34a8c93c75dc5bcc24, type: 2}
-  m_sharedMaterial: {fileID: -757461176286887271, guid: 75373af574af0b34a8c93c75dc5bcc24,
+  m_fontAsset: {fileID: 11400000, guid: 0c9bfab10f60e314bb567cae4980dcac, type: 2}
+  m_sharedMaterial: {fileID: 4974169192995200653, guid: 0c9bfab10f60e314bb567cae4980dcac,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -836,8 +836,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: BLOCK CRASH
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 75373af574af0b34a8c93c75dc5bcc24, type: 2}
-  m_sharedMaterial: {fileID: -757461176286887271, guid: 75373af574af0b34a8c93c75dc5bcc24,
+  m_fontAsset: {fileID: 11400000, guid: c9728e2117146304c9ab8d0f3678b1ab, type: 2}
+  m_sharedMaterial: {fileID: -4674581902452016934, guid: c9728e2117146304c9ab8d0f3678b1ab,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

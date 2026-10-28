@@ -1,0 +1,486 @@
+{
+  "cabinet": {
+    "w": 480,
+    "h": 652,
+    "source": "surface-cabinet",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "cabinet-composite.png"
+      }
+    ]
+  },
+  "rune_red_N": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-red-N",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_red_N-composite.png"
+      }
+    ]
+  },
+  "rune_red_E": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-red-E",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_red_E-composite.png"
+      }
+    ]
+  },
+  "rune_red_S": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-red-S",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_red_S-composite.png"
+      }
+    ]
+  },
+  "rune_red_W": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-red-W",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_red_W-composite.png"
+      }
+    ]
+  },
+  "stored_red": {
+    "w": 56,
+    "h": 56,
+    "source": "stored-red",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "stored_red-composite.png"
+      }
+    ]
+  },
+  "gate_red_N": {
+    "w": 352,
+    "h": 44,
+    "source": "gate-bar-red-N",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "gate_red_N-composite.png"
+      }
+    ]
+  },
+  "gate_red_E": {
+    "w": 44,
+    "h": 352,
+    "source": "gate-bar-red-E",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "gate_red_E-composite.png"
+      }
+    ]
+  },
+  "rune_blue_N": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-blue-N",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_blue_N-composite.png"
+      }
+    ]
+  },
+  "rune_blue_E": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-blue-E",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_blue_E-composite.png"
+      }
+    ]
+  },
+  "rune_blue_S": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-blue-S",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_blue_S-composite.png"
+      }
+    ]
+  },
+  "rune_blue_W": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-blue-W",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_blue_W-composite.png"
+      }
+    ]
+  },
+  "stored_blue": {
+    "w": 56,
+    "h": 56,
+    "source": "stored-blue",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "stored_blue-composite.png"
+      }
+    ]
+  },
+  "gate_blue_N": {
+    "w": 352,
+    "h": 44,
+    "source": "gate-bar-blue-N",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "gate_blue_N-composite.png"
+      }
+    ]
+  },
+  "gate_blue_E": {
+    "w": 44,
+    "h": 352,
+    "source": "gate-bar-blue-E",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "gate_blue_E-composite.png"
+      }
+    ]
+  },
+  "rune_gold_N": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-gold-N",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_gold_N-composite.png"
+      }
+    ]
+  },
+  "rune_gold_E": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-gold-E",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_gold_E-composite.png"
+      }
+    ]
+  },
+  "rune_gold_S": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-gold-S",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_gold_S-composite.png"
+      }
+    ]
+  },
+  "rune_gold_W": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-gold-W",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_gold_W-composite.png"
+      }
+    ]
+  },
+  "stored_gold": {
+    "w": 56,
+    "h": 56,
+    "source": "stored-gold",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "stored_gold-composite.png"
+      }
+    ]
+  },
+  "gate_gold_N": {
+    "w": 352,
+    "h": 44,
+    "source": "gate-bar-gold-N",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "gate_gold_N-composite.png"
+      }
+    ]
+  },
+  "gate_gold_E": {
+    "w": 44,
+    "h": 352,
+    "source": "gate-bar-gold-E",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "gate_gold_E-composite.png"
+      }
+    ]
+  },
+  "rune_green_N": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-green-N",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_green_N-composite.png"
+      }
+    ]
+  },
+  "rune_green_E": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-green-E",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_green_E-composite.png"
+      }
+    ]
+  },
+  "rune_green_S": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-green-S",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_green_S-composite.png"
+      }
+    ]
+  },
+  "rune_green_W": {
+    "w": 56,
+    "h": 56,
+    "source": "engraved-green-W",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "rune_green_W-composite.png"
+      }
+    ]
+  },
+  "stored_green": {
+    "w": 56,
+    "h": 56,
+    "source": "stored-green",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "stored_green-composite.png"
+      }
+    ]
+  },
+  "gate_green_N": {
+    "w": 352,
+    "h": 44,
+    "source": "gate-bar-green-N",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "gate_green_N-composite.png"
+      }
+    ]
+  },
+  "gate_green_E": {
+    "w": 44,
+    "h": 352,
+    "source": "gate-bar-green-E",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "gate_green_E-composite.png"
+      }
+    ]
+  },
+  "settings": {
+    "w": 440,
+    "h": 452,
+    "source": "ivory-settings",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "settings-composite.png"
+      }
+    ]
+  },
+  "result": {
+    "w": 440,
+    "h": 350,
+    "source": "clear-shell",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "result-composite.png"
+      }
+    ]
+  },
+  "close": {
+    "w": 340,
+    "h": 76,
+    "source": "action-continue",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "close-composite.png"
+      }
+    ]
+  },
+  "next": {
+    "w": 230,
+    "h": 70,
+    "source": "clear-continue",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "next-composite.png"
+      }
+    ]
+  },
+  "home": {
+    "w": 140,
+    "h": 70,
+    "source": "clear-retry",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "home-composite.png"
+      }
+    ]
+  },
+  "retry": {
+    "w": 230,
+    "h": 70,
+    "source": "clear-retry",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "retry-composite.png"
+      }
+    ]
+  },
+  "button_plum": {
+    "w": 80,
+    "h": 80,
+    "source": "button-plum",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "button_plum-composite.png"
+      }
+    ]
+  },
+  "button_blue": {
+    "w": 80,
+    "h": 80,
+    "source": "button-blue",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "button_blue-composite.png"
+      }
+    ]
+  },
+  "button_aqua": {
+    "w": 80,
+    "h": 80,
+    "source": "button-aqua",
+    "layers": [
+      {
+        "label": "Original HTML material",
+        "file": "button_aqua-composite.png"
+      }
+    ]
+  },
+  "row": {
+    "w": 368,
+    "h": 86,
+    "source": "HTML CSS",
+    "layers": [
+      {
+        "label": "Original CSS surface",
+        "file": "row-composite.png"
+      }
+    ]
+  },
+  "switch_off": {
+    "w": 92,
+    "h": 46,
+    "source": "HTML CSS",
+    "layers": [
+      {
+        "label": "Original CSS surface",
+        "file": "switch_off-composite.png"
+      }
+    ]
+  },
+  "switch_on": {
+    "w": 92,
+    "h": 46,
+    "source": "HTML CSS",
+    "layers": [
+      {
+        "label": "Original CSS surface",
+        "file": "switch_on-composite.png"
+      }
+    ]
+  },
+  "backdrop": {
+    "w": 540,
+    "h": 960,
+    "source": "HTML CSS",
+    "layers": [
+      {
+        "label": "Original CSS surface",
+        "file": "backdrop-composite.png"
+      }
+    ]
+  },
+  "gear": {
+    "w": 32,
+    "h": 32,
+    "source": "HTML CSS",
+    "layers": [
+      {
+        "label": "Original CSS surface",
+        "file": "gear-composite.png"
+      }
+    ]
+  },
+  "slot": {
+    "w": 58,
+    "h": 58,
+    "source": "transparent overlay",
+    "layers": [
+      {
+        "label": "Transparent overlay; well lives in cabinet",
+        "file": "slot-composite.png"
+      }
+    ]
+  }
+}

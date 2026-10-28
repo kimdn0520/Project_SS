@@ -1,0 +1,89 @@
+{
+  "version": "0.42.1",
+  "mode": "source material + alpha roundtrip; no diffusion resynthesis",
+  "assets": [
+    {
+      "name": "gate_studs_red_N",
+      "width": 1056,
+      "height": 132,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "gate_studs_red_E",
+      "width": 132,
+      "height": 1056,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "gate_studs_blue_N",
+      "width": 1056,
+      "height": 132,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "gate_studs_blue_E",
+      "width": 132,
+      "height": 1056,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "gate_studs_gold_N",
+      "width": 1056,
+      "height": 132,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "gate_studs_gold_E",
+      "width": 132,
+      "height": 1056,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "gate_studs_green_N",
+      "width": 1056,
+      "height": 132,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "gate_studs_green_E",
+      "width": 132,
+      "height": 1056,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "cabinet_refined",
+      "width": 1440,
+      "height": 1956,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "settings_button",
+      "width": 186,
+      "height": 186,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    }
+  ],
+  "promptId": "41d98572-afa9-424a-9a93-474bbb14c661",
+  "status": "passed",
+  "validation": "RGBA checked; ComfyUI alpha/opaque RGB differ by at most one byte. Exact Aseprite PNGs remain shipped."
+}

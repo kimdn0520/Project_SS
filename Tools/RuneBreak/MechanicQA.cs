@@ -77,7 +77,7 @@ public static class MechanicQA
                     Same(p.State,after,"Rapid presentation diverged from rules");expected=after;peakFlights=Math.Max(peakFlights,p.ActiveFlights);
                     if(pass==1)p.AdvancePresentation(.11f);
                 }
-                Drain(p);for(int i=0;i<40;i++)p.AdvancePresentation(1f/60);Check(p.State.phase==RunePhase.Won&&p.result.activeSelf,"Demo result not presented");
+                Drain(p);for(int i=0;i<40;i++)p.AdvancePresentation(1f/60);Check(p.State.phase==RunePhase.Won&&PopupManager.CurrentPopup is RuneResultPanel,"Demo result not presented");
                 Check(p.GetComponentsInChildren<Transform>(true).Length==children,"Runtime hierarchy grew");solves++;
             }
             RunePreferences.Reduced=false;p.LoadLevel(8);Check(!p.blocks[3].gameObject.activeSelf&&p.stackPreviews[2].enabled,"Covered rune must be preview-only");

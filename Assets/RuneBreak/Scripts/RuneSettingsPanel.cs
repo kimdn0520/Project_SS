@@ -23,7 +23,7 @@ namespace RuneBreak
     }
     public sealed class RuneSettingsPanel : BasePopupHandler
     {
-        public const string PrefabName="RuneSettingsPopup";
+        public const string PrefabName="SettingsPopup";
         public override string PopupName=>PrefabName;
         public Toggle musicToggle,audioToggle;
         public RectTransform panel;
@@ -34,9 +34,8 @@ namespace RuneBreak
             base.OnWillEnter(param);
             musicToggle.SetIsOnWithoutNotify(RunePreferences.Music);
             audioToggle.SetIsOnWithoutNotify(RunePreferences.Audio);
-            bool playing=param is RunePlayPage;
-            lobbyActions.SetActive(!playing);
-            playActions.SetActive(playing);
+            lobbyActions.SetActive(true);
+            playActions.SetActive(false);
         }
         public void SetMusic(bool v)=>RunePreferences.Music=v;
         public void SetAudio(bool v)=>RunePreferences.Audio=v;

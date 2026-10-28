@@ -1,0 +1,94 @@
+{
+  "version": "0.42.1",
+  "mode": "source material + alpha roundtrip; no diffusion resynthesis",
+  "assets": [
+    {
+      "name": "cabinet",
+      "width": 1440,
+      "height": 1956,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "settings",
+      "width": 1320,
+      "height": 1356,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "result",
+      "width": 1320,
+      "height": 1050,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "close",
+      "width": 1020,
+      "height": 228,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "next",
+      "width": 690,
+      "height": 210,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "home",
+      "width": 420,
+      "height": 210,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "retry",
+      "width": 690,
+      "height": 210,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "button_blue",
+      "width": 240,
+      "height": 240,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "button_plum",
+      "width": 240,
+      "height": 240,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "button_aqua",
+      "width": 240,
+      "height": 240,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "row",
+      "width": 1104,
+      "height": 258,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "switch_on",
+      "width": 276,
+      "height": 138,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "switch_off",
+      "width": 276,
+      "height": 138,
+      "shipped": "exact Aseprite composite"
+    }
+  ],
+  "validation": {
+    "status": "passed",
+    "asepriteSprites": 44,
+    "comfyMaterials": 13,
+    "rawRgbDifferences": 0,
+    "maximumComfyAlphaRounding": 1,
+    "shippedPixelDifferences": 0
+  },
+  "promptId": "3575f411-90cc-498f-9810-78278f31aa12",
+  "status": "passed"
+}

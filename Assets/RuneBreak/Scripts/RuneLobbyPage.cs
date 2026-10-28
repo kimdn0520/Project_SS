@@ -19,7 +19,7 @@ namespace RuneBreak
         public PageManager pages;
         public RuneLevelCatalog catalog;
         public RuneLobbyTab[] tabs;
-        public TMP_Text playLabel,comingSoon;
+        public TMP_Text playLabel,comingSoon,coinBalance;
         public RuneLobbyShowcase showcase;
         public PopupManager popups;
         public bool IsModalBlocked=>popups!=null&&popups.IsBlockingInput;
@@ -29,7 +29,7 @@ namespace RuneBreak
         public int homeIndex=2;
         private int selected;
         private float noticeUntil;
-        public override void OnWillEnter(object param){SelectTab(homeIndex);int next=Mathf.Clamp(PlayerPrefs.GetInt("RuneBreak.Next",0),0,catalog.CampaignCount-1);playLabel.text=$"Lv. {next+1}";comingSoon.gameObject.SetActive(false);}
+        public override void OnWillEnter(object param){SelectTab(homeIndex);int next=Mathf.Clamp(PlayerPrefs.GetInt("RuneBreak.Next",0),0,catalog.CampaignCount-1);playLabel.text=$"Lv. {next+1}";comingSoon.gameObject.SetActive(false);if(coinBalance!=null)coinBalance.text=RuneCoinReward.Balance.ToString();}
         public override void OnDidEnter(){}
         public override void OnWillLeave()=>PopupManager.Clear();
         public override void OnDidLeave(){}

@@ -17,6 +17,10 @@ namespace RuneBreak
         public Image[] gates,blocks,gateFlashes;
         public TMP_Text[] gateCounts;
         public Image[] gatePreviews;
+        public RuneGateDamageGraphic[] gateCracks;
+        public TMP_Text coinBalance;
+        public int clearRewardCoins=40;
+        private int displayedCoins=-1;
         public RectTransform[] blockRects;
         public RuneSlotView[] slots;
         public RuneFxGraphic effects;
@@ -27,9 +31,6 @@ namespace RuneBreak
         public TMP_Text occupancy,stageNumber;
         public RectTransform highlightRect,pathRect;
         public Image highlight,pathImage;
-        public TMP_Text resultTitle,resultDescription,resultAction;
-        public Image resultEmblem;
-        public GameObject result,resultHome;
         public PopupManager popups;
         public bool IsModalBlocked=>popups!=null&&popups.IsBlockingInput;
         public AudioSource audioSource;
@@ -39,16 +40,22 @@ namespace RuneBreak
         public int LevelIndex {get;private set;}
         public int ActiveFlights=>flights.Count;
         private RuneState visual;
+        private RuneState storageView;
         private readonly Stack<RuneState> history=new Stack<RuneState>();
         private readonly List<RuneFlight> flights=new List<RuneFlight>(48);
         private readonly bool[] pending=new bool[28];
+        private readonly bool[] relaunchSoundPending=new bool[28];
+        private readonly float[] eligibleAt=new float[28];
+        private float nextAutoAt;
+        private readonly float[] slotVacantAt=new float[5];
+        private float StorageSettle=>RunePreferences.Reduced?.065f:.12f;
         private readonly int[] holes=new int[2];
         private readonly float[] flashUntil=new float[2];
         private readonly float[] releaseAt=new float[28],revealAt=new float[28],mirrorFlashUntil=new float[8];
         private float clock,shake,lastImpact=-99,finishAt=-1,hintUntil,bumpAt=-99;
         private int chain,bestChain,hintId=-1,hoverId=-1,bumpId=-1,bumpBlocker=-1,pressedId=-1;
         private bool hintSlot,hoverSlot,shownResult;
-        private readonly Vector2 cabinetOrigin=new Vector2(30,-165);
+        public Vector2 cabinetOrigin=new Vector2(30,-165);
 
         public override void OnWillEnter(object param){LoadLevel(param is int i?i:Mathf.Min(PlayerPrefs.GetInt("RuneBreak.Next",0),catalog.CampaignCount-1));}
         public override void OnDidEnter(){}
@@ -60,43 +67,64 @@ namespace RuneBreak
         public void Restart()=>LoadLevel(LevelIndex);
         public void Previous()=>LoadLevel(Mathf.Max(0,LevelIndex-1));
         public void Next()=>LoadLevel(Rules.Level.demo?(LevelIndex+1<catalog.levels.Length?LevelIndex+1:catalog.CampaignCount):(LevelIndex+1)%catalog.CampaignCount);
-        public void ResultPrimary(){if(State.phase==RunePhase.Won){if(LevelIndex+1==(Rules.Level.demo?catalog.levels.Length:catalog.CampaignCount))Home();else Next();}else if(Rules.Level.demo)Restart();else Home();}
         public void LoadLevel(int index)
         {
+            if(Application.isPlaying&&PopupManager.CurrentPopup is RuneResultPanel)PopupManager.CloseImmediate();
             CancelFlights();LevelIndex=Mathf.Clamp(index,0,catalog.levels.Length-1);Rules=new RuneRules(catalog.levels[LevelIndex]);State=Rules.Initial();history.Clear();clock=0;chain=bestChain=0;
-            ResetPresentation();stageNumber.text=$"STAGE {LevelIndex+1:00}";
+            ResetPresentation();stageNumber.text=art.surfaceStyle?$"{LevelIndex+1}":$"STAGE {LevelIndex+1:00}";
             if(mechanicHint!=null){mechanicHint.gameObject.SetActive(Rules.Level.demo);mechanicHint.text=Rules.Level.desc;}
             if(mirrors!=null)for(int i=0;i<mirrors.Length;i++)
             {
                 bool valid=Rules.Level.mirrors!=null&&i<Rules.Level.mirrors.Length;mirrors[i].gameObject.SetActive(valid);mirrorGlints[i].gameObject.SetActive(valid);if(!valid)continue;
-                var m=Rules.Level.mirrors[i];mirrors[i].sprite=m.slash?art.mirrorSlash:art.mirrorBackslash;var p=RuneFlight.Turn(new RuneCell(m.x,m.y));mirrorRects[i].anchoredPosition=new Vector2(p.x,-p.y-2);((RectTransform)mirrorGlints[i].transform).anchoredPosition=new Vector2(p.x,-p.y-2);
+                var m=Rules.Level.mirrors[i];mirrors[i].sprite=m.slash?art.mirrorSlash:art.mirrorBackslash;var p=RuneFlight.Turn(new RuneCell(m.x,m.y),art.surfaceStyle);mirrorRects[i].anchoredPosition=new Vector2(p.x,-p.y-2);((RectTransform)mirrorGlints[i].transform).anchoredPosition=new Vector2(p.x,-p.y-2);
             }
             for(int i=0;i<blocks.Length;i++)
             {
                 bool valid=i<Rules.Level.blocks.Length;blocks[i].gameObject.SetActive(valid);if(!valid)continue;var b=Rules.Level.blocks[i];blocks[i].sprite=art.Rune(b.color,b.dir);
             }Refresh();
         }
-        private void CancelFlights(){foreach(var f in flights)pool.ReturnCached(f);flights.Clear();Array.Clear(pending,0,pending.Length);}
+        private void CancelFlights(){foreach(var f in flights)pool.ReturnCached(f);flights.Clear();Array.Clear(pending,0,pending.Length);Array.Clear(relaunchSoundPending,0,relaunchSoundPending.Length);}
         private void ResetPresentation()
         {
-            CancelFlights();visual=State.Copy();effects.Clear();shake=0;finishAt=-1;shownResult=false;result.SetActive(false);hintId=hoverId=pressedId=-1;chain=0;lastImpact=-99;cabinet.anchoredPosition=cabinetOrigin;
+            CancelFlights();visual=State.Copy();storageView=State.Copy();Array.Clear(slotVacantAt,0,slotVacantAt.Length);effects.Clear();shake=0;finishAt=-1;shownResult=false;hintId=hoverId=pressedId=-1;chain=0;lastImpact=-99;cabinet.anchoredPosition=cabinetOrigin;
             // LoadLevel resets the clock. No animation may retain a timestamp or target from the old board.
             bumpId=bumpBlocker=-1;bumpAt=-99;hintUntil=0;hintSlot=hoverSlot=false;
             for(int i=0;i<releaseAt.Length;i++){releaseAt[i]=0;revealAt[i]=-100;}Array.Clear(mirrorFlashUntil,0,mirrorFlashUntil.Length);
+            nextAutoAt=clock;for(int i=0;i<eligibleAt.Length;i++)eligibleAt[i]=Array.IndexOf(State.slots,i)>=0?clock:float.PositiveInfinity;
             highlight.enabled=pathImage.enabled=false;
             for(int i=0;i<blockRects.Length;i++)
             {
-                blockRects[i].localScale=Vector3.one;blockRects[i].localRotation=Quaternion.identity;blockRects[i].sizeDelta=new Vector2(48,48);
-                if(i<Rules.Level.blocks.Length){var p=RuneFlight.Center(Rules.Level.blocks[i]);if(Rules.IsVisible(State,i)&&Rules.Underneath(State,i)>=0)p-=new Vector2(4,5);blockRects[i].anchoredPosition=new Vector2(p.x,-p.y-2);}
+                blockRects[i].localScale=Vector3.one;blockRects[i].localRotation=Quaternion.identity;blockRects[i].sizeDelta=Vector2.one*(art.surfaceStyle?64.4f:48);
+                if(i<Rules.Level.blocks.Length){var p=RuneFlight.Center(Rules.Level.blocks[i],art.surfaceStyle);if(Rules.IsVisible(State,i)&&Rules.Underneath(State,i)>=0)p-=new Vector2(4,5);blockRects[i].anchoredPosition=new Vector2(p.x,-p.y-2);}
             }
             for(int side=0;side<2;side++){holes[side]=0;var g=Rules.Gate(visual,side);for(int i=0;i<g.damage;i++)holes[side]|=1<<i;flashUntil[side]=0;gateFlashes[side].color=Color.clear;}RenderGates();
+            if(gateCracks!=null)for(int side=0;side<gateCracks.Length;side++){gateCracks[side].Clear();var gate=Rules.Gate(visual,side);for(int i=0;i<gate.damage;i++)gateCracks[side].Hit((i+.5f)*336/Mathf.Max(1,gate.max));}
             RenderMechanics();
         }
         public void Tap(int index,bool slot)
         {
             if(State==null||IsModalBlocked||shownResult)return;
+            if(art.surfaceStyle){if(slot)return;PumpAuto();if(State.phase!=RunePhase.Playing)return;}
+            if(index<0||index>=(slot?State.slots.Length:Rules.Level.blocks.Length))return;
             int id=slot?State.slots[index]:index;if(id<0)return;
             if(slot&&pending[id])return;
+            // A valid tap must not lose because a guaranteed automatic departure is still animating.
+            if(art.surfaceStyle&&!slot&&State.Filled==State.slots.Length&&Rules.Apply(State,new RuneMove(RuneMoveKind.Board,id),out _,out var candidate,out _)&&candidate.overflow)
+            {
+                int ready=RuneAutoRules.ReadySlot(Rules,State);
+                if(ready>=0)ApplyAction(State.slots[ready],true,true);
+            }
+            ApplyAction(id,slot,false);
+        }
+        private bool PumpAuto()
+        {
+            if(!art.surfaceStyle||State==null||IsModalBlocked||shownResult||clock<nextAutoAt)return false;
+            int slot=RuneAutoRules.ReadySlot(Rules,State,visual,pending,eligibleAt,clock);if(slot<0)return false;
+            if(!ApplyAction(State.slots[slot],true,true))return false;
+            return true;
+        }
+        private bool ApplyAction(int id,bool slot,bool automatic)
+        {
             var move=new RuneMove(slot?RuneMoveKind.Slot:RuneMoveKind.Board,id);
             if(!Rules.Apply(State,move,out var next,out var shot,out string reason))
             {
@@ -104,14 +132,32 @@ namespace RuneBreak
                 if(reason=="blocked"||reason=="chained"){bumpId=id;bumpAt=clock;bumpBlocker=-1;uint blockers=Rules.Blockers[id]&State.board;for(int j=0;j<Rules.Level.blocks.Length;j++)if((blockers&(1u<<j))!=0){bumpBlocker=j;break;}}
                 if(reason=="chained")
                 {
-                    int side=Rules.ChainSides[id];flashUntil[side]=clock+.3f;var b=Rules.Level.blocks[id];effects.AddWave(RuneFlight.Center(b),Rules.Level.Layers(side)[b.chainLayer].color,false);
+                    int side=Rules.ChainSides[id];flashUntil[side]=clock+.3f;var b=Rules.Level.blocks[id];effects.AddWave(RuneFlight.Center(b,art.surfaceStyle),Rules.Level.Layers(side)[b.chainLayer].color,false);
                 }
-                return;
+                return false;
             }
-            history.Push(State);State=next;hintId=-1;hoverId=-1;pressedId=-1;
+            if(!automatic)history.Push(State);State=next;finishAt=-1;hintId=-1;hoverId=-1;pressedId=-1;
             var flight=pool.RentCached("RuneFlights") as RuneFlight;
             if(flight==null)throw new InvalidOperationException("RuneFlights must contain at least 48 inspector-baked instances.");
-            flight.Begin(art,Rules.Level.blocks[id],shot,slot?clock:Mathf.Max(clock,releaseAt[id]),RunePreferences.Reduced,Rules.Routes[id]);
+            string exit=Rules.Routes[id].exitDir;int boundary=exit=="N"?0:exit=="E"?1:-1;
+            bool bareBoundary=boundary<0||Rules.Gate(State,boundary).color==null;
+            flight.Begin(art,Rules.Level.blocks[id],shot,slot?clock:Mathf.Max(clock,releaseAt[id]),RunePreferences.Reduced,Rules.Routes[id],bareBoundary);
+            if(art.surfaceStyle)
+            {
+                if(automatic)
+                {
+                    float departure=Mathf.Max(clock,nextAutoAt);
+                    // Reserve immediately, but show arrival, settle and gate reveal before departure.
+                    if(pending[id]){foreach(var incoming in flights)if(incoming.shot.store&&incoming.shot.id==id)departure=Mathf.Max(departure,incoming.start+incoming.duration+StorageSettle);}
+                    else departure=Mathf.Max(departure,eligibleAt[id]);
+                    foreach(var earlier in flights)if(earlier.shot.side==shot.side&&!earlier.shot.store&&!earlier.shot.overflow&&earlier.shot.layer<shot.layer)departure=Mathf.Max(departure,earlier.start+earlier.duration+.03f);
+                    flight.start=departure;slotVacantAt[shot.slot]=departure;nextAutoAt=departure+.085f;
+                }
+                else if(shot.store)flight.start=Mathf.Max(flight.start,slotVacantAt[shot.slot]+.035f-flight.duration);
+                flight.Render(Mathf.Max(clock,flight.start),RunePreferences.Reduced);
+                if(shot.relaunch&&flight.start>clock)flight.gameObject.SetActive(false);
+            }
+            if(automatic)eligibleAt[id]=float.PositiveInfinity;
             if(shot.side>=0)
             {
                 for(int i=flights.Count-1;i>=0;i--){var old=flights[i];if(old.shot.side!=shot.side||old.shot.store||old.shot.overflow)continue;flight.duration=Mathf.Max(flight.duration,old.start+old.duration+(old.shot.layer==shot.layer?.055f:.13f)-flight.start);break;}
@@ -119,10 +165,10 @@ namespace RuneBreak
             for(int i=0;i<Rules.Level.blocks.Length;i++)
             {
                 if((shot.unlocked&(1u<<i))!=0)releaseAt[i]=flight.start+flight.duration;
-                if((shot.revealed&(1u<<i))!=0){revealAt[i]=clock+.04f;effects.Reveal(RuneFlight.Center(Rules.Level.blocks[i]),Rules.Level.blocks[i].color,RunePreferences.Reduced);Sound(10);}
+                if((shot.revealed&(1u<<i))!=0){revealAt[i]=clock+.04f;effects.Reveal(RuneFlight.Center(Rules.Level.blocks[i],art.surfaceStyle),Rules.Level.blocks[i].color,RunePreferences.Reduced);Sound(10);}
             }
             flights.Add(flight);if(shot.store)pending[id]=true;
-            Sound(shot.relaunch?1:0);Refresh();
+            if(shot.relaunch&&flight.start>clock)relaunchSoundPending[id]=true;else Sound(shot.relaunch?1:0);Refresh();return true;
         }
         public void Undo()
         {
@@ -131,7 +177,7 @@ namespace RuneBreak
         public void Hint()
         {
             if(State.phase!=RunePhase.Playing)return;
-            var solution=RuneSolver.Solve(Rules,State);
+            var solution=art.surfaceStyle?RuneAutoRules.Solve(Rules,State):RuneSolver.Solve(Rules,State);
             if(solution.status==RuneSolveStatus.Dead){hintId=-1;return;}
             if(solution.status==RuneSolveStatus.Limit)return;
             if(solution.route.Count==0)return;var m=solution.route[0];hintId=m.id;hintSlot=m.kind==RuneMoveKind.Slot;hintUntil=clock+5;
@@ -142,9 +188,21 @@ namespace RuneBreak
         private void Refresh()
         {
             for(int i=0;i<Rules.Level.blocks.Length;i++)blocks[i].gameObject.SetActive(Rules.IsVisible(State,i));
-            for(int i=0;i<slots.Length;i++)slots[i].Render(art,Rules,State,i,State.slots[i]>=0&&pending[State.slots[i]]);
+            RefreshStorage();
             occupancy.text=$"{State.Filled}/5";occupancy.color=RuneArtLibrary.Hex(State.Filled==5?"ffb38f":"d9dfc8");
             RenderMechanics();
+        }
+        private void RefreshStorage()
+        {
+            for(int i=0;i<slots.Length;i++)
+            {
+                int id=State.slots[i];float earliest=float.PositiveInfinity;
+                // A reserved departure still owns the visible pocket until its animation starts.
+                if(art.surfaceStyle)foreach(var f in flights)if(f.shot.relaunch&&f.shot.slot==i&&f.start>clock&&f.start<earliest){earliest=f.start;id=f.shot.id;}
+                storageView.slots[i]=id;
+            }
+            Array.Copy(State.spent,storageView.spent,2);
+            for(int i=0;i<slots.Length;i++){int id=storageView.slots[i];slots[i].Render(art,Rules,storageView,i,id>=0&&pending[id]);}
         }
         private void RenderMechanics()
         {
@@ -154,7 +212,7 @@ namespace RuneBreak
                 bool valid=i<Rules.Level.blocks.Length;bool visible=valid&&Rules.IsVisible(State,i);
                 chainWraps[i].enabled=valid&&Rules.IsChained(visual,i)&&(visible||releaseAt[i]>clock);
                 int below=visible?Rules.Underneath(State,i):-1;stackMounts[i].enabled=stackPreviews[i].enabled=below>=0;
-                if(!valid)continue;var pos=RuneFlight.Center(Rules.Level.blocks[i]);chainRects[i].anchoredPosition=new Vector2(pos.x,-pos.y-2);
+                if(!valid)continue;var pos=RuneFlight.Center(Rules.Level.blocks[i],art.surfaceStyle);chainRects[i].anchoredPosition=new Vector2(pos.x,-pos.y-2);
                 stackRects[i].anchoredPosition=new Vector2(pos.x,-pos.y-2);
                 previewRects[i].anchoredPosition=new Vector2(pos.x+10,-pos.y-12);
                 if(below>=0){var b=Rules.Level.blocks[below];stackPreviews[i].sprite=art.Rune(b.color,b.dir);}
@@ -177,69 +235,74 @@ namespace RuneBreak
                 var layers=Rules.Level.Layers(i);int count=gatePreviews.Length/2;
                 for(int j=0;j<count;j++)
                 {
-                    var preview=gatePreviews[i*count+j];int layer=g.layer+j+1;preview.enabled=layer<layers.Length;
-                    if(preview.enabled)preview.color=art.MidTone(layers[layer].color);
+                    var preview=gatePreviews[i*count+j];int layer=g.layer+j+1;preview.enabled=j==0&&layer<layers.Length;
+                    if(preview.enabled){preview.sprite=art.longGates[RuneArtLibrary.ColorIndex(layers[layer].color)*2+i];preview.color=Color.white;}
                 }
             }
         }
         private void Complete(RuneFlight f)
         {
-            var s=f.shot;if(s.store){pending[s.id]=false;effects.AddWave(f.to,f.color,false);Sound(art.punchStyle?13:2);Refresh();if(art.punchStyle)slots[s.slot].Land();return;}
+            var s=f.shot;if(s.store){pending[s.id]=false;eligibleAt[s.id]=f.start+f.duration+StorageSettle;effects.AddWave(f.to,f.color,false);Sound(art.punchStyle?13:2);Refresh();if(art.punchStyle)slots[s.slot].Land();return;}
             if(s.overflow){effects.Emit(f.to,f.color,true,RunePreferences.Reduced);effects.Overflow();Sound(6);return;}
-            var gate=Rules.Gate(visual,s.side);float coord=s.side==0?f.to.x-96:f.to.y-84;int candidate=Mathf.Clamp(Mathf.FloorToInt(coord/288*gate.max),0,gate.max-1),segment=-1,distance=int.MaxValue;
+            var gate=Rules.Gate(visual,s.side);float coord=s.side==0?f.to.x-(art.surfaceStyle?72:96):f.to.y-(art.surfaceStyle?100:84);int candidate=Mathf.Clamp(Mathf.FloorToInt(coord/(art.surfaceStyle?336:288)*gate.max),0,gate.max-1),segment=-1,distance=int.MaxValue;
             for(int i=0;i<gate.max;i++)if((holes[s.side]&(1<<i))==0&&Mathf.Abs(i-candidate)<distance){segment=i;distance=Mathf.Abs(i-candidate);}if(segment>=0)holes[s.side]|=1<<segment;
             visual.spent[s.side]=s.spent;if(s.layerBreak)holes[s.side]=0;flashUntil[s.side]=clock+.2f;
+            if(gateCracks!=null&&s.side<gateCracks.Length){if(s.layerBreak)gateCracks[s.side].Clear();else gateCracks[s.side].Hit(coord);}
             if(s.unlocked!=0)
             {
                 for(int i=0;i<Rules.Level.blocks.Length;i++)if((s.unlocked&(1u<<i))!=0)
                 {
-                    var point=RuneFlight.Center(Rules.Level.blocks[i]);var anchor=s.side==0?new Vector2(point.x,72):new Vector2(393,point.y);
+                    var point=RuneFlight.Center(Rules.Level.blocks[i],art.surfaceStyle);var anchor=s.side==0?new Vector2(point.x,art.surfaceStyle?88:72):new Vector2(art.surfaceStyle?RuneFlight.SurfaceEastGateLeft:393,point.y);
                     effects.ReleaseChain(point,anchor,f.color,RunePreferences.Reduced);
                 }
                 Sound(8);shake=Mathf.Max(shake,6);
             }
             chain=clock-lastImpact<1.15f?chain+1:1;lastImpact=clock;bestChain=Mathf.Max(bestChain,chain);shake=Mathf.Max(shake,s.layerBreak?5:2.4f);
-            effects.Emit(f.to,f.color,s.layerBreak,RunePreferences.Reduced);
-            effects.Chain(chain);effects.Label(s.unlocked!=0?"CHAIN BREAK!":s.layerBreak?(s.sealBreak?"SEAL BREAK!":"LAYER BREAK!"):chain>1?"HIT "+chain:"CRACK!",new Vector2(Mathf.Clamp(f.to.x,115,352),Mathf.Clamp(f.to.y,40,415)-13),f.color,s.layerBreak,s.layerBreak?.78f:.42f);
+            effects.Emit(f.to,f.color,s.layerBreak,RunePreferences.Reduced,s.side);
+            if(art.surfaceStyle&&s.layerBreak)effects.Label("Break!",s.side==0?new Vector2(Mathf.Clamp(f.to.x,120,360),116):new Vector2(352,Mathf.Clamp(f.to.y,140,390)),f.color,true,.6f);
+            if(!art.surfaceStyle){effects.Chain(chain);effects.Label(s.unlocked!=0?"CHAIN BREAK!":s.layerBreak?(s.sealBreak?"SEAL BREAK!":"LAYER BREAK!"):chain>1?"HIT "+chain:"CRACK!",new Vector2(Mathf.Clamp(f.to.x,115,352),Mathf.Clamp(f.to.y,40,415)-13),f.color,s.layerBreak,s.layerBreak?.78f:.42f);}
             if(s.layerBreak)
             {
                 var next=Rules.Gate(visual,s.side);if(next.color!=null)
                 {
                     string title=next.color=="red"?"EMBER":next.color=="blue"?"TIDE":next.color=="gold"?"SPARK":"GROVE";
-                    effects.Label(title+" OPEN",s.side==0?new Vector2(240,94):new Vector2(330,360),next.color,false,1.1f,.05f);
-                    for(int i=0;i<5;i++)if(State.slots[i]>=0&&Rules.Level.blocks[State.slots[i]].color==next.color)effects.AddWave(RuneFlight.Slot(i),next.color,true);
+                    if(!art.surfaceStyle)effects.Label(title+" OPEN",s.side==0?new Vector2(240,94):new Vector2(330,360),next.color,false,1.1f,.05f);
+                    for(int i=0;i<5;i++)if(State.slots[i]>=0&&Rules.Level.blocks[State.slots[i]].color==next.color)effects.AddWave(RuneFlight.Slot(i,art.surfaceStyle),next.color,true);
                 }
             }
             Sound(s.layerBreak?4:3);RenderGates();Refresh();
         }
         private void Sound(int i){if(RunePreferences.Audio&&audioSource!=null&&i<sounds.Length)audioSource.PlayOneShot(sounds[i],RunePreferences.Volume);}
-        private void Update()=>AdvancePresentation(Mathf.Min(.035f,Time.unscaledDeltaTime));
-        // Explicit delta supports deterministic visual QA; rule state changes only in Tap.
+        private void Update(){int balance=RuneCoinReward.Balance;if(coinBalance!=null&&balance!=displayedCoins){displayedCoins=balance;coinBalance.text=balance.ToString();}AdvancePresentation(Mathf.Min(.035f,Time.unscaledDeltaTime));}
+        // Each manual/automatic launch reserves rules once. Arrivals only unlock presentation readiness.
         public void AdvancePresentation(float dt)
         {
             if(State==null)return;
-            if(IsModalBlocked)return;
+            if(IsModalBlocked&&!shownResult&&!(PopupManager.CurrentPopup is RuneResultPanel))return;
             clock+=dt;bool reduced=RunePreferences.Reduced;
             foreach(var f in flights)
             {
-                if(f.TakeReboundImpact(clock,out var contact)){effects.Rebound(contact,f.ReboundDirection,f.color,reduced);Sound(11);shake=Mathf.Max(shake,reduced?0:3.2f);}
+                if(f.shot.relaunch&&relaunchSoundPending[f.shot.id]&&clock>=f.start){relaunchSoundPending[f.shot.id]=false;Sound(1);}
+                if(f.TakeReboundImpact(clock,out var contact)){effects.Rebound(contact,f.ReboundDirection,f.color,reduced);Sound(11);if(!reduced&&art.surfaceStyle)Sound(9);shake=Mathf.Max(shake,reduced?0:3.8f);}
                 if(f.TakeReboundRelease(clock))Sound(12);
             }
             foreach(var f in flights)while(f.TakeMirrorImpact(clock,out var point))
             {
                 effects.Reflect(point,f.color,reduced);Sound(9);shake=Mathf.Max(shake,1.5f);
-                for(int i=0;i<(Rules.Level.mirrors?.Length??0);i++){var m=Rules.Level.mirrors[i];if(Vector2.Distance(point,RuneFlight.Turn(new RuneCell(m.x,m.y)))<1)mirrorFlashUntil[i]=clock+.23f;}
+                for(int i=0;i<(Rules.Level.mirrors?.Length??0);i++){var m=Rules.Level.mirrors[i];if(Vector2.Distance(point,RuneFlight.Turn(new RuneCell(m.x,m.y),art.surfaceStyle))<1)mirrorFlashUntil[i]=clock+.23f;}
             }
             // Completion order is due-time order, independent of render frame rate.
             while(true){RuneFlight earliest=null;foreach(var f in flights)if(clock>=f.start+f.duration&&(earliest==null||f.start+f.duration<earliest.start+earliest.duration))earliest=f;if(earliest==null)break;flights.Remove(earliest);Complete(earliest);pool.ReturnCached(earliest);}
-            foreach(var f in flights)f.Render(clock,reduced);
+            PumpAuto();
+            foreach(var f in flights){bool visible=!f.shot.relaunch||clock>=f.start;if(f.gameObject.activeSelf!=visible)f.gameObject.SetActive(visible);if(visible)f.Render(Mathf.Max(clock,f.start),reduced);}
+            RefreshStorage();
             background.sprite=art.cabinets[reduced?0:Mathf.FloorToInt(clock*9)%3];
             for(int i=0;i<slots.Length;i++)slots[i].Tick(clock,reduced);
             float bumpAge=clock-bumpAt;
             bool bumping=!reduced&&bumpId>=0&&bumpId<Rules.Level.blocks.Length&&bumpAge>=0&&bumpAge<.3f;
             for(int i=0;i<Rules.Level.blocks.Length;i++)
             {
-                var b=Rules.Level.blocks[i];var p=RuneFlight.Center(b);float squash=pressedId==i?.09f:0;
+                var b=Rules.Level.blocks[i];var p=RuneFlight.Center(b,art.surfaceStyle);float squash=pressedId==i?.09f:0;
                 if(Rules.IsVisible(State,i)&&Rules.Underneath(State,i)>=0)p-=new Vector2(4,5);
                 if(bumping&&(i==bumpId||i==bumpBlocker)){float t=bumpAge/.3f;RuneRules.Direction(Rules.Level.blocks[bumpId].dir,out int dx,out int dy);p+=new Vector2(dx,dy)*Mathf.Sin(t*Mathf.PI*3)*(1-t)*4;squash+=Mathf.Sin(t*Mathf.PI)*(i==bumpId?.1f:-.06f);}
                 float reveal=Mathf.Clamp01((clock-revealAt[i])/.28f),pop=1;
@@ -248,27 +311,33 @@ namespace RuneBreak
             }
             for(int i=0;i<2;i++){var c=RuneArtLibrary.Light(Rules.Gate(visual,i).color??"green");c.a=Mathf.Max(0,(flashUntil[i]-clock)/.2f)*.38f;gateFlashes[i].color=c;}
             effects.Tick(dt);shake=Mathf.Max(0,shake-dt*25);cabinet.anchoredPosition=cabinetOrigin+(reduced?Vector2.zero:new Vector2(Mathf.Round((UnityEngine.Random.value-.5f)*shake*2),Mathf.Round((UnityEngine.Random.value-.5f)*shake*2)));
+            if(gateCracks!=null)foreach(var cracks in gateCracks)cracks.Tick(dt);
             RenderHighlight();
             RenderMechanics();
-            if(State.phase!=RunePhase.Playing&&flights.Count==0&&!shownResult){if(finishAt<0)finishAt=clock;if(clock-finishAt>.48f)ShowResult();}
+            if(State.phase!=RunePhase.Playing&&flights.Count==0&&!shownResult){if(finishAt<0)finishAt=clock;if(clock-finishAt>.62f)ShowResult();}
         }
         private void RenderHighlight()
         {
-            int id=hintId>=0&&clock<hintUntil?hintId:RunePreferences.Paths?hoverId:-1;bool slot=id==hintId?hintSlot:hoverSlot;
+            int id=hintId>=0&&clock<hintUntil?hintId:-1;bool slot=hintSlot;
             highlight.enabled=false;pathImage.enabled=false;if(id<0||State.phase!=RunePhase.Playing)return;
             Vector2 p;
-            if(slot){int s=Array.IndexOf(State.slots,id);if(s<0)return;p=RuneFlight.Slot(s);}
-            else {if((State.board&(1u<<id))==0)return;p=RuneFlight.Center(Rules.Level.blocks[id]);}
+            if(slot){int s=Array.IndexOf(State.slots,id);if(s<0)return;p=RuneFlight.Slot(s,art.surfaceStyle);}
+            else {if((State.board&(1u<<id))==0)return;p=RuneFlight.Center(Rules.Level.blocks[id],art.surfaceStyle);}
             highlight.enabled=true;highlightRect.anchoredPosition=new Vector2(p.x,-p.y);highlightRect.sizeDelta=Vector2.one*(slot?62:44);highlight.color=new Color(1,.94f,.71f,.18f+.12f*Mathf.Sin(clock*7));
-            if(!slot&&Rules.Routes[id].turns.Length==0){var end=RuneFlight.Exit(Rules.Level.blocks[id]);for(int j=0;j<Rules.Level.blocks.Length;j++)if((Rules.Blockers[id]&State.board&(1u<<j))!=0){var q=RuneFlight.Center(Rules.Level.blocks[j]);if(Vector2.Distance(p,q)<Vector2.Distance(p,end))end=q;}
+            if(!slot&&Rules.Routes[id].turns.Length==0){var end=RuneFlight.Exit(Rules.Level.blocks[id],art.surfaceStyle);for(int j=0;j<Rules.Level.blocks.Length;j++)if((Rules.Blockers[id]&State.board&(1u<<j))!=0){var q=RuneFlight.Center(Rules.Level.blocks[j],art.surfaceStyle);if(Vector2.Distance(p,q)<Vector2.Distance(p,end))end=q;}
                 var delta=end-p;pathImage.enabled=true;pathRect.anchoredPosition=new Vector2((p.x+end.x)/2,-(p.y+end.y)/2);pathRect.sizeDelta=new Vector2(delta.magnitude,2);pathRect.localRotation=Quaternion.Euler(0,0,-Mathf.Atan2(delta.y,delta.x)*Mathf.Rad2Deg);pathImage.color=Rules.IsFree(State,id)?new Color(.84f,.81f,.62f,.45f):new Color(.93f,.57f,.45f,.65f);}
         }
         private void ShowResult()
         {
-            shownResult=true;bool won=State.phase==RunePhase.Won;result.SetActive(true);if(resultEmblem!=null)resultEmblem.sprite=art.Rune(won?"green":"red",won?"N":"S");resultTitle.text=won?"결계를 돌파했어요!":"보관칸이 넘쳤어요";resultDescription.text=won?$"직접 타격 {State.direct}  ·  재발사 {State.relaunch}\n최고 연속 타격 {bestChain}":"다섯 칸을 채운 상태에서\n추가 보관이 발생했어요.";resultAction.text=won?"다음 방으로":"홈으로";
-            resultHome.SetActive(won);
-            if(Rules.Level.demo)resultAction.text=won?(LevelIndex+1<catalog.levels.Length?"다음 기믹 체험":"홈으로"):"다시 체험";
-            else if(won&&LevelIndex+1>=catalog.CampaignCount)resultAction.text="홈으로";
+            if(shownResult)return;
+            shownResult=true;bool won=State.phase==RunePhase.Won;
+            var completedState=State;
+            var data=new RuneResultData{level=LevelIndex+1,won=won,demo=Rules.Level.demo,hasNext=LevelIndex+1<(Rules.Level.demo?catalog.levels.Length:catalog.CampaignCount),reward=new RuneCoinReward(won&&!Rules.Level.demo?clearRewardCoins:0)};
+            PopupManager.Show(RuneResultPanel.PrefabName,data,value=>
+            {
+                if(!ReferenceEquals(State,completedState)||!shownResult||!(value is RuneResultAction action))return;
+                switch(action){case RuneResultAction.Next:Next();break;case RuneResultAction.Retry:Restart();break;default:Home();break;}
+            });
             if(won&&!Rules.Level.demo){int clears=PlayerPrefs.GetInt("RuneBreak.Clears",0)|(1<<LevelIndex);PlayerPrefs.SetInt("RuneBreak.Clears",clears);PlayerPrefs.SetInt("RuneBreak.Next",Mathf.Min(LevelIndex+1,catalog.CampaignCount-1));PlayerPrefs.Save();}Sound(won?7:6);
         }
     }

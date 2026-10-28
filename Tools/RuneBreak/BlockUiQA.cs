@@ -37,8 +37,8 @@ public static class BlockUiQA
             foreach(var phase in new[]{RunePhase.Won,RunePhase.Lost})
             {
                 play.LoadLevel(0);play.State.phase=phase;typeof(RunePlayPage).GetMethod("ShowResult",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(play,null);
-                Check(play.resultEmblem.sprite==play.art.Rune(phase==RunePhase.Won?"green":"red",phase==RunePhase.Won?"N":"S"),"result color");
-                CheckText(play.result);foreach(var button in play.result.GetComponentsInChildren<Button>(true))Check(button.onClick.GetPersistentEventCount()==1,"result callback missing");Capture(play.Canvas,phase==RunePhase.Won?"BlockCrash-Result-Win.png":"BlockCrash-Result-Loss.png");
+                var result=(RuneResultPanel)PopupManager.CurrentPopup;Check(result.title.text==(phase==RunePhase.Won?"LevelClear":"Try Again"),"result title");
+                CheckText(result.gameObject);foreach(var button in result.GetComponentsInChildren<Button>(true))Check(button.onClick.GetPersistentEventCount()==1,"result callback missing");Capture(play.Canvas,phase==RunePhase.Won?"BlockCrash-Result-Win.png":"BlockCrash-Result-Loss.png");
             }
             play.LoadLevel(level);Debug.Log("BLOCK UI PASS: level text, press/release, both settings contexts, toggles, close/resume, win/loss layouts and callbacks.");
         }

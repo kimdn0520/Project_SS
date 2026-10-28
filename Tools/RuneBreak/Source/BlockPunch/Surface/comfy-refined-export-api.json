@@ -1,0 +1,292 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/gate_studs_red_N.png"
+    }
+  },
+  "2": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "alpha": [
+        "1",
+        1
+      ]
+    }
+  },
+  "3": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "2",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/gate_studs_red_N"
+    }
+  },
+  "4": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/gate_studs_red_E.png"
+    }
+  },
+  "5": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "4",
+        0
+      ],
+      "alpha": [
+        "4",
+        1
+      ]
+    }
+  },
+  "6": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "5",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/gate_studs_red_E"
+    }
+  },
+  "7": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/gate_studs_blue_N.png"
+    }
+  },
+  "8": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "7",
+        0
+      ],
+      "alpha": [
+        "7",
+        1
+      ]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "8",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/gate_studs_blue_N"
+    }
+  },
+  "10": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/gate_studs_blue_E.png"
+    }
+  },
+  "11": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "10",
+        0
+      ],
+      "alpha": [
+        "10",
+        1
+      ]
+    }
+  },
+  "12": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "11",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/gate_studs_blue_E"
+    }
+  },
+  "13": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/gate_studs_gold_N.png"
+    }
+  },
+  "14": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "13",
+        0
+      ],
+      "alpha": [
+        "13",
+        1
+      ]
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/gate_studs_gold_N"
+    }
+  },
+  "16": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/gate_studs_gold_E.png"
+    }
+  },
+  "17": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "16",
+        0
+      ],
+      "alpha": [
+        "16",
+        1
+      ]
+    }
+  },
+  "18": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "17",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/gate_studs_gold_E"
+    }
+  },
+  "19": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/gate_studs_green_N.png"
+    }
+  },
+  "20": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "19",
+        0
+      ],
+      "alpha": [
+        "19",
+        1
+      ]
+    }
+  },
+  "21": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "20",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/gate_studs_green_N"
+    }
+  },
+  "22": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/gate_studs_green_E.png"
+    }
+  },
+  "23": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "22",
+        0
+      ],
+      "alpha": [
+        "22",
+        1
+      ]
+    }
+  },
+  "24": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "23",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/gate_studs_green_E"
+    }
+  },
+  "25": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/cabinet_refined.png"
+    }
+  },
+  "26": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "25",
+        0
+      ],
+      "alpha": [
+        "25",
+        1
+      ]
+    }
+  },
+  "27": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "26",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/cabinet_refined"
+    }
+  },
+  "28": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BlockCrashSurface/settings_button.png"
+    }
+  },
+  "29": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "28",
+        0
+      ],
+      "alpha": [
+        "28",
+        1
+      ]
+    }
+  },
+  "30": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "29",
+        0
+      ],
+      "filename_prefix": "BlockCrashSurface/settings_button"
+    }
+  }
+}

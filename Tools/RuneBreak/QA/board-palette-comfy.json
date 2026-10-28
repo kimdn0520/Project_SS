@@ -1,0 +1,17 @@
+{
+  "version": "0.42.1",
+  "mode": "source material + alpha roundtrip; no diffusion resynthesis",
+  "assets": [
+    {
+      "name": "cabinet_lavender",
+      "width": 1440,
+      "height": 1956,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    }
+  ],
+  "promptId": "76216d6f-f0e8-474f-9080-d26788976c9d",
+  "status": "passed",
+  "validation": "Exact Aseprite masters retained; ComfyUI alpha and opaque RGB within one byte."
+}

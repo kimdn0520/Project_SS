@@ -1,0 +1,41 @@
+{
+  "version": "0.42.1",
+  "mode": "source material + alpha roundtrip; no diffusion resynthesis",
+  "assets": [
+    {
+      "name": "cabinet_clean",
+      "width": 1440,
+      "height": 1956,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_coins",
+      "width": 960,
+      "height": 750,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_rays",
+      "width": 1320,
+      "height": 1320,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_wallet",
+      "width": 480,
+      "height": 168,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    }
+  ],
+  "promptId": "e68a0f9b-0e04-49b6-b9f4-6255d904fbe6",
+  "status": "passed",
+  "validation": "Aseprite masters retained; ComfyUI alpha and opaque RGB verified within one byte."
+}

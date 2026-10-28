@@ -390,6 +390,11 @@ PrefabInstance:
       propertyPath: m_TextStyleHashCode
       value: -1183493901
       objectReference: {fileID: 0}
+    - target: {fileID: 4424207404033031909, guid: add906d31378fbf458ec5bc2db391432,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -23
+      objectReference: {fileID: 0}
     - target: {fileID: 4486877690761275266, guid: add906d31378fbf458ec5bc2db391432,
         type: 3}
       propertyPath: m_fontColor32.rgba
@@ -429,6 +434,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TextStyleHashCode
       value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279392320942327032, guid: add906d31378fbf458ec5bc2db391432,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -24
       objectReference: {fileID: 0}
     - target: {fileID: 5421109805449607043, guid: add906d31378fbf458ec5bc2db391432,
         type: 3}
@@ -485,6 +495,11 @@ PrefabInstance:
       propertyPath: popups
       value: 
       objectReference: {fileID: 2061257207}
+    - target: {fileID: 6469390855375215762, guid: add906d31378fbf458ec5bc2db391432,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -31
+      objectReference: {fileID: 0}
     - target: {fileID: 7359823175905554966, guid: add906d31378fbf458ec5bc2db391432,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -494,6 +509,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MainPage
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484087777209527791, guid: add906d31378fbf458ec5bc2db391432,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -26
       objectReference: {fileID: 0}
     - target: {fileID: 7533863509251556956, guid: add906d31378fbf458ec5bc2db391432,
         type: 3}
@@ -548,7 +568,7 @@ PrefabInstance:
     - target: {fileID: 8122402444358086347, guid: add906d31378fbf458ec5bc2db391432,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4292868095
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 8122402444358086347, guid: add906d31378fbf458ec5bc2db391432,
         type: 3}
@@ -564,6 +584,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TextStyleHashCode
       value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920694950405611039, guid: add906d31378fbf458ec5bc2db391432,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -31
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047884945227571893, guid: add906d31378fbf458ec5bc2db391432,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -24
+      objectReference: {fileID: 0}
+    - target: {fileID: 9138211665803379945, guid: add906d31378fbf458ec5bc2db391432,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -26
       objectReference: {fileID: 0}
     - target: {fileID: 9150469062559276876, guid: add906d31378fbf458ec5bc2db391432,
         type: 3}
@@ -1004,6 +1039,7 @@ MonoBehaviour:
   handleBackInput: 0
   popupPrefabs:
   - {fileID: 702236868107731995, guid: 358ebcdd7fafb084faa7c8be1c1c58b9, type: 3}
+  - {fileID: 7032894217563899117, guid: c3b8c83c933db814c9c46783817a733d, type: 3}
   baseSortingOrder: 1000
   sortingOrderStep: 10
 --- !u!4 &2061257208

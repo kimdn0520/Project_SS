@@ -8,6 +8,7 @@ namespace RuneBreak
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class RuneMechanicGraphic : MaskableGraphic
     {
+        public bool surfaceStyle;
         private RuneRules rules;
         private RuneState state,visual;
         private float time;
@@ -20,12 +21,14 @@ namespace RuneBreak
             for(int i=0;i<rules.Level.blocks.Length;i++)
             {
                 if(!rules.IsVisible(state,i)||!rules.IsChained(visual,i))continue;
-                var b=rules.Level.blocks[i];var p=RuneFlight.Center(b);int side=rules.ChainSides[i];
+                var b=rules.Level.blocks[i];var p=RuneFlight.Center(b,surfaceStyle);int side=rules.ChainSides[i];
                 var color=RuneArtLibrary.Mid(rules.Level.Layers(side)[b.chainLayer].color);color.a=.42f+.12f*Mathf.Sin(time*3+i);
-                var anchor=side==0?new Vector2(p.x,73):new Vector2(393,p.y);
+                var anchor=side==0?new Vector2(p.x,surfaceStyle?88:73):new Vector2(surfaceStyle?RuneFlight.SurfaceEastGateLeft:393,p.y);
                 Tether(vh,anchor,p,color);
                 Pixel(vh,anchor.x-3,anchor.y-3,6,6,RuneArtLibrary.Light(rules.Level.Layers(side)[b.chainLayer].color));
             }
+            // Keep actual chain links, but the shipped Surface UI has no trajectory guides.
+            if(surfaceStyle)return;
             int id=focus;
             if(id<0||id>=rules.Routes.Length||!rules.IsVisible(state,id)||rules.Routes[id].turns.Length==0)
             {
@@ -34,15 +37,15 @@ namespace RuneBreak
             if(id<0)return;
             var route=rules.Routes[id];if(route.loop)return;
             var tint=RuneArtLibrary.Light(rules.Level.blocks[id].color);tint.a=.55f;
-            Vector2 start=RuneFlight.Center(rules.Level.blocks[id]);
+            Vector2 start=RuneFlight.Center(rules.Level.blocks[id],surfaceStyle);
             for(int i=0;i<=route.turns.Length;i++)
             {
-                Vector2 end=i<route.turns.Length?RuneFlight.Turn(route.turns[i]):RuneFlight.RouteExit(route);
+                Vector2 end=i<route.turns.Length?RuneFlight.Turn(route.turns[i],surfaceStyle):RuneFlight.RouteExit(route,surfaceStyle);
                 bool blocked=false;float shortest=Vector2.Distance(start,end);
                 for(int j=0;j<rules.Level.blocks.Length;j++)
                 {
                     if((state.board&rules.Blockers[id]&(1u<<j))==0)continue;
-                    var p=RuneFlight.Center(rules.Level.blocks[j]);
+                    var p=RuneFlight.Center(rules.Level.blocks[j],surfaceStyle);
                     bool onLine=Mathf.Abs(start.x-end.x)<.1f?Mathf.Abs(p.x-start.x)<.1f:Mathf.Abs(p.y-start.y)<.1f;
                     float d=Vector2.Distance(start,p);
                     if(onLine&&Vector2.Dot(p-start,end-start)>0&&d<=shortest){shortest=d;end=p;blocked=true;}

@@ -1,0 +1,178 @@
+{
+  "gate_studs_red_N": {
+    "w": 352,
+    "h": 44,
+    "layers": [
+      {
+        "label": "Continuous original molded face",
+        "file": "gate_studs_red_N-layer-0.png"
+      },
+      {
+        "label": "Round stud 1",
+        "file": "gate_studs_red_N-layer-1.png"
+      },
+      {
+        "label": "Round stud 2",
+        "file": "gate_studs_red_N-layer-2.png"
+      }
+    ]
+  },
+  "gate_studs_red_E": {
+    "w": 44,
+    "h": 352,
+    "layers": [
+      {
+        "label": "Continuous original molded face",
+        "file": "gate_studs_red_E-layer-0.png"
+      },
+      {
+        "label": "Round stud 1",
+        "file": "gate_studs_red_E-layer-1.png"
+      },
+      {
+        "label": "Round stud 2",
+        "file": "gate_studs_red_E-layer-2.png"
+      }
+    ]
+  },
+  "gate_studs_blue_N": {
+    "w": 352,
+    "h": 44,
+    "layers": [
+      {
+        "label": "Continuous original molded face",
+        "file": "gate_studs_blue_N-layer-0.png"
+      },
+      {
+        "label": "Round stud 1",
+        "file": "gate_studs_blue_N-layer-1.png"
+      },
+      {
+        "label": "Round stud 2",
+        "file": "gate_studs_blue_N-layer-2.png"
+      }
+    ]
+  },
+  "gate_studs_blue_E": {
+    "w": 44,
+    "h": 352,
+    "layers": [
+      {
+        "label": "Continuous original molded face",
+        "file": "gate_studs_blue_E-layer-0.png"
+      },
+      {
+        "label": "Round stud 1",
+        "file": "gate_studs_blue_E-layer-1.png"
+      },
+      {
+        "label": "Round stud 2",
+        "file": "gate_studs_blue_E-layer-2.png"
+      }
+    ]
+  },
+  "gate_studs_gold_N": {
+    "w": 352,
+    "h": 44,
+    "layers": [
+      {
+        "label": "Continuous original molded face",
+        "file": "gate_studs_gold_N-layer-0.png"
+      },
+      {
+        "label": "Round stud 1",
+        "file": "gate_studs_gold_N-layer-1.png"
+      },
+      {
+        "label": "Round stud 2",
+        "file": "gate_studs_gold_N-layer-2.png"
+      }
+    ]
+  },
+  "gate_studs_gold_E": {
+    "w": 44,
+    "h": 352,
+    "layers": [
+      {
+        "label": "Continuous original molded face",
+        "file": "gate_studs_gold_E-layer-0.png"
+      },
+      {
+        "label": "Round stud 1",
+        "file": "gate_studs_gold_E-layer-1.png"
+      },
+      {
+        "label": "Round stud 2",
+        "file": "gate_studs_gold_E-layer-2.png"
+      }
+    ]
+  },
+  "gate_studs_green_N": {
+    "w": 352,
+    "h": 44,
+    "layers": [
+      {
+        "label": "Continuous original molded face",
+        "file": "gate_studs_green_N-layer-0.png"
+      },
+      {
+        "label": "Round stud 1",
+        "file": "gate_studs_green_N-layer-1.png"
+      },
+      {
+        "label": "Round stud 2",
+        "file": "gate_studs_green_N-layer-2.png"
+      }
+    ]
+  },
+  "gate_studs_green_E": {
+    "w": 44,
+    "h": 352,
+    "layers": [
+      {
+        "label": "Continuous original molded face",
+        "file": "gate_studs_green_E-layer-0.png"
+      },
+      {
+        "label": "Round stud 1",
+        "file": "gate_studs_green_E-layer-1.png"
+      },
+      {
+        "label": "Round stud 2",
+        "file": "gate_studs_green_E-layer-2.png"
+      }
+    ]
+  },
+  "cabinet_refined": {
+    "w": 480,
+    "h": 652,
+    "layers": [
+      {
+        "label": "Original unmarked ivory chassis",
+        "file": "cabinet_refined-layer-0.png"
+      },
+      {
+        "label": "Five recessed storage pockets",
+        "file": "cabinet_refined-layer-1.png"
+      },
+      {
+        "label": "Matching empty gate channels on all four sides",
+        "file": "cabinet_refined-layer-2.png"
+      }
+    ]
+  },
+  "settings_button": {
+    "w": 62,
+    "h": 62,
+    "layers": [
+      {
+        "label": "Original plum button",
+        "file": "settings_button-layer-0.png"
+      },
+      {
+        "label": "Centered settings symbol",
+        "file": "settings_button-layer-1.png"
+      }
+    ]
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "version": "0.42.1",
+  "mode": "source material + alpha roundtrip; no diffusion resynthesis",
+  "assets": [
+    {
+      "name": "reward_pile_shadow",
+      "width": 746,
+      "height": 199,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_piece_0",
+      "width": 209,
+      "height": 267,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_piece_1",
+      "width": 222,
+      "height": 307,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_piece_2",
+      "width": 209,
+      "height": 237,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_piece_3",
+      "width": 201,
+      "height": 202,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_piece_4",
+      "width": 232,
+      "height": 284,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_piece_5",
+      "width": 222,
+      "height": 247,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_piece_6",
+      "width": 193,
+      "height": 197,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_piece_7",
+      "width": 589,
+      "height": 225,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    },
+    {
+      "name": "reward_glint",
+      "width": 72,
+      "height": 72,
+      "shipped": "exact Aseprite composite",
+      "maxAlphaError": 1,
+      "maxOpaqueRgbError": 0
+    }
+  ],
+  "promptId": "47e27e1c-2700-49c4-9090-a35c86aa8e88",
+  "status": "passed",
+  "validation": "Exact Aseprite masters retained; ComfyUI alpha and opaque RGB within one byte."
+}

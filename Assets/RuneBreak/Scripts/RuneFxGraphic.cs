@@ -5,7 +5,7 @@ using TMPro;
 namespace RuneBreak
 {
     [RequireComponent(typeof(CanvasRenderer))]
-    public sealed class RuneFxGraphic : MaskableGraphic
+    public sealed partial class RuneFxGraphic : MaskableGraphic
     {
         public RuneArtLibrary art;
         private Color Light(string color)=>art!=null?art.LightTone(color):RuneArtLibrary.Light(color);
@@ -20,7 +20,7 @@ namespace RuneBreak
         // Authored graphic, fixed storage: fragments never create GameObjects or meshes.
         private readonly Shard[] shards=new Shard[96];
         private int shardCursor;
-        public int ActiveShards {get{int count=0;for(int i=0;i<shards.Length;i++)if(shards[i].age<shards[i].life)count++;return count;}}
+        public int ActiveShards {get{int count=depthCount;for(int i=0;i<shards.Length;i++)if(shards[i].age<shards[i].life)count++;return count;}}
         private struct Ray {public Vector2 from,to;public float age,life;public Color color;}
         private struct Wave { public Vector2 p;public float age,life;public bool big;public Color color; }
         private struct Ricochet {public Vector2 p,inward;public float age,life;public bool reduced;public Color color;}
@@ -39,7 +39,7 @@ namespace RuneBreak
         private int rayCursor;
         private int cursor,waveCursor,captionCursor,chain;
         private float chainAge,storageFlash;
-        public void Clear(){System.Array.Clear(shards,0,shards.Length);System.Array.Clear(ricochets,0,ricochets.Length);System.Array.Clear(particles,0,particles.Length);System.Array.Clear(waves,0,waves.Length);System.Array.Clear(captions,0,captions.Length);System.Array.Clear(rays,0,rays.Length);chain=0;storageFlash=0;for(int i=0;i<captionLabels.Length;i++){captionLabels[i].enabled=false;captionShadows[i].enabled=false;}if(chainLabel!=null)chainLabel.enabled=false;SetVerticesDirty();}
+        public void Clear(){depthCount=0;System.Array.Clear(shards,0,shards.Length);System.Array.Clear(ricochets,0,ricochets.Length);System.Array.Clear(particles,0,particles.Length);System.Array.Clear(waves,0,waves.Length);System.Array.Clear(captions,0,captions.Length);System.Array.Clear(rays,0,rays.Length);chain=0;storageFlash=0;for(int i=0;i<captionLabels.Length;i++){captionLabels[i].enabled=false;captionShadows[i].enabled=false;}if(chainLabel!=null)chainLabel.enabled=false;SetVerticesDirty();}
         public void ShatterBlock(Vector2 point,string color,bool layerBreak,bool reduced)
         {
             int count=reduced?4:layerBreak?18:12;
@@ -56,13 +56,14 @@ namespace RuneBreak
         {
             if(captionLabels.Length==0)return;int i=captionCursor;
             captions[i]=new Caption{text=text,p=point,color=Light(color),big=big,life=life,age=-delay};
-            captionLabels[i].text=captionShadows[i].text=text;captionLabels[i].fontSize=captionShadows[i].fontSize=big?24:12;
+            captionLabels[i].text=captionShadows[i].text=text;captionLabels[i].fontSize=captionShadows[i].fontSize=big?(art!=null&&art.surfaceStyle?42:24):12;
             captionLabels[i].enabled=captionShadows[i].enabled=false;captionCursor=(i+1)%captionLabels.Length;
         }
         public void Chain(int value){chain=value;chainAge=0;if(chainLabel!=null)chainLabel.SetText("{0} CHAIN!",value);}
         public void Overflow()=>storageFlash=1;
-        public void Emit(Vector2 point,string color,bool big,bool reduced)
+        public void Emit(Vector2 point,string color,bool big,bool reduced,int side=-1)
         {
+            if(art!=null&&art.surfaceStyle){EmitDepth(point,color,big,reduced,side);AddWave(point,color,big);return;}
             int count=reduced?(big?10:5):(big?66:26);
             for(int i=0;i<count;i++)
             {
@@ -70,7 +71,7 @@ namespace RuneBreak
                 particles[cursor]=new Particle {p=point,v=new Vector2(Mathf.Cos(a)*speed,Mathf.Sin(a)*speed-70),life=(big?.48f:.3f)+Random.value*.48f,size=Random.value<.2f?5:2+Random.Range(0,3),color=i%4==0?Light(color):i%4==1?Mid(color):i%4==2?Dark(color):RuneArtLibrary.Hex("f7ebc1")};cursor=(cursor+1)%particles.Length;
             }AddWave(point,color,big);
         }
-        public void AddWave(Vector2 point,string color,bool big){waves[waveCursor]=new Wave {p=point,color=Light(color),big=big,life=big?.4f:.24f};waveCursor=(waveCursor+1)%waves.Length;}
+        public void AddWave(Vector2 point,string color,bool big){waves[waveCursor]=new Wave {p=point,color=Light(color),big=big,life=art!=null&&art.surfaceStyle?(big?.26f:.16f):(big?.4f:.24f)};waveCursor=(waveCursor+1)%waves.Length;}
         public void ReleaseChain(Vector2 point,Vector2 source,string color,bool reduced)
         {
             rays[rayCursor]=new Ray{from=source,to=point,life=reduced?.14f:.32f,color=Light(color)};rayCursor=(rayCursor+1)%rays.Length;
@@ -98,6 +99,7 @@ namespace RuneBreak
         }
         public void Tick(float dt)
         {
+            TickDepth(dt);
             for(int i=0;i<shards.Length;i++){ref var s=ref shards[i];if(s.age>=s.life)continue;s.age+=dt;s.p+=s.v*dt;s.v.y+=380*dt;s.v.x*=Mathf.Pow(.985f,dt*60);s.angle+=s.spin*dt;}
             for(int i=0;i<ricochets.Length;i++)ricochets[i].age+=dt;
             for(int i=0;i<particles.Length;i++){ref var p=ref particles[i];if(p.age>=p.life)continue;p.age+=dt;p.p+=p.v*dt;p.v.y+=340*dt;p.v.x*=Mathf.Pow(.97f,dt*60);}
@@ -107,12 +109,14 @@ namespace RuneBreak
                 var l=captions[i];bool visible=l.age>=0&&l.age<l.life;captionLabels[i].enabled=captionShadows[i].enabled=visible;if(!visible)continue;
                 float q=l.age/l.life;var c=l.color;c.a=Mathf.Min(1,(1-q)*2);var shadow=RuneArtLibrary.Hex("14252e");shadow.a=c.a;
                 captionRects[i].anchoredPosition=new Vector2(Mathf.Round(l.p.x),-Mathf.Round(l.p.y-q*22));captionLabels[i].color=c;captionShadows[i].color=shadow;
+                if(art!=null&&art.surfaceStyle&&l.big){float t=Mathf.Clamp01(l.age/.18f),scale=RunePreferences.Reduced?1:1+2.70158f*Mathf.Pow(t-1,3)+1.70158f*Mathf.Pow(t-1,2);captionRects[i].localScale=Vector3.one*scale;captionRects[i].localRotation=Quaternion.Euler(0,0,-7);captionLabels[i].color=new Color(1,.97f,.88f,c.a);}
             }
             if(chainLabel!=null){chainLabel.enabled=chain>1&&chainAge<.8f;var c=RuneArtLibrary.Hex("f7dda2");c.a=Mathf.Clamp01((.8f-chainAge)*3);chainLabel.color=c;}
         }
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
+            DrawDepth(vh);
             foreach(var r in ricochets)
             {
                 if(r.age>=r.life)continue;float u=Mathf.Clamp01(r.age/r.life);var v=r.inward;var perpendicular=new Vector2(-v.y,v.x);var c=r.color;c.a=(1-u)*.8f;
@@ -157,6 +161,7 @@ namespace RuneBreak
             }
             foreach(var w in waves)
             {
+                if(art!=null&&art.surfaceStyle){DrawSurfaceWave(vh,w);continue;}
                 if(w.age>=w.life)continue;float t=w.age/w.life,r=5+t*(w.big?42:23);var c=w.color;c.a=(1-t)*.8f;var p=new Vector2(w.p.x,-w.p.y);
                 Line(vh,p+Vector2.up*r,p+Vector2.right*r,w.big?3:2,c);Line(vh,p+Vector2.right*r,p+Vector2.down*r,w.big?3:2,c);Line(vh,p+Vector2.down*r,p+Vector2.left*r,w.big?3:2,c);Line(vh,p+Vector2.left*r,p+Vector2.up*r,w.big?3:2,c);
             }
@@ -165,7 +170,7 @@ namespace RuneBreak
                 float alpha=Mathf.Min(1,(.8f-chainAge)*3);var fill=RuneArtLibrary.Hex("14292f");var edge=RuneArtLibrary.Hex("b99c6b");var text=RuneArtLibrary.Hex("f7dda2");fill.a=edge.a=text.a=alpha;
                 Box(vh,176,20,128,24,fill,edge,3);
             }
-            if(storageFlash>0){var c=RuneArtLibrary.Hex("ef987a");c.a=storageFlash*.25f;Box(vh,24,450,432,108,c,c,6);}
+            if(storageFlash>0){var c=RuneArtLibrary.Hex("ef987a");c.a=storageFlash*.25f;if(art!=null&&art.surfaceStyle)Box(vh,59,535,362,94,c,c,6);else Box(vh,24,450,432,108,c,c,6);}
         }
         private static void ShardFace(VertexHelper vh,Vector2 a,Vector2 b,Vector2 c,Vector2 d,Color top,Color bottom)
         {
