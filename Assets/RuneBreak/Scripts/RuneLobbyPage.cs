@@ -20,7 +20,8 @@ namespace RuneBreak
         public RuneLevelCatalog catalog;
         public RuneLobbyTab[] tabs;
         public TMP_Text playLabel,comingSoon,coinBalance;
-        public RuneLobbyShowcase showcase;
+        [HideInInspector] public RuneLobbyShowcase showcase; // Legacy authoring reference; current MainPage has no showcase.
+        public RuneLobbyHero hero;
         public PopupManager popups;
         public bool IsModalBlocked=>popups!=null&&popups.IsBlockingInput;
         public Sprite idleTabSkin,selectedTabSkin;

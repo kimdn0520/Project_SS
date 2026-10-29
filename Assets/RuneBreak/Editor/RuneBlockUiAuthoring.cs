@@ -32,9 +32,9 @@ namespace RuneBreak.Editor
         public static void ConfigurePlayButton(RuneLobbyPage page)
         {
             var button=page.playLabel.GetComponentInParent<RuneRaisedButton>();
-            ButtonArt(button,"gold",372,100,38);button.pressDepth=7;
-            page.playLabel.text="Lv. 1";TextStyle(page.playLabel,true,38,"583305");
-            Rect(page.playLabel.rectTransform,60,15,252,53);page.playLabel.characterSpacing=.5f;
+            ConfigureLongButton(button,"gold",372,88,"Lv. 1",38);
+            page.playLabel.text="Lv. 1";
+            page.playLabel.characterSpacing=.5f;
         }
         public static void ConfigureFrame(Image panel,string title,float width,float height)
         {
@@ -80,6 +80,31 @@ namespace RuneBreak.Editor
             var raised=button as RuneRaisedButton;if(raised!=null){raised.face=face.rectTransform;raised.restingPosition=Vector2.zero;raised.pressDepth=5;}
             var colors=button.colors;colors.normalColor=colors.highlightedColor=Color.white;colors.pressedColor=new Color(.88f,.87f,.95f);colors.fadeDuration=.06f;button.colors=colors;
             foreach(var label in labels){label.transform.SetParent(face.transform,false);TextStyle(label,false,fontSize,skin=="gold"?"583305":"f5f0ff");Rect(label.rectTransform,36,2,width-72,height-18);}
+            RemoveStuds(face.transform);
+        }
+        public static Sprite LongButtonSprite(string skin,float width,float height)=>Art("molded_"+skin+"_"+Mathf.RoundToInt(width)+"_"+Mathf.RoundToInt(height));
+        public static void ConfigureLongButton(Button button,string skin,float width,float height,string value,float fontSize)
+        {
+            var sprite=LongButtonSprite(skin,width,height);
+            if(sprite==null)throw new InvalidOperationException("Export molded button: "+skin+" "+width+"x"+height);
+            var raised=button as RuneRaisedButton;
+            if(raised==null)throw new InvalidOperationException("Long buttons require the authored RuneRaisedButton: "+button.name);
+            RemoveEdges(button.transform);
+            var labels=button.GetComponentsInChildren<TMP_Text>(true);
+            var body=button.GetComponent<Image>();body.sprite=null;body.color=Color.clear;body.raycastTarget=true;
+            var face=MakeImage("Face",button.transform);face.sprite=sprite;face.type=Image.Type.Simple;face.raycastTarget=false;
+            Rect(face.rectTransform,0,0,width,height);
+            face.rectTransform.pivot=new Vector2(.5f,.5f);face.rectTransform.anchoredPosition=new Vector2(width*.5f,-height*.5f);face.rectTransform.localScale=Vector3.one;
+            face.transform.SetAsFirstSibling();button.targetGraphic=face;button.transition=Selectable.Transition.ColorTint;
+            raised.face=face.rectTransform;raised.restingPosition=face.rectTransform.anchoredPosition;raised.pressDepth=0;raised.scalePress=true;raised.pressedScale=.96f;raised.pressDuration=.07f;raised.releaseDuration=.14f;
+            var colors=button.colors;colors.normalColor=colors.highlightedColor=colors.selectedColor=Color.white;colors.pressedColor=new Color(.97f,.97f,.97f);colors.fadeDuration=.06f;button.colors=colors;
+            foreach(var label in labels)
+            {
+                label.transform.SetParent(face.transform,false);if(value!=null)label.text=value;
+                TextStyle(label,true,fontSize,skin=="green"?"21461a":skin=="violet"?"fff5df":"583305");
+                label.fontStyle=FontStyles.Normal;label.alignment=TextAlignmentOptions.MidlineGeoAligned;
+                float labelHeight=fontSize+14;Rect(label.rectTransform,36,height*.46f-labelHeight*.5f,width-72,labelHeight);
+            }
             RemoveStuds(face.transform);
         }
         private static void RemoveEdges(Transform parent){foreach(string name in new[]{"TopEdge","BottomEdge"}){var edge=parent.Find(name);if(edge!=null)UnityEngine.Object.DestroyImmediate(edge.gameObject);}}

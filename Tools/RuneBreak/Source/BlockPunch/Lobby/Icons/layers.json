@@ -1,27 +1,27 @@
 {
   "coin": [
     {
-      "label": "Shadow",
+      "label": "Contact shadow",
       "file": "coin-0.png"
     },
     {
-      "label": "Gold edge",
+      "label": "Milled gold thickness",
       "file": "coin-1.png"
     },
     {
-      "label": "Bevel",
+      "label": "Rounded outer bevel",
       "file": "coin-2.png"
     },
     {
-      "label": "Inset face",
+      "label": "Vivid yellow recessed face",
       "file": "coin-3.png"
     },
     {
-      "label": "Embossed star",
+      "label": "Chamfered star relief",
       "file": "coin-4.png"
     },
     {
-      "label": "Highlights",
+      "label": "Fine rim reflection",
       "file": "coin-5.png"
     }
   ],

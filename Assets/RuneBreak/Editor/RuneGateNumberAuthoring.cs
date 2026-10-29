@@ -46,7 +46,7 @@ namespace RuneBreak.Editor
                 try
                 {
                     var play=root.GetComponent<RunePlayPage>();if(play!=null)foreach(var label in play.gateCounts)Style(label);
-                    var lobby=root.GetComponent<RuneLobbyPage>();if(lobby!=null)Style(lobby.showcase.gateCount);
+                    var lobby=root.GetComponent<RuneLobbyPage>();if(lobby!=null&&lobby.showcase!=null)Style(lobby.showcase.gateCount);
                     PrefabUtility.SaveAsPrefabAsset(root,path);
                 }
                 finally{PrefabUtility.UnloadPrefabContents(root);}

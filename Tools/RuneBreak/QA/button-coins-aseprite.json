@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "assets": [
+    {
+      "name": "molded_gold_340_76",
+      "exactAsepriteExport": true
+    },
+    {
+      "name": "molded_gold_300_82",
+      "exactAsepriteExport": true
+    },
+    {
+      "name": "molded_green_210_78",
+      "exactAsepriteExport": true
+    },
+    {
+      "name": "molded_amber_210_78",
+      "exactAsepriteExport": true
+    },
+    {
+      "name": "lobby_coin",
+      "exactAsepriteExport": true
+    }
+  ]
+}

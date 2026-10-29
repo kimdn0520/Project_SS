@@ -188,6 +188,10 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 86be013984bff57489d34c3700452c5c, type: 3}
     - {fileID: 21300000, guid: 404fe0b6c559eeb47a001515ff1cff40, type: 3}
     - {fileID: 21300000, guid: d47a0d925025c53418617d199ae94312, type: 3}
+    - {fileID: 21300000, guid: e2ce721b632bf074e992f317e62f4f8d, type: 3}
+    - {fileID: 21300000, guid: 83a0dcce0fc68c646ac0319b446b43a1, type: 3}
+    - {fileID: 21300000, guid: 4db7feba550bccf45b1e5f425b73c5b3, type: 3}
+    - {fileID: 21300000, guid: 8762e67d05bd9604ea2f2dcad4139124, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -298,7 +302,9 @@ SpriteAtlas:
     - bd7f783a84f484247935b97ed8d481e4: 21300000
     - 7418895ac1de62a4a909eef696ec40c6: 21300000
     - 54797eaacff24a14e9ffbe404ec1d031: 21300000
+    - 4db7feba550bccf45b1e5f425b73c5b3: 21300000
     - 156685fa0e4148c4a9608fcd274d52ff: 21300000
+    - e2ce721b632bf074e992f317e62f4f8d: 21300000
     - 97ccf71b50c20604283d73e86c728ca3: 21300000
     - 1a444d1bec0f17045ba4b99942bf861e: 21300000
     - cbeaa84ba36b87f48ba8b2abe4ef5de8: 21300000
@@ -319,6 +325,7 @@ SpriteAtlas:
     - 969a541d233b4a9428c9989495784247: 21300000
     - 7f9dca3d42dddf54fb8ea168b078a1b2: 21300000
     - c76c537d801663a4daed8c2a4f49a88e: 21300000
+    - 8762e67d05bd9604ea2f2dcad4139124: 21300000
     - 09b2e68d9ed0894499da5e2a8d4a2bee: 21300000
     - 7cb059adcc8c2f644a3b1d8ffc455939: 21300000
     - d9458fadbbdbf5a478f8ddbfb67a5e94: 21300000
@@ -329,6 +336,7 @@ SpriteAtlas:
     - e5f7f36eb483f0b4a8b2f33b50fafc13: 21300000
     - 4455148eea2bb534986cc397f89331e8: 21300000
     - 7aefd0ce8c576314b8ac9a4152090951: 21300000
+    - 83a0dcce0fc68c646ac0319b446b43a1: 21300000
     - 3554dccef43743943a56b7789d18bac1: 21300000
     - 042fdb1f0d237934db007e54638bc88a: 21300000
     - 0580452f50fdcc143a869fdb1eaf8564: 21300000
@@ -443,7 +451,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bd7f783a84f484247935b97ed8d481e4, type: 3}
   - {fileID: 21300000, guid: 7418895ac1de62a4a909eef696ec40c6, type: 3}
   - {fileID: 21300000, guid: 54797eaacff24a14e9ffbe404ec1d031, type: 3}
+  - {fileID: 21300000, guid: 4db7feba550bccf45b1e5f425b73c5b3, type: 3}
   - {fileID: 21300000, guid: 156685fa0e4148c4a9608fcd274d52ff, type: 3}
+  - {fileID: 21300000, guid: e2ce721b632bf074e992f317e62f4f8d, type: 3}
   - {fileID: 21300000, guid: 97ccf71b50c20604283d73e86c728ca3, type: 3}
   - {fileID: 21300000, guid: 1a444d1bec0f17045ba4b99942bf861e, type: 3}
   - {fileID: 21300000, guid: cbeaa84ba36b87f48ba8b2abe4ef5de8, type: 3}
@@ -464,6 +474,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 969a541d233b4a9428c9989495784247, type: 3}
   - {fileID: 21300000, guid: 7f9dca3d42dddf54fb8ea168b078a1b2, type: 3}
   - {fileID: 21300000, guid: c76c537d801663a4daed8c2a4f49a88e, type: 3}
+  - {fileID: 21300000, guid: 8762e67d05bd9604ea2f2dcad4139124, type: 3}
   - {fileID: 21300000, guid: 09b2e68d9ed0894499da5e2a8d4a2bee, type: 3}
   - {fileID: 21300000, guid: 7cb059adcc8c2f644a3b1d8ffc455939, type: 3}
   - {fileID: 21300000, guid: d9458fadbbdbf5a478f8ddbfb67a5e94, type: 3}
@@ -474,6 +485,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e5f7f36eb483f0b4a8b2f33b50fafc13, type: 3}
   - {fileID: 21300000, guid: 4455148eea2bb534986cc397f89331e8, type: 3}
   - {fileID: 21300000, guid: 7aefd0ce8c576314b8ac9a4152090951, type: 3}
+  - {fileID: 21300000, guid: 83a0dcce0fc68c646ac0319b446b43a1, type: 3}
   - {fileID: 21300000, guid: 3554dccef43743943a56b7789d18bac1, type: 3}
   - {fileID: 21300000, guid: 042fdb1f0d237934db007e54638bc88a, type: 3}
   - {fileID: 21300000, guid: 0580452f50fdcc143a869fdb1eaf8564, type: 3}
@@ -587,7 +599,9 @@ SpriteAtlas:
   - gate_studs_red_N
   - foundation_gold_194_60
   - settings_button
+  - molded_green_210_78
   - punch_rune_blue_W
+  - molded_gold_340_76
   - punch_rune_red_S
   - stored_red
   - gate_studs_green_E
@@ -608,6 +622,7 @@ SpriteAtlas:
   - rune_blue_E
   - rune_gold_N
   - gate_studs_green_N
+  - molded_amber_210_78
   - foundation_gold_400_64
   - button_plum
   - punch_stored_gold
@@ -618,6 +633,7 @@ SpriteAtlas:
   - punch_gate_green_E
   - reward_piece_0
   - close
+  - molded_gold_300_82
   - rune_red_S
   - lobby_violet
   - punch_rune_red_E

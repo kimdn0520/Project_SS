@@ -44,7 +44,7 @@ namespace RuneBreak.Editor
             {
                 foreach(var old in root.GetComponentsInChildren<RuneSettingsPanel>(true))UnityEngine.Object.DestroyImmediate(old.gameObject);
                 var lobby=root.GetComponent<RuneLobbyPage>();
-                if(lobby!=null)lobby.showcase.page=lobby;
+                if(lobby!=null&&lobby.showcase!=null)lobby.showcase.page=lobby;
                 PrefabUtility.SaveAsPrefabAsset(root,path);
             }
             finally{PrefabUtility.UnloadPrefabContents(root);}

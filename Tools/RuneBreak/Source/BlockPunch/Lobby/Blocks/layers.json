@@ -206,6 +206,50 @@
       }
     ]
   },
+  "molded_gold_340_76": {
+    "w": 340,
+    "h": 76,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_gold_340_76-0.png"
+      }
+    ]
+  },
+  "molded_gold_300_82": {
+    "w": 300,
+    "h": 82,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_gold_300_82-0.png"
+      }
+    ]
+  },
+  "molded_green_210_78": {
+    "w": 210,
+    "h": 78,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_green_210_78-0.png"
+      }
+    ]
+  },
+  "molded_amber_210_78": {
+    "w": 210,
+    "h": 78,
+    "border": 0,
+    "layers": [
+      {
+        "label": "Original molded block surface",
+        "file": "molded_amber_210_78-0.png"
+      }
+    ]
+  },
   "molded_panel_400": {
     "w": 460,
     "h": 400,

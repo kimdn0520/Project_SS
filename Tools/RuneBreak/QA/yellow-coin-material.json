@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "exactAsepriteIcon": true,
+  "assets": [
+    {
+      "asset": "Assets/RuneBreak/Art/BlockPunch/Lobby/Icons/lobby_coin.png",
+      "dimensions": [
+        144,
+        144
+      ],
+      "alphaDifference": 0
+    },
+    {
+      "asset": "Assets/RuneBreak/Art/BlockPunch/Surface/reward_coins.png",
+      "dimensions": [
+        960,
+        750
+      ],
+      "alphaDifference": 0
+    }
+  ]
+}

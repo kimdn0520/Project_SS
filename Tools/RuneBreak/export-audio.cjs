@@ -2,7 +2,7 @@
 const fs=require('fs'),path=require('path');const rate=44100;
 const out=path.resolve(__dirname,'../../Assets/RuneBreak/Audio');fs.mkdirSync(out,{recursive:true});
 let seed=1337;function random(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;}
-for(const kind of (process.argv.length>2?process.argv.slice(2):['launch','relaunch','store','hit','break','blocked','loss','win','chain','reflect','reveal','rebound','swoosh','catch'])){
+for(const kind of (process.argv.length>2?process.argv.slice(2):['launch','relaunch','store','hit','break','blocked','loss','win','chain','reflect','reveal','rebound','swoosh','catch','coin_pop'])){
  const samples=new Float64Array(rate*2);
  function tone(freq,end,duration,type='square',volume=.2,delay=0){let phase=0;const n=Math.floor(rate*duration),start=Math.floor(rate*delay);for(let i=0;i<n;i++){let t=i/rate;phase+=freq*Math.pow(Math.max(20,end)/freq,t/duration)/rate;let wave=type==='sine'?Math.sin(phase*2*Math.PI):type==='triangle'?2/Math.PI*Math.asin(Math.sin(phase*2*Math.PI)):Math.sin(phase*2*Math.PI)>=0?1:-1;let env=t<.004?.001+(volume-.001)*t/.004:volume*Math.pow(.001/volume,(t-.004)/(duration-.004));samples[start+i]+=wave*env;}}
  function noise(duration,volume=.16,frequency=1000){const n=Math.floor(rate*duration),omega=2*Math.PI*frequency/rate,alpha=Math.sin(omega)/(2*.6),a0=1+alpha;let x1=0,x2=0,y1=0,y2=0;for(let i=0;i<n;i++){let x=(random()*2-1)*(1-i/n),y=(alpha*x-alpha*x2+2*Math.cos(omega)*y1-(1-alpha)*y2)/a0;x2=x1;x1=x;y2=y1;y1=y;samples[i]+=y*volume;}}
@@ -19,6 +19,7 @@ for(const kind of (process.argv.length>2?process.argv.slice(2):['launch','relaun
  if(kind==='reveal'){tone(330,660,.08,'triangle',.3);[784,988,1175].forEach((f,i)=>tone(f,f,.15,'sine',.2,.03+i*.028));noise(.08,.09,2800);}
  if(kind==='rebound'){tone(172,43,.16,'sine',.82);tone(680,220,.052,'triangle',.35);noise(.075,.34,1350);}
  if(kind==='catch'){tone(180,70,.08,'sine',.30);tone(1000,590,.048,'triangle',.17);noise(.026,.10,2700);}
+ if(kind==='coin_pop'){tone(360,145,.055,'sine',.42);tone(1760,2093,.085,'sine',.28);tone(3520,2794,.065,'triangle',.075,.006);noise(.018,.075,3600);}
  if(kind==='swoosh'){
   const duration=.23,n=Math.floor(rate*duration);let x1=0,x2=0,y1=0,y2=0;
   for(let i=0;i<n;i++){const t=i/rate,f=t<.035?900*Math.pow(4300/900,t/.035):4300*Math.pow(600/4300,(t-.035)/(duration-.035)),w=2*Math.PI*f/rate,alpha=Math.sin(w)/(2*.75),x=random()*2-1,y=(alpha*x-alpha*x2+2*Math.cos(w)*y1-(1-alpha)*y2)/(1+alpha);x2=x1;x1=x;y2=y1;y1=y;const gain=t<.016?.001+.429*t/.016:.43*Math.pow(.001/.43,(t-.016)/(duration-.016));samples[i]+=y*gain;}

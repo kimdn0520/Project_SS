@@ -27,11 +27,22 @@ const recipes={
  ]
 };
 const manifest={};
-for(const [name,layers] of Object.entries(recipes)){
+// Keep the original recipe above as source history. The current gold material
+// is shared with reward stacks so face, edge and light direction stay coherent.
+recipes.coin=require('./coin-material.cjs').coinLayers;
+const coinOnly=process.argv.includes('--coin-only');
+for(const [name,layers] of Object.entries(recipes).filter(([name])=>!coinOnly||name==='coin')){
  const combined=createCanvas(144,144),ctx=combined.getContext('2d');manifest[name]=[];
  layers.forEach(([label,draw],index)=>{const layer=createCanvas(144,144),c=layer.getContext('2d');c.scale(3,3);draw(c);const file=`${name}-${index}.png`;fs.writeFileSync(path.join(source,file),layer.toBuffer('image/png'));ctx.drawImage(layer,0,0);manifest[name].push({label,file});});
  // Initial preview; author-lobby-icons.lua exports the canonical Aseprite composite.
  fs.writeFileSync(path.join(output,`lobby_${name}.png`),combined.toBuffer('image/png'));
 }
-fs.writeFileSync(path.join(source,'layers.json'),JSON.stringify(manifest,null,2));
-console.log('Exported layered glossy coin and heart icons at 144 × 144.');
+fs.writeFileSync(path.join(source,'layers.json'),JSON.stringify(coinOnly?{...JSON.parse(fs.readFileSync(path.join(source,'layers.json'),'utf8')),...manifest}:manifest,null,2));
+let lua="local root=app.params['root']\nlocal base=root..'/Tools/RuneBreak/Source/BlockPunch/Lobby/Icons/'\n";
+for(const [name,layers]of Object.entries(manifest)){
+ lua+=`do\n local s=Sprite(144,144,ColorMode.RGB)\n`;
+ layers.forEach((l,i)=>lua+=` local layer=${i===0?'s.layers[1]':'s:newLayer()'}\n layer.name=${JSON.stringify(l.label)}\n s:newCel(layer,1,Image{fromFile=base..'${l.file}'},Point(0,0))\n`);
+ lua+=` s:saveAs(base..'${name}.aseprite')\n s:saveCopyAs(base..'${name}-roundtrip.png')\n s:saveCopyAs(root..'/Assets/RuneBreak/Art/BlockPunch/Lobby/Icons/lobby_${name}.png')\n s:close()\nend\n`;
+}
+fs.writeFileSync(path.join(__dirname,coinOnly?'author-coin-material.lua':'author-lobby-icons.lua'),lua);
+console.log(coinOnly?'Exported the six-layer yellow gold coin at 144 × 144.':'Exported layered coin and heart icons at 144 × 144.');

@@ -39,7 +39,7 @@ namespace RuneBreak
         private int rayCursor;
         private int cursor,waveCursor,captionCursor,chain;
         private float chainAge,storageFlash;
-        public void Clear(){depthCount=0;System.Array.Clear(shards,0,shards.Length);System.Array.Clear(ricochets,0,ricochets.Length);System.Array.Clear(particles,0,particles.Length);System.Array.Clear(waves,0,waves.Length);System.Array.Clear(captions,0,captions.Length);System.Array.Clear(rays,0,rays.Length);chain=0;storageFlash=0;for(int i=0;i<captionLabels.Length;i++){captionLabels[i].enabled=false;captionShadows[i].enabled=false;}if(chainLabel!=null)chainLabel.enabled=false;SetVerticesDirty();}
+        public void Clear(){ClearReward();depthCount=0;System.Array.Clear(shards,0,shards.Length);System.Array.Clear(ricochets,0,ricochets.Length);System.Array.Clear(particles,0,particles.Length);System.Array.Clear(waves,0,waves.Length);System.Array.Clear(captions,0,captions.Length);System.Array.Clear(rays,0,rays.Length);chain=0;storageFlash=0;for(int i=0;i<captionLabels.Length;i++){captionLabels[i].enabled=false;captionShadows[i].enabled=false;}if(chainLabel!=null)chainLabel.enabled=false;SetVerticesDirty();}
         public void ShatterBlock(Vector2 point,string color,bool layerBreak,bool reduced)
         {
             int count=reduced?4:layerBreak?18:12;
@@ -99,6 +99,7 @@ namespace RuneBreak
         }
         public void Tick(float dt)
         {
+            TickReward(dt);
             TickDepth(dt);
             for(int i=0;i<shards.Length;i++){ref var s=ref shards[i];if(s.age>=s.life)continue;s.age+=dt;s.p+=s.v*dt;s.v.y+=380*dt;s.v.x*=Mathf.Pow(.985f,dt*60);s.angle+=s.spin*dt;}
             for(int i=0;i<ricochets.Length;i++)ricochets[i].age+=dt;
@@ -116,6 +117,7 @@ namespace RuneBreak
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
+            DrawReward(vh);
             DrawDepth(vh);
             foreach(var r in ricochets)
             {

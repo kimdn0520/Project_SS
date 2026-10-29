@@ -31,7 +31,7 @@ namespace RuneBreak.Editor
                 if(backdrop.prefabOverride)PrefabUtility.RevertPropertyOverride(backdrop,InteractionMode.AutomatedAction);
                 EditorSceneManager.SaveScene(live.gameObject.scene);
             }
-            AssetDatabase.SaveAssets();Debug.Log("BLOCK PUNCH LOBBY: authored glossy surfaces, shared block art, live seal preview, existing navigation/actions preserved.");
+            AssetDatabase.SaveAssets();Debug.Log("BLOCK PUNCH LOBBY: authored glossy surfaces, floating brand and shared block art, existing navigation/actions preserved.");
         }
         public static void ConfigureIfAvailable(RuneLobbyPage page)
         {
@@ -67,25 +67,7 @@ namespace RuneBreak.Editor
             Font(root.Find("ProfileGlyph").GetComponent<TMP_Text>(),TitleFont,25,Color.white);
             var currency=root.Find("Currency").GetComponent<TMP_Text>();page.coinBalance=currency;Font(currency,BodyFont,18,RuneArtLibrary.Hex("fff1ae"));
             var energy=root.Find("Energy").GetComponent<TMP_Text>();Font(energy,BodyFont,18,RuneArtLibrary.Hex("ffd1df"));
-            var title=home.Find("Title").GetComponent<TMP_Text>();title.text="BLOCK <color=#FFD84D>CRASH</color>";Font(title,TitleFont,48,Color.white);Rect(title.rectTransform,0,10,492,60);
-            var shadow=home.Find("TitleShadow").GetComponent<TMP_Text>();shadow.text="BLOCK CRASH";Font(shadow,TitleFont,48,RuneArtLibrary.Hex("080c22"));Rect(shadow.rectTransform,0,14,492,60);
-            foreach(string name in new[]{"TitleRuleLeft","TitleRuleRight","TitleRune"}){var t=home.Find(name);if(t!=null)t.gameObject.SetActive(false);}
-            foreach(string name in new[]{"PunchSubtitle","PunchPreviewFrame","PunchPreviewTitle","PunchPreviewHint"})Remove(home,name);
-            Deco("PunchRedDecoration",home,39,113,49,art.Rune("red","E"),-12);Deco("PunchBlueDecoration",home,454,111,44,art.Rune("blue","W"),13);
-            var preview=page.showcase;preview.art=art;preview.effects.art=art;preview.flightScale=1.9f;
-            Rect(preview.stage,49.2f,127,480,584);preview.stage.localScale=Vector3.one*.82f;
-            Rect(preview.gate.rectTransform,88,38,304,42);preview.gate.sprite=art.longGates[RuneArtLibrary.ColorIndex("green")*2];
-            preview.layerPreviews=new Image[2];
-            for(int i=0;i<2;i++){var strip=Panel("PunchNextLayer_"+i,preview.stage,102,43-i*4,276,3,"blue");strip.type=Image.Type.Simple;strip.sprite=art.white;strip.color=art.MidTone(i==0?"blue":"red");strip.transform.SetSiblingIndex(0);preview.layerPreviews[i]=strip;}
-            preview.gateCount=Label("PunchGateCount",preview.stage,218,43,44,32,"2",22,"fff7df",true);
-            RuneGateNumberAuthoring.Style(preview.gateCount);
-            for(int i=0;i<6;i++)
-            {
-                float x=120+(i%2==0?1:4)*48,y=108+(1+i/2*2)*48;Remove(preview.stage,"PunchCell_"+i);
-                var rt=preview.runeRects[i];rt.sizeDelta=new Vector2(82,82);rt.anchoredPosition=new Vector2(x,-y);preview.runes[i].sprite=art.Rune(i<2?"green":i<4?"blue":"red","N");
-            }
-            Remove(preview.stage,"TouchToBurst");
-            foreach(var graphic in preview.stage.GetComponentsInChildren<Graphic>(true))graphic.raycastTarget=false;
+            RuneLobbyHeroAuthoring.Configure(page);
             for(int i=0;i<6;i++)
             {
                 string name=(i<3?"LeftShortcut_":"RightShortcut_")+(i%3);var t=home.Find(name);if(t==null)continue;

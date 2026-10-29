@@ -63,7 +63,9 @@ namespace RuneBreak.Editor
                 if(text.name=="MechanicHint"){text.fontSize=14;text.textWrappingMode=TextWrappingModes.Normal;}
                 if(text.name=="Currency")text.text="0";if(text.name=="Energy")text.text="5";
                 if(text.name.StartsWith("PunchGateCount"))RuneGateNumberAuthoring.Style(text);
-                if(text.name=="ResultTitle"||text.name=="RewardAmount"||(text.name=="Label"&&text.transform.parent.name.StartsWith("Caption_")))RuneRewardAuthoring.StyleHeadline(text);
+                if(text.name.StartsWith("Brand")&&text.name.Contains("Title"))RuneLobbyHeroAuthoring.StyleTitle(text);
+                if(text.name=="ResultTitle"||text.name=="ResultTitleDepth")RuneRewardAuthoring.StyleClearTitle(text);
+                if(text.name=="RewardAmount"||(text.name=="Label"&&text.transform.parent.name.StartsWith("Caption_")))RuneRewardAuthoring.StyleHeadline(text);
             }
         }
         [MenuItem("Rune Break/Apply English and Fredoka")]

@@ -23,7 +23,7 @@ public static class SurfaceLayoutQA
                 SetSize(size.x,size.y);PopupManager.Clear();pages.ChangeImmediate(UIPageType.PlayPage,0);await UniTask.Delay(350,ignoreTimeScale:true);play.CanvasGroup.alpha=1;
                 foreach(var rect in play.GetComponentsInChildren<RectTransform>().Where(t=>t.name=="Settings"||t.name.StartsWith("ReadyBoosterSlot_")||t==play.cabinet))Within(rect,play.Canvas);
                 Capture(play.Canvas,$"Surface-Play-{size.x}x{size.y}.png");
-                play.OpenSettings();await UniTask.WaitUntil(()=>!PopupManager.IsChanging);var popup=(RuneSettingsPanel)PopupManager.CurrentPopup;Within(popup.panel,popup.Canvas);Capture(popup.Canvas,$"Surface-Settings-{size.x}x{size.y}.png");
+                play.OpenSettings();await UniTask.WaitUntil(()=>!PopupManager.IsChanging);await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);Canvas.ForceUpdateCanvases();var popup=(RuneSettingsPanel)PopupManager.CurrentPopup;Within(popup.panel,popup.Canvas);Capture(popup.Canvas,$"Surface-Settings-{size.x}x{size.y}.png");
                 popup.Dismiss();await UniTask.WaitUntil(()=>!play.IsModalBlocked);
                 // Preview the serialized card without awarding progress.
                 PopupManager.Show(RuneResultPanel.PrefabName,new RuneResultData{level=1,won=true,hasNext=true,reward=new RuneCoinReward(0)});await UniTask.WaitUntil(()=>!PopupManager.IsChanging);var result=(RuneResultPanel)PopupManager.CurrentPopup;
@@ -41,7 +41,7 @@ public static class SurfaceLayoutQA
         finally{PopupManager.Clear();if(walletExists)PlayerPrefs.SetString(RuneCoinReward.SaveKey,wallet);else PlayerPrefs.DeleteKey(RuneCoinReward.SaveKey);PlayerPrefs.Save();SetSize(540,960);pages.ChangeImmediate(UIPageType.PlayPage,0);play.LoadLevel(0);}
     }
     private static void Within(RectTransform rect,Canvas canvas)
-    {var corners=new Vector3[4];rect.GetWorldCorners(corners);foreach(var corner in corners){var p=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,corner);if(p.x< -1||p.y< -1||p.x>Screen.width+1||p.y>Screen.height+1)throw new Exception("Clipped "+rect.name+" at "+Screen.width+"x"+Screen.height);}}
+    {var corners=new Vector3[4];rect.GetWorldCorners(corners);foreach(var corner in corners){var p=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,corner);if(p.x< -1||p.y< -1||p.x>Screen.width+1||p.y>Screen.height+1)throw new Exception("Clipped "+rect.name+" at "+Screen.width+"x"+Screen.height+" corner "+p+" local scale "+rect.localScale+" canvas "+((RectTransform)canvas.transform).rect.size);}}
     private static void SetSize(int width,int height)
     {
         var asm=typeof(UnityEditor.Editor).Assembly;var type=asm.GetType("UnityEditor.GameViewSizes");var singleton=type.BaseType.GetProperty("instance",BindingFlags.Public|BindingFlags.Static).GetValue(null);

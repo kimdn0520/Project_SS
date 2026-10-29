@@ -114,7 +114,7 @@ public static class MechanicQA
     public static void CheckSplash()
     {
         var manager=UnityEngine.Object.FindFirstObjectByType<PageManager>();Check(manager!=null&&manager.CurrentPageType==UIPageType.MainPage&&manager.PageCount==2,"Splash did not reach lobby");
-        var lobby=manager.GetPage<RuneLobbyPage>(UIPageType.MainPage);Check(lobby.showcase!=null&&lobby.showcase.isActiveAndEnabled,"Lobby showcase missing after boot");
-        Debug.Log("RUNE MECHANIC SPLASH PASS: Splash -> Play -> Home; interactive showcase, two cached pages.");
+        var lobby=manager.GetPage<RuneLobbyPage>(UIPageType.MainPage);Check(lobby.hero!=null&&lobby.hero.isActiveAndEnabled&&lobby.showcase==null,"Floating lobby brand missing after boot");
+        Debug.Log("RUNE MECHANIC SPLASH PASS: Splash -> Play -> Home; floating title and blocks, two cached pages.");
     }
 }

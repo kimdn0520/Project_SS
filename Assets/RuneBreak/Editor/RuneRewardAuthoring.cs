@@ -32,11 +32,7 @@ namespace RuneBreak.Editor
             p.rays=Image("RewardRays",root,Art("reward_rays"),50,245,440,440);p.raysRect=p.rays.rectTransform;p.raysRect.pivot=new Vector2(.5f,.5f);p.raysRect.anchoredPosition=new Vector2(270,-465);p.rays.transform.SetAsFirstSibling();
             p.hero=Image("RewardCoins",root,Art("reward_coins"),110,302,320,250);p.heroRect=p.hero.rectTransform;p.heroRect.pivot=new Vector2(.5f,.5f);p.heroRect.anchoredPosition=new Vector2(270,-427);
             ConfigurePile(p);
-            var claim=root.Find("Claim");if(claim==null){var go=new GameObject("Claim",typeof(RectTransform),typeof(CanvasRenderer),typeof(Image),typeof(RuneRaisedButton));go.transform.SetParent(root,false);p.claimButton=go.GetComponent<RuneRaisedButton>();Text("Label",go.transform,"Claim",0,0,300,76,30);}else p.claimButton=claim.GetComponent<Button>();
-            Rect((RectTransform)p.claimButton.transform,120,660,300,82);RuneSurfaceAuthoring.Button(p.claimButton,"close",300,82,"Claim",30);
-            for(int i=p.claimButton.onClick.GetPersistentEventCount()-1;i>=0;i--)UnityEventTools.RemovePersistentListener(p.claimButton.onClick,i);UnityEventTools.AddPersistentListener(p.claimButton.onClick,p.ClaimReward);
-            Rect((RectTransform)p.primaryButton.transform,282,690,210,78);RuneSurfaceAuthoring.Button(p.primaryButton,"next",210,78,"Next",27);p.primaryRect=(RectTransform)p.primaryButton.transform;p.primaryFace=(Image)p.primaryButton.targetGraphic;p.primaryLabel=p.primaryButton.GetComponentInChildren<TMP_Text>(true);p.nextSprite=Art("next");p.homeSprite=Art("retry");
-            Rect((RectTransform)p.homeButton.transform,48,690,210,78);RuneSurfaceAuthoring.Button(p.homeButton,"home",210,78,"Home",27);
+            ConfigureActions(p);
             p.walletRect=Wallet(root.parent,"RewardWallet",34,out p.balanceLabel,out p.coinTarget);
             var layout=p.GetComponent<RuneSafeLayout>();layout.pins=new[]{new RuneSafeLayout.Pin{target=p.walletRect,position=p.walletRect.anchoredPosition,top=true}};
             var old=root.parent.Find("RewardCoinPool");if(old!=null)Object.DestroyImmediate(old.gameObject);
@@ -45,6 +41,31 @@ namespace RuneBreak.Editor
             for(int i=0;i<12;i++){var img=Image("CoinFlight_"+i,p.coinRoot,Coin,0,0,44,44);img.rectTransform.pivot=new Vector2(.5f,.5f);var f=img.gameObject.AddComponent<RuneCoinFlight>();f.rect=img.rectTransform;f.image=img;f.poolName="RewardCoins";p.coinInstances[i]=f;refs.GetArrayElementAtIndex(i).objectReferenceValue=f;img.gameObject.SetActive(false);}so.ApplyModifiedPropertiesWithoutUndo();
             p.rewardAudio=p.GetComponent<AudioSource>();if(p.rewardAudio==null)p.rewardAudio=p.gameObject.AddComponent<AudioSource>();p.rewardAudio.playOnAwake=false;p.rewardAudio.spatialBlend=0;
             var play=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/PlayPage.prefab").GetComponent<RunePlayPage>();p.coinSound=play.sounds.Length>9?play.sounds[9]:null;
+            ConfigurePresentation(p);
+        }
+        public static void StyleClearTitle(TMP_Text text)
+        {
+            const string path=RuneEnglishAuthoring.Root+"Fredoka-ClearTitle.mat";var material=AssetDatabase.LoadAssetAtPath<Material>(path);
+            if(material==null)
+            {
+                material=new Material(RuneEnglishAuthoring.Bold.material){name="Fredoka-ClearTitle"};material.SetFloat("_FaceDilate",.035f);material.SetColor("_OutlineColor",RuneArtLibrary.Hex("703b15"));material.SetFloat("_OutlineWidth",.19f);material.EnableKeyword("OUTLINE_ON");material.EnableKeyword("UNDERLAY_ON");material.SetColor("_UnderlayColor",RuneArtLibrary.Hex("171326"));material.SetFloat("_UnderlayOffsetY",-.45f);material.SetFloat("_UnderlayDilate",.08f);AssetDatabase.CreateAsset(material,path);
+            }
+            text.font=RuneEnglishAuthoring.Bold;text.fontSharedMaterial=material;text.fontStyle=FontStyles.Normal;text.fontWeight=FontWeight.Regular;text.extraPadding=true;text.enableAutoSizing=false;text.UpdateMeshPadding();
+        }
+        public static void ConfigurePresentation(RuneResultPanel p)
+        {
+            p.transform.Find("Curtain").GetComponent<Image>().color=new Color32(12,13,25,230);
+            var old=p.panel.Find("ClearWordmark");var go=old!=null?old.gameObject:new GameObject("ClearWordmark",typeof(RectTransform));go.transform.SetParent(p.panel,false);p.titleGroup=(RectTransform)go.transform;
+            Rect(p.titleGroup,270,225,490,174);p.titleGroup.pivot=new Vector2(.5f,.5f);p.titleGroup.localRotation=Quaternion.Euler(0,0,-4);p.titleGroup.localScale=Vector3.one;
+            p.title.transform.SetParent(p.titleGroup,false);Rect(p.title.rectTransform,0,0,490,174);p.title.text="Clear!";p.title.fontSize=102;p.title.characterSpacing=.5f;p.title.alignment=TextAlignmentOptions.MidlineGeoAligned;StyleClearTitle(p.title);
+            p.title.enableVertexGradient=true;p.title.color=Color.white;var top=RuneArtLibrary.Hex("fffef1");var bottom=RuneArtLibrary.Hex("ffe071");p.title.colorGradientPreset=null;p.title.colorGradient=new VertexGradient(top,top,bottom,bottom);
+            p.titleDepth=Text("ResultTitleDepth",p.titleGroup,"Clear!",0,6,490,174,102);p.titleDepth.characterSpacing=.5f;p.titleDepth.color=RuneArtLibrary.Hex("bc7613");StyleClearTitle(p.titleDepth);p.titleDepth.transform.SetAsFirstSibling();
+            var fxOld=p.coinRoot.parent.Find("RewardArrivalFX");var fxGo=fxOld!=null?fxOld.gameObject:new GameObject("RewardArrivalFX",typeof(RectTransform),typeof(CanvasRenderer),typeof(RuneFxGraphic));fxGo.transform.SetParent(p.coinRoot.parent,false);
+            p.rewardEffects=fxGo.GetComponent<RuneFxGraphic>();p.rewardEffects.raycastTarget=false;p.rewardEffects.rewardFlights=p.coinInstances;Rect(p.rewardEffects.rectTransform,0,0,540,960);
+            // All three share one popup Canvas, with no masks or sorting overrides.
+            // The moving coin stays in front of the wallet until its centered absorb.
+            p.walletRect.SetAsLastSibling();p.rewardEffects.transform.SetAsLastSibling();p.coinRoot.SetAsLastSibling();
+            p.swooshSound=AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/RuneBreak/Audio/swoosh.wav");p.coinSound=AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/RuneBreak/Audio/coin_pop.wav");
         }
         public static void ConfigurePlay(RunePlayPage p)
         {
@@ -62,7 +83,16 @@ namespace RuneBreak.Editor
             }
             for(int i=0;i<p.effects.captionLabels.Length;i++){var r=p.effects.captionRects[i];r.sizeDelta=new Vector2(330,80);Rect(p.effects.captionLabels[i].rectTransform,0,0,330,80);Rect(p.effects.captionShadows[i].rectTransform,2,3,330,80);StyleHeadline(p.effects.captionLabels[i]);p.effects.captionLabels[i].alignment=p.effects.captionShadows[i].alignment=TextAlignmentOptions.MidlineGeoAligned;}
         }
-        private static void ConfigurePile(RuneResultPanel p)
+        public static void ConfigureActions(RuneResultPanel p)
+        {
+            var root=p.panel;
+            var claim=root.Find("Claim");if(claim==null){var go=new GameObject("Claim",typeof(RectTransform),typeof(CanvasRenderer),typeof(Image),typeof(RuneRaisedButton));go.transform.SetParent(root,false);p.claimButton=go.GetComponent<RuneRaisedButton>();Text("Label",go.transform,"Claim",0,0,300,76,30);}else p.claimButton=claim.GetComponent<Button>();
+            Rect((RectTransform)p.claimButton.transform,120,660,300,82);RuneSurfaceAuthoring.Button(p.claimButton,"close",300,82,"Claim",30);
+            for(int i=p.claimButton.onClick.GetPersistentEventCount()-1;i>=0;i--)UnityEventTools.RemovePersistentListener(p.claimButton.onClick,i);UnityEventTools.AddPersistentListener(p.claimButton.onClick,p.ClaimReward);
+            Rect((RectTransform)p.primaryButton.transform,282,690,210,78);RuneSurfaceAuthoring.Button(p.primaryButton,"next",210,78,"Next",27);p.primaryRect=(RectTransform)p.primaryButton.transform;p.primaryFace=(Image)p.primaryButton.targetGraphic;p.primaryLabel=p.primaryButton.GetComponentInChildren<TMP_Text>(true);p.nextSprite=RuneBlockUiAuthoring.LongButtonSprite("green",210,78);p.homeSprite=RuneBlockUiAuthoring.LongButtonSprite("amber",210,78);
+            Rect((RectTransform)p.homeButton.transform,48,690,210,78);RuneSurfaceAuthoring.Button(p.homeButton,"home",210,78,"Home",27);
+        }
+        public static void ConfigurePile(RuneResultPanel p)
         {
             var data=Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("Tools/RuneBreak/Source/BlockPunch/Surface/reward-motion-manifest.json"));
             p.coinPile=p.hero.GetComponent<RuneRewardPile>();if(p.coinPile==null)p.coinPile=p.hero.gameObject.AddComponent<RuneRewardPile>();var pile=p.coinPile;

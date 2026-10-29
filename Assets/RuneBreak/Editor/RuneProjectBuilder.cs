@@ -186,7 +186,6 @@ namespace RuneBreak.Editor
                     Image("TitleRuleLeft",content,138,100,92,2,null,RuneArtLibrary.Hex("516662"));
                     Image("TitleRuleRight",content,262,100,92,2,null,RuneArtLibrary.Hex("516662"));
                     Image("TitleRune",content,242,97,8,8,art.sparkle,RuneArtLibrary.Hex("e2b860"));
-                    p.showcase=BuildLobbyShowcase(content);
                     string[] marks={"flag","gift","scroll","calendar","mail","star"},labels={"Events","Rewards","Missions","Daily","Mail","News"};
                     for(int j=0;j<6;j++){
                         float x=j<3?0:428,y=180+(j%3)*104;
@@ -213,7 +212,7 @@ namespace RuneBreak.Editor
                 UnityEventTools.AddIntPersistentListener(button.onClick,p.SelectTab,i);
             }
             p.comingSoon=Text("ComingSoonNotice",root,115,692,310,30,"Coming soon!",16,Paper);p.comingSoon.alignment=TextAlignmentOptions.Center;p.comingSoon.gameObject.SetActive(false);
-            p.showcase.page=p;RuneLobbyPunchAuthoring.ConfigureIfAvailable(p);p.SelectTab(2);RuneEnglishAuthoring.StyleTree(p.gameObject);return p;
+            RuneLobbyPunchAuthoring.ConfigureIfAvailable(p);p.SelectTab(2);RuneEnglishAuthoring.StyleTree(p.gameObject);return p;
         }
         private static Image LobbyPanel(string name,Transform parent,float x,float y,float w,float h,string skin)
         {
@@ -262,7 +261,7 @@ namespace RuneBreak.Editor
             lobby=((GameObject)PrefabUtility.InstantiatePrefab(prefab)).GetComponent<RuneLobbyPage>();lobby.pages=manager;lobby.SetupRenderCamera(cam);PrefabUtility.RecordPrefabInstancePropertyModifications(lobby);PrefabUtility.RecordPrefabInstancePropertyModifications(lobby.Canvas);
             var so=new SerializedObject(manager);var pages=so.FindProperty("scenePages");for(int i=0;i<pages.arraySize;i++){var entry=pages.GetArrayElementAtIndex(i);if(entry.FindPropertyRelative("pageType").enumValueIndex==(int)UIPageType.MainPage)entry.FindPropertyRelative("instance").objectReferenceValue=lobby;}so.ApplyModifiedPropertiesWithoutUndo();
             BuildSettingsPopupPrefab();BuildResultPopupPrefab();ConfigurePopupManager(manager,cam);
-            EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();Debug.Log("RUNE LOBBY REBUILT: authored MainPage, existing navigation, interactive baked showcase, current lobby skin.");
+            EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();Debug.Log("RUNE LOBBY REBUILT: authored MainPage, existing navigation and floating title/block decoration.");
         }
         public static void ConfigurePins(RunePlayPage p,Transform root)
         {

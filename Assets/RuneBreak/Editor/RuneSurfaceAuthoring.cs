@@ -149,6 +149,10 @@ namespace RuneBreak.Editor
         }
         public static void Button(Button button,string sprite,float w,float h,string value,float size)
         {
+            if(sprite=="close"||sprite=="next"||sprite=="home"||sprite=="retry")
+            {
+                RuneBlockUiAuthoring.ConfigureLongButton(button,sprite=="next"?"green":sprite=="home"||sprite=="retry"?"amber":"gold",w,h,value,size);return;
+            }
             var labels=button.GetComponentsInChildren<TMP_Text>(true);var body=button.GetComponent<Image>();body.sprite=Art(sprite);body.type=UnityEngine.UI.Image.Type.Simple;body.color=Color.white;body.raycastTarget=true;
             // Baked button sprites include a deep lower bevel and shadow. Center the glyphs
             // on the colored face, rather than on the texture rectangle or font line metrics.

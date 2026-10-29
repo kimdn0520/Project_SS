@@ -1,0 +1,158 @@
+{
+  "version": "0.42.1",
+  "mode": "source material + alpha roundtrip; no diffusion resynthesis",
+  "assets": [
+    {
+      "name": "molded_gold_372_88",
+      "width": 1116,
+      "height": 264,
+      "changedChannels": 46031,
+      "maxDelta": 43,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.4352941176470608,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "molded_gold_340_76",
+      "width": 1020,
+      "height": 228,
+      "changedChannels": 30209,
+      "maxDelta": 26,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.4352941176470608,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "molded_gold_300_82",
+      "width": 900,
+      "height": 246,
+      "changedChannels": 27600,
+      "maxDelta": 19,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.4352941176470608,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "molded_green_210_78",
+      "width": 630,
+      "height": 234,
+      "changedChannels": 21404,
+      "maxDelta": 26,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.4352941176470608,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "molded_amber_210_78",
+      "width": 630,
+      "height": 234,
+      "changedChannels": 21593,
+      "maxDelta": 26,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.4352941176470608,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "lobby_coin",
+      "width": 144,
+      "height": 144,
+      "changedChannels": 2206,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.3764705882352928,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "reward_coins",
+      "width": 960,
+      "height": 750,
+      "changedChannels": 60442,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.4352941176470608,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "reward_piece_0",
+      "width": 209,
+      "height": 249,
+      "changedChannels": 989,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.3294117647058812,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "reward_piece_1",
+      "width": 221,
+      "height": 286,
+      "changedChannels": 1086,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.3764705882352928,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "reward_piece_2",
+      "width": 209,
+      "height": 222,
+      "changedChannels": 894,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.352941176470594,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "reward_piece_3",
+      "width": 201,
+      "height": 190,
+      "changedChannels": 783,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.4352941176470608,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "reward_piece_4",
+      "width": 231,
+      "height": 265,
+      "changedChannels": 1034,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.3843137254901876,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "reward_piece_5",
+      "width": 221,
+      "height": 232,
+      "changedChannels": 949,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.3764705882352928,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "reward_piece_6",
+      "width": 193,
+      "height": 185,
+      "changedChannels": 790,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.3450980392156993,
+      "shipped": "exact Aseprite composite"
+    },
+    {
+      "name": "reward_piece_7",
+      "width": 587,
+      "height": 215,
+      "changedChannels": 1268,
+      "maxDelta": 255,
+      "alphaDelta": 1,
+      "maxCompositeDelta": 1.3921568627451109,
+      "shipped": "exact Aseprite composite"
+    }
+  ],
+  "promptId": "f4bf1b71-ed1d-4510-84c6-dd0d9adcf863",
+  "status": "passed"
+}
